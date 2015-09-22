@@ -1,0 +1,146 @@
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width,user-scalable=no,maximum-scale=1.0" />
+		<link rel="stylesheet" href="css/style.css" />
+		<link rel="stylesheet" href="../static/css/sweetalert.css">
+		<script src="js/jquery-1.11.1.min.js"></script>
+		<script src="js/slides.jquery.js"></script>
+		<script src="../static/js/sweetalert.min.js"></script>
+		<script src="js/mjxhtml.js"></script>
+	</head>
+	<body>
+		<div class="mjx_i" style="display: none;">
+			<p></p>
+		</div>
+		<div class="mjx_login" style="display: none">
+			<input type="text" id="name" style="top: 40.5%" />
+			<input type="text" id="tel" style="top: 53%" />
+			<p></p>
+		</div>
+		<div class="mjx_sr" style="display: none">
+			<img src="images/5.png" alt="" id="boy" /><img src="images/02.png" alt="" id="girl" />
+			<input type="text" placeholder="搜索心中的她" class="ss">
+			<img src="images/shousuo.png" alt="" id="search">
+			<div class="dt" style="display: none">
+				<img src="images/9-01.png" alt="">
+			</div>
+			<div class="hd_box">
+				<div id="slides" class="visual">
+					<ul class="slides_container"></ul>
+					<div class="slideControl">
+						<p class="slide_rBt" onclick="switch2('r')">
+							<a href="#" class="next"></a>
+						</p>
+						<ul class="pagination"></ul>
+						<p class="slide_lBt" onclick="switch2('l')">
+							<a href="#" class="prev"></a>
+						</p>
+					</div>
+				</div>
+			</div>
+			<p id="num"></p>
+			<img src="images/PK.png" alt="" id="pk" /><img src="images/guanzhu.png" alt="" id="gz" /><img src="images/toupiao.png" alt="" id="post" /><img src="images/duihua.png" alt="" id="talk" />
+		</div>
+		<div class="mjx_pk" style="display: none">
+			<div class="tk">
+				<p onclick="exit()"></p>
+			</div>
+			<img src="images/15.png" alt="" style="position: absolute; width: 33%; top: 2%; left: 3%" id="back"><img src="images/08-09.png" alt="" style="width: 100%;">
+		</div>
+
+		<div class="mjx_data" style="display: none">
+			<p>
+				12
+			</p>
+			<input type="text" id="uid0" value="72fbc560-fa21-4c1f-b98b-67eb0b12f8f4">
+			<input type="text" id="votes0" value="0">
+			<input type="text" id="picurl0" value="/Uploads/h5/557af215814f4.jpg">
+			<input type="text" id="picdate0" value="2015-06-12">
+			<input type="text" id="nick0" value="淡淡米">
+			<input type="text" id="headPic0" value="/UploadFiles/DefaultPic/default_boy.jpg">
+			<input type="text" id="sex0" value="0">
+			<input type="text" id="uid1" value="7172462c-006d-41fb-a414-cbde918dc43f">
+			<input type="text" id="votes1" value="1">
+			<input type="text" id="picurl1" value="/Uploads/h5/557ae340cd702.jpg">
+			<input type="text" id="picdate1" value="2015-06-12">
+			<input type="text" id="nick1" value="wuliu0522">
+			<input type="text" id="headPic1" value="/UploadFiles/DefaultPic/default_boy.jpg">
+			<input type="text" id="sex1" value="0">
+			<input type="text" id="uid2" value="f2296b88-2ae0-445f-9b2e-834085032d3b">
+			<input type="text" id="votes2" value="1">
+			<input type="text" id="picurl2" value="/UploadFiles/FreshNews/20150612/635697259013620875.jpg">
+			<input type="text" id="picdate2" value="2015-06-12">
+			<input type="text" id="nick2" value="不爱黑咖啡">
+			<input type="text" id="headPic2" value="/UploadFiles/Headpic/20150611/635696472081473449.jpg">
+			<input type="text" id="sex2" value="1">
+			<input type="text" id="uid3" value="2a14ba8b-fd7b-4485-ad59-198144a9d3ea">
+			<input type="text" id="votes3" value="3">
+			<input type="text" id="picurl3" value="/Uploads/h5/557b0a426322c.jpg">
+			<input type="text" id="picdate3" value="2015-06-13">
+			<input type="text" id="nick3" value="华华华华仔">
+			<input type="text" id="headPic3" value="/UploadFiles/DefaultPic/default_boy.jpg">
+			<input type="text" id="sex3" value="0">
+			<input type="text" id="uid4" value="a331c808-cf11-4b7f-b186-5d5a181a028f">
+			<input type="text" id="votes4" value="3">
+			<input type="text" id="picurl4" value="/Uploads/h5/557aecf71a2ac.jpg">
+			<input type="text" id="picdate4" value="2015-06-12">
+			<input type="text" id="nick4" value="景艺涛">
+			<input type="text" id="headPic4" value="/UploadFiles/DefaultPic/default_boy.jpg">
+			<input type="text" id="sex4" value="1">
+			<input type="text" id="uid5" value="20b1361c-6435-4fcb-9d8f-f6e28d941670">
+			<input type="text" id="votes5" value="7">
+			<input type="text" id="picurl5" value="/UploadFiles/FreshNews/20150611/635696334364907029.jpg">
+			<input type="text" id="picdate5" value="2015-06-11">
+			<input type="text" id="nick5" value="小白">
+			<input type="text" id="headPic5" value="/UploadFiles/Headpic/20150611/635696520187432698.jpg">
+			<input type="text" id="sex5" value="1">
+			<input type="text" id="uid6" value="c3d3f1fe-e936-4a1c-ac40-862ee87d375a">
+			<input type="text" id="votes6" value="3">
+			<input type="text" id="picurl6" value="/Uploads/h5/557ab79c60a9d.jpg">
+			<input type="text" id="picdate6" value="2015-06-12">
+			<input type="text" id="nick6" value="3n">
+			<input type="text" id="headPic6" value="/UploadFiles/DefaultPic/default_boy.jpg">
+			<input type="text" id="sex6" value="0">
+			<input type="text" id="uid7" value="b8149acf-3391-43ee-bffe-e8b4c38ea904">
+			<input type="text" id="votes7" value="0">
+			<input type="text" id="picurl7" value="/UploadFiles/h5/5582e735e0e75.jpg">
+			<input type="text" id="picdate7" value="2015-06-18">
+			<input type="text" id="nick7" value="spike">
+			<input type="text" id="headPic7" value="/UploadFiles/DefaultPic/default_boy.jpg">
+			<input type="text" id="sex7" value="1">
+			<input type="text" id="uid8" value="6dcc6c0a-39c7-4435-bff3-915a32050b64">
+			<input type="text" id="votes8" value="6">
+			<input type="text" id="picurl8" value="/UploadFiles/Activity/20150611/635696175971171485.jpg">
+			<input type="text" id="picdate8" value="2015-06-11">
+			<input type="text" id="nick8" value="等风来">
+			<input type="text" id="headPic8" value="/UploadFiles/DefaultPic/default_boy.jpg">
+			<input type="text" id="sex8" value="1">
+			<input type="text" id="uid9" value="00698656-036b-465e-9bdb-06203a70794c">
+			<input type="text" id="votes9" value="4">
+			<input type="text" id="picurl9" value="/Uploads/h5/557aeb7b8f849.jpg">
+			<input type="text" id="picdate9" value="2015-06-12">
+			<input type="text" id="nick9" value="隔壁老王丶">
+			<input type="text" id="headPic9" value="/UploadFiles/DefaultPic/default_boy.jpg">
+			<input type="text" id="sex9" value="1">
+			<input type="text" id="uid10" value="f06c1cf7-a6d6-4560-8852-7a175998588c">
+			<input type="text" id="votes10" value="0">
+			<input type="text" id="picurl10" value="/UploadFiles/h5/5583b613026ad.jpg">
+			<input type="text" id="picdate10" value="2015-06-19">
+			<input type="text" id="nick10" value="王子">
+			<input type="text" id="headPic10" value="/UploadFiles/DefaultPic/default_boy.jpg">
+			<input type="text" id="sex10" value="0">
+			<input type="text" id="uid11" value="f7c39609-7ab1-4bd9-8698-7f9a752c0846">
+			<input type="text" id="votes11" value="0">
+			<input type="text" id="picurl11" value="/UploadFiles/h5/557fd60bd033c.jpg">
+			<input type="text" id="picdate11" value="2015-06-16">
+			<input type="text" id="nick11" value="sandy">
+			<input type="text" id="headPic11" value="/UploadFiles/DefaultPic/default_girl.jpg">
+			<input type="text" id="sex11" value="0">
+		</div>
+	</body>
+</html>
+<script>
+	makeData();
+	showAll(); 
+</script>

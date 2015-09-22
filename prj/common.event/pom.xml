@@ -1,0 +1,169 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>common-event</artifactId>
+	<packaging>war</packaging>
+	<name>common-event</name>
+
+	<parent>
+		<groupId>org.hxx</groupId>
+		<artifactId>parent</artifactId>
+		<version>0.0.1</version>
+	</parent>
+
+	<dependencies>
+			<!-- slf4j -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+			<!-- logback -->
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<scope>provided</scope>
+		</dependency>
+			<!-- 代码直接调用log4j会被桥接到slf4j -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>log4j-over-slf4j</artifactId>
+			<scope>provided</scope>
+		</dependency>
+			<!-- 代码直接调用commons-logging会被桥接到slf4j -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<scope>provided</scope>
+		</dependency>
+			<!-- 代码直接调用java.util.logging会被桥接到slf4j -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jul-to-slf4j</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-util</artifactId>
+			<version>8.1.17.v20150415</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-jsp</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>IKAnalyzer</groupId>
+			<artifactId>IKAnalyzer</artifactId>
+			<version>2012FF</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-core</artifactId>
+			<version>4.9.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20140107</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hxx</groupId>
+			<artifactId>school-aut</artifactId>
+			<version>0.0.1</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>event</finalName>
+
+		<plugins>
+			<plugin>
+				<!-- <groupId>org.eclipse.jetty</groupId> <version>9.2.10.v20150310</version> -->
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<configuration>
+					<!-- <httpConnector><port>8888</port></httpConnector> -->
+					<scanIntervalSeconds>5</scanIntervalSeconds>
+					<webApp>
+						<contextPath>/event</contextPath>
+						<!-- 设置extraClasspath，多个用";"隔开 -->
+						<extraClasspath>${basedir}/../school.aut/target/classes,C:/Users/hxx/.m2/repository/org/eclipse/jetty/jetty-util/8.1.16.v20140903/jetty-util-8.1.16.v20140903.jar</extraClasspath>
+						<defaultsDescriptor>ref/webdefault.xml</defaultsDescriptor>
+					</webApp>
+					<!-- 设置监听目录 -->
+					<scanTargets>
+						<scanTarget>${basedir}/../school.aut/target/classes</scanTarget>
+					</scanTargets>
+				</configuration>
+				<dependencies>		
+			<!-- slf4j -->
+					<dependency>
+						<groupId>org.slf4j</groupId>
+						<artifactId>slf4j-api</artifactId>
+						<version>1.7.12</version>
+					</dependency>
+			<!-- logback -->
+					<dependency>
+						<groupId>ch.qos.logback</groupId>
+						<artifactId>logback-classic</artifactId>
+						<version>1.1.2</version>
+					</dependency>
+			<!-- 代码直接调用log4j会被桥接到slf4j -->
+					<dependency>
+						<groupId>org.slf4j</groupId>
+						<artifactId>log4j-over-slf4j</artifactId>
+						<version>1.7.12</version>
+					</dependency>
+			<!-- 代码直接调用commons-logging会被桥接到slf4j -->
+					<dependency>
+						<groupId>org.slf4j</groupId>
+						<artifactId>jcl-over-slf4j</artifactId>
+						<version>1.7.12</version>
+					</dependency>
+			<!-- 代码直接调用java.util.logging会被桥接到slf4j -->
+					<dependency>
+						<groupId>org.slf4j</groupId>
+						<artifactId>jul-to-slf4j</artifactId>
+						<version>1.7.12</version>
+					</dependency>
+
+					<dependency>
+						<groupId>com.microsoft</groupId>
+						<artifactId>sqljdbc</artifactId>
+						<version>4</version>
+					</dependency>
+					<dependency>
+						<groupId>org.apache.httpcomponents</groupId>
+						<artifactId>httpclient</artifactId>
+						<version>4.3</version>
+					</dependency>
+					<dependency>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-web</artifactId>
+						<version>4.1.6.RELEASE</version>
+						<exclusions>
+							<exclusion>
+								<artifactId>spring-aop</artifactId>
+								<groupId>org.springframework</groupId>
+							</exclusion>
+						</exclusions>
+					</dependency>
+				</dependencies>
+			</plugin>
+		</plugins>
+	</build>
+</project>
+
+<!-- <plugin> <groupId>org.mortbay.jetty</groupId> <artifactId>maven-jetty-plugin</artifactId> <configuration> <webApp>${basedir}/target/main-a</webApp> <scanIntervalSeconds>10</scanIntervalSeconds> 
+	<contextPath>/main-a</contextPath> <contextHandlers> <contextHandler implementation="org.mortbay.jetty.webapp.WebAppContext"> <war>${project.parent.basedir}/main-b/target/main-b.war</war> 
+	<resourceBase>${project.parent.basedir}/main-b/target/main-b</resourceBase> <contextPath>/main-b</contextPath> </contextHandler> </contextHandlers> </configuration> </plugin> -->

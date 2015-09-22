@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
+<!-- Put site-specific property overrides in this file. -->
+<configuration>
+	<property>
+	  <name>fetcher.nextstart.ahead</name>
+	  <value>true</value>
+	</property>	
+	<property>
+	  <name>generate.test</name>
+	  <value>false</value>
+	</property>	
+	<!--分值离散化配置： 每个配置用;隔开，每个配置x,y,n表示从x到y之间使用n个分值，sum(n)必须等于桶数 -->
+	<property>
+		<name>nutch.score.step</name>
+		<value>0,1,3</value>
+	</property>	
+	<property>
+	  <name>generate.table.Max</name>
+	  <value>3</value> 
+	</property>
+	<property>
+	  <name>generate.table.depth</name>
+	  <value>3</value> 
+	</property>
+	<property>
+  	
+  	<name>fetcher.threads.timeout.divisor</name>
+  		<value>4</value>
+	</property>
+	<property>
+		<name>http.timeout</name>
+		<value>20000</value>
+	</property>
+	<property>
+		<name>fetcher.server.min.delay</name>
+		<value>1</value>
+	</property>
+	<property>
+		<name>fetcher.server.delay</name>
+		<value>4</value>
+	</property>
+	<property>
+		<name>fetcher.threads.fetch</name>
+		<value>700</value>
+	</property>
+	<property>
+		<name>fetcher.threads.per.queue</name>
+		<value>1</value>
+	</property>
+	<property>
+	  <name>fetcher.queue.depth.multiplier</name>
+	  <value>100</value>
+	</property>
+	<property>
+	  <name>fetcher.max.exceptions.per.queue</name>
+	  <value>10</value>
+	</property>
+	<property>
+		<name>generate.max.count</name>
+		<value>100</value>
+	</property>
+	<property>
+		<name>db.ignore.external.links</name>
+		<value>false</value>
+	</property>
+	<!--
+	<property>
+		<name>plugin.folders</name>
+		<value>./build/plugins</value>
+	</property>
+	-->
+	<property>
+		<name>plugin.includes</name>
+		<value>protocol-http|urlfilter-prefix|urlfilter-regex|parse-(html|tika)|htmlparsefilter-topical|index-(basic|anchor)|indexer-solr|scoring-topic|urlnormalizer-(regex|basic)
+		</value>
+	</property>
+	<property>
+		<name>http.agent.name</name>
+		<value>Mozilla/5.0 (Windows NT 6.1; WOW64; rv:23.0) Gecko/20100101 Firefox/23.0</value>
+	</property>
+	<property>
+	  <name>http.agent.version</name>
+	  <value></value>
+	</property>
+	
+	<!-- db -->
+	<property>
+		<name>db.signature.class</name>
+		<value>org.apache.nutch.wind.TextProfileSignatureChinese</value>
+	</property>
+<!-- 	<property> -->
+<!-- 		<name>db.fetch.interval.default</name> -->
+<!-- 		<value>604800</value> -->
+<!-- 	</property> -->
+	<property>
+		<name>crawl.gen.delay</name>
+		<value>43200000</value>
+		<description>12 hours (ms). how long we should keep the lock on records 
+   in CrawlDb that were just selected for fetching.</description>
+	</property>
+	<property>
+		<name>db.max.outlinks.per.page</name>
+		<value>-1</value>
+	</property>
+	<property>
+	  <name>db.fetch.retry.max</name>
+	  <value>1</value>
+	  <description>The maximum number of times a url that has encountered
+	  recoverable errors is generated for fetch.</description>
+	</property>
+
+	<!-- generate -->
+
+	<!-- fetch -->
+	<property>
+		<name>http.max.delays</name>
+		<value>3</value>
+	</property>
+	<property>
+		<name>fetcher.max.crawl.delay</name>
+		<value>0</value>
+	</property>
+	<property>
+		<name>fetcher.parse</name>
+		<value>false</value>
+	</property>
+	<property>
+		<name>http.content.limit</name>
+		<value>256000</value>
+	</property>
+	<property>
+		<name>parser.timeout</name>
+		<value>30</value>
+	</property>
+	<!-- 	-->
+	<property>
+		<name>parser.skip.truncated</name>
+		<value>true</value>
+	</property>
+
+	<property>
+		<name>topic.relevance.threshold</name>
+		<value>0</value>
+	</property>
+	<property>
+		<name>topic.relevance.maxvalue</name>
+		<value>1</value>
+	</property>
+	<property>
+		<name>topic.relevance.minvalue</name>
+		<value>0</value>
+	</property>
+	<property>
+		<name>topic.relevance.whiterate</name>
+		<value>0.9</value>
+	</property>
+	<property>
+		<name>topic.relevance.blackrate</name>
+		<value>0.05</value>
+	</property>
+
+	<property>
+		<name>id.server.name</name>
+		<value>njhadoopmaster2</value>
+	</property>
+	<property>
+		<name>id.server.port</name>
+		<value>8080</value>
+	</property>
+	<property>
+		<name>commit.hbase.threshold</name>
+		<value>20000</value>
+	</property>
+	
+	<!--字符编码默认按UTF-8解析，如发现页面字符为非UTF-8，则先转码再解析-->
+	<property>
+		<name>parser.character.encoding.default</name>
+		<value>UTF-8</value>
+	</property>
+	
+	<property>
+		<name>encodingdetector.charset.min.confidence</name>
+		<value>1</value>
+	</property>
+	
+	<!--增加网页抓取调度类配置-->
+	<property>
+	  <name>db.fetch.schedule.class</name>
+	  <value>org.apache.nutch.crawl.AdaptiveFetchSchedule</value>
+	</property>
+	
+	<!-- 网页抓取的阀值 -->
+	<property>
+	  <name>job.reduce.num</name>
+	  <value>6</value> 
+	</property>
+	
+	<!-- generator 阀值 ，小于该值则不抓取。 -->
+	<property>
+	  <name>generator.less</name>
+	  <value>5000</value> 
+	</property>
+	<property>
+	  <name>fetcher.out.interval</name>
+	  <value>150000</value> 
+	</property>
+	
+</configuration>
