@@ -7,6 +7,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import gnnt.mebsv.hqservice.model.ClientSocket;
 import gnnt.mebsv.hqservice.model.ProductDataVO;
 
@@ -15,6 +18,8 @@ import gnnt.mebsv.hqservice.model.ProductDataVO;
  *
  */
 public class HQService2 extends HQService {
+	Log log = LogFactory.getLog(getClass());
+
 	static final String[] ignoreProperties = new String[] { "yesterBalancePrice", "closePrice", "openPrice", "highPrice", "lowPrice", "curPrice",
 			"totalAmount", "totalMoney", "curAmount", "consignRate", "amountRate", "balancePrice", "reserveCount" };
 
@@ -89,10 +94,12 @@ public class HQService2 extends HQService {
 		int countStamp = 0;
 		int countPhonecard = 0;
 		ProductDataVO srcAll = null, srcCoin = null, srcStamp = null, srcPhonecard = null;
+		ProductDataVO cloneCoin = null, cloneStamp = null, clonePhonecard = null;
 
 		for (int i = 0; i < datas.length; i++) {
 			ProductDataVO data = datas[i];
 			String code = data.code;
+			// log.debug(data.toString());
 
 			if ("100001".equals(code)) {
 				srcAll = data;
@@ -103,33 +110,39 @@ public class HQService2 extends HQService {
 			} else if ("100004".equals(code)) {
 				srcPhonecard = data;
 			} else if (code.startsWith("50") || code.startsWith("70") || code.startsWith("80")) {
-				countCoin++;
-				addProps(data, coin);
+				countCoin += addProps(data, coin);
 			} else if (code.startsWith("60")) {
-				countStamp++;
-				addProps(data, stamp);
+				countStamp += addProps(data, stamp);
 			} else if (code.startsWith("90")) {
-				countPhonecard++;
-				addProps(data, phonecard);
+				countPhonecard += addProps(data, phonecard);
 			}
 		}
 
-		countAvg(coin, countCoin);
-		countAvg(stamp, countStamp);
-		countAvg(phonecard, countPhonecard);
+		if (srcCoin != null && countCoin > 0) {
+			cloneCoin = (ProductDataVO) coin.clone();
+			countAvg(coin, countCoin);
+			copyProperties(coin, srcCoin);
+		}
+		if (srcStamp != null && countStamp > 0) {
+			cloneStamp = (ProductDataVO) stamp.clone();
+			countAvg(stamp, countStamp);
+			copyProperties(stamp, srcStamp);
+		}
+		if (srcPhonecard != null && countPhonecard > 0) {
+			clonePhonecard = (ProductDataVO) phonecard.clone();
+			countAvg(phonecard, countPhonecard);
+			copyProperties(phonecard, srcPhonecard);
+		}
 
-		addProps(coin, all);
-		addProps(stamp, all);
-		addProps(phonecard, all);
-		countAvg(all, 3);
-
-		copyProperties(coin, srcCoin);
-		copyProperties(stamp, srcStamp);
-		copyProperties(phonecard, srcPhonecard);
-		copyProperties(all, srcAll);
+		int countAll = addProps(cloneCoin, cloneStamp, clonePhonecard, all);
+		if (countAll > 0)
+			copyProperties(all, srcAll);
 	}
 
-	private void addProps(ProductDataVO source, ProductDataVO target) {
+	private int addProps(ProductDataVO source, ProductDataVO target) {
+		// 剔除没有开盘的
+		if (source.curPrice < 0.00001f)
+			return 0;
 		// +=
 		target.yesterBalancePrice = (source.yesterBalancePrice + target.yesterBalancePrice);
 		target.closePrice = (source.closePrice + target.closePrice);
@@ -144,6 +157,8 @@ public class HQService2 extends HQService {
 		target.amountRate = (source.amountRate + target.amountRate);
 		target.balancePrice = (source.balancePrice + target.balancePrice);
 		target.reserveCount = (source.reserveCount + target.reserveCount);
+
+		return 1;
 	}
 
 	private void countAvg(ProductDataVO source, int count) {
@@ -153,13 +168,28 @@ public class HQService2 extends HQService {
 		source.highPrice = (source.highPrice) / count;
 		source.lowPrice = (source.lowPrice) / count;
 		source.curPrice = (source.curPrice) / count;
-		source.totalAmount = (source.totalAmount) / count;
-		source.totalMoney = (source.totalMoney) / count;
-		source.curAmount = (source.curAmount) / count;
+		// source.totalAmount = (source.totalAmount) / count;
+		// source.totalMoney = (source.totalMoney) / count;
+		// source.curAmount = (source.curAmount) / count;
 		source.consignRate = (source.consignRate) / count;
 		source.amountRate = (source.amountRate) / count;
 		source.balancePrice = (source.balancePrice) / count;
-		source.reserveCount = (source.reserveCount) / count;
+		// source.reserveCount = (source.reserveCount) / count;
+	}
+
+	private int addProps(ProductDataVO coin, ProductDataVO stamp, ProductDataVO phonecard, ProductDataVO all) {
+		int countAll = 0;
+		if (coin != null)
+			countAll += addProps(coin, all);
+		if (stamp != null)
+			countAll += addProps(stamp, all);
+		if (phonecard != null)
+			countAll += addProps(phonecard, all);
+
+		if (countAll > 0)
+			countAvg(all, countAll);
+
+		return countAll;
 	}
 
 	// 多线程可能有误差，反馈不及时
@@ -183,5 +213,48 @@ public class HQService2 extends HQService {
 		// target.buyPrice = (source.buyPrice);
 		// target.sellPrice = (source.sellPrice);
 	}
+	// 幅度 是 当前/昨收盘
+	// YesterPrice:819.0 yesterBalancePrice 昨平均
+	// ClosePrice:819.0 昨闭市
+	// OpenPrice:900.0
+	// HighPrice:900.0
+	// LowPrice:900.0
+	// CurPrice:900.0 最新
+	// CurAmount:2 现量
+	// OpenAmount:1 开仓数
+	// CloseAmount:1 平仓数
+	// 成交量 就是2
+	// ReserveCount:20002 所有日期累加？ 订货量
+	// AverageValue:900.0 balancePrice
+	// TotalMoney:1800.0 成交金额
+	// TotalAmount:2
 
+	// OutAmount:2
+	// InAmount:0
+	// TradeCue:0
+	// NO:12
+	// AverAmount5:2
+	// AmountRate:0.0 量比？ 量比=现成交总手/（过去5日平均每分钟成交量×当日累计开市时间（分））
+	// consignRate:0.0 委比 委比＝〖(委买手数-委卖手数)÷（委买手数＋委卖手数)〗×100%
+
+	// BuyPrice1:0.0
+	// SellPrice1:0.0
+	// BuyAmount1:0
+	// SellAmount1:0
+	// BuyPrice2:0.0
+	// SellPrice2:0.0
+	// BuyAmount2:0
+	// SellAmount2:0
+	// BuyPrice3:0.0
+	// SellPrice3:0.0
+	// BuyAmount3:0
+	// SellAmount3:0
+	// BuyPrice4:0.0
+	// SellPrice4:0.0
+	// BuyAmount4:0
+	// SellAmount4:0
+	// BuyPrice5:0.0
+	// SellPrice5:0.0
+	// BuyAmount5:0
+	// SellAmount5:0
 }
