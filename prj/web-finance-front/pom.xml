@@ -350,7 +350,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>ipo_front</finalName>
+		<finalName>finance_front</finalName>
 		<outputDirectory>${project.basedir}/src/main/webapp/WEB-INF/classes/</outputDirectory>
 		<plugins>
 			<!-- Compiler 插件, 设定JDK版本 -->
