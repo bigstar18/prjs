@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<!-- 
+		交易商资金流水
+	-->
+	<package name="firmFundFlow" extends="base-struts2-display" namespace="/front/app/finance/fund">
+		<!-- 交易商资金流水查询 -->
+		<action name="firmFundFlow" class="firmFundFlowAction" method="fundFlowList">
+			<param name="entityName">gnnt.MEBS.finance.front.model.FirmCurFunds</param>
+			<result>/front/app/finance/fund/firmFundFlow.jsp</result>
+		</action>
+	</package>
+</struts>

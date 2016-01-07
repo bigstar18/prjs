@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<!-- 
+		交易商总账单合计
+	-->
+	<package name="ledgerSum" extends="base-struts2-display" namespace="/front/app/finance/ledgerSum">
+		<!-- 交易商总账单合计查询 -->
+		<action name="clientLedgerSum" class="clientLedgerSumAction" method="clientLedgerSum">
+			<result>/front/app/finance/fund/clientLedgerSum.jsp</result>
+		</action>
+	</package>
+</struts>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<!-- 
+		交易商总账单
+	-->
+	<package name="ledger" extends="base-struts2-display" namespace="/front/app/finance/ledger">
+		<!-- 交易商总账单查询 -->
+		<action name="clientLedger" class="clientLedgerAction" method="fundLedger">
+			<param name="entityName">gnnt.MEBS.finance.front.model.FirmBalance</param>
+			<result>/front/app/finance/fund/clientLedger.jsp</result>
+		</action>
+	</package>
+</struts>

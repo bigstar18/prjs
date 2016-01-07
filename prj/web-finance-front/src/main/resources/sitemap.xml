@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="GBK"?>
+<sitemap>
+	<node title="资金结算" path="/front/app/finance/report/printFund.jsp" />
+	<node title="消息列表" path="/front/app/integrated/noticeandmessage/messagelist.jsp" />
+	<node title="交易商总账单合计" path="/front/app/finance/fund/clientLedgerSum.jsp" />
+	<node title="交易商资金明细" path="/front/app/finance/fund/firmFundDetail.jsp" />
+	<node title="交易商资金流水" path="/front/app/finance/fund/firmFundFlow.jsp" />
+	<node title="交易商总账单" path="/front/app/finance/fund/clientLedger.jsp" />
+	<node title="登陆" href="/" path="/">
+		<node title="注册" path="/front/logon/register.jsp" />
+	</node>
+	<node title="登陆" href="/" path="/front/logon/logon.jsp" />
+</sitemap>

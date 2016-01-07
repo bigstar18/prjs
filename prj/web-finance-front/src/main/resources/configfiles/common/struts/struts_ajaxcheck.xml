@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- 公用系统 ajax 检查配置 -->
+	<package name="com_ajaxcheck" extends="json-default" namespace="/checkneedless/commoncheck">
+
+		<!-- 鼠标移开事件检查用户名是否已经存在，存在返回失败，不存在返回成功 -->
+		<action name="checkTraderUserID" class="com_ajaxCheck" method="checkTraderUserID">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+
+		<!-- form 表单提交事件检查交易商注册申请 ajax 验证是否通过 -->
+		<action name="checkFirmApplyForm" class="com_ajaxCheck" method="checkFirmApplyForm">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+	</package>
+</struts>
