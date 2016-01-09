@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!--
+	通过配置文件配置 Model 类与数据库表之间的字段联系
+	将本配置文件配置到 hibernate.cfg.xml 中
+-->
+<hibernate-mapping>
+	<class name="gnnt.MEBS.bank.mgr.model.CapitalInfo" table="F_B_CAPITALINFO" dynamic-update="true" lazy="false">
+		<id name="id"/>
+
+		<property name="funID"/>
+		<property name="debitID"/>
+		<property name="creditID"/>
+		<property name="type"/>
+		<property name="money"/>
+		<property name="operator"/>
+		<property name="createtime"/>
+		<property name="bankTime"/>
+		<property name="status"/>
+		<property name="note"/>
+		<property name="actionID"/>
+		<property name="express"/>
+		<property name="bankName"/>
+		<property name="account"/>
+		<property name="createDate"/>
+		<property name="funID2"/>
+		
+		<many-to-one name="firm" class="gnnt.MEBS.bank.mgr.model.integrated.MFirm" column="firmID"></many-to-one>
+		<many-to-one name="bank" class="gnnt.MEBS.bank.mgr.model.Bank" column="bankID"></many-to-one>
+	</class>
+</hibernate-mapping>
+

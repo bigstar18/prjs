@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+<import resource="classpath*:/configfiles/*/spring/spring*.xml"/>
+	<!-- 系统配置项 -->
+	<bean id="config" class="java.util.Properties">
+		<constructor-arg type="java.util.Properties">
+			<props>
+				<prop key="Test">Test</prop><!--测试-->
+				<!--将字符串以逗号分隔成数组，以此数组中任何一个结尾的的url不需要权限判断-->
+				<prop key="NoKeyWords">.css,.js,.jpg,.png,.htc,.ico,.bmp,.gif,.zip,.htm
+				</prop>
+				<!--将字符串以逗号分隔成数组，以此数组中为不需要权限检查的目录-->
+				<prop key="NeedlessCheckDir">/ajaxcheck,/preview</prop>
+				<!-- 登录地址 session失效后转向此地址 -->
+				<prop key="LoginURL">/mgr/public/jsp/nosession.jsp</prop>
+				<!-- 没有权限地址 当判断用户没有当前页面权限时转向此地址 -->
+				<prop key="NoRightURL">/mgr/public/jsp/noright.jsp</prop>
+				<!-- session超时时间 以分钟为单位 -->
+				<prop key="SessionExpireTime">120</prop>
+				<!-- 配置权限根目录菜单编号 -->
+				<prop key="RootRightID">9900000000</prop>
+				<!-- 获取本系统的模块号 -->
+				<prop key="SelfModuleID">28</prop>
+
+				<!-- 支持市场端发起同步的银行编号集合。银行编号之间以英文逗号分割 -->
+				<prop key="marketPerformSynchroAccount">05,06,99</prop>
+
+				<!-- 支持市场端发起签约的银行编号集合。银行编号之间以英文逗号分割 -->
+				<prop key="marketPerformOpenAccount">05,06,99</prop>
+
+				<!-- 支持市场端发起解约的银行编号集合。银行编号之间以英文逗号分割 -->
+				<prop key="marketPerformDelAccount">06</prop>
+
+				<!-- 添加注册信息时，不需要添加银行帐号的银行编号集合。银行编号之间以英文逗号分割 -->
+				<prop key="needlessAccountBank">05,66,007</prop>
+
+				<!-- 如果银行注册时，不需要添加银行编号，则设定一个特殊的银行编号 -->
+				<prop key="defaultAccount">999999999999999999</prop>
+
+				<!-- 假银行编号集合。银行编号之间以英文逗号分割 -->
+				<prop key="noAdapterBank">aa</prop>
+
+				<!-- 访问模式 0：rmi访问登录管理 1：本地访问登录管理 -->
+				<prop key="CallMode">0</prop>
+
+				<!-- 用户超时线程睡眠时间，以毫秒为单位 -->
+				<prop key="timeSpace">200</prop>
+
+				<!--  重置 RMI 连接次数后重新到数据库中获取连接地址的次数-->
+				<prop key="clearRMITimes">3</prop>
+
+				<!-- 登录类型 -->
+				<prop key="selfLogonType">web</prop>
+			</props>
+		</constructor-arg>
+	</bean>
+	<!-- 系统配置项结束 -->
+
+	<!-- AU 超时 类型配置MAp -->
+	<util:map id="auExpireTimeMap" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Long">
+		<entry key="web" value="7200000"/>
+		<entry key="pc" value="30000"/>
+		<entry key="mobile" value="7200000"/>
+	</util:map>
+	
+	<!-- 添加一个类路径配置，让Spring 容器知道需要扫描该类路径下所有可以加载到容器中的类。  -->
+	<context:component-scan base-package="gnnt.MEBS" />
+ <!-- sessionFactoryForQuery -->
+	<bean id="sessionFactoryForQuery"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSourceForQuery"/>
+		</property>
+		<property name="configLocation" value="classpath:hibernate.cfg.xml">
+		</property>
+		<property name="annotatedPackages">
+			<list>
+				<value>gnnt.MEBS</value>
+			</list>
+		</property>
+	</bean>
+	<!-- sessionFactory -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="configLocation" value="classpath:hibernate.cfg.xml">
+		</property>
+		<property name="annotatedPackages">
+			<list>
+				<value>gnnt.MEBS</value>
+			</list>
+		</property>
+	</bean>
+	<!-- 事务配置开始 -->
+	<!-- 使用注解方式事务管理 强制使用动态代理 -->
+	<tx:annotation-driven transaction-manager="transactionManager"
+		proxy-target-class="true" />
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<!-- 事务配置结束-->
+
+	<!-- 在spring容器加载时获取spring容器对象以方便其它类使用 -->
+	<bean class="gnnt.MEBS.common.mgr.statictools.ApplicationContextInit" />
+
+	<!-- 权限判断  -->
+	<bean id="urlCheck" class="gnnt.MEBS.common.mgr.webframe.securitycheck.UrlCheck">
+		<property name="urlCheckList">
+			<list>
+				<!-- 检查url是否为不需要判断权限 的url 如登录界面等-->
+				<bean class="gnnt.MEBS.common.mgr.webframe.securitycheck.UrlCheckNeedlessCheck" />
+				<!-- 检查session信息 -->
+				<bean class="gnnt.MEBS.common.mgr.webframe.securitycheck.UrlCheckSession"></bean>
+				<!-- 使用Au检查用户是否合法 -->
+				<bean class="gnnt.MEBS.common.mgr.webframe.securitycheck.UrlCheckUserInfo"></bean>
+				<!-- 根据用户检查是否拥有url的访问权限 -->
+				<bean class="gnnt.MEBS.common.mgr.webframe.securitycheck.UrlCheckUserPurview"></bean>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 通过字段获取字段名  -->
+	<bean id="getNameByField" class="gnnt.MEBS.common.mgr.model.translate.GetNameByField">
+		<property name="getNameByFieldList">
+			<list>
+				<!-- 从资源文件中获取field的名称-->
+				<bean class="gnnt.MEBS.common.mgr.model.translate.GetNameByFieldFromResource" />
+				<!-- 通过注解获取field对应的名称 -->
+				<bean class="gnnt.MEBS.common.mgr.model.translate.GetNameByFieldFromAnnotation"></bean>
+				<!-- 获取field本身的名称-->
+				<bean class="gnnt.MEBS.common.mgr.model.translate.GetNameByFieldFromThis"></bean>
+			</list>
+		</property>
+	</bean>
+
+</beans>

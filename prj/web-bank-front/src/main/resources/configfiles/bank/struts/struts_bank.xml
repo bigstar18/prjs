@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- 修改密码 -->
+	<package name="bank_user" extends="base-struts2-display" namespace="/bank/user">
+		<!-- 跳转到修改密码页面 -->
+		<action name="gotoChangePasswordPage" class="moneyAction" method="gotoChangePasswordPage">
+			<param name="entityName">gnnt.MEBS.bank.front.model.FirmUser</param>
+			<result>/front/app/bank/user/changePassword.jsp</result>
+		</action>
+
+		<!-- 执行修改密码 -->
+		<action name="changePassword" class="moneyAction" method="changePassword">
+			<param name="entityName">gnnt.MEBS.bank.front.model.FirmUser</param>
+			<result>/front/public/jsp/submitsuccess.jsp</result>
+		</action>
+	</package>
+
+	<!-- 资金划转 -->
+	<package name="bank_inout_money" extends="base-struts2-display" namespace="/bank/money">
+		<!-- 进入资金划转页面 -->
+		<action name="gotoMoneyPage" class="moneyAction" method="gotoMoneyPage">
+			<param name="entityName">gnnt.MEBS.bank.front.model.FirmIDAndAccount</param>
+			<result>/front/app/bank/money/inoutMoney.jsp</result>
+		</action>
+
+		<!-- 执行资金划转 -->
+		<action name="moneyTransfer" class="moneyAction" method="moneyTransfer">
+			<param name="entityName">gnnt.MEBS.bank.front.model.FirmIDAndAccount</param>
+			<result>/front/public/jsp/submitsuccess.jsp</result>
+		</action>
+		
+		<!-- 进入国付宝入金页面 -->
+		<action name="moneyTransferGFB" class="moneyAction" method="moneyTransferGFB">
+			<param name="entityName">gnnt.MEBS.bank.front.model.FirmIDAndAccount</param>
+			<result name="error">/front/public/jsp/submitsuccess.jsp</result>
+			<result name="success">/front/app/bank/money/inmoneyGFB.jsp</result>
+		</action>
+	</package>
+
+	<!-- 余额查询 -->
+	<package name="bank_balance" extends="base-struts2-display" namespace="/bank/balance">
+		<!-- 进入余额查询页面 -->
+		<action name="gotoQueryMoneyPage" class="moneyAction" method="gotoQueryMoneyPage">
+			<param name="entityName">gnnt.MEBS.bank.front.model.FirmIDAndAccount</param>
+			<result>/front/app/bank/balance/firmBalance.jsp</result>
+		</action>
+
+		<!-- 执行查询余额 -->
+		<action name="queryMoney" class="moneyAction" method="queryMoney">
+			<param name="entityName">gnnt.MEBS.bank.front.model.FirmIDAndAccount</param>
+			<result>gotoQueryMoneyPage.action</result>
+		</action>
+	</package>
+
+	<!-- 查询市场流水 -->
+	<package name="bank_capital" extends="base-struts2-display" namespace="/bank/capital">
+		<!-- 执行查询方法 -->
+		<action name="getCapitalInfoList" class="moneyAction" method="getCapitalInfoList">
+			<param name="entityName">gnnt.MEBS.bank.front.model.CapitalInfo</param>
+			<result>/front/app/bank/capital/capitalInfoList.jsp</result>
+		</action>
+	</package>
+<!-- 签约 -->
+	<package name="bank_firmInfo" extends="base-struts2-display" namespace="/bank/firmInfo">
+		<!-- 进入签约页面 -->
+		<action name="gotoRgstDelFirmInfoPage" class="moneyAction" method="gotoRgstDelFirmInfoPage">
+			<param name="entityName">gnnt.MEBS.bank.front.model.FirmIDAndAccount</param>
+			<result>/front/app/bank/firmInfo/firmInfo.jsp</result>
+		</action>
+		<!-- 进入华夏他行签约页面 -->
+		<action name="gotoHXCrossFirmInfoPage" class="moneyAction" method="gotoHXCrossFirmInfoPage">
+			<param name="entityName">gnnt.MEBS.bank.front.model.FirmIDAndAccount</param>
+			<result>/front/app/bank/firmInfo/addCorr_hx.jsp</result>
+		</action>
+		<!-- 同步银行账号 -->
+		<action name="synchroRegist" class="moneyAction" method="synchroRegist">
+			<param name="entityName">gnnt.MEBS.bank.front.model.FirmIDAndAccount</param>
+			<result>gotoRgstDelFirmInfoPage.action</result>
+		</action>
+		<!-- 华夏签约银行账号 -->
+		<action name="gotoRgstHX" class="moneyAction" method="gotoRgstHX">
+			<param name="entityName">gnnt.MEBS.bank.front.model.FirmIDAndAccount</param>
+			<result>gotoRgstDelFirmInfoPage.action</result>
+		</action>
+		<!-- 解约银行账号 -->
+		<action name="delRegist" class="moneyAction" method="delRegist">
+			<param name="entityName">gnnt.MEBS.bank.front.model.FirmIDAndAccount</param>
+			<result>gotoRgstDelFirmInfoPage.action</result>
+		</action>
+		<!-- 签约银行账号 -->
+		<action name="openRegist" class="moneyAction" method="openRegist">
+			<param name="entityName">gnnt.MEBS.bank.front.model.FirmIDAndAccount</param>
+			<result>gotoRgstDelFirmInfoPage.action</result>
+		</action>
+		<!-- 进入国付宝签约页面 -->
+		<action name="gotoRgstDelFirmInfoPageGFB" class="moneyAction" method="gotoRgstDelFirmInfoPageGFB">
+			<param name="entityName">gnnt.MEBS.bank.front.model.FirmIDAndAccount</param>
+			<result name="error">/front/public/jsp/submitsuccess.jsp</result>
+			<result name="success">/front/app/bank/firmInfo/rgstdelfirmGFB.jsp</result>
+		</action>
+	</package>
+</struts>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<!--配置文件中使用占位符-->
+	<bean class="gnnt.MEBS.util.spring.rmi.CreateRMIPropertiesFileByDB">
+		<property name="order" value="20" />
+		<!-- 是否从数据库获取RMI配置 -->
+		<property name="setRMIPropertiesFromDB" value="true" />
+		<!-- 需要获取配置的模块号 -->
+		<property name="moduleArr">
+			<list>
+				<value>28</value>
+			</list>
+		</property>
+		<!-- rmi属性文件名称 -->
+		<property name="rmiPropertiesName" value="configfiles/bank/spring/rmi.properties" />
+		<property name="dataSource">
+			<idref bean="dataSource" />
+		</property>
+	</bean>
+
+
+	<!-- 配置 RMI 占位符和RMI 配置文件 -->
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="order" value="30" />
+		<property name="placeholderPrefix" value="$[" />
+		<property name="placeholderSuffix" value="]" />
+		<property name="locations">
+			<list>
+				<value>WEB-INF/classes/configfiles/bank/spring/rmi.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- E现货 核心 RMI -->
+
+	<!-- 系统参数调用的RMI -->
+	<bean id="capitalProcessorRMI" class="org.springframework.remoting.rmi.RmiProxyFactoryBean"
+		lazy-init="false">
+		<property name="refreshStubOnConnectFailure">
+			<value>true</value>
+		</property>
+		<property name="lookupStubOnStartup">
+			<value>false</value>
+		</property>
+
+		<property name="serviceInterface">
+			<value>gnnt.trade.bank.processorrmi.CapitalProcessorRMI</value>
+		</property>
+		<!-- serviceUrl以rmi开头,定义服务器地址与端口和服务名 -->
+		<property name="serviceUrl" value="rmi://$[bank.rmi.ip]:$[bank.rmi.port]/$[bank.rmi.serviceName]"/>
+	</bean>
+
+</beans>

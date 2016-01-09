@@ -1,0 +1,79 @@
+@charset "GBK";
+
+/* --框架样式 Begin-- */
+.header{ width:100%;}
+.bottom{ width:100%;}
+.wrapper{ width:100%; _width:1004px;}
+.navMenu{ float:left; width:200px;}
+.main{ float:left; width:78%;_width:780px; margin-left:15px;}
+.main_content{ width:780px;}
+/* --框架样式 End-- */
+
+/* --Header Begin-- */
+.top{ width:100%; height:77px; background:url(../../../image/mgr/memberadmin/top_bg.jpg) repeat-x 0 top; overflow:hidden;}
+	.logo{ float:left;padding:0 200px 0 14px; background:url(../../../image/mgr/memberadmin/name.jpg) no-repeat right top;}
+	.search{ float:left; width:360px; height:64px; padding:6px 0;}
+	.search .title{ height:24px; background:url(../../../image/mgr/memberadmin/search_no.jpg) repeat-x 0 bottom; line-height:24px;}
+	.search .title ul li{ float:left;}
+	.search .title ul li a{ float:left; width:60px; height:24px; text-align:center; cursor:hand; color:#1767b1; text-decoration:none;}
+	.search .title ul li a:hover{color:#1767b1; background:url(../../../image/mgr/memberadmin/search_on.jpg) no-repeat; font-weight:bold;}
+	.search .title ul li a.on{float:left; width:60px; height:24px; text-align:center; color:#1767b1;background:url(../../../image/mgr/memberadmin/search_on.jpg) no-repeat; font-weight:bold; text-decoration:none;}
+	.search .content{ height:40px; background:url(../../../image/mgr/memberadmin/search_c.jpg) repeat-x 0 bottom;}
+	.search .content_l{ float:left; width:3px; height:40px; background:url(../../../image/mgr/memberadmin/search_l.jpg) no-repeat;}
+	.search .content_c{ float:left; width:314px; height:20px; padding:9px 20px;}
+	.search .content_cl{ float:left; width:270px;}
+	.search .content_cr{ float:left; width:44px;}
+	.search input{ width:250px; height:20px; margin:0; border:1px solid #6dc8eb; padding:0 5px; background:url(../../../image/mgr/memberadmin/search_input_bg.jpg) repeat-x 0 top; color:#1ea7e5; line-height:18px;}
+	.search .content_r{ float:left; width:3px; height:40px; background:url(../../../image/mgr/memberadmin/search_r.jpg) repeat;}
+	.topNav{float:right; text-align:right; padding:15px 6px;color:#f60; font-size:14px; line-height:24px;}
+	.topNav span{ color:#1767b1;}
+.user{ width:100%; height:28px; border-top:3px solid #1ea7e5; border-bottom:1px solid #d3e7f8; background:url(../../../image/mgr/memberadmin/user_bg.jpg) repeat-x;  overflow:hidden;}
+.user .welcome{ float:left;font-size:14px; line-height:28px;}
+.user .welcome span{ font-weight:bold; color:#F60;}
+.user .welcome i{ color:#1767b1; font-style:normal;}
+.user .welcome a{ color:#1767b1;}
+.user .welcome a:hover{ color:#F60;}
+.user .up{ float:right; padding-left:25px; margin-right:10px; background:url(../../../image/mgr/memberadmin/ico1.gif) no-repeat 0px 5px;font: font-size:14px; line-height:28px; color:#1767b1;}
+.user .up span{ color:#F60;}
+/* --Header End-- */
+/* --Nav Begin-- */
+.nav{ float:left; width:200px;}
+	.nav .title{height:33px; background:url(../../../image/mgr/memberadmin/nav_title_bg.jpg) repeat-x 0 bottom;}
+	.nav .title h1,.nav .title h2{background:url(../../../image/mgr/memberadmin/nav_magageon.jpg) no-repeat 0 bottom; color:#222;float:left; margin-left:5px; font-size:14px; line-height:28px;}
+	.nav .title h1 label{ display:block;color:#f30; width:70px; padding:5px 0 0 30px;font-weight:bold; background:url(../../../image/mgr/memberadmin/ico2.gif) no-repeat 10px 10px;cursor: default;}
+	.nav .title h1 a.on{  text-decoration:none;}
+	.nav .title h2 a{ display:block; width:55px; padding:5px 0 0 30px; color:#fff; background:url(../../../image/mgr/memberadmin/ico3.gif) no-repeat 8px 10px; cursor:hand; }
+	.nav .title h2 a:hover,.nav .title h2 a.on{background:url(../../../image/mgr/memberadmin/nav_helpon.jpg) no-repeat 0 bottom; color:#222; text-decoration:none;}
+	.nav .content{ display:block;width:200px; background:url(../../../image/mgr/memberadmin/left_bg.jpg) repeat-y; }
+	.nav .defaultbg{width:200px;  background:url(../../../image/mgr/memberadmin/nav_index_bg.jpg) repeat-x; height:30px; text-align:center;}	
+	.nav .defaultbg a{font-size:14px; line-height:30px; font-weight:bold; color:#f30;}
+	.nav .defaultbg a:hover{color:#F00; text-decoration:none;}
+	
+	.nav .content ul li{width:170px; padding-left:30px; *margin:-3px 0px; background:url(../../../image/mgr/memberadmin/nav_bg.jpg) no-repeat; color:#1767b1;}
+	.nav .content ul li a{ display:block;padding-left:15px;font-size:14px; line-height:30px; font-weight:bold; background:url(../../../image/mgr/memberadmin/ico4.gif) no-repeat 0px 10px;}
+	.nav .content ul li a:hover{color:#f30; text-decoration:none;}
+	.nav .content ul li a.on{background:url(../../../image/mgr/memberadmin/ico5.gif) no-repeat 0px 10px;}
+	.nav .content ul dl{display:block;margin-left:-30px;background:url(../../../image/mgr/memberadmin/nav_bg_on.jpg) repeat-y;}
+	.nav .content ul dl dt{width:149px; height:30px;padding-left:50px;background:url(../../../image/mgr/memberadmin/point.jpg) repeat-x 0 bottom;}
+	.nav .content ul dl dt.on{width:150px; height:30px;background:url(../../../image/mgr/memberadmin/nav_on.jpg) no-repeat right top;}
+	.nav .content ul dl dt a,.nav .content dd a{ display:block; padding-left:15px;background:url(../../../image/mgr/memberadmin/ico5.gif) no-repeat 3px 10px;font-size:14px; line-height:30px; font-weight:bold; color:#1767b1;}
+	.nav .content ul dl dt a:hover,.nav .content dd a:hover{ color:#f30; text-decoration:none;}
+	.nav .content ul dl dt a.on{ background:url(../../../image/mgr/memberadmin/ico4.gif) no-repeat 0px 10px;}
+	.nav .imgb{ margin:0; padding:10px 0 10px 13px;}
+	/*3级菜单样式
+	.nav .content ul dl dd{ display:block; width:129px; padding-left:70px; height:30px;background:#FFF; border-bottom:1px solid #F2F2F2;}
+	.nav .content ul dl dd a{ font-size:12px;}
+	.nav .content ul dl dd.on{width:130px; height:30px;background:url(../../../image/mgr/memberadmin/nav_on.jpg) no-repeat left top;}
+	*/
+
+	.navHelp{ margin:0px auto 12px; padding:10px; width:154px; height:auto; border:1px solid #bce6ff; background:#fff; color:#666;}
+	.navHelpCenter{ margin:0 auto; width:176px; color:#666;}
+	.navHelpCenter a{color:#f30; text-decoration:underline;}
+	.navHelpCenter a:hover{color:#f30; text-decoration:none;}
+	
+/* --Nav End-- */
+
+/* --Footer Begin-- */
+.footer{ width:auto; height:28px; padding-left:10px; border-top:2px solid #1ea7e5; background:url(../../../image/mgr/memberadmin/footer_bg.jpg) repeat-x; line-height:28px; overflow:hidden;color:#1ea7e5;}
+.footer a{ float:left;color:#1ea7e5; text-decoration:none;}
+.footer span{ float:right; width:270px; text-align:left; color:#333;}

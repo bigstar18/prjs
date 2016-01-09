@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!--
+	通过配置文件配置 Model 类与数据库表之间的字段联系
+	将本配置文件配置到 hibernate.cfg.xml 中
+-->
+<hibernate-mapping>
+	<class name="gnnt.MEBS.bank.mgr.model.integrated.MFirm" table="M_Firm" dynamic-update="true" lazy="false">
+		<id name="firmID"/>
+
+		<property name="name"/>
+		<property name="fullName"/>
+		<property name="type"/>
+		<property name="contactMan"/>
+		<property name="certificateType"/>
+		<property name="certificateNO"/>
+		<property name="mobile"/>
+		<property name="address"/>
+		<property name="postCode"/>
+		<property name="email"/>
+		<property name="zoneCode"/>
+		<property name="industryCode"/>
+		<property name="organizationCode"/>
+		<property name="corporateRepresentative"/>
+		<property name="note"/>
+		<property name="extendData"/>
+		<property name="createTime"/>
+		<property name="modifyTime"/>
+		<property name="status"/>
+	</class>
+</hibernate-mapping>
+

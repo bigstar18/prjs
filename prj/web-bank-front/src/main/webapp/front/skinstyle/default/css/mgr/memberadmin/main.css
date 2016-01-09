@@ -1,0 +1,155 @@
+@charset "utf-8";
+/* CSS Document */
+html,body{height:100%}
+body{margin:0px; padding:0; font:12px/20px "宋体", Arial,"Microsoft Yahei","SimSun";}
+img{ border:0px;}
+.wordcolor_yel{ color:#fea355; font-weight:bold;}
+.wordcolor_red{ color:#ff0000;}
+.wordcolor_blue_ip{ color:#03c5fd; font-weight:bold;}
+.wordcolor_blue_ads{ color:#1767b1;}
+.clear{ clear:both;}
+
+/***  IFRAME  ***/
+.top{ height:113px; width:100%; background:url(../../../image/mgr/memberadmin/main/bg_top.gif);}
+.left{ width:201px; min-height:100%;  float:left; background-color:#fff; overflow:hidden; }
+.right{ margin-left:201px; background:#f6fafd;}
+
+/* TOP */
+.bg_top{ background:url(../../../image/mgr/memberadmin/main/bg_top.gif);}
+.top_bor{ width:100%; min-width: 1000px; height:auto; height:51px; border-bottom:1px solid #2e3a51; overflow:hidden;}
+.top_bor .logo{ float:left; width:29%; height:51px; background:url(../../../image/mgr/memberadmin/main/logo.png) no-repeat; _background:url(../../../image/mgr/memberadmin/main/logo.gif) no-repeat;/*ie6*/ height:58px;}
+.top_bor .login{float:left; width:70%;  font-size:14px; color:#fff; text-align:right; line-height:71px; vertical-align:bottom; }
+
+.btn_bor{ border-top:1px solid #5a6d92; width:100%; min-width: 1000px; height:58px; border-bottom:2px solid #fb9237;}
+.btn_bor .sys_name{ width:200px; float:left; height:58px; line-height:58px; color:#fff; font-size:18px; font-weight:bold; text-align:center; background-color:#3f4d68;}
+.btn_bor .ico_over{ width:30px; height:58px; border-left:1px solid #5a6d92; float:left; _filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=’images/ico_e.png’);  /* IE6 */
+_ background-image: none; /* IE6 */}
+.btn_bor .ico{ width:98px; height:58px; border-left:1px solid #5a6d92; border-right:1px solid #2e3a51; float:left; _filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=’../../../image/mgr/memberadmin/main/ico_e.png’);  /* IE6 */
+_ background-image: none; /* IE6 */}
+.btn_bor .icoch{ width:98px; height:57px; background-color:#2e3a51; border-left:1px solid #5a6d92; border-right:1px solid #2e3a51; float:left; border-bottom:1px solid #fb9237; }
+.btn_bor .tel{ width:300px; text-align:right; color:#fea355; font-weight:bold; float:left; height:58px; line-height:58px; font-size:14px;}
+.btn_bor .icor{ width:98px; height:58px; border-left:1px solid #5a6d92; border-right:1px solid #2e3a51; float:right; _filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=’../../../image/mgr/memberadmin/main/ico_e.png’);  /* IE6 */
+_ background-image: none; /* IE6 */}
+
+
+.png_1{ background:url( ../../../image/mgr/memberadmin/main/ico_zw.gif) no-repeat ; _background: url( ../../../image/mgr/memberadmin/main/ico_zw.gif) no-repeat !important;
+filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=noscale, src="../../../image/mgr/memberadmin/main/ico_zw.gif");
+_background:none;width:98px;height:57px;}
+.png_2{ background:url( ../../../image/mgr/memberadmin/main/ico_zw.gif) no-repeat ; _background: url( ../../../image/mgr/memberadmin/main/ico_zw.gif) no-repeat !important;
+filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=noscale, src="../../../image/mgr/memberadmin/main/ico_zw.gif");
+_background:none;width:98px;height:57px;}
+.png_3{ background:url( ../../../image/mgr/memberadmin/main/ico_zw.gif) no-repeat ; _background: url( ../../../image/mgr/memberadmin/main/ico_zw.gif) no-repeat !important;
+filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=noscale, src="../../../image/mgr/memberadmin/main/ico_zw.gif");
+_background:none;width:98px;height:57px;}
+.png_4{ background:url( ../../../image/mgr/memberadmin/main/ico_zw.gif) no-repeat ; _background: url( ../../../image/mgr/memberadmin/main/ico_zw.gif) no-repeat !important;
+filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=noscale, src="../../../image/mgr/memberadmin/main/ico_zw.gif");
+_background:none;width:98px;height:57px;}
+.png_5{ background:url( ../../../image/mgr/memberadmin/main/ico_zw.gif) no-repeat ; _background: url( ../../../image/mgr/memberadmin/main/ico_zw.gif) no-repeat !important;
+filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=noscale, src="../../../image/mgr/memberadmin/main/ico_zw.gif");
+_background:none;width:98px;height:57px;}
+.png_6{ background:url( ../../../image/mgr/memberadmin/main/ico_zw.gif) no-repeat ; _background: url( ../../../image/mgr/memberadmin/main/ico_zw.gif) no-repeat !important;
+filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=noscale, src="../../../image/mgr/memberadmin/main/ico_zw.gif");
+_background:none;width:98px;height:57px;}
+.png_7{ background:url( ../../../image/mgr/memberadmin/main/ico_zw.gif) no-repeat ; _background: url( ../../../image/mgr/memberadmin/main/ico_zw.gif) no-repeat !important;
+filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=noscale, src="../../../image/mgr/memberadmin/main/ico_zw.gif");
+_background:none;width:98px;height:57px;}
+.png_8{ background:url( ../../../image/mgr/memberadmin/main/ico_zw.gif) no-repeat ; _background: url( ../../../image/mgr/memberadmin/main/ico_zw.gif) no-repeat !important;
+filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=noscale, src="../../../image/mgr/memberadmin/main/ico_zw.gif");
+_background:none;width:30px;height:57px;}
+.png div{position:relative;}
+
+
+/* LEFT */
+.left_titlebor{ width:201px; height:69px; background:url(../../../image/mgr/memberadmin/main/bg_left.gif) no-repeat;}
+.left_titlebor .title{ width:100px; height:40px; line-height:40px; padding-left:5px; text-align:center; font-size:14px; font-weight:bold; color:#fff; float:left;}
+.left_titlebor .titler{ width:90px; height:40px; line-height:40px; text-align:center; float:left;}
+.left_titlebor .titler a{font-size:14px; font-weight:bold; color:#3f4d68; text-decoration:none;}
+.left_titlebor .main{ float:left; width:80px; text-align:center;  height:29px; line-height:29px; padding-left:20px;}
+.left_titlebor .main a{ color:#fff; font-size:12px; text-decoration:none;}
+.left_titlebor .menu_1{ width:171px; height:29px; line-height:29px; color:#3f4d68; font-size:14px; font-weight:bold; background:url(../../../image/mgr/memberadmin/main/bg_leftmenu.gif) 0px 0px no-repeat; padding-left:30px; cursor:pointer;}
+.left_titlebor .menu_2{ width:171px; height:29px; line-height:29px; color:#b34d12; font-size:14px; font-weight:bold; background:url(../../../image/mgr/memberadmin/main/bg_leftmenu.gif) 0px -29px no-repeat; padding-left:30px; cursor:pointer;}
+.left_titlebor .menu_3{ width:145px; height:29px; line-height:29px; color:#3f4d68; font-size:14px; font-weight:bold; background:url(../../../image/mgr/memberadmin/main/bg_leftmenu.gif) 0px -58px no-repeat; padding-left:56px; cursor:pointer;}
+.left_titlebor .menu_4{ width:145px; height:29px; line-height:29px; color:#3f4d68; font-size:14px; font-weight:bold; background:url(../../../image/mgr/memberadmin/main/bg_leftmenu.gif) 0px -87px no-repeat; padding-left:56px; cursor:pointer;}
+.left_ad{ width:201px; height:16px; background:url(../../../image/mgr/memberadmin/main/ad.gif) bottom no-repeat; padding-top:20px; cursor:pointer;}
+
+.left_titlebor2{ width:201px; height:69px; background:url(../../../image/mgr/memberadmin/main/bg_left2.gif) no-repeat;}
+.left_titlebor2 .title{ width:100px; height:40px; line-height:66px; padding-left:0px; text-align:center; font-size:14px; font-weight:bold; color:#3c50ac; float:left;}
+.left_titlebor2 .titler{ width:90px; height:40px; line-height:40px; text-align:center; float:left;}
+.left_titlebor2 .titler a{font-size:14px; font-weight:bold; color:#3f4d68; text-decoration:none;}
+.left_titlebor2 .main{ float:left; width:80px; text-align:center;  height:29px; line-height:29px; padding-left:0px; margin-top:20px;}
+.left_titlebor2 .main a{ color:#3c50ac; font-size:12px; text-decoration:none;}
+.left_titlebor2 .menu_1{ width:171px; height:29px; line-height:29px; color:#fff; font-size:14px; font-weight:bold; background:url(../../../image/mgr/memberadmin/main/bg_leftmenu.gif) 0px 0px no-repeat; padding-left:30px; cursor:pointer;}
+.left_titlebor2 .menu_2{ width:171px; height:29px; line-height:29px; color:#f6fafd; font-size:14px; font-weight:bold; background:url(../../../image/mgr/memberadmin/main/bg_leftmenu.gif) 0px -29px no-repeat; padding-left:30px; cursor:pointer;}
+.left_titlebor2 .menu_3{ width:145px; height:29px; line-height:29px; color:#3f4d68; font-size:14px; font-weight:bold; background:url(../../../image/mgr/memberadmin/main/bg_leftmenu.gif) 0px -58px no-repeat; padding-left:56px; cursor:pointer;}
+.left_titlebor2 .menu_4{ width:145px; height:29px; line-height:29px; color:#3f4d68; font-size:14px; font-weight:bold; background:url(../../../image/mgr/memberadmin/main/bg_leftmenu.gif) 0px -87px no-repeat; padding-left:56px; cursor:pointer;}
+
+
+
+/***  MAIN  ***/
+.main_bor{ width:95%; padding:20px;}
+.main_bor .ads{ width:100%; font-size:12px; font-weight:bold; text-align:left; height:20px; line-height:20px; margin-bottom:10px;}
+.main_bor .hint{ border:1px solid #9298ae; background:url(../../../image/mgr/memberadmin/main/bg_hint.gif) no-repeat left; background-color:#f2f2f2; height:84px; width:100%;}
+.main_bor .hint .title{ font-size:14px; font-weight:bold; text-align:left; height:30px; line-height:30px; padding:10px 0px 0px 110px; width:auto; color:#ff6600;}
+.main_bor .hint .main{ font-size:12px; width:auto; line-height:25px; padding-left:130px; }
+.main_bor .num{ width:100%; border-top:2px solid #9298ae; height:40px; line-height:40px; color:#333; font-size:12px; margin-top:15px; background:#f2f2f2; }
+.main_bor .tab_title{ width:106px; background:url(../../../image/mgr/memberadmin/main/bg_maintitle.gif) no-repeat; height:29px; line-height:29px; font-size:14px; font-weight:bold; color:#3f4d68; text-align:center; margin-top:15px;}
+.main_bor .tab_bor{ width:100%; border-top:1px solid #9298ae; border-left:1px solid #9298ae; border-right:1px solid #9298ae; height:auto;}
+.main_bor .tab_bor .top{ height:26px; line-height:26px;  }
+.main_bor .tab_bor td{ height:30px; line-height:30px; font-size:12px; font-weight:bold; color:#2e3a51; text-align:center; background-color:#e2eaf7;}
+.main_bor .tab_mainbor{ width:100%; height:auto; border-bottom:1px solid #9298ae;  border-left:1px solid #9298ae; border-right:1px solid #9298ae; padding-bottom:10px; }
+.main_bor .tab_mainbor td{ height:25px; line-height:25px; text-align:center; font-size:12px; border-bottom:1px dashed #b6c0d4; color:#333;}
+.main_bor .page{ width:100%; height:40px; line-height:40px; text-align:center; font-size:12px; font-weight:bold; color:#333; letter-spacing:3px; }
+
+
+
+
+
+/*---------------------------消息框样式------------------------*/
+
+.userMessageDiv {
+	z-index: 9999;
+	position: absolute;
+	display: none;
+	bottom: 0;
+	right: 0;
+	overflow: hidden;
+}
+.sysMessageDiv {
+	z-index: 9999;
+	position: absolute;
+	display: none;
+	bottom: 0;
+	left: 0;
+	overflow: hidden;
+}
+.messageToolDiv {
+	width: 100%;
+	height: 25px;
+	overflow: hidden;
+}
+
+.msgtitleDiv {
+	padding: 3px 0 0 5px;
+	width: 100px;
+	line-height: 20px;
+	text-align: center;
+	overflow: hidden;
+	position: absolute;
+}
+
+.messageCloseDiv {
+	right: 10px;
+	width: 16px;
+	text-align: center;
+	cursor: pointer;
+	position: absolute;
+}
+
+.messageContentDiv {
+	margin: 0 5px 0 5px;
+	padding: 10px 0 10px 5px;
+	width: 239px;
+	height: 135px;
+	text-align: left;
+	overflow: hidden;
+}

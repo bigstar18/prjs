@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="GBK"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+	
+	<filter>
+		<filter-name>SetCharacterEncoding</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>GBK</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>SetCharacterEncoding</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	
+	<filter>
+		<filter-name>checkUrl</filter-name>
+		<filter-class>gnnt.MEBS.common.mgr.webframe.securitycheck.SecurityFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>checkUrl</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<context-param>
+		<param-name>ecsidePreferencesLocation</param-name>
+		<param-value>/ecside.properties</param-value>
+	</context-param>
+	<context-param>
+		<param-name>ecsideMessagesLocation</param-name>
+		<param-value>ApplicationResources</param-value>
+	</context-param>
+
+	
+	<filter>
+		<filter-name>ecsideExport</filter-name>
+		<filter-class>org.ecside.filter.ECSideFilter</filter-class>
+		<init-param>
+			<param-name>useEasyDataAccess</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>useEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>ecsideExport</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:spring_jndi_DataSource.xml,classpath:spring*.xml</param-value>
+	</context-param>
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>
+			org.springframework.web.context.request.RequestContextListener</listener-class>
+	</listener>
+	
+	<listener>
+		<listener-class>gnnt.MEBS.common.mgr.common.Global</listener-class>
+	</listener>
+
+	
+ <filter>
+    <filter-name>hibernateFilter</filter-name>
+    <filter-class>org.springframework.orm.hibernate3.support.OpenSessionInViewFilter</filter-class>
+    <init-param>
+    	<param-name>sessionFactoryBeanName</param-name>
+    	<param-value>sessionFactory</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>hibernateFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <filter>
+    <filter-name>hibernateFilterForQuery</filter-name>
+    <filter-class>org.springframework.orm.hibernate3.support.OpenSessionInViewFilter</filter-class>
+    <init-param>
+    	<param-name>sessionFactoryBeanName</param-name>
+    	<param-value>sessionFactoryForQuery</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>hibernateFilterForQuery</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  
+	
+	<filter>
+		<filter-name>struts2</filter-name>
+		<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
+		
+		<init-param>
+			<param-name>config</param-name>
+			<param-value>platform-web.xml,struts-default.xml,struts-plugin.xml,struts.xml</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>struts2</filter-name>
+		<url-pattern>*.action</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+	</filter-mapping>
+	
+
+	
+	<!-- 
+	<session-config>
+		<session-timeout>120</session-timeout>
+	</session-config>
+	 -->
+	
+	<welcome-file-list>
+		<welcome-file>mgr/logon.jsp</welcome-file>
+	</welcome-file-list>
+</web-app>

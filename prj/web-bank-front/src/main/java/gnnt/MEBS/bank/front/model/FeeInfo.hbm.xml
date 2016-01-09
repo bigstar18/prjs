@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!--
+	通过配置文件配置 Model 类与数据库表之间的字段联系
+	将本配置文件配置到 hibernate.cfg.xml 中
+-->
+<hibernate-mapping>
+	<class name="gnnt.MEBS.bank.front.model.FeeInfo" table="F_B_FEEINFO" dynamic-update="true" lazy="false">
+		<id name="id" type="java.lang.Long">
+			<column name="id" />
+			<generator class="native">
+				<param name="sequence">SEQ_F_B_FEEINFO</param>
+			</generator>
+		</id>
+
+		<property name="upLimit"/>
+		<property name="downLimit"/>
+		<property name="tmode"/>
+		<property name="rate"/>
+		<property name="type"/>
+		<property name="createTime" insert="false" update="false"/>
+		<property name="updateTime"/>
+		<property name="userID"/>
+		<property name="maxRateValue"/>
+		<property name="minRateValue"/>
+	</class>
+</hibernate-mapping>
+

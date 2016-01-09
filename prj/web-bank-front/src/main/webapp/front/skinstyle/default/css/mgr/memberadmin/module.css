@@ -1,0 +1,212 @@
+@charset "GBK";
+/* CSS Document */
+/*=======   CSS Document   =======*/
+body{margin:0; padding:0; font:12px/20px Arial,"Microsoft Yahei","SimSun"; color:#333;  background: #FFF;}
+div,dl,dt,dd,ul,ol,li,pre,form,fieldset,textarea,input,blockquote,p,img{margin:0px; padding:0px;list-style: none; font:12px/20px Arial,"Microsoft Yahei","SimSun";}
+input{line-height: 14px;}
+
+h1,h2,h3,h4,h5,h6{margin:0px; padding:0px; font-weight:normal;font-style:normal;}
+a img{border:0px;}
+
+.clear{clear:both;}
+.clearfix:after{content:"."; display:block; height:0; clear:both; visibility:hidden;}
+.clearfix{display:inline-table;}
+/* Hides from IE-mac \*/
+* html .clearfix{height:1%;}
+.clearfix{display:block;}
+/* End hide from IE-mac */
+.block{display:block;}
+/* --框架样式 Begin-- */
+.main{float:left; width:94%; margin-left:15px;}
+
+/* --框架样式 End-- */
+
+
+/* --会员管理中心首页 Index Begin-- */
+	.msg {margin:10px 0; word-wrap:break-word; word-break:break-all;font-weight:bold; }
+	.msg span{font-weight:normal; color:#F60;}
+	.warningt{padding-left:25px; background:url(../../../image/mgr/memberadmin/ico0.gif) no-repeat;}
+	.warningc span{line-height:26px;}
+	.updatet{padding-left:25px; background:url(../../../image/mgr/memberadmin/ico9.gif) no-repeat;}
+	.vs{float:left; width:49%;}
+	.update{float:left; padding-left:20px;  text-align:left;}
+/* --会员管理中心首页 Index End-- */
+/* 商机管理 information_manage
+----------------------------------------------- */
+	.mana_info_select{margin-bottom:10px;}
+	.mana_info_select .title{display:block; /*width:700px;*/}
+	.mana_info_select .on,.mana_info_select .no{float:left; width:148px; border-color:#ffcf00; border-style:solid; border-width:1px 1px 0 1px; background:#fffff7; font-size:14px; line-height:20px; font-weight:bold; color:#f30; text-align:center; cursor:hand;}
+	.mana_info_select .no{border-color:#e5e5e5; border-bottom:1px solid #ffcf00; background:#f5f5f5; color:#666;}
+	.mana_info_select .null{float:left; width:100px; border-bottom:1px solid #ffcf00; line-height:21px;}
+	.mana_info_select .null2{float:left; width:400px; border-bottom:1px solid #ffcf00; line-height:21px; text-align:right;}
+	.mana_info_select .null3{float:left; width:250px; border-bottom:1px solid #ffcf00; line-height:21px;}
+	.mana_info_select .content{ width:100%;padding:14px;border-color:#ffcf00; border-style:solid; border-width:0 1px 1px 1px; background:#fffff7;clear:both; /*width:670px;*/  }
+
+/* 公共部分
+----------------------------------------------- */
+.btbg{width:109px; height:31px;background:url(../../../image/mgr/memberadmin/bgbt.gif) no-repeat; text-align:center; font-size:16px; line-height:31px; font-weight:bold;  color:#FFF; letter-spacing:2px; border:0; cursor:hand;}
+.btn{height:22px;margin-left:10px; padding:0 7px;background:url(../../../image/mgr/memberadmin/btn.gif) repeat-x center;font-weight:bold;font-size:12px; line-height:20px; color:#f60; text-align:center; border:1px solid #ff8d3e; cursor:hand;}
+.btn1{width:auto; height:22px; padding:0 5px; background:url(../../../image/mgr/memberadmin/btn_bg.gif) repeat-x; color:#fff;border-left:1px solid #e0a811; border:1px solid #e0a811;}
+.buttom1{width:283px;height:36px; background: url(../../../image/mgr/memberadmin/button1.png) no-repeat center; font-size:15px; font-weight:bold; line-height:36px;color:#C60; text-align:center;cursor:hand; border:0;}
+
+.location{margin:10px 0;}
+.warning{ margin:0 0 10px 0; padding:10px 10px 10px 95px;background:#f2f2f2 url(../../../image/mgr/memberadmin/ico7.gif) no-repeat 10px 45%; border:1px solid #9298ae;}
+.warning_tip{float:left;display:inline;word-wrap: break-word;word-break: normal; margin:2px 0 0 5px; padding:5px 10px 3px 30px; background:url(../../../image/mgr/memberadmin/warning.gif) no-repeat 8px 4px #fffff7; border:1px solid #ffcf00;color:#218c00;}
+.warning .title{line-height:24px; background:none; color:#ff6600;padding-left: 12px;}
+.warning .content{min-height:40px; line-height:26px;padding-left: 40px;}
+.warning .content1{ line-height:34px; font-size:14px; color:#00C;}
+
+.wrong,.right{display:inline; margin-top:2px; padding:5px 10px 3px 30px; background:#fffff7 url(../../../image/mgr/memberadmin/wrong.gif) no-repeat 8px 4px; border:1px solid #ffcf00; color:#c10707;}
+.right{background:#fffff7 url(../../../image/mgr/memberadmin/right.gif) no-repeat 8px 4px; color:#218c00;}
+
+
+.photo{ padding:30px 0 20px 34px; _padding:30px 0 20px 14px;}
+.photo ul li{ float:left; width:190px; height:140px; margin:0 15px; }
+.photo ul li img{ width:190px; height:120px; padding:2px; border:1px solid #CCC; background:#FFF;}
+
+
+.list{display:block;}
+	.list table{width:100%; border-left:1px solid #ddd;}
+	.list caption{text-align:left;}
+	.list th{ height:24px; background:#f5f5f5; border-width:1px 1px 1px 0; border-style:solid; border-color:#ddd; font-weight:bold;}
+	.list td{height:24px; background:#fff; border-right:1px solid #ddd; border-bottom:1px solid #ddd; text-align:center; padding:0 5px;}
+    .list td span{font-weight:bold; color:#F00;}
+.ordercol{font-weight:bold;color:#F60;cursor:hand;}
+.ordercol_on{font-weight:bold;color:#03C;cursor:hand;}
+
+.form{display:block; margin-bottom:10px;}
+	.form table{width:100%; border-top:1px solid #ddd; border-left:1px solid #ddd;}
+	.form caption{text-align:left;}
+	.form th{padding:3px 5px;/* padding-right:1em;*/ border-width:0 1px 1px 0; border-style:solid; border-color:#ddd; font-weight:bold; text-align:right; line-height:24px; background:#f2f2f2;}
+	.form td{padding:3px 5px; border-width:0 1px 1px 0; border-style:solid; border-color:#ddd;}
+	.form table .off{border:none;}
+	.form table .bg{ background:#D5F9F9; line-height:30px; font-size:14px; color:#03C;}
+.validInput{margin-top: 15px;float: left;}
+.select{width:130px;}
+
+.font_b{font-weight:bold;}
+.tr_bg{background:#F5F5F5;}
+.tb_bg table{border:0px solid #ccc;border-collapse:collapse;text-align:center;line-height:24px;}
+.tb_bg tr,.tb_bg td{height:24px; border:1px solid #ccc; border-collapse:collapse;}
+.tb_bg td a span{ weight:auto; height:20px; padding:0 3px; border:1px solid #F00; background:#F60; color:#fF0; font-weight:bold; }
+.page{height:25px;padding:12px 0; background:url(../../../image/mgr/memberadmin/page_bg.gif) repeat-x bottom; border:1px solid #ccc; border-width:0 1px 1px; font-weight:bold; font-size:14px; text-align:center; color:#666;}
+/*委托发布*/
+
+.column1{height:40px; padding-left:15px;font-size:14px; line-height:40px; font-weight:bold; color:#f60;}
+	 .column1 h1{
+	font-size:14px;
+	color:#1767b1;
+	float:left;
+	font-weight:bold;
+	padding-left:23px;
+	background-image: url(../../../image/mgr/memberadmin/member1.gif);
+	background-repeat: no-repeat;
+	background-position: left center;
+}
+	.column1 h2{ float:right; padding-right:10px;font-size:12px; color:#0000FF;}
+	.column1 h2 a{text-decoration:underline;}
+	.column1 h2 a:hover{text-decoration: none;}
+	.column1 h3{float:right; width:60%; font-weight:bold; font-size:14px;}
+
+/*=======    主链接颜色    =======*/
+a{color:#1767b1; text-decoration:none;}
+a:hover{color:#f60; text-decoration:underline;}
+/*=======   辅助链接颜色   {命名规则：Link+颜色+具体属性}=======*/
+
+/*----------黑色_black 链接定义----------*/
+a.link_black{color:#222;}
+a.link_black:hover{color:#f60;text-decoration:underline;}
+
+/*---------橙色_orange 链接定义----------*/
+a.link_orange_14b{color:#f30; font-size:14px; font-weight:bold;}
+a.link_orange_14b:hover{font-size:14px; font-weight:bold;}
+
+a.link_orange_12{color:#f30; text-decoration:underline;}
+a.link_orange_12:hover{color:#f30; text-decoration:none;}
+
+a.link_white{color:#fff;}
+a.link_white:hover{color:#ff0; text-decoration:none;}
+
+a.link_red_18b_{ font-size:18px; font-weight:bold;color:#F00;text-decoration:underline;}
+a.link_red_18b_:hover{color:#f60;}
+
+
+/*----------蓝色_blue 链接定义(可随网页的主色调更改)----------*/
+a.link_blue_14b:link,a.link_blue_14b:visited{font-size:14px; font-weight:600; color:#1767b1;}
+a.link_blue_14b:hover,a.link_blue_14b:active{color:#f30; text-decoration:none;}
+
+
+a.link_blue_14:link,a.link_blue_14:visited{font-size:14px; color:#1767b1;}
+a.link_blue_14:hover,a.link_blue_14:active{color:#fff; background-color:#1767b1; text-decoration:none;}
+
+a.link_blue2_14:link,a.link_blue2_14:visited{font-size:14px; color:#1767b1;}
+a.link_blue2_14:hover,a.link_blue2_14:active{color:#f30; text-decoration:none;}
+
+a.link_blue_12_:link,a.link_blue_12_:visited{font-size:12px; color:#1767b1; text-decoration:underline;}
+a.link_blue_12_:hover,a.link_blue_12_:active{font-size:12px; color:#F30; text-decoration:none;}
+	
+/*=======   字体样式定义   {命名规则：Font+颜色+具体属性}=======*/
+
+	.font_orange_12{color:#f30; font-size:12px; line-height:18px;}
+	.font_orange_14b{color:#fff; font-weight:bold; font-size:14px; line-height:24px; }
+	.font_red_12b{color:#f00; font-weight:bold;}
+	.font_red_18b{font-size:18px;color:#f00; font-weight:bold;}
+	.font_blue_12{color:#1767b1;}
+	.font_blue_12_2{color:#1ea7e5;}
+	.font_blue_14b{color:#1767b1; font-weight:bold; font-size:14px; line-height:24px; }
+	.font_green_12{color:#1b8b01;}
+	.font_black_14b{color:#222; font-weight:bold; font-size:14px; line-height:24px; }
+	.font_black_12b{color:#222; font-weight:bold; font-size:12px; line-height:24px; }
+	.font_black_14{color:#222; font-weight:bold; font-size:14px; line-height:24px; }
+	.font_gray_12{color:#999; font-size:14px; line-height:24px; }
+	.font_gray_14{color:#666; font-size:14px; line-height:24px; }
+
+
+	
+/*=======   边框样式定义   {命名规则：Border+颜色+具体属性}=======*/
+
+	.border_gray_b{background-color:#f5f5f5; border-bottom:1px solid #ccc; }
+	.border_yellow_trbl{padding:10px;background-color:#fffff7; border:1px solid #ffcf00; }
+	.border_gray_trbl{padding:10px;background-color:#ffffff; border:1px solid #ddd; }
+	.border_gray_trbl2{padding:10px;background-color:#fafafa; border:1px solid #d6d6d6; }
+	.border_gray_trbl3{margin:10px;border:1px solid #d6d6d6; }
+	
+/*=======   线条样式定义   {命名规则：Line+横/纵+颜色}=======*/
+	.line_X{background:url(../../../image/mgr/memberadmin/rowline.gif) repeat-x left bottom;}
+	.line_Y{background:url(../../../image/mgr/memberadmin/colline.gif) repeat-y right top;}
+
+/*=======   其它样式定义   =======*/
+	.margin_10b{margin-bottom:10px;}
+	.margin_5b{margin-bottom:5px;}
+	.margin_7tb{ margin:7px 0;}
+	.margin0{ margin:0;}
+	.padding5{ padding:5px;}
+	.bg{background-color:#fff;}
+	.bgon{background-color:#edfeff; cursor:hand;}
+	.bgno{background-color:#fff; cursor:hand;}
+	.text_left{text-align:left;}
+	.text_center{text-align:center;}
+	.text_right{text-align:right;}
+	.padding10{padding:10px;}
+	.button01{ width:50px; height:22px; margin-left:5px; background:url(../../../image/mgr/memberadmin/botton02.png) no-repeat; border:none; line-height:22px; color:#C30;}
+	.title01{background:url(../../../image/mgr/memberadmin/title01.png) repeat-x;}
+	.title01 h1{ float:left;padding-left:20px; font-weight:bold; font-size:14px; line-height:30px;}
+	.title01 h2{ float:right; padding:3px 10px 0 0; }
+
+/*宽高定义*/
+.h70{height:70px;}
+.h45{height:45px;}
+
+
+/*融资管理*/
+.main_copy{float:left; width:100%;} 
+          .main_copy .title{height:30px; padding-left:15px; font-weight:bold; font-size:14px; line-height:30px;}
+          .main_copy .sort{height:30px; margin:0px 0px 10px 0px; padding:5px 15px 5px 15px; font-size:12px;border-top:2px solid #d1d1d1; background-color:#f2f2f2;}
+		  .main_copy .content{float:left; width:100%;/*border:0px solid #ccc;*/ }
+		  .main_copy .c_titlebt{width:128px; height:30px; padding:0px 10px 0px 0px;background:url(../../../image/mgr/memberadmin/bgbt1.gif) no-repeat; font-weight:bold; font-size:14px; line-height:30px;  text-align: center; color:#003e8b;}
+		  .main_copy .c_titlebt a:link{color:#003e8b; font-size:14px; text-decoration: none;}
+          .main_copy .c_titlebt a:hover{color:#003e8b; font-size:14px; text-decoration:none;}
+		  .main_copy .c_titlebt_on{width:106px; height:30px; padding:0px 10px 0px 0px; background:url(../../../image/mgr/memberadmin/bgbt1_on.gif)  no-repeat; font-size:14px; line-height:30px; text-align: center; color:#003e8b;}
+		  .main_copy .c_titlebt_on a:link{color:#003e8b; font-size:14px; text-decoration: none;}
+          .main_copy .c_titlebt_on a:hover{color:#003e8b; font-size:14px; text-decoration:none;}
+       .page_01{width:28px; height:31px; background:url(../../../image/mgr/memberadmin/bgbt.gif) no-repeat center center; text-align:center; font-weight:bold; font-size:14px; line-height:31px; color:#fff; letter-spacing:2px; border:0; cursor:hand;}

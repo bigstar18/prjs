@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- 银行管理业务 -->
+	<package name="bank_mgr_bank" extends="base-struts2" namespace="/bank/bank">
+		<!-- 银行列表 -->
+		<action name="bankList" class="bankAction" method="bankList">
+			<param name="entityName">gnnt.MEBS.bank.mgr.model.Bank</param>
+			<result>/mgr/app/bank/bank/banklist.jsp</result>
+		</action>
+
+		<!-- 银行详情 -->
+		<action name="updateBankForward" class="bankAction" method="bankDetails">
+			<param name="entityName">gnnt.MEBS.bank.mgr.model.Bank</param>
+			<result>/mgr/app/bank/bank/bankdetails.jsp</result>
+		</action>
+
+		<!-- 修改银行信息 -->
+		<action name="updateBank" class="bankAction" method="updateBank">
+			<param name="entityName">gnnt.MEBS.bank.mgr.model.Bank</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+
+		<!-- 禁用银行 -->
+		<action name="forbiddenBank" class="bankAction" method="forbiddenBank">
+			<param name="entityName">gnnt.MEBS.bank.mgr.model.Bank</param>
+			<result>bankList.action</result>
+		</action>
+
+		<!-- 启用银行 -->
+		<action name="startUsingBank" class="bankAction" method="startUsingBank">
+			<param name="entityName">gnnt.MEBS.bank.mgr.model.Bank</param>
+			<result>bankList.action</result>
+		</action>
+		
+		<!-- 进入国付宝收益划拨 -->
+		<action name="gotobankTransferMoneyGFB" class="bankAction" method="gotobankTransferMoneyGFB">
+			<param name="entityName">gnnt.MEBS.bank.mgr.model.Bank</param>
+			<result>/mgr/app/bank/bank/MoneyTransferGFB.jsp</result>
+		</action>
+		
+		<!-- 国付宝收益划拨执行 -->
+		<action name="bankTransferMoneyGFB" class="bankAction" method="bankTransferMoneyGFB">
+			<param name="entityName">gnnt.MEBS.bank.mgr.model.Bank</param>
+			<result>gotobankTransferMoneyGFB.action</result>
+		</action>
+
+	</package>
+
+	<!-- 交易商管理业务 -->
+	<package name="bank_mgr_firm" extends="base-struts2" namespace="/bank/firm">
+		<!-- 交易商列表 -->
+		<action name="firmList" class="firmAction" method="firmList">
+			<param name="entityName">gnnt.MEBS.bank.mgr.model.FirmUser</param>
+			<result>/mgr/app/bank/firm/firmlist.jsp</result>
+		</action>
+
+		<!-- 交易商详情 -->
+		<action name="updateFirmForward" class="firmAction" method="firmDetails">
+			<param name="entityName">gnnt.MEBS.bank.mgr.model.FirmUser</param>
+			<result>/mgr/app/bank/firm/firmtails.jsp</result>
+		</action>
+
+		<!-- 修改交易商 -->
+		<action name="updateFirm" class="firmAction" method="updateFirm">
+			<param name="entityName">gnnt.MEBS.bank.mgr.model.FirmUser</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+
+	</package>
+
+	<!-- 手续费设置 -->
+	<package name="bank_mgr_fee" extends="base-struts2" namespace="/bank/fee">
+
+		<!-- 设置银行手续费跳转 -->
+		<action name="setUpBankFeeForward" class="feeAction" method="setUpBankFeeForward">
+			<param name="entityName">gnnt.MEBS.bank.mgr.model.FeeInfo</param>
+			<result>/mgr/app/bank/fee/bankfeelist.jsp</result>
+		</action>
+
+		<!-- 设置银行手续费 -->
+		<action name="setUpBankFee" class="feeAction" method="setUpBankFee">
+			<param name="entityName">gnnt.MEBS.bank.mgr.model.FeeInfo</param>
+			<result>setUpBankFeeForward.action</result>
+		</action>
+
+		<!-- 设置交易商手续费跳转 -->
+		<action name="setUpFirmFeeForward" class="feeAction" method="setUpFirmFeeForward">
+			<param name="entityName">gnnt.MEBS.bank.mgr.model.FeeInfo</param>
+			<result>/mgr/app/bank/fee/firmfeelist.jsp</result>
+		</action>
+
+		<!-- 设置交易商手续费 -->
+		<action name="setUpFirmFee" class="feeAction" method="setUpFirmFee">
+			<param name="entityName">gnnt.MEBS.bank.mgr.model.FeeInfo</param>
+			<result>setUpFirmFeeForward.action</result>
+		</action>
+
+	</package>
+
+	<!-- 交易商绑定银行信息 -->
+	<package name="bank_mgr_firmregistbank" extends="base-struts2" namespace="/bank/firmregistbank">
+		<!-- 查询列表 -->
+		<action name="firmIDAndAccountList" class="registAction" method="firmIDAndAccountList">
+			<param name="entityName">gnnt.MEBS.bank.mgr.model.FirmIDAndAccount</param>
+			<result>/mgr/app/bank/firmregistbank/firmregistbankList.jsp</result>
+		</action>
+		
+		<!-- 指定交易商绑定银行列表 -->
+		<action name="firmIDRegistList" class="registAction" method="firmIDRegistList">
+			<param name="entityName">gnnt.MEBS.bank.mgr.model.FirmIDAndAccount</param>
+			<result>/mgr/app/bank/firmregistbank/firmregistList.jsp</result>
+		</action>
+
+		<!-- 添加待签约信息跳转 -->
+		<action name="addRegistForward" class="registAction" method="addRegistForward">
+			<param name="entityName">gnnt.MEBS.bank.mgr.model.FirmIDAndAccount</param>
+			<result>/mgr/app/bank/firmregistbank/firmregistadd.jsp</result>
+		</action>
+
+		<!-- 添加待签约信息 -->
+		<action name="addRegist" class="registAction" method="addRegist">
+			<param name="entityName">gnnt.MEBS.bank.mgr.model.FirmIDAndAccount</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+
+		<!-- 修改签约信息跳转 -->
+		<action name="updateRegistForward" class="registAction" method="updateRegistForward">
+			<param name="entityName">gnnt.MEBS.bank.mgr.model.FirmIDAndAccount</param>
+			<result>/mgr/app/bank/firmregistbank/firmregistupdate.jsp</result>
+		</action>
+
+		<!-- 修改签约信息 -->
+		<action name="updateRegist" class="registAction" method="updateRegist">
+			<param name="entityName">gnnt.MEBS.bank.mgr.model.FirmIDAndAccount</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+
+		<!-- 同步银行账号 -->
+		<action name="synchroRegist" class="registAction" method="synchroRegist">
+			<param name="entityName">gnnt.MEBS.bank.mgr.model.FirmIDAndAccount</param>
+			<result>firmIDRegistList.action</result>
+		</action>
+
+		<!-- 签约银行账号 -->
+		<action name="openRegist" class="registAction" method="openRegist">
+			<param name="entityName">gnnt.MEBS.bank.mgr.model.FirmIDAndAccount</param>
+			<result>firmIDRegistList.action</result>
+		</action>
+
+		<!-- 注销银行账号 -->
+		<action name="delRegist" class="registAction" method="delRegist">
+			<param name="entityName">gnnt.MEBS.bank.mgr.model.FirmIDAndAccount</param>
+			<result>firmIDRegistList.action</result>
+		</action>
+
+		<!-- 禁用银行账号 -->
+		<action name="forbidRegist" class="registAction" method="forbidRegist">
+			<param name="entityName">gnnt.MEBS.bank.mgr.model.FirmIDAndAccount</param>
+			<result>firmIDRegistList.action</result>
+		</action>
+
+		<!-- 恢复银行账号 -->
+		<action name="recoverRegist" class="registAction" method="recoverRegist">
+			<param name="entityName">gnnt.MEBS.bank.mgr.model.FirmIDAndAccount</param>
+			<result>firmIDRegistList.action</result>
+		</action>
+
+		<!-- 重置密码 -->
+		<action name="resetsmmy" class="registAction" method="resetsmmy">
+			<param name="entityName">gnnt.MEBS.bank.mgr.model.FirmIDAndAccount</param>
+			<result>firmIDRegistList.action</result>
+		</action>
+
+	</package>
+
+	<!-- 资金流水业务 -->
+	<package name="bank_mgr_capital" extends="base-struts2" namespace="/bank/capital">
+		<!-- 资金流水列表 -->
+		<action name="capitalInfoList" class="capitalAction" method="capitalInfoList">
+			<param name="entityName">gnnt.MEBS.bank.mgr.model.CapitalInfo</param>
+			<result>/mgr/app/bank/capitalinfo/capitalinfolist.jsp</result>
+		</action>
+
+		<!-- 出金一次审核列表 -->
+		<action name="outMoneyAuditList" class="capitalAction" method="outMoneyAuditList">
+			<param name="entityName">gnnt.MEBS.bank.mgr.model.CapitalInfo</param>
+			<result>/mgr/app/bank/capitalinfo/outmoneyauditlist.jsp</result>
+		</action>
+
+		<!-- 出金一次审核通过 -->
+		<action name="outMoneyAuditPass" class="capitalAction" method="outMoneyAuditPass">
+			<param name="entityName">gnnt.MEBS.bank.mgr.model.CapitalInfo</param>
+			<result>outMoneyAuditList.action</result>
+		</action>
+
+		<!-- 出金一次审核拒绝 -->
+		<action name="outMoneyAuditRefuse" class="capitalAction" method="outMoneyAuditRefuse">
+			<param name="entityName">gnnt.MEBS.bank.mgr.model.CapitalInfo</param>
+			<result>outMoneyAuditList.action</result>
+		</action>
+
+		<!-- 出金二次审核列表 -->
+		<action name="outMoneySecondAuditList" class="capitalAction" method="outMoneySecondAuditList">
+			<param name="entityName">gnnt.MEBS.bank.mgr.model.CapitalInfo</param>
+			<result>/mgr/app/bank/capitalinfo/outmoneysecondauditlist.jsp</result>
+		</action>
+
+		<!-- 出金二次审核通过 -->
+		<action name="outMoneySecondAuditPass" class="capitalAction" method="outMoneySecondAuditPass">
+			<param name="entityName">gnnt.MEBS.bank.mgr.model.CapitalInfo</param>
+			<result>outMoneySecondAuditList.action</result>
+		</action>
+
+		<!-- 出金二次审核拒绝 -->
+		<action name="outMoneySecondAuditRefuse" class="capitalAction" method="outMoneySecondAuditRefuse">
+			<param name="entityName">gnnt.MEBS.bank.mgr.model.CapitalInfo</param>
+			<result>outMoneySecondAuditList.action</result>
+		</action>
+
+		<!-- 单边账列表 -->
+		<action name="capitalUnilateralList" class="capitalAction" method="capitalUnilateralList">
+			<param name="entityName">gnnt.MEBS.bank.mgr.model.CapitalInfo</param>
+			<result>/mgr/app/bank/capitalinfo/capitalunilaterallist.jsp</result>
+		</action>
+
+		<!-- 单边账审核通过 -->
+		<action name="capitalUnilateralPass" class="capitalAction" method="capitalUnilateralPass">
+			<param name="entityName">gnnt.MEBS.bank.mgr.model.CapitalInfo</param>
+			<result>capitalUnilateralList.action</result>
+		</action>
+
+		<!-- 单边账审核拒绝 -->
+		<action name="capitalUnilateralRefuse" class="capitalAction" method="capitalUnilateralRefuse">
+			<param name="entityName">gnnt.MEBS.bank.mgr.model.CapitalInfo</param>
+			<result>capitalUnilateralList.action</result>
+		</action>
+
+	</package>
+
+	<!-- 银行对账业务 -->
+	<package name="bank_mgr_verification" extends="base-struts2" namespace="/bank/verification">
+		<!-- 跳转到银行对账页面 -->
+		<action name="verificationForward" class="verificationAction" method="verificationForward">
+			<param name="entityName">gnnt.MEBS.bank.mgr.model.CapitalInfo</param>
+			<result>/mgr/app/bank/verification/verificationpage.jsp</result>
+		</action>
+
+		<!-- 获取银行数据 -->
+		<action name="getVerificationFile" class="verificationAction" method="getVerificationFile">
+			<param name="entityName">gnnt.MEBS.bank.mgr.model.CapitalInfo</param>
+			<result>verificationForward.action</result>
+		</action>
+
+		<!-- 对账流水明细 -->
+		<action name="getErrorCapitalInfo" class="verificationAction" method="getErrorCapitalInfo">
+			<param name="entityName">gnnt.MEBS.bank.mgr.model.CapitalInfo</param>
+			<result>verificationForward.action</result>
+		</action>
+<!-- 发送清算 -->
+		<action name="sendQsFile" class="verificationAction" method="sendQsFile">
+			<param name="entityName">gnnt.MEBS.bank.mgr.model.CapitalInfo</param>
+			<result>verificationForward.action</result>
+		</action>
+
+		<!-- 资金核对 -->
+		<action name="sentDZ" class="verificationAction" method="sentDZ">
+			<param name="entityName">gnnt.MEBS.bank.mgr.model.CapitalInfo</param>
+			<result>verificationForward.action</result>
+		</action>
+	</package>
+
+	<!-- 其他查询业务 -->
+	<package name="bank_mgr_other" extends="base-struts2" namespace="/bank/other">
+		<!-- 日志信息列表 -->
+		<action name="logList" class="otherAction" method="logList">
+			<param name="entityName">gnnt.MEBS.bank.mgr.model.Log</param>
+			<result>/mgr/app/bank/other/loglist.jsp</result>
+		</action>
+
+		<!-- 字典信息列表 -->
+		<action name="dictionaryList" class="otherAction" method="dictionaryList">
+			<param name="entityName">gnnt.MEBS.bank.mgr.model.Dictionary</param>
+			<result>/mgr/app/bank/other/dictionarylist.jsp</result>
+		</action>
+	</package>
+
+</struts>
