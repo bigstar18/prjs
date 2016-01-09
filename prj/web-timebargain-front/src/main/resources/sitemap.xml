@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="GBK"?>
+<sitemap>
+	<node title="资金结算" path="/front/app/timebargain/report/printFund.jsp" />
+	<node title="成交记录" path="/front/app/timebargain/report/printTrade.jsp" />
+	<node title="转让盈亏明细" path="/front/app/timebargain/report/printTransferProfitAndLoss.jsp" />
+	<node title="订货汇总" path="/front/app/timebargain/report/printHoldSum.jsp" />
+	<node title="当前仓单抵顶数量" path="/front/app/timebargain/report/printValidGageBill.jsp" />
+	<node title="当前资金明细" path="/front/app/timebargain/report/printFundDetail.jsp" />
+	<node title="交收信息" path="/front/app/timebargain/report/printTradeSettle.jsp" />
+
+	<node title="交收申报" path="/front/app/timebargain/delay/delayTrade.jsp" />
+	<node title="历史委托" path="/front/app/timebargain/delay/delayOrderHistory.jsp" />
+	<node title="消息列表" path="/front/app/integrated/noticeandmessage/messagelist.jsp" />
+	<node title="登陆" href="/" path="/">
+		<node title="注册" path="/front/logon/register.jsp" />
+	</node>
+	<node title="登陆" href="/" path="/front/logon/logon.jsp" />
+</sitemap>

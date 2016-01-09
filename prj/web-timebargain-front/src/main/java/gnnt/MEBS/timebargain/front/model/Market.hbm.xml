@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!--
+	通过配置文件配置 Model 类与数据库表之间的字段联系
+	将本配置文件配置到 hibernate.cfg.xml 中
+-->
+<hibernate-mapping>
+	<class name="gnnt.MEBS.timebargain.front.model.Market" table="T_A_MARKET" dynamic-update="true" lazy="false">
+		<id name="marketcode" type="string" >
+		    <column name="marketcode" />
+			<generator class="native">
+			</generator>
+		</id>
+		<property name="marketName" />
+		<property name="asMarginType" />
+		<property name="chargeDelayFeeType" />
+		<property name="closeAlgr" />
+		<property name="delayOrderIsPure" />
+		<property name="delayQuoShowType" />
+		<property name="floatingLossComputeType" />
+		<property name="floatingProfitSubTax" />
+		<property name="gageMode" />
+		<property name="marginFBFlag" />
+		<property name="delayNeedBill" />
+		<property name="neutralFeeWay" />
+		<property name="neutralFlag" />
+		<property name="neutralmatchpriority" />
+		<property name="quotationTwoSide" />
+		<property name="runMode" />
+		<property name="settleMode" />
+		<property name="shortName" />
+		<property name="status" />
+		<property name="tradeflowType" />
+		<property name="tradePriceAlgr" />
+		<property name="tradeTimeType" />
+		
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="GBK" ?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
+    http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+	version="2.0">
+
+	<description>JSTL 1.0 functions library</description>
+	<display-name>JSTL functions</display-name>
+	<tlib-version>1.0</tlib-version>
+	<short-name>rightButton</short-name>
+	<uri>http://gnnt.MEBS.common.front/rightButton</uri>
+	<tag>
+
+		<!-- 标签名称-->
+		<name>rightButton</name>
+		<!-- 标签对应的处理类-->
+		<tag-class>gnnt.MEBS.common.front.common.RightButtonTag</tag-class>
+		<!-- 标签体内容,有标签体则设为jsp-->
+		<body-content>JSP</body-content>
+		<!-- 标签的属性声明-->
+		<attribute>
+			<name>id</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>className</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>onclick</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>name</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>action</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+</taglib>
+

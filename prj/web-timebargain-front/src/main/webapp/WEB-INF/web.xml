@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="GBK"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+	<!-- 字符编码过滤器开始 -->
+	<filter>
+		<filter-name>SetCharacterEncoding</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>GBK</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>SetCharacterEncoding</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!-- 字符编码过滤器结束 -->
+
+	<!-- 初始化spring容器 -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:spring_jndi_DataSource.xml,classpath:spring*.xml</param-value>
+	</context-param>
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>org.springframework.web.context.request.RequestContextListener
+		</listener-class>
+	</listener>
+	<!-- 初始化spring容器 -->
+
+	<!--注册Global容器 负责初始化菜单权限-->
+	<listener>
+		<listener-class>gnnt.MEBS.common.front.common.Global</listener-class>
+	</listener>
+
+	<!-- 检查权限过滤器配置开始-->
+	<filter>
+		<filter-name>checkUrl</filter-name>
+		<filter-class>gnnt.MEBS.common.front.webFrame.securityCheck.SecurityFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>checkUrl</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!-- 检查权限过滤器配置结束 -->
+
+	<!--
+		为了解决 failed to lazily initialize a collection of role: XXXXXX, no
+		session or session was closed 异常添加的过滤器
+	-->
+	<filter>
+		<filter-name>hibernateFilter</filter-name>
+		<filter-class>org.springframework.orm.hibernate3.support.OpenSessionInViewFilter</filter-class>
+		<init-param>
+			<param-name>sessionFactoryBeanName</param-name>
+			<param-value>sessionFactory</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>hibernateFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter>
+		<filter-name>hibernateFilterForQuery</filter-name>
+		<filter-class>org.springframework.orm.hibernate3.support.OpenSessionInViewFilter</filter-class>
+		<init-param>
+			<param-name>sessionFactoryBeanName</param-name>
+			<param-value>sessionFactoryForQuery</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>hibernateFilterForQuery</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+  
+	<!-- struts2配置 -->
+	<filter>
+		<filter-name>struts2</filter-name>
+		<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
+		<!--
+			指定配置文件路径 在配置文件中配置默认要加载的文件，这些文件不一定有，但要写上去，然后它找不找的到无所谓否则会启动失败
+		-->
+		<init-param>
+			<param-name>config</param-name>
+			<param-value>platform-web.xml,struts-default.xml,struts-plugin.xml,struts.xml</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>struts2</filter-name>
+		<url-pattern>*.action</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+	</filter-mapping>
+	<!-- struts2配置 -->
+
+	<!-- session存活时间 -->
+	<session-config>
+		<session-timeout>120</session-timeout>
+	</session-config>
+	<!-- 设定主页 -->
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>front/logon/logon.jsp</welcome-file>
+	</welcome-file-list>
+</web-app>

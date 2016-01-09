@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="gnnt.MEBS.timebargain.front.model.DelayOrderHistory" table="T_H_DelayOrders" dynamic-update="true" lazy="false">
+		<composite-id>
+		    <key-property name="clearDate" column="clearDate">
+		    </key-property>
+		    <key-property name="orderNO" column="A_OrderNo">
+		    </key-property>	
+		</composite-id>
+		<property name="bsFlag" column="BS_Flag"/>
+		<property name="commodityID"/>
+		<property name="customerID"/>
+		<property name="traderID"/>
+		<property name="delayOrderType"/>
+		<property name="status"/>
+		<property name="withdrawType"/>
+		<property name="quantity"/>
+		<property name="price"/>
+		<property name="tradeQty"/>
+		<property name="frozenFunds"/>
+		<property name="unfrozenFunds"/>
+		<property name="orderTime"/>
+		<property name="withdrawTime"/>
+		<property name="ordererIP"/>
+		<property name="signature"/>
+		<property name="firmID"/>
+		<property name="consignerID"/>
+		<property name="withdrawerID"/>
+		
+	</class>
+</hibernate-mapping>

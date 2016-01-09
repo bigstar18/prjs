@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+        
+	<!-- 买卖标志 -->
+	<util:map id="com_buySellFlag" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="1" value="买"></entry>
+		<entry key="2" value="卖"></entry>
+	</util:map>
+	<!-- 延期委托类型 -->
+	<util:map id="delay_delayOrderTypes" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="1" value="交收申报"></entry>
+		<entry key="2" value="中立仓申报"></entry>
+	</util:map>
+	<!-- 状态 -->
+	<util:map id="delay_status" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="1" value="已委托"></entry>
+		<entry key="2" value="部分成交"></entry>
+		<entry key="3" value="全部成交"></entry>
+		<entry key="5" value="全部撤单"></entry>
+		<entry key="6" value="部分成交后撤单"></entry>
+	</util:map>
+	<!-- 撤单类型 -->
+	<util:map id="delay_withdrawType" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="1" value="委托撤单"></entry>
+		<entry key="4" value="闭市时自动撤单"></entry>
+		<entry key="" value="-"></entry>
+	</util:map>
+
+</beans>

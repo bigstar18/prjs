@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<!-- 
+		延期交收
+	-->
+	<package name="delay" extends="base-struts2-display" namespace="/front/app/timebargain/delay">
+		<!-- 交收申报 -->
+		<action name="delayTrade" class="delayTradeAction" method="delayTrade">
+			<param name="entityName">gnnt.MEBS.timebargain.front.model.DelayOrderHistory</param>
+			<result>/front/app/timebargain/delay/delayTrade.jsp</result>
+		</action>
+		<!-- 历史委托 -->
+		<action name="delayOrderHistory" class="delayTradeAction" method="delayOrderHistory">
+			<result>/front/app/timebargain/delay/delayOrderHistory.jsp</result>
+		</action>
+	</package>
+
+	<package name="delayAjax" extends="json-default" namespace="/front/app/timebargain/delayAjax">
+		<!-- 延期交收行情实时查询 -->
+		<action name="delayRealTimeInfo" class="delayTradeAction" method="delayRealTimeInfo">
+			<result type="json">
+				<param name="root">resultData</param>
+			</result>
+		</action>
+		<!-- 申报查询 -->
+		<action name="delayOrderQuery" class="delayTradeAction" method="delayOrderQuery">
+			<result type="json">
+				<param name="root">resultData</param>
+			</result>
+		</action>
+		<!-- 撤销所选单 -->
+		<action name="cancelDelayOrder" class="delayTradeAction" method="cancelDelayOrder">
+			<result type="json">
+				<param name="root">resultMsg</param>
+			</result>
+		</action>
+		<!-- 订货查询 -->
+		<action name="delayCommodityHoldingQuery" class="delayTradeAction" method="delayCommodityHoldingQuery">
+			<result type="json">
+				<param name="root">resultData</param>
+			</result>
+		</action>
+		<!-- 资金查询 -->
+		<action name="capitalQuery" class="delayTradeAction" method="capitalQuery">
+			<result type="json">
+				<param name="root">resultData</param>
+			</result>
+		</action>
+		<!-- 交割申报 -->
+		<action name="delayOrder" class="delayTradeAction" method="delayOrder">
+			<result type="json">
+				<param name="root">resultMsg</param>
+			</result>
+		</action>
+	</package>
+</struts>
