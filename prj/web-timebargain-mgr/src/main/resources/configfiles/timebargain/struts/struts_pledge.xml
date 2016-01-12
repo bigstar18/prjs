@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- 
+		action 路径为 /timebargain/pledge 开头的访问则进入本配置
+	 -->
+	<package name="pledge" extends="base-struts2" namespace="/timebargain/pledge">   
+		<!-- 
+			质押资金查询
+		-->
+		<action name="pledgeList" class="pledgeAction" method="listByLimit">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settle.PledgeModel</param>
+			<result>/mgr/app/timebargain/settle/pledge_list.jsp</result>
+		</action>
+		
+		<!-- 
+			质押资金跳转
+		-->
+		<action name="addPledgeForward" class="pledgeAction" method="forwardAdd">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settle.PledgeModel</param>
+			<result>/mgr/app/timebargain/settle/pledge_add.jsp</result>
+		</action>
+		
+		<!-- 
+			质押资金添加
+		-->	
+		<action name="addPledge" class="pledgeAction" method="addPledge">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settle.PledgeModel</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		
+		<!-- 
+			质押资金审核跳转
+		-->
+		<action name="pledgeAuditForward" class="pledgeAction" method="viewByIdPledge">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settle.PledgeModel</param>
+			<result>/mgr/app/timebargain/settle/pledgeCheck_form.jsp</result>
+		</action>
+		
+		<!-- 
+			质押资金审核
+		-->
+		<action name="pledgeCheck" class="pledgeAction" method="pledgeAudit">
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		
+		<!-- 
+			根据仓单号查询仓单信息
+		-->
+		<action name="getBillListByBillID" class="pledgeAction" method="getBillListByBillID">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settle.PledgeModel</param>
+			<result>/mgr/app/timebargain/settle/pledgeBill_list.jsp</result>
+		</action>
+		
+	</package>
+</struts>

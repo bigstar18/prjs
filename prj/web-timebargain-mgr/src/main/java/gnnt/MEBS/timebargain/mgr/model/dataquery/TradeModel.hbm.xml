@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+	<!--
+		通过配置文件配置 Model 类与数据库表之间的字段联系
+	将本配置文件配置到 hibernate.cfg.xml 中
+	-->
+<hibernate-mapping package="gnnt.MEBS.timebargain.mgr.model.dataquery">
+	<class name="TradeModel" table="v_t_trade" lazy="false">
+		<id name="tradeNo" column="A_TRADENO">
+		   <generator class="assigned"></generator>
+		</id>
+		<property name="orderNo" column="A_ORDERNO"/>
+		<property name="tradeTime" column="TRADETIME"/>
+		<property name="customerId" column="CUSTOMERID"/>
+		<property name="commodityId" column="COMMODITYID"/>
+		<property name="flag" column="BS_FLAG"/>
+		<property name="orderType" column="ORDERTYPE"/>
+		<property name="price" column="PRICE"/>
+		<property name="quantity" column="QUANTITY"/>
+		<property name="close" column="CLOSE_PL"/>
+		<property name="tradeFee" column="TRADEFEE"/>
+		<property name="tradeType" column="TRADETYPE"/>
+		<property name="holdPrice" column="HOLDPRICE"/>
+		<property name="holdTime" column="HOLDTIME"/>
+		<property name="firmId" column="FIRMID"/>
+		<property name="closeAddedTax" column="CLOSEADDEDTAX"/>
+		<property name="firmName" column="FIRMNAME"/>
+	    <property name="oppCustomerId" column="OPPCUSTOMERID"/>
+	</class>
+</hibernate-mapping>

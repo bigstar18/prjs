@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="tradeMonitor" extends="base-struts2" namespace="/timebargain/tradeMonitor">
+		<action name="monitorGetCommodityList" class="monitorSetAction" method="getCommoditySelect">
+			<result name="tradeList">/mgr/app/timebargain/tradeMonitor/monitor_tradeList.jsp</result>
+			<result name="commodityMonitor">/mgr/app/timebargain/tradeMonitor/monitor_commodityMonitor.jsp</result>
+			<result name="orderMonitor">/mgr/app/timebargain/tradeMonitor/monitor_orderMonitor.jsp</result>
+			<result name="firmMonitor">/mgr/app/timebargain/tradeMonitor/monitor_firmMonitor.jsp</result>
+			<result name="waitOrder">/mgr/app/timebargain/tradeMonitor/memoryMonitor/monitor_waitOrder.jsp</result>
+			<result name="saleQueue">/mgr/app/timebargain/tradeMonitor/memoryMonitor/monitor_saleQueue.jsp</result>
+			<result name="unTradeInfo">/mgr/app/timebargain/tradeMonitor/monitor_unTradeInfo.jsp</result>
+		</action>
+		
+		<!--	行情信息	-->
+		<action name="monitorQuotationInfo" class="monitorSetAction" method="listQuotationInfo">
+		</action>
+		<!--	委托监控	-->
+		<action name="monitorOrderMonitor" class="monitorSetAction" method="listOrderMonitor">
+		</action>
+		<!--	查看未成交委托买队列	-->
+		<action name="monitorUnTradeInfoB" class="monitorSetAction" method="listUnTradeInfoB">
+		</action>
+		<!--	查看未成交委托卖队列	-->
+		<action name="monitorUnTradeInfoS" class="monitorSetAction" method="listUnTradeInfoS">
+		</action>
+		
+		
+		<!--	商品持仓查询买订货	-->
+		<action name="monitorListCommodityB" class="monitorSetAction" method="listCommodityMonitorB">
+		</action>
+		<!--	商品持仓查询卖订货	-->
+		<action name="monitorListCommodityS" class="monitorSetAction" method="listCommodityMonitorS">
+		</action>
+		<!--	商品持仓查询监控成交量	-->
+		<action name="monitorListCommodityQ" class="monitorSetAction" method="listCommodityMonitorQ">
+		</action>
+		
+		
+		<!--	 成交明细	-->
+		<action name="monitorTradeList" class="monitorSetAction" method="listTradeList">
+		</action>
+		<!--	 查看成交综合统计	-->
+		<action name="monitorTradeStatistic" class="monitorSetAction" method="listTradeStatistic">
+		</action>
+		<!--	 交易商订货监控	-->
+		<action name="monitorFirmMonitor" class="monitorSetAction" method="listFirmMonitor">
+		</action>
+		<!--	 资金预警	-->
+		<action name="monitorFundsAnalysis" class="monitorSetAction" method="listFundsAnalysis">
+		</action>
+		<!--	查看交易商信息	-->
+		<action name="monitorFundsAnalysisInfo" class="monitorSetAction" method="fundsAnalysisInfo">
+			<result>/mgr/app/timebargain/tradeMonitor/monitor_fundsAnalysis_send.jsp</result>
+		</action>
+		<!--	 排行分析	-->
+		<action name="monitorAnalyseInfo" class="monitorSetAction" method="listAnalyseInfo">
+		</action>
+		<!--	 未成交内存队列	-->
+		<action name="monitorQueryOrderType" class="monitorSetAction" method="memoryMonitor">
+		</action>
+		
+		<!--	 等待撮合队列	-->
+		<action name="monitorWaitOrders" class="monitorSetAction" method="memoryMonitor">
+		</action>
+		<!--	系统设置	-->
+		<action name="monitorParameterEdit" class="monitorSetAction" method="editMonitorParameter">
+			<result>/mgr/app/timebargain/tradeMonitor/monitor_parameter.jsp</result>
+		</action>
+		<action name="monitorParameterSave" class="monitorSetAction" method="updateMonitorParameter">
+			<result type="chain">monitorParameterEdit</result>
+		</action>
+		
+	</package>
+</struts>

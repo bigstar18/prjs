@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!--
+	通过配置文件配置 Model 类与数据库表之间的字段联系
+	将本配置文件配置到 hibernate.cfg.xml 中
+-->
+<hibernate-mapping package="gnnt.MEBS.timebargain.mgr.model.apply">
+	<class name="ApplyModel" table="t_apply" dynamic-update="true">
+		<id name="id">
+		    <column name="ID" />
+			<generator class="increment">
+			</generator>
+		</id>
+		<property name="applyType" />
+		<property name="proposer" />
+		<property name="applyTime" />
+		<property name="status" />
+		<property name="approver" />
+		<property name="approvetime" />
+		<property name="content" type="text">
+			<formula>(select t.content.getclobval() from t_apply t where t.id=id)</formula>
+		</property>
+		<property name="note" />
+	</class>
+</hibernate-mapping>

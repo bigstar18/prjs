@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!--  ajax 验证信息相关 -->
+	<package name="ajaxTransfer" extends="json-default" namespace="/ajaxcheck/transfer">
+		<!-- 返回商品 -->
+		<action name="searchCommodity" class="ajaxTransfer" method="getCommodity">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+		
+		<!-- 获取默认过户数量 -->
+		<action name="searchQuantity" class="ajaxTransfer" method="getQuantity">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+		
+		<!-- 获取默认过户数量 -->
+		<action name="holdCheck" class="ajaxTransfer" method="getHoldQty">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+		
+	</package>
+</struts>

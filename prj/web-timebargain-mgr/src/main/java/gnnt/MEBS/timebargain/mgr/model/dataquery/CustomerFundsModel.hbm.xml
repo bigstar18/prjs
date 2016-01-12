@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+	<!--
+		通过配置文件配置 Model 类与数据库表之间的字段联系
+	将本配置文件配置到 hibernate.cfg.xml 中
+	-->
+<hibernate-mapping package="gnnt.MEBS.timebargain.mgr.model.dataquery">
+	<class name="CustomerFundsModel" table="v_c_customerfunds" lazy="false">
+		<id name="firmId" column="FIRMID">
+		   <generator class="assigned"></generator>
+		</id>
+		<property name="firmName" column="FIRMNAME"/>
+		<property name="nowLeaveBalance" column="NOWLEAVEBALANCE"/>
+		<property name="runTimeFl" column="RUNTIMEFL"/>
+		<property name="runTimeMargin" column="RUNTIMEMARGIN"/>
+		<property name="runTimeAssure" column="RUNTIMEASSURE"/>
+		<property name="lastBalance" column="LASTBALANCE"/>
+		<property name="clearFl" column="CLEARFL"/>
+		<property name="clearMargin" column="CLEARMARGIN"/>
+		<property name="clearAssure" column="CLEARASSURE"/>
+		<property name="tradeFee" column="TRADEFEE"/>
+		<property name="maxOverdraft" column="MAXOVERDRAFT"/>
+		<property name="close" column="CLOSE_PL"/>
+	</class>
+</hibernate-mapping>

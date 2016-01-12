@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- 
+		action 路径为 /timebargain/settle 开头的访问则进入本配置
+	 -->
+	<package name="bill" extends="base-struts2" namespace="/timebargain/bill">
+	
+		<action name="gageBillList" class="billAction" method="gageBillList">
+			<result>/mgr/app/timebargain/settle/gageBillList.jsp</result>
+		</action>
+		<action name="getCommodity" class="billAction" method="getCommodity">
+			<result>/mgr/app/timebargain/settle/billList.jsp</result>
+		</action>
+		<action name="getBillList" class="billAction" method="getBillList">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settle.SettleProps</param>
+			<result>/mgr/app/timebargain/settle/billList.jsp</result>
+		</action>
+		<action name="addGageBill" class="billAction" method="addGageBill">
+			<result>/mgr/app/timebargain/settle/addBillSuccess.jsp</result>
+		</action>
+		
+		<action name="gageBillDetail" class="billAction" method="gageBillDetail">
+		<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settle.BillFrozen</param>
+			<result>/mgr/app/timebargain/settle/gageBillDetail.jsp</result>
+		</action>
+		
+		<!-- 跳转到仓单撤销页面 -->
+		<action name="queryBillList" class="billAction" method="queryBillList">
+			<result>/mgr/app/timebargain/settle/billCancelList.jsp</result>
+		</action>
+		<!-- 仓单撤销-->
+		<action name="billCancel" class="billAction" method="billCancel">
+			<result>queryBillList.action</result>
+		</action>
+		
+		<!-- 抵顶数据查询 -->
+		<action name="gageDataQuery" class="billAction" method="gageDataQuery">
+			<result>/mgr/app/timebargain/settle/gageDataList.jsp</result>
+		</action>
+		
+		<!-- 交收数据页面跳转 -->
+		<action name="showSettleData" class="billAction" method="showSettleData">
+		  <result>/mgr/app/timebargain/settle/settleData.jsp</result>
+		</action>
+		<!-- 交收数据明细 -->
+	    <action name="listSettleDataDetail" class="billAction" method="listSettleDataDetail">
+		  <result>/mgr/app/timebargain/settle/listSettleDataDetail.jsp</result>
+		</action>
+		<!-- 未配对合计-->
+	    <action name="notPairTotal" class="billAction" method="notPairTotal">
+		  <result>/mgr/app/timebargain/settle/notPairTotal.jsp</result>
+		</action>
+		<!-- 已配对数量 -->
+	    <action name="alreadyPairTotal" class="billAction" method="alreadyPairTotal">
+		  <result>/mgr/app/timebargain/settle/alreadyPairTotal.jsp</result>
+		</action>
+		<!-- 有效仓单数量 -->
+	    <action name="getValidGageBill" class="billAction" method="getValidGageBill">
+		  <result>/mgr/app/timebargain/settle/validGageBillList.jsp</result>
+		</action>
+	</package>
+</struts>

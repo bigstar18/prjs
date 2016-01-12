@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!--
+	通过配置文件配置 Model 类与数据库表之间的字段联系
+	将本配置文件配置到 hibernate.cfg.xml 中
+-->
+<hibernate-mapping package="gnnt.MEBS.timebargain.mgr.model.delay">
+	<class name="DelayStatusLocal" table="T_DELAYSTATUS" dynamic-update="true">
+		<id name="tradeDate">
+		    <column name="tradeDate" />
+			<generator class="assigned">
+			</generator>
+		</id>
+		<property name="status" />
+		<property name="sectionID" />
+		<property name="note" />
+		<property name="recoverTime" />
+	</class>
+</hibernate-mapping>

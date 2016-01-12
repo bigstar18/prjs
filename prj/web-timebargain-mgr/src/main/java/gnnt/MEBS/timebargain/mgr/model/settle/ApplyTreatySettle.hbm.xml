@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!--
+	通过配置文件配置 Model 类与数据库表之间的字段联系
+	将本配置文件配置到 hibernate.cfg.xml 中
+-->
+<hibernate-mapping>
+	<class name="gnnt.MEBS.timebargain.mgr.model.settle.ApplyTreatySettle" table="T_E_ApplyTreatySettle" dynamic-update="true" lazy="false">
+		<id name="applyID">
+			<generator class="native">
+				<param name="sequence">SEQ_T_E_ApplyTreatySettle</param>
+			</generator>
+		</id>
+		<property name="commodityID" />
+		<property name="customerID_S" />
+		<property name="customerID_B" />
+		<property name="price" />
+		<property name="quantity" />
+		<property name="status" />
+		<property name="createTime" />
+		<property name="creator" />
+		<property name="remark1" />
+		<property name="modifyTime" />
+		<property name="modifier" />
+		<property name="remark2" />
+		<many-to-one name="commodityF" class="gnnt.MEBS.timebargain.mgr.model.dataquery.CommodityF" not-found="ignore" column="commodityID" insert="false" update="false"/>
+	</class>
+</hibernate-mapping>

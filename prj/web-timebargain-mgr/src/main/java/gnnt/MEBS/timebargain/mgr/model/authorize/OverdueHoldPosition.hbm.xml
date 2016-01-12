@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hebernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="gnnt.MEBS.timebargain.mgr.model.authorize">
+    <class name="OverdueHoldPosition" table="v_t_overdueHoldPosition" dynamic-update="true" lazy="false">
+        <composite-id>
+          <key-property name="firmID" />
+		  <key-property name="customerID" />
+		  <key-property name="commodityID"/>
+		  <key-property name="BSFlag" column="BS_FLAG"/>
+		</composite-id>
+		
+        <property name="holdQty"/> 
+        <property name="openQty"/> 
+        <property name="gageQty" /> 
+        <property name="maycloseQty" />     
+        
+    </class>
+</hibernate-mapping>

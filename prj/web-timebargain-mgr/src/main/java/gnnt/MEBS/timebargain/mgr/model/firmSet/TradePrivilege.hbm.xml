@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!--
+	通过配置文件配置 Model 类与数据库表之间的字段联系
+	将本配置文件配置到 hibernate.cfg.xml 中
+-->
+<hibernate-mapping>
+	<class name="gnnt.MEBS.timebargain.mgr.model.firmSet.TradePrivilege" table="T_A_TRADEPRIVILEGE" >
+		<id name="ID">
+			<generator class="sequence">
+				<param name="sequence">SEQ_T_A_TRADEPRIVILEGE</param>
+			</generator>
+		</id>
+		<property name="type" />
+		<property name="typeID" />
+		<property name="kind" />
+		<property name="kindID"/>
+		<property name="privilegeCode_B" />
+		<property name="privilegeCode_S" />
+	
+	</class>
+</hibernate-mapping>

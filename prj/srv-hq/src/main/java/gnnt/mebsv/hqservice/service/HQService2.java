@@ -93,8 +93,9 @@ public class HQService2 extends HQService {
 		int countCoin = 0;
 		int countStamp = 0;
 		int countPhonecard = 0;
+		int countAll = 0;
 		ProductDataVO srcAll = null, srcCoin = null, srcStamp = null, srcPhonecard = null;
-		ProductDataVO cloneCoin = null, cloneStamp = null, clonePhonecard = null;
+		// ProductDataVO cloneCoin = null, cloneStamp = null, clonePhonecard = null;
 
 		for (int i = 0; i < datas.length; i++) {
 			ProductDataVO data = datas[i];
@@ -111,32 +112,40 @@ public class HQService2 extends HQService {
 				srcPhonecard = data;
 			} else if (code.startsWith("50") || code.startsWith("70") || code.startsWith("80")) {
 				countCoin += addProps(data, coin);
+				countAll += addProps(data, all);
 			} else if (code.startsWith("60")) {
 				countStamp += addProps(data, stamp);
+				countAll += addProps(data, all);
 			} else if (code.startsWith("90")) {
 				countPhonecard += addProps(data, phonecard);
+				countAll += addProps(data, all);
 			}
 		}
 
 		if (srcCoin != null && countCoin > 0) {
-			cloneCoin = (ProductDataVO) coin.clone();
+			// cloneCoin = (ProductDataVO) coin.clone();
 			countAvg(coin, countCoin);
 			copyProperties(coin, srcCoin);
 		}
 		if (srcStamp != null && countStamp > 0) {
-			cloneStamp = (ProductDataVO) stamp.clone();
+			// cloneStamp = (ProductDataVO) stamp.clone();
 			countAvg(stamp, countStamp);
 			copyProperties(stamp, srcStamp);
 		}
 		if (srcPhonecard != null && countPhonecard > 0) {
-			clonePhonecard = (ProductDataVO) phonecard.clone();
+			// clonePhonecard = (ProductDataVO) phonecard.clone();
 			countAvg(phonecard, countPhonecard);
 			copyProperties(phonecard, srcPhonecard);
 		}
 
-		int countAll = addProps(cloneCoin, cloneStamp, clonePhonecard, all);
-		if (countAll > 0)
+		if (srcAll != null && countAll > 0) {
+			countAvg(all, countAll);
 			copyProperties(all, srcAll);
+		}
+
+		// int countAll = addProps(cloneCoin, cloneStamp, clonePhonecard, all);
+		// if (countAll > 0)
+		// copyProperties(all, srcAll);
 	}
 
 	private int addProps(ProductDataVO source, ProductDataVO target) {

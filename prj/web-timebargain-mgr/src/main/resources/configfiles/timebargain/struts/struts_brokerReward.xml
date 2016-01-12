@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- 
+		加盟商佣金查询，action 路径为/timebargain/brokerReward 开头的访问则进入本配置
+	 -->
+	 
+	<package name="brokerReward" extends="base-struts2" namespace="/timebargain/brokerReward">
+	
+		<!-- 交易商佣金明细 -->
+		<action name="firmRewardDetailList" class="brokerRewardAction" method="listFirmRewardSum">
+		  <result>/mgr/app/timebargain/brokerReward/firmRewardDetail_list.jsp</result>
+		</action>
+		
+		<!-- 加盟商佣金汇总 -->
+		<action name="brokerRewardSumList" class="brokerRewardAction" method="brokerRewardSum">
+		  <result>/mgr/app/timebargain/brokerReward/brokerRewardSum_list.jsp</result>
+		</action>
+		
+		<!-- 分品种佣金汇总 -->
+		<action name="breedRewardSumList" class="brokerRewardAction" method="breedRewardSum">
+		  <result>/mgr/app/timebargain/brokerReward/breedRewardSum_list.jsp</result>
+		</action>
+		
+		<!-- 加盟商手续费汇总 -->
+		<action name="listBrokerTradeFee" class="brokerRewardAction" method="listBrokerTradeFee">
+		<result>/mgr/app/timebargain/brokerReward/listBrokerTradeFee.jsp</result>
+		</action>
+		<!-- 分品种手续费汇总 -->
+		<action name="listBreedTradeFee" class="brokerRewardAction" method="listBreedTradeFee">
+		<result>/mgr/app/timebargain/brokerReward/listBreedTradeFee.jsp</result>
+		</action>
+		<!-- 交易商手续费汇总 -->
+		<action name="listFirmTradeFee" class="brokerRewardAction" method="listFirmTradeFee">
+		<result>/mgr/app/timebargain/brokerReward/listFirmTradeFee.jsp</result>
+		</action>
+		
+		<!-- 手续费汇总 -->
+		<action name="brokerUserFeeList" class="brokerRewardAction" method="brokerUserFeeList">
+		<result>/mgr/app/timebargain/brokerReward/brokerUserfeeList.jsp</result>
+		</action>
+		<!-- 手续费明细 -->
+		<action name="hisDealDetailList" class="brokerRewardAction" method="hisDealDetailList">
+		<result>/mgr/app/timebargain/brokerReward/hisDealDetailList.jsp</result>
+		</action>
+	
+	</package>
+
+</struts>

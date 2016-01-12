@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- 
+		强制减仓  action 路径为 /timebargain/deduct 开头的访问则进入本配置
+	 -->
+	<package name="settleProps" extends="base-struts2" namespace="/timebargain/settleProps">
+		<!-- 到商品列表页面 -->
+		<action name="listCommodity" class="settlePropsAction" method="commodityList">
+			<result>/mgr/app/timebargain/settleProps/commodity_list.jsp</result>
+		</action>
+		
+		
+		<!-- 删除交收属性设置-->
+		<action name="deleteSettleProps" class="settlePropsAction" method="deleteSettleProps">
+			<result>listCommodity.action</result>
+		</action>
+		
+		<!-- 到交收属性设置页面 -->
+		<action name="forwardAddSettleProps" class="settlePropsAction" method="viewSettlePropsById">
+			<result>/mgr/app/timebargain/settleProps/settleProps_add.jsp</result>
+		</action>
+		
+		
+		<!-- 添加交收属性设置-->
+		<action name="addSettleProps" class="settlePropsAction" method="addSettleProps">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settleProps.SettlePropsP</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+	</package>
+	
+	<!-- 查询属性ajax -->
+	<package name="jsonForSettleProps" extends="json-default" namespace="/timebargain/settleProps/jsonForSettleProps">
+		<!-- 页面点击分类，ajax根据分类查询品名 -->
+		<action name="getBreedByCategoryID" class="settlePropsAction" method="getBreedByCategoryID">
+			<result name="success" type="json">
+				<param name="root">jsonReturn</param>
+			</result>
+		</action>
+		<!-- 通过品名编号获取品名属性信息 -->
+		<action name="getPropertyValueByBreedID" class="settlePropsAction" method="getPropertyValueByBreedID">
+			<result name="success" type="json">
+				<param name="root">jsonReturn</param>
+			</result>
+		</action>
+	</package>
+</struts>

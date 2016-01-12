@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!--
+	通过配置文件配置 Model 类与数据库表之间的字段联系
+	将本配置文件配置到 hibernate.cfg.xml 中
+-->
+<hibernate-mapping>
+	<class name="gnnt.MEBS.timebargain.mgr.model.settle.TransferModel" table="T_UnTradeTransfer" dynamic-update="true" lazy="false">
+		<id name="transferID">
+			<generator class="native">
+				<param name="sequence">SEQ_T_UnTradeTransfer</param>
+			</generator>
+		</id>
+		<property name="customerID_s" />
+		<property name="customerID_b" />
+		<property name="commodityID" />
+		<property name="bs_flag" />
+		<property name="type" />
+		<property name="quantity" />
+		<property name="status" insert="false"/>
+		<property name="createTime" />
+		<property name="modifyTime" />
+
+	</class>
+</hibernate-mapping>

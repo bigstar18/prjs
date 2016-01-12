@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- 
+		交易状态管理和 交易结算 action 路径为 /timebargain/tradeManager 开头的访问则进入本配置
+	 -->
+	<package name="tradeManager" extends="base-struts2" namespace="/timebargain/tradeManager">
+		<action name="tradeStatus" class="tradeManagerAction" method="toTradeStatus">
+			<result>/mgr/app/timebargain/trademanager/tradeStatusManager.jsp</result>
+		</action>
+		<action name="updateTradeStatus" class="tradeManagerAction" method="updateTradeStatus">
+			<result>/mgr/app/timebargain/trademanager/commonmsg.jsp</result><!--不能直接跳转tradeStatus.action(数据库状态未改变),先跳转到页面在页面再调用tradeStatus.action 此时数据库的状态以改变  -->
+		</action>
+		<!-- 到修改恢复时间页面 -->
+		<action name="updateRecoverTimeToPage" class="tradeManagerAction" method="toTradeStatus">
+			<result>/mgr/app/timebargain/trademanager/tradeStatusRecoverTime.jsp</result>
+		</action>
+		<!-- 修改交易恢复时间  -->
+		<action name="updateRecoverTime" class="tradeManagerAction" method="updateRecoverTime">
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<!-- 获得交易结算状态列表  -->
+		<action name="clearStatusList" class="tradeManagerAction" method="listByLimit">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.tradeManager.ClearStatus</param>
+			<result>/mgr/app/timebargain/trademanager/clearStatus_list.jsp</result>
+		</action>
+		<!-- 交易结算  -->
+		<action name="tradeEnd" class="tradeManagerAction" method="tradeEnd">
+			<result>/mgr/app/timebargain/trademanager/tradeEndMarketStatus.jsp</result>
+		</action>
+	</package>
+</struts>

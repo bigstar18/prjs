@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="gnnt.MEBS.timebargain.mgr.model.DemoCustomerModel" table="DEMO_CUSTOMER" dynamic-update="true" lazy="false">
+        <id name="customerId"/>
+ 
+        <property name="firmId"/>
+        <property name="name"/>
+        <property name="fullName"/>
+        <property name="cardType"/>
+        <property name="card"/>
+        <property name="type"/>
+        <property name="bankCode"/>
+        <property name="bankAccount"/>
+        <property name="address"/>
+        <property name="contactMan"/>
+        <property name="phone"/>
+        <property name="email"/>
+        <property name="postCode"/>
+        <property name="status"/>
+        <property name="note"/>
+        <property name="createTime" insert="false"/>
+        <property name="modifyTime" insert="false"/>
+        <property name="userId"/>
+        
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+	<!--
+		通过配置文件配置 Model 类与数据库表之间的字段联系
+	将本配置文件配置到 hibernate.cfg.xml 中
+	-->
+<hibernate-mapping package="gnnt.MEBS.timebargain.mgr.model.dataquery">
+	<class name="HistoryQuotationModel" table="T_H_QUOTATION" lazy="false">
+		
+		<composite-id>
+		  <key-property name="clearDate" column="CLEARDATE"/>
+		  <key-property name="commodityId" column="COMMODITYID"/>
+		</composite-id>
+		<property name="yesterBalancePrice" column="YESTERBALANCEPRICE"/>
+		<property name="closePrice" column="CLOSEPRICE"/>
+		<property name="openPrice" column="OPENPRICE"/>
+		<property name="highPrice" column="HIGHPRICE"/>
+		<property name="lowPrice" column="LOWPRICE"/>
+		<property name="curPrice" column="CURPRICE"/>
+		<property name="curAmount" column="CURAMOUNT"/>
+		<property name="openAmount" column="OPENAMOUNT"/>
+		<property name="buyOpenAmount" column="BUYOPENAMOUNT"/>
+		<property name="sellOpenAmount" column="SELLOPENAMOUNT"/>
+		<property name="closeAmount" column="CLOSEAMOUNT"/>
+		<property name="buyCloseAmount" column="BUYCLOSEAMOUNT"/>
+		<property name="sellCloseAmount" column="SELLCLOSEAMOUNT"/>
+		<property name="reserveCount" column="RESERVECOUNT"/>
+		<property name="reserveChange" column="RESERVECHANGE"/>
+		<property name="price" column="PRICE"/>
+		<property name="totalMoney" column="TOTALMONEY"/>
+		<property name="totalAmount" column="TOTALAMOUNT"/>
+		<property name="spread" column="SPREAD"/>
+		<property name="buyPrice1" column="BUYPRICE1"/>
+		<property name="sellPrice1" column="SELLPRICE1"/>
+		<property name="buyAmount1" column="BUYAMOUNT1"/>
+		<property name="sellAmount1" column="SELLAMOUNT1"/>
+		<property name="buyPrice2" column="BUYPRICE2"/>
+		<property name="sellPrice2" column="SELLPRICE2"/>
+		<property name="buyAmount2" column="BUYAMOUNT2"/>
+		<property name="sellAmount2" column="SELLAMOUNT2"/>
+		<property name="buyPrice3" column="BUYPRICE3"/>
+		<property name="sellPrice3" column="SELLPRICE3"/>
+		<property name="buyAmount3" column="BUYAMOUNT3"/>
+		<property name="sellAmount3" column="SELLAMOUNT3"/>
+		<property name="buyPrice4" column="BUYPRICE4"/>
+		<property name="sellPrice4" column="SELLPRICE4"/>
+		<property name="buyAmount4" column="BUYAMOUNT4"/>
+		<property name="sellAmount4" column="SELLAMOUNT4"/>
+		<property name="buyPrice5" column="BUYPRICE5"/>
+		<property name="sellPrice5" column="SELLPRICE5"/>
+		<property name="buyAmount5" column="BUYAMOUNT5"/>
+		<property name="sellAmount5" column="SELLAMOUNT5"/>
+		<property name="buyPrice6" column="BUYPRICE6"/>
+		<property name="sellPrice6" column="SELLPRICE6"/>
+		<property name="buyAmount6" column="BUYAMOUNT6"/>
+		<property name="sellAmount6" column="SELLAMOUNT6"/>
+		<property name="buyPrice7" column="BUYPRICE7"/>
+		<property name="sellPrice7" column="SELLPRICE7"/>
+		<property name="buyAmount7" column="BUYAMOUNT7"/>
+		<property name="sellAmount7" column="SELLAMOUNT7"/>
+		<property name="buyPrice8" column="BUYPRICE8"/>
+		<property name="sellPrice8" column="SELLPRICE8"/>
+		<property name="buyAmount8" column="BUYAMOUNT8"/>
+		<property name="sellAmount8" column="SELLAMOUNT8"/>
+		<property name="buyPrice9" column="BUYPRICE9"/>
+		<property name="sellPrice9" column="SELLPRICE9"/>
+		<property name="buyAmount9" column="BUYAMOUNT9"/>
+		<property name="sellAmount9" column="SELLAMOUNT9"/>
+		<property name="buyPrice10" column="BUYPRICE10"/>
+		<property name="sellPrice10" column="SELLPRICE10"/>
+		<property name="buyAmount10" column="BUYAMOUNT10"/>
+		<property name="sellAmount" column="SELLAMOUNT"/>
+		<property name="outAmount" column="OUTAMOUNT"/>
+		<property name="inAmount" column="INAMOUNT"/>
+		<property name="tradeCue" column="TRADECUE"/>
+		<property name="no" column="NO"/>
+		<property name="createTime" column="CREATETIME"/>	
+	</class>
+</hibernate-mapping>

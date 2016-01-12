@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- 
+		交易商设置，action 路径为/timebargain/firmSet 开头的访问则进入本配置
+	 -->
+	 
+	<!-- 交易权限-->
+	<package name="tradePrivilege" extends="base-struts2" namespace="/timebargain/firmSet/tradePrivilege">
+	
+	    <action name="tradePrivilege" class="tradePrivilegeAction" method="forwardAdd">
+		  <result>/mgr/app/timebargain/firmSet/tradePrivilege.jsp</result>
+		</action>
+		
+		<!-- 批量设置交易商权限  -->
+		<action name="addPrivilegeForward" class="tradePrivilegeAction" method="fowardAddPrivilege">
+		  <result>/mgr/app/timebargain/firmSet/batchSetPower.jsp</result>
+		</action>
+		
+		<action name="batchSetSaveFirmPrivilege" class="tradePrivilegeAction" method="batchSetSaveFirmPrivilege">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.TradePrivilege</param>
+		  <result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		
+		<action name="batchSetClearFirmPrivilege" class="tradePrivilegeAction" method="batchSetClearFirmPrivilege">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.TradePrivilege</param>
+		  <result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+				
+		<!-- 交易商信息 -->
+		<action name="listFirmInfo" class="tradePrivilegeAction" method="listByLimit">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmInfo</param>
+		  <result>/mgr/app/timebargain/firmSet/firmInfo_list.jsp</result>
+		</action>
+		<action name="updateStatusFirm" class="tradePrivilegeAction" method="updateStatus">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.TFirm</param>
+		  <result type="redirectAction">listFirmInfo.action</result>
+		</action>
+		<!-- 权限信息 -->
+		<action name="listTypePrivilege" class="tradePrivilegeAction" method="listByLimit">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.TradePrivilege</param>
+		  <result>/mgr/app/timebargain/firmSet/typePrivilege_list.jsp</result>
+		</action>
+		<!-- 交易商权限 -->
+		<action name="listFirmPrivilege" class="tradePrivilegeAction" method="listFirmPrivilege">
+		  <result>/mgr/app/timebargain/firmSet/firmPrivilege_list.jsp</result>
+		</action>
+		<action name="viewFirmPrivilege" class="tradePrivilegeAction" method="viewPrivilege">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.TradePrivilege</param>
+		  <result>/mgr/app/timebargain/firmSet/firmPrivilege_update.jsp</result>
+		</action>
+		<action name="updateFirmPrivilege" class="tradePrivilegeAction" method="update">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.TradePrivilege</param>
+		  <result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<action name="addFirmPrivilegeForward" class="tradePrivilegeAction" method="fowardAddPrivilege">
+		  <result>/mgr/app/timebargain/firmSet/firmPrivilege_add.jsp</result>
+		</action>
+		<action name="addFirmPrivilege" class="tradePrivilegeAction" method="addFirmPrivilege">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.TradePrivilege</param>
+		  <result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<action name="deleteFirmPrivilege" class="tradePrivilegeAction" method="delete">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.TradePrivilege</param>
+		  <result>listFirmPrivilege.action</result>
+		</action>
+		<!-- 交易员信息 -->
+		<action name="listTrader" class="tradePrivilegeAction" method="listTrader">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.MTrader</param>
+		  <result>/mgr/app/timebargain/firmSet/trader_list.jsp</result>
+		</action>
+		<action name="listTraderPrivilege" class="tradePrivilegeAction" method="listTraderPrivilege">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.TradePrivilege</param>
+		  <result>/mgr/app/timebargain/firmSet/traderPrivilege_list.jsp</result>
+		</action>
+		<action name="viewTraderPrivilege" class="tradePrivilegeAction" method="viewPrivilege">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.TradePrivilege</param>
+		  <result>/mgr/app/timebargain/firmSet/traderPrivilege_update.jsp</result>
+		</action>
+		<action name="updateTraderPrivilege" class="tradePrivilegeAction" method="update">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.TradePrivilege</param>
+		  <result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<action name="addTraderPrivilegeForward" class="tradePrivilegeAction" method="fowardAddPrivilege">
+		  <result>/mgr/app/timebargain/firmSet/traderPrivilege_add.jsp</result>
+		</action>
+		<action name="addTraderPrivilege" class="tradePrivilegeAction" method="add">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.TradePrivilege</param>
+		  <result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<action name="deleteTraderPrivilege" class="tradePrivilegeAction" method="delete">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.TradePrivilege</param>
+		  <result>listTraderPrivilege.action</result>
+		</action>
+		<action name="viewCode" class="tradePrivilegeAction" method="viewCode">
+		  <result>/mgr/app/timebargain/firmSet/trader_code.jsp</result>
+		</action>
+		<action name="updateCode" class="tradePrivilegeAction" method="updateCode">
+          <result>listTrader.action</result>
+        </action>
+		<!-- 交易客户信息 -->
+		<action name="listCustomer" class="tradePrivilegeAction" method="listCustomer">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.TCustomer</param>
+		  <result>/mgr/app/timebargain/firmSet/customer_list.jsp</result>
+		</action>
+		<action name="updateStatusCustomer" class="tradePrivilegeAction" method="updateStatus">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.TCustomer</param>
+		  <result>listCustomer.action</result>
+		</action>
+		<action name="addCustomerForward" class="tradePrivilegeAction" method="forwardAddCustomer">
+		  <result>/mgr/app/timebargain/firmSet/customer_add.jsp</result>
+		</action>
+		<action name="addCustomer" class="tradePrivilegeAction" method="addCustomer">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.TCustomer</param>
+		  <result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<action name="deleteCustomer" class="tradePrivilegeAction" method="deleteCustomer">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.TCustomer</param>
+		  <result>listCustomer.action</result>
+		</action>
+		<action name="listCustomerPrivilege" class="tradePrivilegeAction" method="listCustomerPrivilege">
+		  <result>/mgr/app/timebargain/firmSet/customerPrivilege_list.jsp</result>
+		</action>
+		<action name="viewCustomerPrivilege" class="tradePrivilegeAction" method="viewPrivilege">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.TradePrivilege</param>
+		  <result>/mgr/app/timebargain/firmSet/customerPrivilege_update.jsp</result>
+		</action>
+		<action name="updateCustomerPrivilege" class="tradePrivilegeAction" method="update">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.TradePrivilege</param>
+		  <result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<action name="addCustomerPrivilegeForward" class="tradePrivilegeAction" method="fowardAddPrivilege">
+		  <result>/mgr/app/timebargain/firmSet/customerPrivilege_add.jsp</result>
+		</action>
+		<action name="addCustomerPrivilege" class="tradePrivilegeAction" method="add">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.TradePrivilege</param>
+		  <result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<action name="deleteCustomerPrivilege" class="tradePrivilegeAction" method="delete">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.TradePrivilege</param>
+		  <result>listCustomerPrivilege.action</result>
+		</action>
+		
+	</package>
+	
+	<!-- 风控设置-->
+	<package name="risk" extends="base-struts2" namespace="/timebargain/firmSet/risk">
+	
+	    <action name="riskList" class="riskAction" method="listByLimit">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.TFirm</param>
+		  <result>/mgr/app/timebargain/firmSet/risk_list.jsp</result>
+		</action>
+        <action name="viewFirm" class="riskAction" method="viewById">
+          <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.TFirm</param>
+          <result>/mgr/app/timebargain/firmSet/risk_update.jsp</result>
+        </action>
+        <action name="updateFirm" class="riskAction" method="update">
+          <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.TFirm</param>
+          <result>/mgr/public/jsp/commonmsg.jsp</result>
+        </action>
+	      
+	</package>
+	
+	<!-- 商品特殊设置-->
+	<package name="commoditySpecial" extends="base-struts2" namespace="/timebargain/firmSet/commoditySpecial">
+	
+	    <action name="commoditySpecial" class="commoditySpecialAction" method="forwardAdd">
+		  <result>/mgr/app/timebargain/firmSet/commoditySpecial.jsp</result>
+		</action>
+		
+		<!-- 特殊交易保证金 -->
+		<action name="listTradeMargin" class="commoditySpecialAction" method="listByLimit">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmTradeMargin</param>
+		  <result>/mgr/app/timebargain/firmSet/commodityTradeMargin_list.jsp</result>
+		</action>
+		<action name="addTradeMarginFoward" class="commoditySpecialAction" method="fowardAddCommoditySpecial">
+		  <result>/mgr/app/timebargain/firmSet/commodityTradeMargin_add.jsp</result>
+		</action>
+		<action name="addTradeMargin" class="commoditySpecialAction" method="addTradeMargin">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmTradeMargin</param>
+		  <result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<action name="deleteTradeMargin" class="commoditySpecialAction" method="deleteTradeMargin">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmTradeMargin</param>
+		  <result>listTradeMargin.action</result>
+		</action>
+		<action name="viewTradeMargin" class="commoditySpecialAction" method="viewTradeMargin" >
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmTradeMargin</param>
+		  <result>/mgr/app/timebargain/firmSet/commodityTradeMargin_update.jsp</result>
+		</action>
+		<action name="updateTradeMargin" class="commoditySpecialAction" method="updateTradeMargin">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmTradeMargin</param>
+		  <result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		
+		<!-- 特殊交收保证金 -->
+		<action name="listSettleMargin" class="commoditySpecialAction" method="listByLimit">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmSettleMargin</param>
+		  <result>/mgr/app/timebargain/firmSet/commoditySettleMargin_list.jsp</result>
+		</action>		
+		<action name="addSettleMarginFoward" class="commoditySpecialAction" method="fowardAddCommoditySpecial">
+		  <result>/mgr/app/timebargain/firmSet/commoditySettleMargin_add.jsp</result>
+		</action>
+		<action name="addSettleMargin" class="commoditySpecialAction" method="addSettleMargin">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmSettleMargin</param>
+		  <result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<action name="deleteSettleMargin" class="commoditySpecialAction" method="deleteSettleMargin">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmSettleMargin</param>
+		  <result>listSettleMargin.action</result>
+		</action>
+		<action name="viewSettleMargin" class="commoditySpecialAction" method="viewSettleMargin" >
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmSettleMargin</param>
+		  <result>/mgr/app/timebargain/firmSet/commoditySettleMargin_update.jsp</result>
+		</action>
+		<action name="updateSettleMargin" class="commoditySpecialAction" method="updateSettleMargin">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmSettleMargin</param>
+		  <result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		
+		<!-- 特殊订货量 -->
+		<action name="listMaxHoldQty" class="commoditySpecialAction" method="listByLimit">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmMaxHoldQty</param>
+		  <result>/mgr/app/timebargain/firmSet/commodityMaxHoldQty_list.jsp</result>
+		</action>
+		<action name="addMaxHoldQtyFoward" class="commoditySpecialAction" method="fowardAddCommoditySpecial">
+		  <result>/mgr/app/timebargain/firmSet/commodityMaxHoldQty_add.jsp</result>
+		</action>
+		<action name="addMaxHoldQty" class="commoditySpecialAction" method="addMaxHoldQty">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmMaxHoldQty</param>
+		  <result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<action name="deleteMaxHoldQty" class="commoditySpecialAction" method="deleteMaxHoldQty">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmMaxHoldQty</param>
+		  <result>listMaxHoldQty.action</result>
+		</action>
+		<action name="viewMaxHoldQty" class="commoditySpecialAction" method="viewById" >
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmMaxHoldQty</param>
+		  <result>/mgr/app/timebargain/firmSet/commodityMaxHoldQty_update.jsp</result>
+		</action>
+		<action name="updateMaxHoldQty" class="commoditySpecialAction" method="updateMaxHoldQty">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmMaxHoldQty</param>
+		  <result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		
+		<!-- 特殊交易手续费 -->
+		<action name="listTradeFee" class="commoditySpecialAction" method="listByLimit">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmTradeFee</param>
+		  <result>/mgr/app/timebargain/firmSet/commodityTradeFee_list.jsp</result>
+		</action>
+		<action name="addTradeFeeFoward" class="commoditySpecialAction" method="fowardAddCommoditySpecial">
+		  <result>/mgr/app/timebargain/firmSet/commodityTradeFee_add.jsp</result>
+		</action>
+		<action name="addTradeFee" class="commoditySpecialAction" method="addTradeFee">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmTradeFee</param>
+		  <result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<action name="deleteTradeFee" class="commoditySpecialAction" method="deleteTradeFee">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmTradeFee</param>
+		  <result>listTradeFee.action</result>
+		</action>
+		<action name="viewTradeFee" class="commoditySpecialAction" method="viewTradeFee" >
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmTradeFee</param>
+		  <result>/mgr/app/timebargain/firmSet/commodityTradeFee_update.jsp</result>
+		</action>
+		<action name="updateTradeFee" class="commoditySpecialAction" method="updateTradeFee">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmTradeFee</param>
+		  <result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		
+		<!-- 特殊交收手续费 -->
+		<action name="listSettleFee" class="commoditySpecialAction" method="listByLimit">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmSettleFee</param>
+		  <result>/mgr/app/timebargain/firmSet/commoditySettleFee_list.jsp</result>
+		</action>	
+		<action name="addSettleFeeFoward" class="commoditySpecialAction" method="fowardAddCommoditySpecial">
+		  <result>/mgr/app/timebargain/firmSet/commoditySettleFee_add.jsp</result>
+		</action>
+		<action name="addSettleFee" class="commoditySpecialAction" method="addSettleFee">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmSettleFee</param>
+		  <result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<action name="deleteSettleFee" class="commoditySpecialAction" method="deleteSettleFee">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmSettleFee</param>
+		  <result>listSettleFee.action</result>
+		</action>
+		<action name="viewSettleFee" class="commoditySpecialAction" method="viewSettleFee" >
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmSettleFee</param>
+		  <result>/mgr/app/timebargain/firmSet/commoditySettleFee_update.jsp</result>
+		</action>
+		<action name="updateSettleFee" class="commoditySpecialAction" method="updateSettleFee">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmSettleFee</param>
+		  <result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>			
+		
+	</package>
+	
+	<!-- 品种特殊设置-->
+	<package name="breedSpecial" extends="base-struts2" namespace="/timebargain/firmSet/breedSpecial">
+	
+	    <action name="breedSpecial" class="breedSpecialAction" method="forwardAdd">
+		  <result>/mgr/app/timebargain/firmSet/breedSpecial.jsp</result>
+		</action>
+		
+		<!-- 特殊交易保证金 -->
+		<action name="listTradeMargin" class="breedSpecialAction" method="listByLimit">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmBreedTradeMargin</param>
+		  <result>/mgr/app/timebargain/firmSet/breedTradeMargin_list.jsp</result>
+		</action>
+		<action name="addTradeMarginFoward" class="breedSpecialAction" method="fowardAddBreedSpecial">
+		  <result>/mgr/app/timebargain/firmSet/breedTradeMargin_add.jsp</result>
+		</action>
+		<action name="addTradeMargin" class="breedSpecialAction" method="addTradeMargin">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmBreedTradeMargin</param>
+		  <result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<action name="deleteTradeMargin" class="breedSpecialAction" method="deleteTradeMargin">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmBreedTradeMargin</param>
+		  <result>listTradeMargin.action</result>
+		</action>
+		<action name="viewTradeMargin" class="breedSpecialAction" method="viewTradeMargin" >
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmBreedTradeMargin</param>
+		  <result>/mgr/app/timebargain/firmSet/breedTradeMargin_update.jsp</result>
+		</action>
+		<action name="updateTradeMargin" class="breedSpecialAction" method="updateTradeMargin">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmBreedTradeMargin</param>
+		  <result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		
+		<!-- 特殊交收保证金 -->
+		<action name="listSettleMargin" class="breedSpecialAction" method="listByLimit">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmBreedSettleMargin</param>
+		  <result>/mgr/app/timebargain/firmSet/breedSettleMargin_list.jsp</result>
+		</action>		
+		<action name="addSettleMarginFoward" class="breedSpecialAction" method="fowardAddBreedSpecial">
+		  <result>/mgr/app/timebargain/firmSet/breedSettleMargin_add.jsp</result>
+		</action>
+		<action name="addSettleMargin" class="breedSpecialAction" method="addSettleMargin">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmBreedSettleMargin</param>
+		  <result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<action name="deleteSettleMargin" class="breedSpecialAction" method="deleteSettleMargin">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmBreedSettleMargin</param>
+		  <result>listSettleMargin.action</result>
+		</action>
+		<action name="viewSettleMargin" class="breedSpecialAction" method="viewSettleMargin" >
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmBreedSettleMargin</param>
+		  <result>/mgr/app/timebargain/firmSet/breedSettleMargin_update.jsp</result>
+		</action>
+		<action name="updateSettleMargin" class="breedSpecialAction" method="updateSettleMargin">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmBreedSettleMargin</param>
+		  <result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		
+		<!-- 特殊订货量 -->
+		<action name="listMaxHoldQty" class="breedSpecialAction" method="listByLimit">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmBreedMaxHoldQty</param>
+		  <result>/mgr/app/timebargain/firmSet/breedMaxHoldQty_list.jsp</result>
+		</action>
+		<action name="addMaxHoldQtyFoward" class="breedSpecialAction" method="fowardAddBreedSpecial">
+		  <result>/mgr/app/timebargain/firmSet/breedMaxHoldQty_add.jsp</result>
+		</action>
+		<action name="addMaxHoldQty" class="breedSpecialAction" method="addMaxHoldQty">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmBreedMaxHoldQty</param>
+		  <result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<action name="deleteMaxHoldQty" class="breedSpecialAction" method="deleteMaxHoldQty">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmBreedMaxHoldQty</param>
+		  <result>listMaxHoldQty.action</result>
+		</action>
+		<action name="viewMaxHoldQty" class="breedSpecialAction" method="viewById" >
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmBreedMaxHoldQty</param>
+		  <result>/mgr/app/timebargain/firmSet/breedMaxHoldQty_update.jsp</result>
+		</action>
+		<action name="updateMaxHoldQty" class="breedSpecialAction" method="updateMaxHoldQty">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmBreedMaxHoldQty</param>
+		  <result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		
+		<!-- 特殊交易手续费 -->
+		<action name="listTradeFee" class="breedSpecialAction" method="listByLimit">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmBreedTradeFee</param>
+		  <result>/mgr/app/timebargain/firmSet/breedTradeFee_list.jsp</result>
+		</action>
+		<action name="addTradeFeeFoward" class="breedSpecialAction" method="fowardAddBreedSpecial">
+		  <result>/mgr/app/timebargain/firmSet/breedTradeFee_add.jsp</result>
+		</action>
+		<action name="addTradeFee" class="breedSpecialAction" method="addTradeFee">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmBreedTradeFee</param>
+		  <result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<action name="deleteTradeFee" class="breedSpecialAction" method="deleteTradeFee">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmBreedTradeFee</param>
+		  <result>listTradeFee.action</result>
+		</action>
+		<action name="viewTradeFee" class="breedSpecialAction" method="viewTradeFee" >
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmBreedTradeFee</param>
+		  <result>/mgr/app/timebargain/firmSet/breedTradeFee_update.jsp</result>
+		</action>
+		<action name="updateTradeFee" class="breedSpecialAction" method="updateTradeFee">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmBreedTradeFee</param>
+		  <result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		
+		<!-- 特殊交收手续费 -->
+		<action name="listSettleFee" class="breedSpecialAction" method="listByLimit">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmBreedSettleFee</param>
+		  <result>/mgr/app/timebargain/firmSet/breedSettleFee_list.jsp</result>
+		</action>	
+		<action name="addSettleFeeFoward" class="breedSpecialAction" method="fowardAddBreedSpecial">
+		  <result>/mgr/app/timebargain/firmSet/breedSettleFee_add.jsp</result>
+		</action>
+		<action name="addSettleFee" class="breedSpecialAction" method="addSettleFee">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmBreedSettleFee</param>
+		  <result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<action name="deleteSettleFee" class="breedSpecialAction" method="deleteSettleFee">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmBreedSettleFee</param>
+		  <result>listSettleFee.action</result>
+		</action>
+		<action name="viewSettleFee" class="breedSpecialAction" method="viewSettleFee" >
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmBreedSettleFee</param>
+		  <result>/mgr/app/timebargain/firmSet/breedSettleFee_update.jsp</result>
+		</action>
+		<action name="updateSettleFee" class="breedSpecialAction" method="updateSettleFee">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.FirmBreedSettleFee</param>
+		  <result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>	
+	
+	</package>
+	
+	<!-- 手续费套餐选择-->
+	<package name="firmTariff" extends="base-struts2" namespace="/timebargain/firmSet/firmTariff">
+
+		<action name="firmTariffList" class="firmTariffAction" method="listLirmTariff">
+		  <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.TFirm</param>
+		  <result>/mgr/app/timebargain/firmSet/firmTariff_list.jsp</result>
+		</action>
+		
+		<action name="updateFirmTariffForward" class="firmTariffAction" method="forwardUpdateFirmTariff">
+          <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.TFirm</param>
+          <result>/mgr/app/timebargain/firmSet/firmTariff_update.jsp</result>
+        </action>
+        
+        <action name="updateFirmTariff" class="firmTariffAction" method="updateFirmTariff">
+          <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.TFirm</param>
+          <result>/mgr/public/jsp/commonmsg.jsp</result>
+        </action>
+        
+        <action name="viewTariff" class="firmTariffAction" method="viewTariff">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.tradeparams.CommodityTariff</param>
+			<result>/mgr/app/timebargain/firmSet/tariff_view.jsp</result>
+		</action>
+		
+		<action name="updateFirmTariffClose" class="firmTariffAction" method="closeTariff">
+          <param name="entityName">gnnt.MEBS.timebargain.mgr.model.firmSet.TFirm</param>
+          <result>firmTariffList.action</result>
+        </action>
+        
+	</package>
+	
+</struts>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="commission_config" extends="base-struts2" abstract="true">
+		<interceptors>
+			<interceptor name="brokerRewardPropsFilterInterceptor" class="gnnt.MEBS.broker.mgr.action.interceptor.BrokerRewardPropsFilterInterceptor">
+			</interceptor>
+			<interceptor name="listInterceptor" class="gnnt.MEBS.broker.mgr.action.interceptor.ListInterceptor">
+			</interceptor>
+			<interceptor name="crudTypeInterceptor" class="gnnt.MEBS.broker.mgr.action.interceptor.CrudTypeInterceptor">
+			</interceptor>
+		</interceptors>
+	</package>
+	<!-- 付佣金参数设置 Start -->
+	<package name="config_ready" extends="commission_config" namespace="/config/ready">
+		<action name="readyParamList" class="configParamAction" method="getRewardParam">
+			<param name="entityName">gnnt.MEBS.broker.mgr.model.configparam.RewardParam</param>
+			<result>/mgr/app/broker/configuration/readyParam.jsp</result>
+		</action>
+		
+		<action name="updateReadyParam" class="configParamAction" method="updateRewardParam">
+			<param name="entityName">gnnt.MEBS.broker.mgr.model.configparam.RewardParam</param>
+			<result>readyParamList.action</result>
+		</action>
+	</package>
+	<!-- 默认佣金设置 Start -->
+	<package name="config_default" extends="commission_config" namespace="/config/default">
+		<action name="defaultParamList" class="configParamAction" method="list">
+		    <interceptor-ref name="mydefault"></interceptor-ref>
+		    <interceptor-ref name="brokerRewardPropsFilterInterceptor">
+		    	<param name="brokerId">-1</param>
+		    	<param name="commodityId">-1</param>
+		    </interceptor-ref>
+			<param name="entityName">gnnt.MEBS.broker.mgr.model.configparam.BrokerRewardProps</param>
+			<result>/mgr/app/broker/configuration/defaultParamList.jsp</result>
+		</action>
+		
+		<action name="detailDefaultParam" class="configParamAction" method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+		    <interceptor-ref name="brokerRewardPropsFilterInterceptor">
+		    	<param name="brokerId">-1</param>
+		    	<param name="commodityId">-1</param>
+		    </interceptor-ref>
+			<param name="entityName">gnnt.MEBS.broker.mgr.model.configparam.BrokerRewardProps</param>
+			<result>/mgr/app/broker/configuration/defaultParam.jsp</result>
+		</action>
+		
+		<action name="updateDefaultParam" class="configParamAction" method="update">
+			<param name="entityName">gnnt.MEBS.broker.mgr.model.configparam.BrokerRewardProps</param>
+			<result>defaultParamList.action</result>
+		</action>
+	</package>
+	
+	<!-- 特殊佣金设置   Start -->
+	<package name="config_special" extends="commission_config" namespace="/config/special">
+		<action name="specialParamList" class="configParamAction" method="list">
+		    <interceptor-ref name="mydefault"></interceptor-ref>
+		    <interceptor-ref name="brokerRewardPropsFilterInterceptor"></interceptor-ref>
+			<param name="entityName">gnnt.MEBS.broker.mgr.model.configparam.BrokerRewardProps</param>
+			<result>/mgr/app/broker/configuration/specialParamList.jsp</result>
+		</action>
+		<!-- 修改重写forwardAdd方法，flag标识跳转页面 -->
+		<action name="addforward" class="configParamAction" method="forwardAdd">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+		    <interceptor-ref name="crudTypeInterceptor">
+		    	<param name="crud">create</param>
+		    </interceptor-ref>
+			<param name="entityName">gnnt.MEBS.broker.mgr.model.configparam.BrokerRewardProps</param>
+			<result name="common">/mgr/app/broker/configuration/specialParam.jsp</result>
+			<result name="batch">/mgr/app/broker/configuration/batchofsetting.jsp</result>
+		</action>
+		
+		<action name="add" class="configParamAction" method="add">
+			<param name="entityName">gnnt.MEBS.broker.mgr.model.configparam.BrokerRewardProps</param>
+			<result>specialParamList.action</result>
+		</action>
+		
+		<action name="detail" class="configParamAction" method="viewRPById">
+		    <interceptor-ref name="mydefault"></interceptor-ref>
+		    <interceptor-ref name="crudTypeInterceptor">
+		    	<param name="crud">update</param>
+		    </interceptor-ref>
+			<param name="entityName">gnnt.MEBS.broker.mgr.model.configparam.BrokerRewardProps</param>
+			<result>/mgr/app/broker/configuration/specialParam.jsp</result>
+		</action>
+		
+		<action name="update" class="configParamAction" method="update">
+			<param name="entityName">gnnt.MEBS.broker.mgr.model.configparam.BrokerRewardProps</param>
+			<result>specialParamList.action</result>
+		</action>
+		
+		<action name="delete" class="configParamAction" method="deleteSpecialParam">
+			<param name="entityName">gnnt.MEBS.broker.mgr.model.configparam.BrokerRewardProps</param>
+			<result>specialParamList.action</result>
+		</action>
+	
+	</package>
+	
+	<package name="config_ajaxcheck" extends="json-default" namespace="/ajaxcheck/config">
+		<action name="checkBroker" class="configParamAction" method="checkBroker">
+			<result name="success" type="json">
+				<param name="root">existValidate</param>
+			</result>
+		</action>
+	</package>
+</struts>

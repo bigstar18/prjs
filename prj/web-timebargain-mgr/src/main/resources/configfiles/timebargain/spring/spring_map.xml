@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+<!-- 
+	测试表状态的Map集合，
+	id 定义格式：模块号前三个字母(demo 模块前三个子都 dem)加下划线(_)加本集合名称(cardTypeMap)
+-->
+	<!-- 证件类型 -->
+	<util:map id="customer_cardTypeMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="01" value="身份证"></entry>
+		<entry key="02" value="机构代码"></entry>
+		<entry key="03" value="营业执照"></entry>
+	</util:map>
+
+	<!-- 客户类型 -->
+	<util:map id="customer_typeMap" map-class="java.util.HashMap"
+		key-type="java.lang.Integer" value-type="java.lang.String">
+		<entry key="0" value="双边客户"></entry>
+		<entry key="1" value="唯买客户"></entry>
+		<entry key="2" value="唯卖客户"></entry>
+	</util:map>
+
+	<!-- 银行代码 -->
+	<util:map id="customer_bankCodeMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="01" value="工商银行"></entry>
+		<entry key="02" value="中国银行"></entry>
+		<entry key="03" value="交通银行"></entry>
+		<entry key="04" value="建设银行"></entry>
+		<entry key="05" value="农业银行"></entry>
+	</util:map>
+
+	<!-- 客户状态 -->
+	<util:map id="customer_statusMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="N" value="可用"></entry>
+		<entry key="E" value="禁用"></entry>
+	</util:map>
+	
+	<!-- 市场交易运行模式 -->
+	<util:map id="tradeRunModeMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="0" value="手动" />
+		<entry key="1" value="自动" />
+	</util:map>
+	
+	<!-- 市场状态 -->
+	<util:map id="tradeStatusMap" map-class="java.util.HashMap"
+		key-type="java.lang.Integer" value-type="java.lang.String">
+		<entry key="0" value="初始化完成"></entry>
+		<entry key="1" value="闭市状态"></entry>
+		<entry key="2" value="结算中"></entry>
+		<entry key="3" value="资金结算完成"></entry>
+		<entry key="4" value="暂停交易"></entry>
+		<entry key="5" value="交易中"></entry>
+		<entry key="6" value="节间休息"></entry>
+		<entry key="7" value="交易结束"></entry>
+		<entry key="8" value="集合竞价交易中"></entry>
+		<entry key="9" value="集合竞价交易结束"></entry>
+		<entry key="10" value="交易结算完成"></entry>
+	</util:map>
+	
+	<!-- 结算执行状态-->
+	<util:map id="clearStatus_statusMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="Y" value="完成"></entry>
+		<entry key="N" value="未执行"></entry>
+	</util:map>
+	
+	<!-- 亏损方买卖标志 -->
+	<util:map id="loserBSFlagMap" map-class="java.util.HashMap"
+		key-type="java.lang.Short" value-type="java.lang.String">
+		<entry key="1" value="买方" />
+		<entry key="2" value="卖方" />
+	</util:map>
+	
+	<!-- 亏损方强减模式 -->
+	<util:map id="loserModeMap" map-class="java.util.HashMap"
+		key-type="java.lang.Short" value-type="java.lang.String">
+		<entry key="1" value="所有亏损会员" />
+		<entry key="2" value="亏损且报单会员" />
+	</util:map>
+	
+	<!-- 强减状态 -->
+	<util:map id="deductStatusMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="N" value="未运行" />
+		<entry key="P" value="已生成强减数据" />
+		<entry key="Y" value="完成强减" />
+	</util:map>
+	
+	<!-- 是否对冲 -->
+	<util:map id="selfCounteractMap" map-class="java.util.HashMap"
+		key-type="java.lang.Short" value-type="java.lang.String">
+		<entry key="0" value="否" />
+		<entry key="1" value="所有会员双向订货对冲" />
+		<entry key="2" value="超净订货申报对冲" />
+	</util:map>
+	
+	<!-- 商品状态 -->
+	<util:map id="commodity_statusMap" map-class="java.util.HashMap"
+		key-type="java.lang.Short" value-type="java.lang.String">
+		<entry key="0" value="有效"></entry>
+		<entry key="1" value="转入交收"></entry>
+		<entry key="2" value="暂停交易"></entry>
+	</util:map>
+	
+	<!-- 交易节状态 -->
+	<util:map id="tradetime_statusMap" map-class="java.util.HashMap"
+		key-type="java.lang.Short" value-type="java.lang.String">
+		<entry key="0" value="无效"></entry>
+		<entry key="1" value="正常"></entry>
+	</util:map>
+	
+	<!-- 申请审核参数类型 -->
+	<util:map id="applyAndCheck_algrMap" map-class="java.util.HashMap"
+		key-type="java.lang.Short" value-type="java.lang.String">
+		<entry key="1" value="百分比"></entry>
+		<entry key="2" value="绝对值"></entry>
+	</util:map>
+	<!-- 买卖类型 -->
+	<util:map id="BS_flagMap" map-class="java.util.HashMap"
+		key-type="java.lang.Long" value-type="java.lang.String">
+		<entry key="1" value="买"></entry>
+		<entry key="2" value="卖"></entry>
+	</util:map>
+	<!-- 委托类型 -->
+	<util:map id="orderTypeMap" map-class="java.util.HashMap"
+		key-type="java.lang.Long" value-type="java.lang.String">
+		<entry key="1" value="订立"></entry>
+		<entry key="2" value="转让"></entry>
+	</util:map>
+	<!-- 转让类型 -->
+	<util:map id="closeFlagMap" map-class="java.util.HashMap"
+		key-type="java.lang.Long" value-type="java.lang.String">
+		<entry key="0" value="交易员正常平仓"></entry>
+		<entry key="1" value="客户委托交易员平仓"></entry>
+		<entry key="2" value="交易员替客户强行平仓"></entry>
+	</util:map>
+	<!-- 状态类型 -->
+	<util:map id="statusMap1" map-class="java.util.HashMap"
+		key-type="java.lang.Long" value-type="java.lang.String">
+		<entry key="1" value="已委托"></entry>
+		<entry key="2" value="部分成交"></entry>
+		<entry key="3" value="全部成交"></entry>
+		<entry key="5" value="全部撤单"></entry>
+		<entry key="6" value="部分成交后撤单"></entry>
+	</util:map>
+	<!--撤单类型 -->
+	<util:map id="withdrawTypeMap" map-class="java.util.HashMap"
+		key-type="java.lang.Long" value-type="java.lang.String">
+		<entry key="1" value="委托撤单"></entry>
+		<entry key="2" value="代为撤单"></entry>
+		<entry key="4" value="闭市时自动撤单"></entry>
+	</util:map>
+	<!--仓单交易类型 -->
+	<util:map id="billTradeTypeMap" map-class="java.util.HashMap"
+		key-type="java.lang.Long" value-type="java.lang.String">
+		<entry key="0" value="正常"></entry>
+		<entry key="1" value="卖仓单"></entry>
+		<entry key="2" value="抵顶转让"></entry>
+	</util:map>
+	<!--状态 -->
+	<util:map id="statusMap" map-class="java.util.HashMap"
+		key-type="java.lang.Long" value-type="java.lang.String">
+		<entry key="0" value="有效"></entry>
+		<entry key="1" value="等待交收"></entry>
+		<entry key="2" value="暂停交易"></entry>
+	</util:map>
+	<!-- 成交类型 -->
+	<util:map id="tradeTypeMap" map-class="java.util.HashMap"
+		key-type="java.lang.Long" value-type="java.lang.String">
+		<entry key="1" value="正常交易"></entry>
+		<entry key="3" value="强制转让"></entry>
+		<entry key="4" value="委托交易"></entry>
+		<entry key="6" value="协议交收"></entry>
+		<entry key="7" value="卖仓单"></entry>
+		<entry key="8" value="抵顶转让"></entry>
+	</util:map>
+	
+	
+	<!-- 买卖标识 -->
+	<util:map id="authorize_BS_FlagMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="1" value="买"></entry>
+		<entry key="2" value="卖"></entry>
+	</util:map>
+	
+	<!-- 委托类型 -->
+	<util:map id="authorize_OrderTypeMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="1" value="开仓"></entry>
+		<entry key="2" value="平仓"></entry>
+		<entry key="4" value="撤单"></entry>
+	</util:map>
+	
+	<!-- 委托状态 -->
+	<util:map id="authorize_Order_StatusMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="1" value="已委托"></entry>
+		<entry key="2" value="部分成交"></entry>
+		<entry key="3" value="全部成交"></entry>
+		<entry key="4" value="正在撤单"></entry>
+		<entry key="5" value="全部撤单"></entry>
+		<entry key="6" value="部分成交后撤单"></entry>
+		<entry key="7" value="撤单委托成功"></entry>
+		<entry key="8" value="撤单委托失败"></entry>
+	</util:map>
+	
+	<!-- 平仓标识 -->
+	<util:map id="authorize_CloseFlagMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="0" value="交易员正常平仓"></entry>
+		<entry key="1" value="客户委托交易员平仓"></entry>
+		<entry key="2" value="交易员替客户强行平仓"></entry>
+	</util:map>
+	
+	<!-- 过户类型 -->
+	<util:map id="Transfer_typeMap" map-class="java.util.HashMap"
+		key-type="java.lang.Long" value-type="java.lang.String">
+		<entry key="0" value="整体移仓"></entry>
+		<entry key="1" value="指定数量"></entry>
+	</util:map>
+	
+	<!-- 审核状态 -->
+	<util:map id="Transfer_statusMap" map-class="java.util.HashMap"
+		key-type="java.lang.Long" value-type="java.lang.String">
+		<entry key="0" value="待审核"></entry>
+		<entry key="1" value="审核通过"></entry>
+		<entry key="2" value="审核失败"></entry>
+	</util:map>
+	
+	<!-- 交易商状态 -->
+	<util:map id="firm_statusMap" map-class="java.util.HashMap"
+		key-type="java.lang.Integer" value-type="java.lang.String">
+		<entry key="0" value="正常"></entry>
+		<entry key="1" value="禁止交易"></entry>
+	</util:map>
+	
+	<!-- 交易权限对象-->
+	<util:map id="tradePrivilege_typeMap" map-class="java.util.HashMap"
+		key-type="java.lang.Integer" value-type="java.lang.String">
+		<entry key="1" value="交易商"></entry>
+		<entry key="2" value="交易客户"></entry>
+		<entry key="3" value="交易员"></entry>
+	</util:map>
+	
+	<!-- 交易权限种类-->
+	<util:map id="tradePrivilege_kindMap" map-class="java.util.HashMap"
+		key-type="java.lang.Integer" value-type="java.lang.String">
+		<entry key="1" value="品种"></entry>
+		<entry key="2" value="商品"></entry>
+	</util:map>
+	
+	<!-- 买权限-->
+	<util:map id="privilegeCode_BMap" map-class="java.util.HashMap"
+		key-type="java.lang.Integer" value-type="java.lang.String">
+		<entry key="101" value="全权"></entry>
+		<entry key="102" value="只可订立"></entry>
+		<entry key="103" value="只可转让"></entry>
+		<entry key="104" value="无权"></entry>
+		<entry key="301" value="查看市场行情"></entry>
+		<entry key="302" value="查看成交结果"></entry>
+		<entry key="303" value="输入委托单"></entry>
+		<entry key="304" value="查询委托单 "></entry>
+		<entry key="305" value="查询会员公司"></entry>
+		<entry key="306" value="公司管理员"></entry>
+	</util:map>
+	
+	<!-- 卖权限-->
+	<util:map id="privilegeCode_SMap" map-class="java.util.HashMap"
+		key-type="java.lang.Integer" value-type="java.lang.String">
+		<entry key="201" value="全权"></entry>
+		<entry key="202" value="只可订立"></entry>
+		<entry key="203" value="只可转让"></entry>
+		<entry key="204" value="无权"></entry>
+	</util:map>
+	
+	<!-- 算法-->
+	<util:map id="algrMap" map-class="java.util.HashMap"
+		key-type="java.lang.Integer" value-type="java.lang.String">
+		<entry key="1" value="按百分比"></entry>
+		<entry key="2" value="按绝对值"></entry>
+	</util:map>
+
+	<!--仓单抵顶申请种类-->
+	<util:map id="applyGage_typeMap" map-class="java.util.HashMap"
+		key-type="java.lang.Integer" value-type="java.lang.String">
+		<entry key="1" value="抵顶"></entry>
+		<entry key="2" value="正常撤销"></entry>
+		<entry key="3" value="强制撤销"></entry>
+	</util:map>
+	
+	<!-- 抵顶 状态-->
+	<util:map id="applyGage_statusMap" map-class="java.util.HashMap"
+		key-type="java.lang.Integer" value-type="java.lang.String">
+		<entry key="1" value="待审核"></entry>
+		<entry key="2" value="审核通过"></entry>
+		<entry key="3" value="审核不通过"></entry>
+	</util:map>
+	
+	<!-- 交收配对交收类型-->
+	<util:map id="settleMatch_settleTypeMap" map-class="java.util.HashMap"
+		key-type="java.lang.Integer" value-type="java.lang.String">
+		<entry key="1" value="按期交收"></entry>
+		<entry key="2" value="提前交收"></entry>
+		<entry key="3" value="延期交收"></entry>
+	</util:map>
+	
+	<!-- 交收配对处理状态-->
+	<util:map id="settleMatch_statusMap" map-class="java.util.HashMap"
+		key-type="java.lang.Integer" value-type="java.lang.String">
+		<entry key="0" value="未处理"></entry>
+		<entry key="1" value="处理中"></entry>
+		<entry key="2" value="处理完成"></entry>
+		<entry key="3" value="作废"></entry>
+	</util:map>
+	
+	<!-- 交收配对处理执行结果-->
+	<util:map id="settleMatch_resultMap" map-class="java.util.HashMap"
+		key-type="java.lang.Integer" value-type="java.lang.String">
+		<entry key="1" value="履约"></entry>
+		<entry key="2" value="买方违约"></entry>
+		<entry key="3" value="卖方违约"></entry>
+		<entry key="4" value="双方违约"></entry>
+	</util:map>
+	
+	<!-- 交收配对处理是否货权转移-->
+	<util:map id="settleMatch_isTransferMap" map-class="java.util.HashMap"
+		key-type="java.lang.Integer" value-type="java.lang.String">
+		<entry key="0" value="未货权转移"></entry>
+		<entry key="1" value="已货权转移"></entry>
+	</util:map>
+	
+	<!-- 交收申请审核状态 -->
+	<util:map id="Audit_statusMap" map-class="java.util.HashMap"
+		key-type="java.lang.Long" value-type="java.lang.String">
+		<entry key="1" value="待审核"></entry>
+		<entry key="2" value="审核通过"></entry>
+		<entry key="3" value="审核失败"></entry>
+	</util:map>
+	
+	<!-- 质押资金质押类型 -->
+	<util:map id="Pledge_typeMap" map-class="java.util.HashMap"
+		key-type="java.lang.Long" value-type="java.lang.String">
+		<entry key="0" value="质押"></entry>
+		<entry key="1" value="撤销质押"></entry>
+	</util:map>
+	
+	<!-- 质押资金审核状态 -->
+	<util:map id="Pledge_statusMap" map-class="java.util.HashMap"
+		key-type="java.lang.Long" value-type="java.lang.String">
+		<entry key="0" value="待审核"></entry>
+		<entry key="1" value="审核通过"></entry>
+		<entry key="2" value="审核失败"></entry>
+		<entry key="3" value="已撤销"></entry>
+	</util:map>
+	
+	<!-- 交收配对状态-->
+	<util:map id="settleMatch_statusMapM" map-class="java.util.HashMap"
+		key-type="java.lang.Integer" value-type="java.lang.String">
+		<entry key="0" value="未处理"></entry>
+		<entry key="1" value="处理中"></entry>
+		<entry key="2" value="处理完成"></entry>
+		<entry key="3" value="作废"></entry>
+	</util:map>
+	
+	<!-- 交收配对执行结果-->
+	<util:map id="settleMatch_resultMapM" map-class="java.util.HashMap"
+		key-type="java.lang.Integer" value-type="java.lang.String">
+		<entry key="1" value="履约"></entry>
+		<entry key="2" value="买方违约"></entry>
+		<entry key="3" value="卖方违约"></entry>
+		<entry key="4" value="双方违约"></entry>
+	</util:map>
+	
+	<!-- 交收配对交收类型-->
+	<util:map id="settleMatch_settleTypeMapM" map-class="java.util.HashMap"
+		key-type="java.lang.Integer" value-type="java.lang.String">
+		<entry key="1" value="按期交收"></entry>
+		<entry key="2" value="提前交收"></entry>
+		<entry key="3" value="延期交收"></entry>
+	</util:map>
+	<!-- 委托情况转让方式 -->
+	<util:map id="closeModeMap" map-class="java.util.HashMap"
+		key-type="java.lang.Long" value-type="java.lang.String">
+		<entry key="1" value="不指定平仓"></entry>
+		<entry key="2" value="指定时间平仓"></entry>
+		<entry key="3" value="指定价格平仓"></entry>
+	</util:map>
+	<!-- 委托情况指定时间标志 -->
+	<util:map id="timeFlagMap" map-class="java.util.HashMap"
+		key-type="java.lang.Integer" value-type="java.lang.String">
+		<entry key="1" value="平今仓"></entry>
+		<entry key="2" value="平历史仓"></entry>
+	</util:map>
+</beans>

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+	<!-- 
+		公用系统错误码定义方式：一位模块号+五位数字
+			公用系统错误码第一位模块号：1
+			五位数字设定方式：
+				第一位设定为成功失败的标志：1 成功、2 警告、3 失败
+				第二、三位设定为区分不同的交易使用(99 表示公用部分信息)
+				第四、五位为交易的错误码区分位，预计每个交易有 100 个错误码足够了
+	 -->
+	<bean id="errorCode" class="java.util.Properties">
+		<constructor-arg type="java.util.Properties">
+			<props>
+<!-- 公用部分信息设定为 99 -->
+				<prop key="119901">添加成功</prop>
+				<prop key="119902">修改成功</prop>
+				<prop key="119903">删除成功</prop>
+				<prop key="119904">添加数据成功，等待审核</prop>
+				<prop key="119905">更新数据成功，等待审核</prop>
+				<prop key="119906">删除数据成功，等待审核</prop>
+				<prop key="119907">操作成功</prop>
+				<prop key="119908">操作失败</prop>
+				<prop key="119909">执行存储失败</prop>
+				<prop key="119910">下单服务器已关闭</prop>
+				<prop key="119911">交易系统不是暂停状态，不能调整</prop>
+				
+				<prop key="139904">管理后台启动异常，请联系管理人员</prop>
+
+<!-- 菜单管理信息设定为 10 -->
+				<prop key="111001">设置我的菜单成功</prop>
+				<prop key="131001">设置我的菜单失败，我的菜单最多不能多于%s个</prop>
+
+<!-- 用户登录设定为 12 -->
+				<prop key="111201">管理员登录成功</prop>
+				<prop key="131201">验证码为空，请重新登录</prop>
+				<prop key="131202">验证码错误，请重新登录</prop>
+				<prop key="131203">用户名或密码错误，请重新登录</prop>
+				<prop key="131204">key盘身份验证失败，请确认</prop>
+				<prop key="131205">用户被禁用，请联系系统管理员</prop>
+				<prop key="131206">系统返回未知错误，错误码%s，请联系系统管理员</prop>
+
+<!-- 修改登录密码定为 13 -->
+				<prop key="111301">修改密码成功</prop>
+				<prop key="111302">修改管理员%s密码成功</prop>
+				<prop key="111303">修改风格成功</prop>
+				<prop key="131301">修改密码失败，新密码与原密码一致</prop>
+				<prop key="131302">修改密码失败，旧密码错误</prop>
+
+<!-- 以上为 公用信息，其他项目也会有涉及 -->
+				<prop key="111501">操作成功!</prop>
+				<prop key="131501">系统异常,请与管理员联系!</prop>
+				
+<!-- 交易结算 -->			
+				<prop key="131520">RMI修改交易状态失败！%s</prop>
+
+<!-- 交易结算 -->			
+				<prop key="111502">交易结算成功！</prop>
+				<prop key="131517">交收处理出错！</prop>
+				<prop key="131518">交易结算失败！</prop>
+				<prop key="131519">交易结算失败！%s</prop>
+				
+<!-- 强制减仓 -->
+				<prop key="131502">生成强减明细失败：只能闭市操作状态强减！</prop>
+				<prop key="131503">生成强减明细失败：没有符合条件的盈利方！</prop>
+				<prop key="131504">生成强减明细失败！</prop>	
+				<prop key="131505">添加失败！此记录已存在！</prop>	
+				<prop key="131506">添加失败！交易客户没有持仓！</prop>	
+				<prop key="131507">添加失败！交易客户持仓小于保留量！</prop>	
+				<prop key="131508">添加成功！</prop>	
+				<prop key="131509">应在闭市之前，结算之后做强减！</prop>	
+				<prop key="131510">强减日期应为当前日期！</prop>	
+				<prop key="131511">执行强减失败！</prop>	
+				<prop key="131512">此交易客户不存在！</prop>	
+				<prop key="131513">买卖标志错误！</prop>	
+				<prop key="131514">此商品不存在！</prop>	
+				<prop key="131515">不是闭市状态，不能录入强减委托！</prop>	
+				<prop key="131516">添加强减委托失败！</prop>	
+
+<!-- 非交易过户 --> 
+				<prop key="150801">删除失败，已审核数据不能删除！</prop>	
+				<prop key="150802">审核失败，可过户持仓数量不足！</prop>
+				<prop key="150803">审核失败，只有在闭市状态下才可进行过户操作！</prop>
+				<prop key="150804">审核失败，没有找到可过户的持仓记录！</prop>
+				<prop key="150805">过户申请失败！</prop>
+				<prop key="150831">添加失败，可过户持仓数量不足！</prop>
+				<prop key="150832">添加失败，接受人不存在！</prop>
+				
+<!-- 仓单撤销  -->
+				<prop key="150806">撤销仓单,%s</prop>
+				<prop key="150807">%s撤销仓单失败，可用仓单数量不足！</prop>
+				<prop key="150808">%s撤销仓单失败！</prop>
+<!-- 仓单添加 -->
+				<prop key="150809">仓单添加成功</prop>
+				<prop key="150816">仓单添加失败</prop>
+				<prop key="150825">仓单添加失败，仓单数量不能为小数！</prop>
+				
+<!--抵顶业务 -->
+				<prop key="150501">只能在闭市状态下进行审核！</prop>
+				<prop key="150502">已处理的申请无需再次审核！</prop>
+				<prop key="150503">抵顶时超出可抵顶数量！</prop>
+				<prop key="150504">抵顶数量大于持仓数量！</prop>
+				<prop key="150505">抵顶数量大于可用数量！</prop>
+				<prop key="150506">没有对应的生效仓单抵顶记录！</prop>
+				<prop key="150507">取消抵顶时超出抵顶数量！</prop>
+				<prop key="150508">取消抵顶数量大于抵顶数量！</prop>
+				<prop key="150509">资金余额不足！</prop>
+				<prop key="150513">没有对应持仓数量！</prop>
+<!--交收属性管理 -->
+				<prop key="150520">删除成功！</prop>
+<!--交收配对 -->
+				<prop key="150510">买方可配对持仓不足！</prop>
+				<prop key="150511">卖方可配对持仓不足！</prop>
+				<prop key="150512">冻结仓单失败！</prop>
+				
+
+				
+<!--协议交收 -->
+				<prop key="150810">审核失败， 可平仓买持仓数量不足！</prop>
+				<prop key="150811">审核失败， 平仓买持仓数量大于可平仓买持仓数量！</prop>
+				<prop key="150812">审核失败， 可平仓卖持仓数量不足！</prop>
+				<prop key="150813">审核失败，  平仓卖持仓数量大于可平仓卖持仓数量！</prop>
+				<prop key="150814">审核失败， 解冻持仓失败！</prop>
+				<prop key="150815">审核失败，请与管理员联系！</prop>
+				<prop key="150826">审核失败，只有在闭市状态下才可进行该操作！</prop>
+				
+				<prop key="150820">添加失败，商品代码不存在！</prop>
+				<prop key="150821">添加失败，买二级代码不存在！</prop>
+				<prop key="150822">添加失败，卖二级代码不存在！</prop>
+				<prop key="150823">添加失败，买方持仓不足！</prop>
+				<prop key="150824">添加失败，卖方持仓不足！</prop>
+				
+<!--质押资金-->
+				<prop key="150817">添加失败，申请撤销操作重复！</prop>
+				<prop key="150818">操作异常！</prop>
+				<prop key="150819">添加失败，冻结仓单不成功！</prop>
+				
+<!-- 订单交易  交易参数设置定为 1511 -->
+				<prop key="151102">操作失败，%s</prop>
+				<prop key="151103">%s</prop>
+				
+<!-- 配对处理 -->
+				<prop key="151301">操作成功</prop>
+				<prop key="151302">操作失败</prop>
+				<prop key="151303">操作失败，该配对%s！</prop>
+				<prop key="151304">操作失败，金额不符合条件！</prop>
+				<prop key="151305">操作失败，货款处理未完成！</prop>
+				<prop key="151306">操作失败，仓库货权转移失败！</prop>
+				<prop key="151307">操作失败，仓库解冻仓单失败！</prop>
+				<prop key="151308">操作失败，交易商资金余额不足！</prop>					
+				
+			</props>
+		</constructor-arg>
+	</bean>
+	<!-- 系统配置项结束 -->
+
+</beans>

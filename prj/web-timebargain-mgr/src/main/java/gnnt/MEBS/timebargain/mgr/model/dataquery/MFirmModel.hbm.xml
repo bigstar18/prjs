@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+	<!--
+		通过配置文件配置 Model 类与数据库表之间的字段联系
+	将本配置文件配置到 hibernate.cfg.xml 中
+	-->
+<hibernate-mapping package="gnnt.MEBS.timebargain.mgr.model.dataquery">
+	<class name="MFirmModel" table="M_Firm" lazy="false">
+		<id name="firmId">
+		   <generator class="assigned"></generator>
+		</id>
+		<property name="name" />
+		<property name="fullName" />
+		<property name="type" />
+		
+		<property name="status" />
+	
+		<property name="address" />
+		<property name="contactMan" />
+		<property name="phone" />
+		<property name="fax" />
+		<property name="postCode" />
+		<property name="email" />
+		<property name="note" />
+		<property name="zoneCode" />
+		<property name="industryCode" />
+		<property name="extendData" />
+		<property name="createTime" />
+		<property name="modifyTime" />
+	</class>
+</hibernate-mapping>

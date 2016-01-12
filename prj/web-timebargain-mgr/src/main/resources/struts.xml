@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<constant name="struts.i18n.encoding" value="GBK"></constant>
+	<constant name="struts.objectFactory" value="spring"></constant>
+	<constant name="struts.locale" value="zh_CN"></constant>
+	<constant name="struts.multipart.maxSize" value="307200"></constant>
+	<constant name="struts.multipart.parser" value="jakarta"></constant>
+	<constant name="struts.ui.theme" value="simple" />
+	<constant name="struts.ui.templateDir" value="template" />
+	<constant name="struts.ui.templateSuffix" value="ftl" />
+	<constant name="struts.devMode" value="false" />
+	<constant name="struts.enable.DynamicMethodInvocation" value="true"></constant>
+	<package name="defaults" extends="struts-default">
+		<global-results>
+			<result name="SysException">/mgr/public/jsp/error.jsp</result>
+			<result name="verifyQuit">/mgr/public/jsp/commonmsg.jsp</result>
+		</global-results>
+	</package>
+<!-- 重新指定request封装类 -->
+	<package name="base-struts2" extends="defaults" abstract="true">
+		<interceptors>
+			<interceptor name="throwsExceptionInterceptor"
+				class="gnnt.MEBS.common.mgr.webframe.strutsinterceptor.ExceptionInterceptor">
+			</interceptor>
+			<interceptor name="writeLogInterceptor"
+				class="gnnt.MEBS.common.mgr.webframe.strutsinterceptor.WriteLogInterceptor">
+			</interceptor>
+			<interceptor name="auditInterceptor"
+				class="gnnt.MEBS.common.mgr.webframe.strutsinterceptor.AuditInterceptor">
+			</interceptor>
+			<interceptor-stack name="mydefault">
+				<interceptor-ref name="throwsExceptionInterceptor" />
+				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="writeLogInterceptor" />
+				<interceptor-ref name="auditInterceptor" />
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="mydefault" />
+	</package>
+<!-- 公用部分 struts 配置文件 -->
+	<include file="configfiles/common/struts/struts_user.xml"></include>
+	<include file="configfiles/common/struts/struts_ajaxquery.xml"></include>
+	<include file="configfiles/common/struts/struts_ajaxcommunications.xml"></include>
+
+<!-- 测试部分 struts 配置文件 -->
+	<include file="configfiles/timebargain/struts/struts_customer.xml"></include>
+	<include file="configfiles/timebargain/struts/struts_ajaxcheck.xml"></include>
+<!-- 交易状态和交易结算 struts 配置文件 -->	
+	<include file="configfiles/timebargain/struts/struts_tradeManager.xml"></include>
+	<include file="configfiles/timebargain/struts/struts_ajaxTradeEnd.xml"></include>
+<!-- 强减部分struts 配置文件-->
+	<include file="configfiles/timebargain/struts/struts_deduct.xml"></include>
+	<include file="configfiles/timebargain/struts/struts_ajaxDeductCheck.xml"></include>
+
+<!--	-->
+	<include file="configfiles/timebargain/struts/struts_printreport.xml"></include>
+	<include file="configfiles/timebargain/struts/struts_agency.xml"></include>
+	<include file="configfiles/timebargain/struts/struts_monitorSet.xml"></include>
+	<include file="configfiles/timebargain/struts/struts_tradeparams.xml"></include>
+	<include file="configfiles/timebargain/struts/struts_delay.xml"></include>
+	<include file="configfiles/timebargain/struts/struts_authorize.xml"></include>
+	<include file="configfiles/timebargain/struts/struts_ajaxorder.xml"></include>
+	<include file="configfiles/timebargain/struts/struts_ajaxAgency.xml"></include>
+	<include file="configfiles/timebargain/struts/struts_applyAndCheck.xml"></include>
+	
+<!-- 交易商设置 struts 配置文件 -->
+	<include file="configfiles/timebargain/struts/struts_firmSet.xml"></include>
+	<include file="configfiles/timebargain/struts/struts_ajaxFirmSet.xml"></include>
+	
+<!-- 交收部分配置文件  -->
+	<include file="configfiles/timebargain/struts/struts_bill.xml"></include>
+	<include file="configfiles/timebargain/struts/struts_ajaxSettle.xml"></include>
+	<include file="configfiles/timebargain/struts/struts_ajaxTransfer.xml"></include>
+	<include file="configfiles/timebargain/struts/struts_applyGage.xml"></include>
+	<include file="configfiles/timebargain/struts/struts_ajaxApplyGage.xml"></include>	
+	<include file="configfiles/timebargain/struts/struts_agreementSettle.xml"></include>
+	<include file="configfiles/timebargain/struts/struts_transfer.xml"></include>	
+	<include file="configfiles/timebargain/struts/struts_aheadSettle.xml"></include>
+	<include file="configfiles/timebargain/struts/struts_ajaxAheadSettle.xml"></include>
+	<include file="configfiles/timebargain/struts/struts_settleProps.xml"></include>
+	<include file="configfiles/timebargain/struts/struts_pledge.xml"></include>	
+	<include file="configfiles/timebargain/struts/struts_ajaxPledge.xml"></include>
+	<include file="configfiles/timebargain/struts/struts_settleMatch.xml"></include>
+	<include file="configfiles/timebargain/struts/struts_ajaxSettleMatch.xml"></include>	
+	<include file="configfiles/timebargain/struts/struts_settle.xml"></include>
+
+<!-- 数据查询 struts 配置文件 -->
+	<include file="configfiles/timebargain/struts/struts_dataquery.xml"></include>
+	
+	
+<!-- 加盟商佣金查询 struts 配置文件 -->
+	<include file="configfiles/timebargain/struts/struts_brokerReward.xml"></include>	
+	
+</struts>

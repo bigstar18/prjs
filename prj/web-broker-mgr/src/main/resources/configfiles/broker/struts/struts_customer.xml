@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- 
+		测试例子，action 路径为 /broker/customerplay 开头的访问则进入本配置
+	 -->
+	<package name="customer" extends="base-struts2" namespace="/dem/customerplay">
+		<!-- 
+			测试列表
+				listByLimit 方法在 EcsideAction 中共用
+		-->
+		<action name="customerlist" class="customerAction" method="listByLimit">
+			<param name="entityName">gnnt.MEBS.broker.mgr.model.CustomerModel</param>
+			<result>/mgr/app/broker/customer_list.jsp</result>
+		</action>
+
+		<!-- 
+			添加测试信息跳转
+				forwardAdd 方法在 StandardAction 中共用
+		-->
+		<action name="addcustomerforward" class="customerAction" method="forwardAdd">
+			<param name="entityName">gnnt.MEBS.broker.mgr.model.CustomerModel</param>
+			<result>/mgr/app/broker/customer_add.jsp</result>
+		</action>
+
+		<!-- 添加测试信息 -->
+		<action name="addcustomer" class="customerAction" method="addCustomer">
+			<param name="entityName">gnnt.MEBS.broker.mgr.model.CustomerModel</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+
+		<!-- 
+			修改测试信息跳转
+				viewById 方法在 StandardAction 中共用，可以根据 entity.brokerId 获取 brokerModel 对象
+		-->
+		<action name="updatecustomerforward" class="customerAction" method="viewById">
+			<param name="entityName">gnnt.MEBS.broker.mgr.model.CustomerModel</param>
+			<result>/mgr/app/broker/customer_update.jsp</result>
+		</action>
+
+		<!-- 
+			修改测试信息
+				修改测试信息在 StandardAction 也有共用方法 update 这里为了演示调用自定义 Action 所以不适用 共用方法，改成适用自定义方法
+		-->
+		<action name="updatecustomer" class="customerAction" method="update">
+			<param name="entityName">gnnt.MEBS.broker.mgr.model.CustomerModel</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+
+		<!-- 
+			批量删除测试信息
+				delete 方法在 StandardAction 中共用，可以根据传入的 ids 数组批量删除信息
+			然后内部跳转到 brokerlist.action 连接
+		-->
+		<action name="delatecustomerlist" class="customerAction" method="delete">
+			<param name="entityName">gnnt.MEBS.broker.mgr.model.CustomerModel</param>
+			<result>customerlist.action?sortColumns=order+by+customerId+desc</result>
+		</action>
+
+		<!-- 
+			测试信息详情
+				viewById 方法在 StandardAction 中共用，可以根据 entity.brokerId 获取 brokerModel 对象
+		-->
+		<action name="customerdetails" class="customerAction" method="viewById">
+			<param name="entityName">gnnt.MEBS.broker.mgr.model.CustomerModel</param>
+			<result>/mgr/app/broker/customer_details.jsp</result>
+		</action>
+	</package>
+</struts>

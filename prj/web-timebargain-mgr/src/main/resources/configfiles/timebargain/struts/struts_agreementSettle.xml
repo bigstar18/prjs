@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- 
+		action 路径为 /timebargain/settle 开头的访问则进入本配置
+	 -->
+	<package name="agreement" extends="base-struts2" namespace="/timebargain/agreementSettle">
+		<!-- 
+			协议交收查询
+		-->
+		<action name="agreementSettleList" class="agreementSettleAction" method="listByLimit">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settle.ApplyTreatySettle</param>
+			<result>/mgr/app/timebargain/settle/agreementSettle_list.jsp</result>
+		</action>
+		
+		<!-- 
+			协议交收添加跳转
+		-->
+		<action name="addAgreementforward" class="agreementSettleAction" method="forwardAdd">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settle.ApplyTreatySettle</param>
+			<result>/mgr/app/timebargain/settle/agreement_add.jsp</result>
+		</action>
+		
+		<!-- 
+			协议交收添加
+		-->
+		<action name="addAgreementSettle" class="agreementSettleAction" method="addAgreement">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settle.ApplyTreatySettle</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		
+		<!-- 
+			协议交收审核跳转
+		-->
+		<action name="agreementAuditForward" class="agreementSettleAction" method="viewByIdAgreement">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settle.ApplyTreatySettle</param>
+			<result>/mgr/app/timebargain/settle/agreementCheck_form.jsp</result>
+		</action>
+		
+		<action name="agreementCheck" class="agreementSettleAction" method="agreementAudit">
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		
+	</package>
+</struts>

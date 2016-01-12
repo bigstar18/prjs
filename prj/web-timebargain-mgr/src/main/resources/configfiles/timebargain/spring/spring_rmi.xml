@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	
+	<!-- 设置 RMI 信息修改类 -->
+	<bean class="gnnt.MEBS.util.spring.rmi.CreateRMIPropertiesFileByDB">
+		<property name="order" value="20" />
+		<!-- 是否从数据库获取RMI配置 -->
+		<property name="setRMIPropertiesFromDB" value="true" />
+		<!-- 需要获取配置的模块号 -->
+		<property name="moduleArr">
+			<list>
+				<value>13</value>
+				<value>15</value>
+			</list>
+		</property>
+		<!-- rmi属性文件名称 -->
+		<property name="rmiPropertiesName" value="configfiles/timebargain/spring/rmi.properties" />
+		<property name="dataSource">
+			<idref bean="dataSource" />
+		</property>
+	</bean>
+	
+	
+	<!-- 设置RMI配置方式 -->
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="order" value="30" />
+		<property name="placeholderPrefix" value="$[" />
+		<property name="placeholderSuffix" value="]" />
+		<property name="locations">
+			<list>
+				<value>WEB-INF/classes/configfiles/timebargain/spring/rmi.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+
+	<!-- 仓单IKernelService调用核心 RMI -->
+	<bean id="billKernelService" class="org.springframework.remoting.rmi.RmiProxyFactoryBean"
+		lazy-init="false">
+		<property name="refreshStubOnConnectFailure">
+			<value>true</value>
+		</property>
+		<property name="lookupStubOnStartup">
+			<value>false</value>
+		</property>
+
+		<property name="serviceInterface">
+			<value>gnnt.MEBS.bill.core.service.IKernelService</value>
+		</property>
+		<!-- serviceUrl以rmi开头,定义服务器地址与端口和服务名 -->
+		<property name="serviceUrl">
+			<value>rmi://$[bill.rmi.ip]:$[bill.rmi.port]/$[bill.rmi.IKernelServiceName]</value>
+		</property>
+	</bean>
+	
+	<!-- 仓单ITradeService调用核心 RMI -->
+	<bean id="billTradeService" class="org.springframework.remoting.rmi.RmiProxyFactoryBean"
+		lazy-init="false">
+		<property name="refreshStubOnConnectFailure">
+			<value>true</value>
+		</property>
+		<property name="lookupStubOnStartup">
+			<value>false</value>
+		</property>
+
+		<property name="serviceInterface">
+			<value>gnnt.MEBS.bill.core.service.ITradeService</value>
+		</property>
+		<!-- serviceUrl以rmi开头,定义服务器地址与端口和服务名 -->
+		<property name="serviceUrl">
+			<value>rmi://$[bill.rmi.ip]:$[bill.rmi.port]/$[bill.rmi.ITradeServiceName]</value>
+		</property>
+	</bean>
+	
+	<!-- 订单ServerRMI调用核心 RMI -->
+	<bean id="ServerRMI" class="org.springframework.remoting.rmi.RmiProxyFactoryBean"
+		lazy-init="false">
+		<property name="refreshStubOnConnectFailure">
+			<value>true</value>
+		</property>
+		<property name="lookupStubOnStartup">
+			<value>false</value>
+		</property>
+
+		<property name="serviceInterface">
+			<value>gnnt.MEBS.timebargain.server.rmi.ServerRMI</value>
+		</property>
+		<!-- serviceUrl以rmi开头,定义服务器地址与端口和服务名 -->
+		<property name="serviceUrl">
+			<value>rmi://$[timebargain.rmi.ip]:$[timebargain.rmi.port]/$[timebargain.rmi.ServerRMIName]</value>
+		</property>
+	</bean>
+	
+	<!-- 订单TradeRMI调用核心 RMI -->
+	<bean id="TradeRMI" class="org.springframework.remoting.rmi.RmiProxyFactoryBean"
+		lazy-init="false">
+		<property name="refreshStubOnConnectFailure">
+			<value>true</value>
+		</property>
+		<property name="lookupStubOnStartup">
+			<value>false</value>
+		</property>
+
+		<property name="serviceInterface">
+			<value>gnnt.MEBS.timebargain.server.rmi.TradeRMI</value>
+		</property>
+		<!-- serviceUrl以rmi开头,定义服务器地址与端口和服务名 -->
+		<property name="serviceUrl">
+			<value>rmi://$[timebargain.rmi.ip]:$[timebargain.rmi.port]/$[timebargain.rmi.TradeRMIName]</value>
+		</property>
+	</bean>
+	
+	<!-- 订单ExtendRMI调用核心 RMI -->
+	<bean id="ExtendRMI" class="org.springframework.remoting.rmi.RmiProxyFactoryBean"
+		lazy-init="false">
+		<property name="refreshStubOnConnectFailure">
+			<value>true</value>
+		</property>
+		<property name="lookupStubOnStartup">
+			<value>false</value>
+		</property>
+
+		<property name="serviceInterface">
+			<value>gnnt.MEBS.timebargain.server.rmi.ExtendRMI</value>
+		</property>
+		<!-- serviceUrl以rmi开头,定义服务器地址与端口和服务名 -->
+		<property name="serviceUrl">
+			<value>rmi://$[timebargain.rmi.ip]:$[timebargain.rmi.port]/$[timebargain.rmi.ExtendRMIName]</value>
+		</property>
+	</bean>
+	
+	<!-- 订单ProxyRMI调用核心 RMI -->
+	<bean id="ProxyRMI" class="org.springframework.remoting.rmi.RmiProxyFactoryBean"
+		lazy-init="false">
+		<property name="refreshStubOnConnectFailure">
+			<value>true</value>
+		</property>
+		<property name="lookupStubOnStartup">
+			<value>false</value>
+		</property>
+
+		<property name="serviceInterface">
+			<value>gnnt.MEBS.timebargain.server.rmi.ProxyRMI</value>
+		</property>
+		<!-- serviceUrl以rmi开头,定义服务器地址与端口和服务名 -->
+		<property name="serviceUrl">
+			<value>rmi://$[timebargain.rmi.ip]:$[timebargain.rmi.port]/$[timebargain.rmi.ProxyRMIName]</value>
+		</property>
+	</bean>
+	
+	<!-- 订单DelayRMI调用核心 RMI -->
+	<bean id="DelayRMI" class="org.springframework.remoting.rmi.RmiProxyFactoryBean"
+		lazy-init="false">
+		<property name="refreshStubOnConnectFailure">
+			<value>true</value>
+		</property>
+		<property name="lookupStubOnStartup">
+			<value>false</value>
+		</property>
+
+		<property name="serviceInterface">
+			<value>gnnt.MEBS.timebargain.server.rmi.DelayRMI</value>
+		</property>
+		<!-- serviceUrl以rmi开头,定义服务器地址与端口和服务名 -->
+		<property name="serviceUrl">
+			<value>rmi://$[timebargain.rmi.ip]:$[timebargain.rmi.port]/$[timebargain.rmi.DelayRMIName]</value>
+		</property>
+	</bean>
+	
+	<!-- 订单TradeMonitorRMI调用核心 RMI -->
+	<bean id="TradeMonitorRMI" class="org.springframework.remoting.rmi.RmiProxyFactoryBean"
+		lazy-init="false">
+		<property name="refreshStubOnConnectFailure">
+			<value>true</value>
+		</property>
+		<property name="lookupStubOnStartup">
+			<value>false</value>
+		</property>
+
+		<property name="serviceInterface">
+			<value>gnnt.MEBS.timebargain.server.rmi.TradeMonitorRMI</value>
+		</property>
+		<!-- serviceUrl以rmi开头,定义服务器地址与端口和服务名 -->
+		<property name="serviceUrl">
+			<value>rmi://$[timebargain.rmi.ip]:$[timebargain.rmi.port]/$[timebargain.rmi.TradeMonitorRMIName]</value>
+		</property>
+	</bean>
+	
+</beans>

@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+	<!--
+		通过配置文件配置 Model 类与数据库表之间的字段联系
+	将本配置文件配置到 hibernate.cfg.xml 中
+	-->
+<hibernate-mapping package="gnnt.MEBS.timebargain.mgr.model.dataquery">
+	<class name="OrdersModel" table="T_Orders" lazy="false">
+		<id name="orderNo">
+			<column name="A_ORDERNO" />
+			<generator class="sequence">
+				<param name="sequence">SEQ_T_ORDERS</param>
+			</generator>
+		</id>
+		<property name="orderNo1" column="A_ORDERNO_W" />
+		<property name="commodityId" />
+		<property name="customerId" />
+		<property name="traderId" />
+		<property name="flag" column="BS_FLAG"/>
+		<property name="orderType" />
+		<property name="status1" column="STATUS"/>
+		<property name="withdrawType" />
+		<property name="failCode" />
+		<property name="quantity" />
+		<property name="price" />
+		<property name="closeMode" />
+		<property name="specPrice" />
+		<property name="timeFlag" />
+		<property name="tradeQty" />
+		<property name="frozenFunds" />
+		<property name="unfrozenFunds" />
+		<property name="orderTime" />
+		<property name="withdrawTime" />
+		<property name="ordererIp" />
+		<property name="signature" />
+		<property name="closeFlag" />
+		<property name="consignerId" />
+		<property name="withdrawerId" />
+		<property name="updateTime" type="timestamp"/>
+		<property name="billTradeType" />
+		<property name="specialorderflag" />
+		
+		<many-to-one name="mFirmModel" class="MFirmModel"
+			column="FIRMID" cascade="all" unique="true" insert="false" update="false"></many-to-one>
+	</class>
+</hibernate-mapping>

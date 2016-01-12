@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- 
+		action 路径为 /timebargain/settle 开头的访问则进入本配置
+	 -->
+	<package name="transfer" extends="base-struts2" namespace="/timebargain/transfer">   
+		<!-- 
+			非交易过户查询
+		-->
+		<action name="transferList" class="transferAction" method="listByLimit">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settle.TransferModel</param>
+			<result>/mgr/app/timebargain/settle/transfer_list.jsp</result>
+		</action>
+		
+		<!-- 
+			非交易过户跳转
+		-->
+		<action name="addTransferforward" class="transferAction" method="forwardAdd">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settle.TransferModel</param>
+			<result>/mgr/app/timebargain/settle/transfer_add.jsp</result>
+		</action>
+
+		<!-- 
+			非交易过户添加
+		-->
+		<action name="addTransfer" class="transferAction" method="addTransfer">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settle.TransferModel</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		
+		<!-- 
+			批量删除
+		-->
+		<action name="delateTransfer" class="transferAction" method="deleteTransfer">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settle.TransferModel</param>
+			<result>transferList.action?sortColumns=order+by+TransferID+desc</result>
+		</action>
+		
+		<!-- 
+			非交易过户审核
+		-->
+		<action name="transferAudit" class="transferAction" method="listByLimit">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settle.TransferModel</param>
+			<result>/mgr/app/timebargain/settle/transfer_audit_list.jsp</result>
+		</action>
+		
+		<!-- 
+			非交易过户审核跳转
+		-->
+		<action name="transferAuditForward" class="transferAction" method="viewByIdTransfer">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settle.TransferModel</param>
+			<result>/mgr/app/timebargain/settle/transferCheck_form.jsp</result>
+		</action>
+		
+		<action name="transferCheck" class="transferAction" method="transferAudit">
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		
+	</package>
+</struts>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!--
+	通过配置文件配置 Model 类与数据库表之间的字段联系
+	将本配置文件配置到 hibernate.cfg.xml 中
+-->
+<hibernate-mapping>
+	<class name="gnnt.MEBS.timebargain.mgr.model.firmSet.MTrader" table="M_TRADER" >
+		<id name="traderID">
+			<generator class="assigned">
+			</generator>
+		</id>
+		<property name="name" />
+		<property name="password" />
+		<property name="forceChangePwd" />
+		<property name="status" />
+		<property name="type" />
+		<property name="createTime" />
+		<property name="modifyTime" />
+		<property name="keyCode" />
+		<property name="enableKey" />
+		<property name="trustKey" />
+		<property name="lastIP" />
+		<property name="lastTime" />
+		<property name="skin" />
+		
+		<many-to-one name="firm" class="gnnt.MEBS.timebargain.mgr.model.firmSet.TFirm"  insert="false" update="false">
+		  <column name="firmID"></column>
+		</many-to-one>
+		
+	</class>
+</hibernate-mapping>

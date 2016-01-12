@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="gnnt.MEBS.timebargain.mgr.model.systemMana.CommodityModel" table="t_commodity" dynamic-update="true" lazy="false">
+		<id name="commodityId" type="string">
+		    <column name="commodityID" />
+		    <generator class="assigned" />
+		</id>
+		<property name="name" />
+		<property name="sortID" />
+		<property name="Status" />
+		<property name="feeAlgr" />
+		<property name="feeRate_B" />
+		<property name="feeRate_S" />
+		<property name="marginAlgr" />
+		<property name="marginRate_B" />
+		<property name="marginRate_S" />
+		<property name="marginAssure_B" />
+		<property name="marginAssure_S" />
+		<property name="lastPrice" />
+	</class>
+</hibernate-mapping>

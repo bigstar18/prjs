@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- 
+		action 路径为 /timebargain/aheadSettke 开头的访问则进入本配置
+	 -->
+	<package name="aheadSettle" extends="base-struts2" namespace="/timebargain/aheadSettle">
+		<!-- 
+			提前交收查询
+		-->
+		<action name="aheadSettleList" class="aheadSettleAction" method="listByLimit">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settle.ApplyAheadSettle</param>
+			<result>/mgr/app/timebargain/aheadSettle/aheadSettle_list.jsp</result>
+		</action>
+		
+		<!-- 
+			提前交收添加跳转
+		-->
+		<action name="addAheadSettleforward" class="aheadSettleAction" method="forwardAddAheadSettle">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settle.ApplyAheadSettle</param>
+			<result>/mgr/app/timebargain/aheadSettle/aheadSettle_add.jsp</result>
+		</action>
+		
+		<!-- 
+			仓单信息查询
+		-->
+		<action name="getBillList" class="aheadSettleAction" method="getBillList">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settle.SettleProps</param>
+			<result>/mgr/app/timebargain/aheadSettle/aheadSettle_add.jsp</result>
+		</action>
+
+		<!-- 
+			提前交收添加
+		-->
+		<action name="addAheadSettle" class="aheadSettleAction" method="addTransfer">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settle.ApplyAheadSettle</param>
+			<result name="success">/mgr/public/jsp/commonmsg.jsp</result>
+			<result name="error">addAheadSettleforward.action</result>
+		</action>
+		
+		<!-- 
+			根据提前交收申请ID查询仓单信息
+		-->
+		<action name="getBillListByApplyId" class="aheadSettleAction" method="getBillListByApplyId">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settle.ApplyAheadSettle</param>
+			<result>/mgr/app/timebargain/aheadSettle/aheadSettleBill_list.jsp</result>
+		</action>
+		
+		<!-- 
+			提前交收审核跳转
+		-->
+		<action name="aheadSettleAuditForward" class="aheadSettleAction" method="viewByApplyId">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settle.ApplyAheadSettle</param>
+			<result>/mgr/app/timebargain/aheadSettle/aheadSettle_details.jsp</result>
+		</action>
+
+		
+		<!-- 
+			提前交收审核
+		-->
+		<action name="aheadSettleAuditPass" class="aheadSettleAction" method="aheadSettleAuditPass">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settle.ApplyAheadSettle</param>
+			<result name="success">/mgr/public/jsp/commonmsg.jsp</result>
+			<result name="error">aheadSettleAuditForward.action</result>
+		</action>
+		
+		<action name="aheadSettleAuditFail" class="aheadSettleAction" method="aheadSettleAuditFail">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settle.ApplyAheadSettle</param>
+			<result name="success">/mgr/public/jsp/commonmsg.jsp</result>
+			<result name="error">aheadSettleAuditForward.action</result>
+		</action>
+		
+	</package>
+</struts>

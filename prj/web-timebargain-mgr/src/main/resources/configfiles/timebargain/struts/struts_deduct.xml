@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- 
+		强制减仓  action 路径为 /timebargain/deduct 开头的访问则进入本配置
+	 -->
+	<package name="deduct" extends="base-struts2" namespace="/timebargain/deduct">
+		<!-- 到强制减仓配置页面 -->
+		<action name="toDeductPosition" class="deductAction" method="toDeductPosition">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.deduct.Deduct</param>
+			<result>/mgr/app/timebargain/deduct/deductPosition_add.jsp</result>
+		</action>
+		<!-- 添加强减并跳转到强减保留页面 -->
+		<action name="addDeductPosition" class="deductAction" method="addDeductPosition">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.deduct.Deduct</param>
+			<result>/mgr/app/timebargain/deduct/deductKeepFirm_add.jsp</result>
+		</action>
+		<!-- 添加强减保留并刷新强减保留页面 -->
+		<action name="addKeepFirm" class="deductAction" method="addKeepFirm">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.deduct.DeductKeep</param>
+			<result>/mgr/app/timebargain/deduct/deductKeepFirm_add.jsp</result>
+		</action>
+		<!-- 跳转到修改强减页面 -->
+		<action name="updateDeductPositionForward" class="deductAction" method="updateDeductPositionForward">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.deduct.Deduct</param>
+			<result>/mgr/app/timebargain/deduct/deductPosition_update.jsp</result>
+		</action>
+		<!-- 修改强减并跳转到强减保留页面 -->
+		<action name="updateDeductPosition" class="deductAction" method="updateDeductPosition">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.deduct.Deduct</param>
+			<result>/mgr/app/timebargain/deduct/deductKeepFirm_add.jsp</result>
+		</action>
+		<!-- 强减保留页面列表排序刷新 -->
+		<action name="deductKeepFirmForward" class="deductAction" method="deductKeepFirmForward">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.deduct.DeductKeep</param>
+			<result>/mgr/app/timebargain/deduct/deductKeepFirm_add.jsp</result>
+		</action>
+		<!-- 
+			批量删除测试信息
+				delete 方法在 StandardAction 中共用，可以根据传入的 ids 数组批量删除信息
+			然后内部跳转到 demolist.action 连接
+		-->
+		<action name="deleteDeductKeep" class="deductAction" method="delete">
+		<param name="entityName">gnnt.MEBS.timebargain.mgr.model.deduct.DeductKeep</param>
+			<result>/mgr/app/timebargain/deduct/deductKeepFirm_add.jsp</result>
+		</action>
+		
+		<!-- 生成强减明细跳转至强减明细列表 -->
+		<action name="operateDeductDetail" class="deductAction" method="operateDeductDetail">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.deduct.Deduct</param>
+			<result name="success">/mgr/app/timebargain/deduct/deductDetail_list.jsp</result>
+			<result name="fail">/mgr/app/timebargain/deduct/deductKeepFirm_add.jsp</result>
+		</action>
+		<!-- 执行强减成功跳转强减列表否则跳转到添加强减页面-->
+		<action name="deductGo" class="deductAction" method="deductGo">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.deduct.Deduct</param>
+			<result name="success">deducPositionList.action</result>
+			<result name="fail">toDeductPosition.action</result>
+		</action>
+		<!-- 强减查询-->
+		<action name="deducPositionList" class="deductAction" method="listByLimit">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.deduct.Deduct</param>
+			<result>/mgr/app/timebargain/deduct/deductPosition_list.jsp</result>
+		</action>
+		
+		<!-- 根据deductId查询强减保留列表 -->
+		<action name="deductKeepFirmByDeductId" class="deductAction" method="deductKeepFirmByDeductId">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.deduct.DeductKeep</param>
+			<result>/mgr/app/timebargain/deduct/deductKeepFirm_list.jsp</result>
+		</action>
+		
+		<!-- 根据deductId查询强减设置信息 -->
+		<action name="deductInfoByDeductId" class="deductAction" method="deductInfoByDeductId">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.deduct.Deduct</param>
+			<result>/mgr/app/timebargain/deduct/deductPosition_info.jsp</result>
+		</action>
+		
+		<!-- 根据deductId查询强减明细 -->
+		<action name="deductDetailByDeductId" class="deductAction" method="deductDetailByDeductId">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.deduct.DeductDetail</param>
+			<result>/mgr/app/timebargain/deduct/deductDetail.jsp</result>
+		</action>
+		
+		<!-- 跳转到强减委托录入页面 -->
+		<action name="deductOrderAddForward" class="deductAction" method="deductOrderAddForward">
+			<result>/mgr/app/timebargain/deduct/deductOrder_add.jsp</result>
+		</action>
+		
+		<!-- 添加强减委托 -->
+		<action name="addDeductOrder" class="deductAction" method="addDeductOrder">
+			<result>deductOrderAddForward.action</result>
+		</action>
+	</package>
+</struts>

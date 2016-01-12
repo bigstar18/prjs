@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!--
+	通过配置文件配置 Model 类与数据库表之间的字段联系
+	将本配置文件配置到 hibernate.cfg.xml 中
+-->
+<hibernate-mapping>
+	<class name="gnnt.MEBS.broker.mgr.model.brokerManagement.BrokerMenu" table="BR_BROKERMENU" dynamic-update="true" lazy="true">
+		<id name="id" type="java.lang.Long">
+			<column name="ID" precision="10" scale="0" />
+			<generator class="native">				
+			</generator>
+		</id>
+		<property name="name" type="java.lang.String">
+			<column name="NAME" length="128" />
+		</property>
+		<property name="icon" type="java.lang.String">
+			<column name="ICON" length="128" />
+		</property>
+		<property name="url" type="java.lang.String">
+			<column name="AUTHORITYURL" length="512" />
+		</property>
+		<property name="visiturl" type="java.lang.String">
+			<column name="VISITURL" length="512" />
+		</property>
+		<property name="moduleId" type="java.lang.Integer">
+			<column name="MODULEID" precision="3" scale="0" />
+		</property>
+		<property name="seq" type="java.lang.Integer">
+			<column name="SEQ" precision="3" scale="0" />
+		</property>
+		<property name="visible" type="java.lang.Integer">
+			<column name="VISIBLE" precision="1" scale="0" />
+		</property>
+		<property name="type" type="java.lang.Integer">
+			<column name="TYPE" precision="3" scale="0" />
+		</property>
+		<property name="isWriteLog"></property>
+		<property name="onlyMember"></property>
+		
+		<many-to-one name="parentRight" column="PARENTID"
+			class="gnnt.MEBS.broker.mgr.model.brokerManagement.BrokerMenu">
+		</many-to-one>
+		<many-to-one name="logCatalog" column="catalogID"
+			class="gnnt.MEBS.common.mgr.model.LogCatalog" insert="false" update="false">
+		</many-to-one>
+		<set name="childRightSet" cascade="delete" lazy="false" fetch="select" order-by="seq">
+			<key column="PARENTID" />
+			<one-to-many class="gnnt.MEBS.broker.mgr.model.brokerManagement.BrokerMenu" />
+			<filter name="rightFilter" condition=" (TYPE=:type1 or TYPE=:type2)" />
+			<filter name="rightTreeFilter" condition="TYPE!=:type and VISIBLE=:visible" />
+		</set>
+		<set name="brokerSet" table="BR_BROKERRIGHT" cascade="none" lazy="true">
+			<key column="ID" />
+			<many-to-many class="gnnt.MEBS.broker.mgr.model.brokerManagement.Broker"
+				column="BROKERID" />
+		</set>
+	</class>
+	<!--Filter声明-->
+	<filter-def name="rightFilter">
+		<filter-param name="type1" type="java.lang.Integer" />
+		<filter-param name="type2" type="java.lang.Integer" />
+	</filter-def>
+
+	<filter-def name="rightTreeFilter">
+		<filter-param name="type" type="java.lang.Integer" />
+		<filter-param name="visible" type="java.lang.Integer" />
+	</filter-def>
+</hibernate-mapping>

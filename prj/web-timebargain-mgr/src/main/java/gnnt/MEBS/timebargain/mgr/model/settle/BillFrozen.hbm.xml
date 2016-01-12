@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="gnnt.MEBS.timebargain.mgr.model.settle">
+	<class name="BillFrozen" table="T_billFrozen" dynamic-update="true"
+		select-before-update="true" lazy="false">
+		<id name="id" type="long">
+			<column name="id" />
+			<generator class="native">
+				<param name="sequence">SEQ_T_BILLFROZEN</param>
+			</generator>
+		</id>
+		<property name="operation" />
+		<property name="billID" />
+		<property name="operationType" />
+		<property name="modifyTime" />
+	</class>
+</hibernate-mapping>

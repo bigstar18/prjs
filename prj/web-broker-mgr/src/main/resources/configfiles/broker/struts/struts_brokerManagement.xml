@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+<!-- 加盟商管理 -->
+	<package name="brokerManagement" extends="base-struts2" namespace="/broker/brokerManagement">
+	  <!-- 加盟商区域设置 -->
+		<action name="listBrokerArea" class="brokerManagementAction" method="listByLimit">
+		   <param name="entityName">gnnt.MEBS.broker.mgr.model.brokerManagement.BrokerArea</param>
+		   <result>/mgr/app/broker/brokerManagement/brokerArea_list.jsp</result>
+		</action>
+		
+		<action name="addBrokerAreaforward" class="brokerManagementAction" method="forwardAdd">
+			<param name="entityName">gnnt.MEBS.broker.mgr.model.brokerManagement.BrokerArea</param>
+			<result>/mgr/app/broker/brokerManagement/brokerArea_add.jsp</result>
+		</action>
+
+		<action name="addBrokerArea" class="brokerManagementAction" method="add">
+			<param name="entityName">gnnt.MEBS.broker.mgr.model.brokerManagement.BrokerArea</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+
+		<action name="updateBrokerAreaforward" class="brokerManagementAction" method="viewById">
+			<param name="entityName">gnnt.MEBS.broker.mgr.model.brokerManagement.BrokerArea</param>
+			<result>/mgr/app/broker/brokerManagement/brokerArea_update.jsp</result>
+		</action>
+		
+		<action name="updateBrokerArea" class="brokerManagementAction" method="update">
+			<param name="entityName">gnnt.MEBS.broker.mgr.model.brokerManagement.BrokerArea</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+
+		<action name="deleteBrokerArea" class="brokerManagementAction" method="delete">
+			<param name="entityName">gnnt.MEBS.broker.mgr.model.brokerManagement.BrokerArea</param>
+			<result>listBrokerArea.action?sortColumns=order+by+areaId+asc</result>
+		</action>
+	
+	<!-- 加盟商设置 -->
+	
+		<action name="listBroker" class="brokerManagementAction" method="listByLimit">
+		   <param name="entityName">gnnt.MEBS.broker.mgr.model.brokerManagement.Broker</param>
+		   <result>/mgr/app/broker/brokerManagement/broker_list.jsp</result>
+		</action>
+		
+		<action name="addBrokerforward" class="brokerManagementAction" method="addBrokerforward">
+			<param name="entityName">gnnt.MEBS.broker.mgr.model.brokerManagement.Broker</param>
+			<result>/mgr/app/broker/brokerManagement/broker_add.jsp</result>
+		</action>
+
+		<action name="addBroker" class="brokerManagementAction" method="addBroker">
+			<param name="entityName">gnnt.MEBS.broker.mgr.model.brokerManagement.Broker</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+
+		<action name="updateBrokerforward" class="brokerManagementAction" method="updateBrokerforward">
+			<param name="entityName">gnnt.MEBS.broker.mgr.model.brokerManagement.Broker</param>
+			<result>/mgr/app/broker/brokerManagement/broker_update.jsp</result>
+		</action>
+		
+		<action name="updateBroker" class="brokerManagementAction" method="updateBroker">
+			<param name="entityName">gnnt.MEBS.broker.mgr.model.brokerManagement.Broker</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+
+		<action name="deleteBroker" class="brokerManagementAction" method="deleteBroker">
+			<param name="entityName">gnnt.MEBS.broker.mgr.model.brokerManagement.Broker</param>
+			<result>listBroker.action</result>
+		</action>
+		<action name="updateBrokerPasswordforward" class="brokerManagementAction" method="viewById">
+			<param name="entityName">gnnt.MEBS.broker.mgr.model.brokerManagement.Broker</param>
+			<result>/mgr/app/broker/brokerManagement/brokerPasswordUpdate.jsp</result>
+		</action>
+		<action name="updateBrokerPassword" class="brokerManagementAction" method="updateBrokerPassword">
+			<param name="entityName">gnnt.MEBS.broker.mgr.model.brokerManagement.Broker</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<action name="updateBrokerFirmforward" class="brokerManagementAction" method="updateBrokerFirmforward">
+			<param name="entityName">gnnt.MEBS.broker.mgr.model.brokerManagement.FirmAndBroker</param>
+			<result>/mgr/app/broker/brokerManagement/brokerFirmList.jsp</result>
+		</action>
+		<action name="addBrokerFirmforward" class="brokerManagementAction" method="addBrokerFirmforward">
+			<param name="entityName">gnnt.MEBS.broker.mgr.model.brokerManagement.FirmAndBroker</param>
+			<result>/mgr/app/broker/brokerManagement/brokerFirmAdd.jsp</result>
+		</action>
+		<action name="deleteBrokerFirm" class="brokerManagementAction" method="deleteBrokerFirm">
+			<param name="entityName">gnnt.MEBS.broker.mgr.model.brokerManagement.FirmAndBroker</param>
+			<result>updateBrokerFirmforward.action</result>
+		</action>
+		<action name="addBrokerFirm" class="brokerManagementAction" method="addBrokerFirm">
+			<param name="entityName">gnnt.MEBS.broker.mgr.model.brokerManagement.FirmAndBroker</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<!--  跳转加盟商权限页面-->
+		<action name="updateBrokerRightforward" class="brokerManagementAction" method="setBrokerRightforward">
+			<param name="entityName">gnnt.MEBS.broker.mgr.model.brokerManagement.BrokerMenu</param>
+			<result>/mgr/app/broker/brokerManagement/assignBrokerRight.jsp</result>
+		</action>
+		<!-- 查询加盟商模块权限信息 -->
+		<action name="updateBrokerModuleRight" class="brokerManagementAction" method="updateBrokerModuleRight">
+			<result>/mgr/app/broker/brokerManagement/brokerModuleRight.jsp</result>
+		</action>
+		<action name="updateBrokerRight" class="brokerManagementAction" method="updateBrokerRight">
+			<param name="entityName">gnnt.MEBS.broker.mgr.model.brokerManagement.BrokerMenu</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+	</package>
+</struts>

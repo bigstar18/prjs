@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!--
+	通过配置文件配置 Model 类与数据库表之间的字段联系
+	将本配置文件配置到 hibernate.cfg.xml 中
+-->
+<hibernate-mapping>
+	<class name="gnnt.MEBS.broker.mgr.model.brokerManagement.Broker" table="BR_BROKER">
+		<id name="brokerId">
+		  <generator class="assigned">
+		  </generator>
+		</id>
+		<property name="password" />
+		<property name="name" />
+		<property name="telephone" />
+		<property name="mobile" />
+		<property name="email" />
+		<property name="address" />
+		<property name="note" />
+		<property name="firmId" />
+		<property name="areaIds" column="AREAID"/>
+		<property name="borkerType" column="MEMBERTYPE"/>
+		<property name="timeLimit"/>
+		<property name="marketManager"/>
+		<property name="modifyTime" type="date"/>
+		
+		<set name="rightSet" table="BR_BROKERRIGHT" cascade="none" lazy="false" fetch="select">
+        <key column="BROKERID"/>
+        <many-to-many class="gnnt.MEBS.broker.mgr.model.brokerManagement.BrokerMenu" column="ID"/>
+        </set>
+		
+		<many-to-one name="brokerArea" class="gnnt.MEBS.broker.mgr.model.brokerManagement.BrokerArea"
+			column="AREAID" cascade="none" insert="false" update="false"></many-to-one>
+			
+			<many-to-one name="brokerType" class="gnnt.MEBS.broker.mgr.model.brokerManagement.BrokerType"
+			column="MEMBERTYPE" cascade="none" insert="false" update="false"></many-to-one>
+	</class>
+</hibernate-mapping>

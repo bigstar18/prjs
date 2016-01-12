@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Struts2Diagram version="2.0">
+  <package name="dataquery" location="30,10" size="525,1820">
+    <action name="listSpecFrozenHold" location="310,337" size="150,41">
+      <result name="success">
+        <resourceEdge source="success" routing="0" target="specFrozenHold_list.jsp" />
+      </result>
+    </action>
+    <action name="listQuotation" location="310,512" size="150,41">
+      <result name="success">
+        <resourceEdge source="success" routing="0" target="quotation_list.jsp" />
+      </result>
+    </action>
+    <action name="listHold" location="310,687" size="150,41">
+      <result name="success">
+        <resourceEdge source="success" routing="0" target="hold_list.jsp" />
+      </result>
+    </action>
+    <action name="listHoldPosition" location="310,862" size="150,41">
+      <result name="success">
+        <resourceEdge source="success" routing="0" target="holdPosition_list.jsp" />
+      </result>
+    </action>
+    <action name="listFirmHoldPosition" location="310,1037" size="150,41">
+      <result name="success">
+        <resourceEdge source="success" routing="0" target="firmHoldPosition_list.jsp" />
+      </result>
+    </action>
+    <action name="listTrade" location="310,1212" size="150,41">
+      <result name="success">
+        <resourceEdge source="success" routing="0" target="trade_list.jsp" />
+      </result>
+    </action>
+    <action name="listOrder" location="310,1387" size="150,41">
+      <result name="success">
+        <resourceEdge source="success" routing="0" target="order_list.jsp" />
+      </result>
+    </action>
+    <action name="listQueryCommodity" location="310,1562" size="150,41">
+      <result name="success">
+        <resourceEdge source="success" routing="0" target="queryCommodity_list.jsp" />
+      </result>
+    </action>
+    <action name="listCustomerFunds" location="310,1737" size="150,41">
+      <result name="success">
+        <resourceEdge source="success" routing="0" target="customerFunds_list.jsp" />
+      </result>
+    </action>
+    <action name="customerFunds" location="65,1737" size="150,41">
+      <result name="success">
+        <resourceEdge source="success" routing="0" target="customerFunds.jsp" />
+      </result>
+    </action>
+    <action name="detailCommodity" location="65,162" size="150,41">
+      <result name="success">
+        <resourceEdge source="success" routing="0" target="commodity.jsp" />
+      </result>
+    </action>
+    <action name="detailCommodityHis" location="65,57" size="150,41">
+      <result name="success">
+        <resourceEdge source="success" routing="0" target="commodity.jsp" />
+      </result>
+    </action>
+  </package>
+  <webResource name="specFrozenHold_list.jsp" path="/mgr/app/timebargain/dataquery/specFrozenHold_list.jsp" location="622,310" size="150,55" />
+  <webResource name="quotation_list.jsp" path="/mgr/app/timebargain/dataquery/quotation_list.jsp" location="602,485" size="150,55" />
+  <webResource name="hold_list.jsp" path="/mgr/app/timebargain/dataquery/hold_list.jsp" location="617,660" size="150,55" />
+  <webResource name="holdPosition_list.jsp" path="/mgr/app/timebargain/dataquery/holdPosition_list.jsp" location="593,835" size="150,55" />
+  <webResource name="firmHoldPosition_list.jsp" path="/mgr/app/timebargain/dataquery/firmHoldPosition_list.jsp" location="616,1010" size="150,55" />
+  <webResource name="trade_list.jsp" path="/mgr/app/timebargain/dataquery/trade_list.jsp" location="614,1185" size="150,55" />
+  <webResource name="order_list.jsp" path="/mgr/app/timebargain/dataquery/order_list.jsp" location="614,1360" size="150,55" />
+  <webResource name="queryCommodity_list.jsp" path="/mgr/app/timebargain/dataquery/queryCommodity_list.jsp" location="622,1535" size="150,55" />
+  <webResource name="customerFunds_list.jsp" path="/mgr/app/timebargain/dataquery/customerFunds_list.jsp" location="590,1710" size="150,55" />
+  <webResource name="customerFunds.jsp" path="/mgr/app/timebargain/dataquery/customerFunds.jsp" location="10,1885" size="150,55" />
+  <webResource name="commodity.jsp" path="/mgr/app/timebargain/dataquery/commodity.jsp" location="617,135" size="150,55" />
+</Struts2Diagram>
+

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd
+        http://www.springframework.org/schema/jee    
+        http://www.springframework.org/schema/jee/spring-jee-2.5.xsd">
+
+
+    <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+       <property name="jndiName"><value>java:comp/env/mgr</value></property>
+    </bean>
+    <bean id="dataSourceForQuery" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <!-- 名字请不要修改，需要增加tomcat连接池 配置参见 WebRoot/META-INF/context.xml -->
+       <property name="jndiName"><value>java:comp/env/mgrForQuery</value></property>
+    </bean>
+    
+    <bean id="daoHelper" class="gnnt.MEBS.timebargain.mgr.util.DaoHelper" autowire="byName">
+   			<property name="dataSource" ref="dataSource"/>
+   </bean>
+   <bean id="f_viewDao" class="gnnt.MEBS.timebargain.mgr.util.ViewDao" autowire="byName">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	<bean id="f_viewService" class="gnnt.MEBS.timebargain.mgr.util.ViewService" autowire="byName">
+		<property name="viewDao" ref="f_viewDao"/>
+	</bean>
+	
+    <bean id="financeConfig" class="java.util.Properties">
+		<constructor-arg type="java.util.Properties">
+	      <props>
+	        <!-- awmts ; paimai; agency;trade;null 未用-->
+	        <prop key="systemType"></prop>
+	        <prop key="firmId">交易商代码</prop>
+		    <prop key="firmName">姓名</prop>
+		    <prop key="b_date">日期</prop>
+		    <prop key="lastBalance">期初余额</prop>
+		    <prop key="other">+其他交易系统</prop>
+		    <prop key="todayBalance">期末余额</prop>
+		    <prop key="lastWarranty">期初担保金</prop>
+		    <prop key="todayWarranty">期末担保金</prop>
+		    <prop key="brokerName">加盟商</prop>
+		    <prop key="brokerAccount">加盟商帐号</prop>
+	      </props>
+	    </constructor-arg>
+	</bean>
+</beans>

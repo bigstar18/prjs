@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+	<!--
+		通过配置文件配置 Model 类与数据库表之间的字段联系
+	将本配置文件配置到 hibernate.cfg.xml 中
+	-->
+<hibernate-mapping package="gnnt.MEBS.timebargain.mgr.model.dataquery">
+	<class name="HoldPositionModel" table="T_HoldPosition" lazy="false">
+		<id name="holdNo">
+			<column name="A_HOLDNO" />
+		</id>
+		<property name="tradeNo" column="A_TRADENO" />
+		<property name="customerId" />
+		<property name="commodityId" />
+		<property name="flag" column="BS_FLAG"/>
+		<property name="price" />
+		<property name="holdQty" />
+		<property name="openQty" />
+		<property name="holdTime" />
+		<property name="holdMargin" />
+		<property name="gageQty" />
+		<property name="holdAssure" />
+		<property name="floatingLoss" />
+		<property name="holdType" />
+		<property name="atClearDate" />
+		<property name="deadLine" />
+		<property name="remainDay" />
+		<many-to-one name="mFirmModel" class="MFirmModel"
+			column="FIRMID" cascade="all" unique="true"></many-to-one>
+	</class>
+</hibernate-mapping>

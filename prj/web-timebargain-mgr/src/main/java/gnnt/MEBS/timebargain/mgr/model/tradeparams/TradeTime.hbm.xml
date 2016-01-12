@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!--
+	通过配置文件配置 Model 类与数据库表之间的字段联系
+	将本配置文件配置到 hibernate.cfg.xml 中
+-->
+<hibernate-mapping package="gnnt.MEBS.timebargain.mgr.model.tradeparams">
+	<class name="TradeTime" table="T_A_TradeTime" dynamic-update="true" lazy="false">
+		<id name="sectionID" type="integer">
+		    <column name="sectionID" />
+			<generator class="assigned">
+			</generator>
+		</id>
+		<property name="name" />
+		<property name="startTime" />
+		<property name="endTime" />
+		<property name="status" />
+		<property name="modifyTime" />
+		<property name="startDate" />
+		<property name="endDate" />
+		<property name="bidStartDate" />
+		<property name="bidEndDate" />
+		<property name="gatherBid" />
+		<property name="bidStartTime" />
+		<property name="bidEndTime" />
+		<set name="breeds" table="T_A_BreedTradeProp" inverse="true">
+			<key>
+				<column name="sectionID"></column>
+			</key>
+			<composite-element class="BreedTradeProp">
+				<parent name="tradeTime" />
+				<many-to-one name="breed" class="Breed" column="breedID"/>
+				<property name="modifyTime" not-null="true"/>
+			</composite-element>
+		</set>
+		<set name="commodities" table="T_A_CommodityTradeProp" inverse="true">
+			<key>
+				<column name="sectionID"></column>
+			</key>
+			<composite-element class="CommodityTradeProp">
+				<parent name="tradeTime" />
+				<many-to-one name="commodity" class="Commodity" column="commodityID"/>
+				<property name="modifyTime" not-null="true"/>
+			</composite-element>
+		</set>
+	</class>
+</hibernate-mapping>

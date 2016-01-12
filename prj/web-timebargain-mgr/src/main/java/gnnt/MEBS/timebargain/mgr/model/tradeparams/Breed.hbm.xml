@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!--
+	通过配置文件配置 Model 类与数据库表之间的字段联系
+	将本配置文件配置到 hibernate.cfg.xml 中
+-->
+<hibernate-mapping package="gnnt.MEBS.timebargain.mgr.model.tradeparams">
+	<class name="Breed" table="T_A_Breed" dynamic-update="true" select-before-update="true" lazy="false" >
+		<id name="breedID" type="long">
+		    <column name="BreedID" />
+		    <generator class="assigned" />
+		</id>
+		<property name="breedName" />
+		<property name="sortID" />
+		<property name="contractFactor" />
+		<property name="minPriceMove" />
+		<property name="spreadAlgr" />
+		<property name="spreadUpLmt" />
+		<property name="spreadDownLmt" />
+		<property name="feeAlgr" />
+		<property name="feeRate_B" />
+		<property name="feeRate_S" />
+		<property name="marginAlgr" />
+		<property name="marginRate_B" />
+		<property name="marginRate_S" />
+		<property name="marginAssure_B" />
+		<property name="marginAssure_S" />
+		<property name="todayCloseFeeRate_B" />
+		<property name="todayCloseFeeRate_S" />
+		<property name="historyCloseFeeRate_B" />
+		<property name="historyCloseFeeRate_S" />
+		<property name="limitCmdtyQty" />
+		<property name="settleFeeAlgr" />
+		<property name="settleFeeRate_B" />
+		<property name="settleFeeRate_S" />
+		<property name="forceCloseFeeAlgr" />
+		<property name="forceCloseFeeRate_B" />
+		<property name="forceCloseFeeRate_S" />
+		<property name="settleMarginAlgr_B" />
+		<property name="settleMarginAlgr_S" />
+		<property name="settleMarginRate_B" />
+		<property name="settleMarginRate_S" />
+		<property name="addedTax" />
+		<property name="marginPriceType" />
+		<property name="lowestSettleFee" />
+		<property name="firmCleanQty" />
+		<property name="limitBreedQty" />
+		<property name="firmMaxHoldQty" />
+		<property name="marginItem1" />
+		<property name="marginItem2" />
+		<property name="marginItem3" />
+		<property name="marginItem4" />
+		<property name="marginItem5" />
+		<property name="marginItem1_S" />
+		<property name="marginItem2_S" />
+		<property name="marginItem3_S" />
+		<property name="marginItem4_S" />
+		<property name="marginItem5_S" />
+		<property name="marginItemAssure1" />
+		<property name="marginItemAssure2" />
+		<property name="marginItemAssure3" />
+		<property name="marginItemAssure4" />
+		<property name="marginItemAssure5" />
+		<property name="marginItemAssure1_S" />
+		<property name="marginItemAssure2_S" />
+		<property name="marginItemAssure3_S" />
+		<property name="marginItemAssure4_S" />
+		<property name="marginItemAssure5_S" />
+		<property name="orderPrivilege" />
+		<property name="payoutAlgr" />
+		<property name="payoutRate" />
+		<property name="addedTaxFactor" />
+		<property name="settlePriceType" />
+		<property name="beforeDays" />
+		<property name="specSettlePrice" />
+		<property name="firmMaxHoldQtyAlgr" />
+		<property name="startPercentQty" />
+		<property name="maxPercentLimit" />
+		<property name="oneMaxHoldQty" />
+		<property name="minQuantityMove" />
+		<property name="minSettleMoveQty" />
+		<property name="minSettleQty" />
+		<property name="contractFactorName" />
+		<property name="delayRecoupRate" />
+		<property name="delayRecoupRate_S" />
+		<property name="settleWay" />
+		<property name="delayFeeWay" />
+		<property name="maxFeeRate" />
+		<property name="breedTradeMode" />
+		<property name="storeRecoupRate" />
+		<property name="delaySettlePriceType" />
+		<property name="beforeDays_M" />
+		<property name="aheadSettlePriceType" />
+		<property name="settleMarginType" />
+		<property name="sideHoldLimitQty" />
+		<property name="holdDaysLimit" />
+		<property name="maxHoldPositionDay" />
+		
+		<set name="tradeTimes" table="T_A_BreedTradeProp" cascade="none" lazy="false" order-by="sectionID">
+			<key>
+				<column name="breedID"></column>
+			</key>
+			<composite-element class="BreedTradeProp">
+				<parent name="breed"/>
+				<many-to-one name="tradeTime" class="TradeTime" column="sectionID"/>
+				<property name="modifyTime" not-null="true"/>
+			</composite-element>
+		</set>
+		
+		<property name="type" type="short">
+			<formula>(select case when count(*)>0 then 1 else 2 end from T_A_Breed t where t.breedID = breedID and (t.marginItem1=t.marginItem1_S and t.marginItemAssure1=t.marginItemAssure1_S))</formula>
+		</property>
+		
+		<property name="type1" type="short">
+			<formula>(select case when count(*)>0 then 1 else 2 end from T_A_Breed t where t.breedID = breedID and (t.marginItem2=t.marginItem2_S and t.marginItemAssure2=t.marginItemAssure2_S))</formula>
+		</property>
+		
+		<property name="type2" type="short">
+			<formula>(select case when count(*)>0 then 1 else 2 end from T_A_Breed t where t.breedID = breedID and (t.marginItem3=t.marginItem3_S and t.marginItemAssure3=t.marginItemAssure3_S))</formula>
+		</property>
+		
+		<property name="type3" type="short">
+			<formula>(select case when count(*)>0 then 1 else 2 end from T_A_Breed t where t.breedID = breedID and (t.marginItem4=t.marginItem4_S and t.marginItemAssure4=t.marginItemAssure4_S))</formula>
+		</property>
+		
+		<property name="type4" type="short">
+			<formula>(select case when count(*)>0 then 1 else 2 end from T_A_Breed t where t.breedID = breedID and (t.marginItem5=t.marginItem5_S and t.marginItemAssure5=t.marginItemAssure5_S))</formula>
+		</property>
+	</class>
+	
+	<query name="findAllCmdtySorts"
+			fetch-size="10" read-only="true"><![CDATA[
+			select c from CmdtySort c
+			]]></query>
+			
+	<query name="findTradeTimes"
+			fetch-size="10" read-only="true"><![CDATA[
+			select t from TradeTime t
+			]]></query>
+			
+	<query name="findMarket" 
+			fetch-size="1" read-only="true"><![CDATA[
+			from Market t
+			]]></query>
+</hibernate-mapping>

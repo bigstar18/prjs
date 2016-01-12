@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- 
+		强制减仓  action 路径为 /timebargain/deduct 开头的访问则进入本配置
+	 -->
+	<package name="settleMatch" extends="base-struts2" namespace="/timebargain/settleMatch">
+		<!-- 交收配对列表页面 -->
+		<action name="listSettleMatch" class="settleMatchAction" method="list">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settleMatch.SettleMatchM</param>
+			<result>/mgr/app/timebargain/settleMatch/settleMatch_list.jsp</result>
+		</action>
+		
+		<!-- 
+			交收配对添加跳转
+		-->
+		<action name="forwardAddSettleMatch" class="settleMatchAction" method="forwardAddSettleMatch">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settleMatch.SettleMatchM</param>
+			<result>/mgr/app/timebargain/settleMatch/settleMatch_add.jsp</result>
+		</action>
+		
+		<!-- 
+			仓单信息查询
+		-->
+		<action name="getBillList" class="settleMatchAction" method="getBillList">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settleMatch.SettleMatchM</param>
+			<result>/mgr/app/timebargain/settleMatch/settleMatch_add.jsp</result>
+		</action>
+		
+		<!-- 
+			添加配对
+		-->
+		<action name="addSettleMatch" class="settleMatchAction" method="addSettleMatch">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settleMatch.SettleMatchM</param>
+			<result name="error">forwardAddSettleMatch.action</result>
+			<result name="success">/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+	</package>
+</struts>

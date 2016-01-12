@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- 
+		配对处理，action 路径为 /timebargain/settle/matchDispose 开头的访问则进入本配置
+	 -->
+	<package name="matchDispose" extends="base-struts2" namespace="/timebargain/settle/matchDispose">
+	
+		<!-- 配对处理列表-->
+		<action name="matchDisposeList" class="matchDisposeAction" method="matchDisposeList">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settle.SettleMatch</param>
+			<result>/mgr/app/timebargain/settle/matchDispose/list.jsp</result>
+		</action>
+		
+		<!-- 查看配对处理详细-->
+		<action name="viewMatchDispose" class="matchDisposeAction" method="viewMatchDispose">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settle.SettleMatch</param>
+			<result name="1">/mgr/app/timebargain/settle/matchDispose/agreement.jsp</result>
+			<result name="2">/mgr/app/timebargain/settle/matchDispose/buyDefault.jsp</result>
+			<result name="3">/mgr/app/timebargain/settle/matchDispose/sellDefault.jsp</result>
+			<result name="4">/mgr/app/timebargain/settle/matchDispose/bothDefault.jsp</result>
+		</action>
+		
+		<!-- 配对操作记录-->
+		<action name="settleMatchLogList" class="matchDisposeAction" method="settleMatchLogList">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settle.SettleMatchLog</param>
+			<result>/mgr/app/timebargain/settle/matchDispose/logList.jsp</result>
+		</action>
+		
+		<!-- 配对持仓记录-->
+		<action name="billList" class="matchDisposeAction" method="billList">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settle.SettleMatchLog</param>
+			<result>/mgr/app/timebargain/settle/matchDispose/billList.jsp</result>
+		</action>
+		
+		<!-- 查看配对处理详细-->
+		<action name="viewMatch" class="matchDisposeAction" method="viewMatch">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settle.SettleMatch</param>
+			<result name="11">/mgr/app/timebargain/settle/matchDispose/agreement_HL_Amount.jsp</result>
+			<result name="12">/mgr/app/timebargain/settle/matchDispose/agreement_MarginToPayout.jsp</result>
+			<result name="13">/mgr/app/timebargain/settle/matchDispose/agreement_IncomePayout.jsp</result>
+			<result name="14">/mgr/app/timebargain/settle/matchDispose/agreement_PayPayout.jsp</result>
+			<result name="18">/mgr/app/timebargain/settle/matchDispose/agreement_backSMargin.jsp</result>
+			
+			<result name="21">/mgr/app/timebargain/settle/matchDispose/takePenaltyFromB.jsp</result>
+			<result name="22">/mgr/app/timebargain/settle/matchDispose/payPenaltyToS.jsp</result>
+			<result name="23">/mgr/app/timebargain/settle/matchDispose/settlePL_B.jsp</result>
+			<result name="24">/mgr/app/timebargain/settle/matchDispose/settlePL_S.jsp</result>
+			
+			<result name="31">/mgr/app/timebargain/settle/matchDispose/takePenaltyFromS.jsp</result>
+			<result name="32">/mgr/app/timebargain/settle/matchDispose/payPenaltyToB.jsp</result>
+			<result name="33">/mgr/app/timebargain/settle/matchDispose/settlePL_B.jsp</result>
+			<result name="34">/mgr/app/timebargain/settle/matchDispose/settlePL_S.jsp</result>
+			
+			
+			<result name="41">/mgr/app/timebargain/settle/matchDispose/takePenaltyFromB.jsp</result>
+			<result name="42">/mgr/app/timebargain/settle/matchDispose/takePenaltyFromS.jsp</result>
+			<result name="43">/mgr/app/timebargain/settle/matchDispose/settlePL_B.jsp</result>
+			<result name="44">/mgr/app/timebargain/settle/matchDispose/settlePL_S.jsp</result>
+		</action>
+		
+		<!-- 查看价格详细-->
+		<action name="viewPrices" class="matchDisposeAction" method="viewPrices">
+			<result>/mgr/app/timebargain/settle/matchDispose/priceList.jsp</result>
+		</action>
+		
+		<!-- 设置升贴水-->
+		<action name="updateHL_Amount" class="matchDisposeAction" method="updateHL_Amount">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settle.SettleMatch</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		
+		<!-- 保证金转货款-->
+		<action name="marginToPayout" class="matchDisposeAction" method="marginToPayout">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settle.SettleMatch</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		
+		<!-- 收货款-->
+		<action name="incomePayout" class="matchDisposeAction" method="incomePayout">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settle.SettleMatch</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		
+		<!-- 付货款-->
+		<action name="payPayout" class="matchDisposeAction" method="payPayout">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settle.SettleMatch</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		
+		<!-- 货权转移-->
+		<action name="settleTransfer" class="matchDisposeAction" method="settleTransfer">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settle.SettleMatch</param>
+			<result>viewMatchDispose.action</result>
+		</action>
+		
+		<!-- 履约处理完成-->
+		<action name="settleFinish_agreement" class="matchDisposeAction" method="settleFinish_agreement">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settle.SettleMatch</param>
+			<result>viewMatchDispose.action</result>
+		</action>
+		
+		<!-- 退卖方保证金-->
+		<action name="backSMargin" class="matchDisposeAction" method="backSMargin">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settle.SettleMatch</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		
+		<!-- 撤销-->
+		<action name="settleCancel" class="matchDisposeAction" method="settleCancel">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settle.SettleMatch</param>
+			<result>viewMatchDispose.action</result>
+		</action>
+		
+		
+		<!-- 收买方违约金-->
+		<action name="takePenaltyFromB" class="matchDisposeAction" method="takePenaltyFromB">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settle.SettleMatch</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		
+		<!-- 收卖方违约金-->
+		<action name="takePenaltyFromS" class="matchDisposeAction" method="takePenaltyFromS">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settle.SettleMatch</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		
+		<!-- 付买方违约金-->
+		<action name="payPenaltyToB" class="matchDisposeAction" method="payPenaltyToB">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settle.SettleMatch</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		
+		<!-- 付卖方违约金-->
+		<action name="payPenaltyToS" class="matchDisposeAction" method="payPenaltyToS">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settle.SettleMatch</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		
+		<!-- 买方交收盈亏处理-->
+		<action name="settlePL_B" class="matchDisposeAction" method="settlePL_B">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settle.SettleMatch</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		
+		<!-- 卖方交收盈亏处理-->
+		<action name="settlePL_S" class="matchDisposeAction" method="settlePL_S">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settle.SettleMatch</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		
+		<!-- 违约处理完成-->
+		<action name="settleFinish_default" class="matchDisposeAction" method="settleFinish_default">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.settle.SettleMatch</param>
+			<result>viewMatchDispose.action</result>
+		</action>
+	</package>
+</struts>

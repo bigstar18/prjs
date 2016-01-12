@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+     
+<!-- 数据查询 -->
+	<package name="brokerDataquery" extends="commission_config" namespace="/broker/brokerDataquery">
+	  <!-- 佣金查询 -->
+	  <!-- 待付佣金 -->
+		<action name="listBrokerReward" class="brokerDataqueryAction" method="listBrokerReward">
+		   <interceptor-ref name="mydefault"></interceptor-ref>
+		   <param name="entityName">gnnt.MEBS.broker.mgr.model.brokerDataquery.BrokerReward</param>
+		   <result>/mgr/app/broker/brokerDataquery/brokerReward_list.jsp</result>
+		</action>
+		<action name="updateBrokerRewardforward" class="brokerDataqueryAction" method="viewById">
+			<param name="entityName">gnnt.MEBS.broker.mgr.model.brokerDataquery.BrokerReward</param>
+			<result>/mgr/app/broker/brokerDataquery/changebrokerReward.jsp</result>
+		</action>
+		<action name="updateBrokerReward" class="brokerDataqueryAction" method="brokerRewardPayMoney">
+			<param name="entityName">gnnt.MEBS.broker.mgr.model.brokerDataquery.BrokerReward</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<!-- 手续费汇总查询 -->
+		<!-- 加盟商手续费汇总 -->
+		<action name="listBrokerTradeFee" class="brokerDataqueryAction" method="listBrokerTradeFee">
+		<result>/mgr/app/broker/brokerDataquery/listBrokerTradeFee.jsp</result>
+		</action>
+		<!-- 分品种手续费汇总 -->
+		<action name="listBreedTradeFee" class="brokerDataqueryAction" method="listBreedTradeFee">
+		<result>/mgr/app/broker/brokerDataquery/listBreedTradeFee.jsp</result>
+		</action>
+		<!-- 交易商手续费汇总 -->
+		<action name="listFirmTradeFee" class="brokerDataqueryAction" method="listFirmTradeFee">
+		<result>/mgr/app/broker/brokerDataquery/listFirmTradeFee.jsp</result>
+		</action>
+	</package>
+</struts>

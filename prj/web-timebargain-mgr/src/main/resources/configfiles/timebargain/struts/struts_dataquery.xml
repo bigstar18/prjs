@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- 数据查询 -->
+	<package name="dataquery" extends="tradeparams" namespace="/timebargain/dataquery">
+		<action name="listSpecFrozenHold" class="dataQueryAction" method="listByLimit">
+		   <param name="entityName">gnnt.MEBS.timebargain.mgr.model.dataquery.SpecFrozenHoldModel</param>
+		   <result>/mgr/app/timebargain/dataquery/specFrozenHold_list.jsp</result>
+		</action>
+		
+		<action name="listQuotation" class="dataQueryAction" method="listQuotation">
+		   <result>/mgr/app/timebargain/dataquery/quotation_list.jsp</result>
+		</action>
+		<action name="listHold" class="dataQueryAction" method="listHold">
+		   <result>/mgr/app/timebargain/dataquery/hold_list.jsp</result>
+		</action>
+		<action name="listHoldPosition" class="dataQueryAction" method="listHoldPosition">
+		   <result>/mgr/app/timebargain/dataquery/holdPosition_list.jsp</result>
+		</action>
+		<action name="listFirmHoldPosition" class="dataQueryAction" method="listFirmHoldPosition">
+		   <result>/mgr/app/timebargain/dataquery/firmHoldPosition_list.jsp</result>
+		</action>
+		<action name="listTrade" class="dataQueryAction" method="listTrade">
+		   <result>/mgr/app/timebargain/dataquery/trade_list.jsp</result>
+		</action>
+		<action name="listOrder" class="dataQueryAction" method="listOrder">
+		   <result>/mgr/app/timebargain/dataquery/order_list.jsp</result>
+		</action>
+		<action name="listQueryCommodity" class="dataQueryAction" method="listQueryCommodity">
+		   <result>/mgr/app/timebargain/dataquery/queryCommodity_list.jsp</result>
+		</action>
+		<action name="listCustomerFunds" class="dataQueryAction" method="listCustomerFunds">
+		   <result>/mgr/app/timebargain/dataquery/customerFunds_list.jsp</result>
+		</action>
+		<action name="customerFunds" class="dataQueryAction" method="customerFunds">
+		   <result>/mgr/app/timebargain/dataquery/customerFunds.jsp</result>
+		</action>
+		<!-- 更新部分 -->
+		<action name="listBrokerFundsCount" class="dataQueryAction" method="brokerFundsCount">
+			<result>/mgr/app/timebargain/brokerReward/brokerFundsCount.jsp</result>
+		</action>
+		<action name="listBrokerIndentCount" class="dataQueryAction" method="brokerIndentCount">
+			<result>/mgr/app/timebargain/brokerReward/brokerIndentCount.jsp</result>
+		</action>
+		<action name="listBrokerTradeCount" class="dataQueryAction" method="brokerTradeCount">
+			<result>/mgr/app/timebargain/brokerReward/brokerTradeCount.jsp</result>
+		</action>
+		<!-- 更新结束 -->
+		<action name="detailCommodity" class="tradeParamsAction" method="viewByIdCommodity">	
+		  <interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="crudTypeInterceptor">
+		    	<param name="crud">update</param>
+		    </interceptor-ref>
+		    <interceptor-ref name="useDelayInterceptor"></interceptor-ref>
+		    <interceptor-ref name="useBreedTradeModeInterceptor"></interceptor-ref>
+		    <interceptor-ref name="floatingTypeInterceptor"></interceptor-ref>
+		    <interceptor-ref name="findAllCmdtySortsInterceptor"></interceptor-ref>
+		    <interceptor-ref name="findTradeTimesInterceptor"></interceptor-ref>
+			<result>/mgr/app/timebargain/dataquery/commodity.jsp</result>
+		</action>
+		<action name="detailCommodityHis" class="tradeParamsAction" method="viewByIdHisCommodity">	
+		  <interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="crudTypeInterceptor">
+		    	<param name="crud">update</param>
+		    </interceptor-ref>
+		    <interceptor-ref name="useDelayInterceptor"></interceptor-ref>
+		    <interceptor-ref name="useBreedTradeModeInterceptor"></interceptor-ref>
+		    <interceptor-ref name="floatingTypeInterceptor"></interceptor-ref>
+		    <interceptor-ref name="findAllCmdtySortsInterceptor"></interceptor-ref>
+		    <interceptor-ref name="findTradeTimesInterceptor"></interceptor-ref>
+			<result>/mgr/app/timebargain/dataquery/commodity.jsp</result>
+		</action>
+	</package>
+</struts>

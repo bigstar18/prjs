@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!--
+	通过配置文件配置 Model 类与数据库表之间的字段联系
+	将本配置文件配置到 hibernate.cfg.xml 中
+-->
+<hibernate-mapping>
+	<class name="gnnt.MEBS.timebargain.mgr.model.firmSet.TFirm" table="T_FIRM" >
+		<id name="firmID">
+			<generator class="assigned">
+			</generator>
+		</id>
+		<property name="status" />
+		<property name="maxHoldQty" />
+		<property name="minClearDeposit" />
+		<property name="maxOverdraft" />
+		<property name="virtualFunds" />
+		<property name="runtimeFL" />
+		<property name="clearFL" />
+		<property name="runtimeMargin" />
+		<property name="clearMargin" />
+		<property name="runtimeAssure" />
+		<property name="clearAssure" />
+		<property name="runtimeSettleMargin" />
+		<property name="clearSettleMargin" />
+		<property name="tariffID" />
+		<property name="modifyTime" />	
+	</class>
+</hibernate-mapping>

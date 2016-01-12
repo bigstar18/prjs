@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!--  系统维护	-->
+	<package name="xtwh" extends="base-struts2" namespace="/timebargain/xtwh">
+		<!--  异常处理	-->
+		<action name="agencyYCCL" class="agencyAction" method="edit2">
+			<result>/mgr/app/timebargain/xtgl/agency_exception.jsp</result>
+		</action>
+		<!--	在线更新交易数据	-->
+		<action name="yccl4" class="agencyAction" method="updateOnlineData">
+			<result>/mgr/app/timebargain/xtgl/agency_exception.jsp</result>
+		</action>
+		<!--	显示在线设置保证金页面	-->
+		<action name="ycclEditMargin" class="commodityAction" method="getCommodityListOrder">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.systemMana.CommodityModel</param>
+			<result>/mgr/app/timebargain/xtgl/agency_exception_margin.jsp</result>
+		</action>
+		<action name="ycclEditOnlineMargin" class="agencyAction" method="updateMargin">
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<!--	在线设置特殊保证金	-->
+		<action name="ycclSpacMargin" class="agencyAction" method="getFirmMarginList">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.systemMana.FirmMargin</param>
+			<result>/mgr/app/timebargain/xtgl/agency_exception_spacMargin.jsp</result>
+		</action>
+		<action name="ycclEditSpacMargin" class="agencyAction" method="updateSpacMargin">
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<!--	重算保证金	-->
+		<action name="yccl13" class="agencyAction" method="updateRerunBail">
+			<result>/mgr/app/timebargain/xtgl/agency_exception.jsp</result>
+		</action>
+		<!--	在线更新交易节设置	-->
+		<action name="ycclOnline" class="agencyAction" method="updateOnline">
+			<result>/mgr/app/timebargain/xtgl/agency_exception.jsp</result>
+		</action>
+		<!--	交易结束转恢复延期交易	-->
+		<action name="ycclRecoverDelayTrade" class="agencyAction" method="updateRecoverDelayTrade">
+			<result>/mgr/app/timebargain/xtgl/agency_exception.jsp</result>
+		</action>
+		<!--	在线更新延期交易节设置	-->
+		<action name="ycclOnlineDelay" class="agencyAction" method="updateOnlineDelay">
+			<result>/mgr/app/timebargain/xtgl/agency_exception.jsp</result>
+		</action>
+		<!--	重做交易系统结算	-->
+		<action name="ycclbalanceChkFroenFundEXC" class="agencyAction" method="updateBalanceChkFroenFundEXC">
+			<result>/mgr/app/timebargain/xtgl/agency_exception.jsp</result>
+		</action>
+		<!--	修改开盘指导价	-->
+		<action name="yccl20" class="commodityAction" method="getCommodityListOrder">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.systemMana.CommodityModel</param>
+			<result>/mgr/app/timebargain/xtgl/agency_openingPrice_form.jsp</result>
+		</action>
+		<action name="ycclEditLastPrice" class="agencyAction" method="updateLastPrice">
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+	</package>	
+</struts>

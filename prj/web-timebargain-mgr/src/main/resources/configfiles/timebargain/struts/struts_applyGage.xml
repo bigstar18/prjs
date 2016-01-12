@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- 
+		强制减仓  action 路径为 /timebargain/deduct 开头的访问则进入本配置
+	 -->
+	<package name="applyGage" extends="base-struts2" namespace="/timebargain/applyGage">
+		<!-- 仓单抵顶列表页面 -->
+		<action name="listApplyGage" class="applyGageAction" method="list">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.applyGage.ApplyGage</param>
+			<result>/mgr/app/timebargain/applyGage/applyGage_list.jsp</result>
+		</action>
+		<!-- 仓单抵顶添加页面 -->
+		<action name="forwardAddApplyGage" class="applyGageAction" method="forwardAddApplyGage">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.applyGage.ApplyGage</param>
+			<result>/mgr/app/timebargain/applyGage/applyGage_add.jsp</result>
+		</action>
+		<!-- 添加仓单抵顶 -->
+		<action name="addApplyGage" class="applyGageAction" method="addApplyGage">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.applyGage.ApplyGage</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<!-- 查看仓单抵顶 -->
+		<action name="viewById" class="applyGageAction" method="viewById">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.applyGage.ApplyGage</param>
+			<result>/mgr/app/timebargain/applyGage/applyGage_view.jsp</result>
+		</action>
+		<!-- 查看仓单抵顶 -->
+		<action name="auditApplyGage" class="applyGageAction" method="auditApplyGage">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.applyGage.ApplyGage</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+	</package>
+</struts>

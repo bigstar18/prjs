@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!--  ajax 验证信息相关 -->
+	<package name="ajaxPledge" extends="json-default" namespace="/ajaxcheck/pledge">
+		<!-- 返回仓单 -->
+		<action name="searchBill" class="ajaxPledge" method="getBill">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+		<action name="searchReBill" class="ajaxPledge" method="getReBill">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+		<action name="searchBillMessage" class="ajaxPledge" method="getBillMessage">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+		<action name="searchReBillMessage" class="ajaxPledge" method="getReBillMessage">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+	</package>
+</struts>

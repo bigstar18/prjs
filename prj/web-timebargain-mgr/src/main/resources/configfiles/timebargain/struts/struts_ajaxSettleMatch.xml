@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!--  ajax 验证信息相关 -->
+	<package name="ajaxSettleMatch" extends="json-default" namespace="/ajaxcheck/settleMatch">
+	<!-- 返回商品的交收方式 -->
+		<action name="getSettleWay" class="ajaxSettleMatch" method="getSettleWay">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+		<action name="checkFirmId" class="ajaxSettleMatch" method="checkFirmId">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+	</package>
+</struts>

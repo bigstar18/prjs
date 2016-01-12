@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!--
+	通过配置文件配置 Model 类与数据库表之间的字段联系
+	将本配置文件配置到 hibernate.cfg.xml 中
+-->
+<hibernate-mapping package="gnnt.MEBS.timebargain.mgr.model.tradeparams">
+	<class name="CommodityTariff" table="v_commoditytariff">
+		<composite-id>
+		    <key-property name="tariffID">
+		    </key-property>
+		    <key-property name="commodityID">
+		    </key-property>	
+		</composite-id>
+		<property name="tariffName" />
+		<property name="tariffRate" />
+		<property name="name" />
+		<property name="newFeeRate_B" />
+		<property name="newFeeRate_S" />
+		<property name="newTodayCloseFeeRate_B" />
+		<property name="newTodayCloseFeeRate_S" />
+		<property name="newHistoryCloseFeeRate_B" />
+		<property name="newHistoryCloseFeeRate_S" />
+		<property name="newForceCloseFeeRate_B" />
+		<property name="newForceCloseFeeRate_S" />
+		<property name="oldFeeRate_B" />
+		<property name="oldFeeRate_S" />
+		<property name="oldTodayCloseFeeRate_B" />
+		<property name="oldTodayCloseFeeRate_S" />
+		<property name="oldHistoryCloseFeeRate_B" />
+		<property name="oldHistoryCloseFeeRate_S" />
+	    <property name="oldForceCloseFeeRate_B" />
+		<property name="oldForceCloseFeeRate_S" />
+		<property name="createUser" />
+		<property name="modifyTime" />
+		
+	</class>
+	
+</hibernate-mapping>

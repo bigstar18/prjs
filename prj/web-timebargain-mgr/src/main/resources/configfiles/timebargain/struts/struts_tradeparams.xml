@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- 
+		交易参数设置struts配置文件
+	 -->
+	<package name="tradeparams" extends="base-struts2" namespace="/timebargain/tradeparams">
+		<interceptors>
+			<interceptor name="crudTypeInterceptor"
+					class="gnnt.MEBS.timebargain.mgr.action.interceptor.CrudTypeInterceptor">
+			</interceptor>	
+			<interceptor name="tradeTimeTypeInterceptor"
+					class="gnnt.MEBS.timebargain.mgr.action.interceptor.TradeTimeTypeInterceptor">
+			</interceptor>	
+			<interceptor name="useDelayInterceptor"
+					class="gnnt.MEBS.timebargain.mgr.action.interceptor.UseDelayInterceptor">
+			</interceptor>	
+			<interceptor name="useBreedTradeModeInterceptor"
+					class="gnnt.MEBS.timebargain.mgr.action.interceptor.UseBreedTradeModeInterceptor">
+			</interceptor>
+			<interceptor name="tariffStatusInterceptor"
+					class="gnnt.MEBS.timebargain.mgr.action.interceptor.TariffStatusInterceptor">
+			</interceptor>
+			<interceptor name="findAllCmdtySortsInterceptor"
+					class="gnnt.MEBS.timebargain.mgr.action.interceptor.FindAllCmdtySortsInterceptor">
+			</interceptor>
+			<interceptor name="findTradeTimesInterceptor"
+					class="gnnt.MEBS.timebargain.mgr.action.interceptor.FindTradeTimesInterceptor">
+			</interceptor>	
+			<interceptor name="floatingTypeInterceptor"
+					class="gnnt.MEBS.timebargain.mgr.action.interceptor.FloatingTypeInterceptor">
+			</interceptor>	
+			<interceptor name="breedsListInterceptor"
+					class="gnnt.MEBS.timebargain.mgr.action.interceptor.BreedsListInterceptor">
+			</interceptor>
+			<interceptor name="deletesListInterceptor"
+					class="gnnt.MEBS.timebargain.mgr.action.interceptor.DeletesListInterceptor">
+			</interceptor>
+	    </interceptors>
+		
+		
+		<!-- 交易市场参数 Start -->
+		<action name="marketList" class="tradeParamsAction" method="getMarket">
+		    <interceptor-ref name="mydefault"></interceptor-ref>
+		    <interceptor-ref name="useDelayInterceptor"></interceptor-ref>
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.tradeparams.Market</param>
+			<result>/mgr/app/timebargain/tradeparams/market.jsp</result>
+		</action>
+		
+		<action name="updatemarket" class="tradeParamsAction" method="update">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.tradeparams.Market</param>
+			<result>marketList.action</result>
+		</action>
+		<!-- End -->
+		
+		<!-- 交易节管理 Start -->
+		<action name="tradeTimeList" class="tradeParamsAction" method="listByLimit">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.tradeparams.TradeTime</param>
+			<result>/mgr/app/timebargain/tradeparams/tradeTime_list.jsp</result>
+		</action>
+		
+		<action name="addTradeTimeforward" class="tradeParamsAction" method="forwardAdd1">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.tradeparams.TradeTime</param>
+			<result>/mgr/app/timebargain/tradeparams/tradeTime_add.jsp</result>
+		</action>
+
+		<action name="addTradeTime" class="tradeParamsAction" method="addTradeTime">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.tradeparams.TradeTime</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+
+		<action name="detailTradeTimeforward" class="tradeParamsAction" method="updateTradeTimeForward">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.tradeparams.TradeTime</param>
+			<param name="sql">
+			    select b.breedid,b.breedname,c.CommodityID,c.name from T_A_TradeTime tt,T_A_Breed b, T_A_CommodityTradeProp ctp, T_Commodity c 
+    			where tt.sectionid = ctp.sectionid and tt.sectionid = ? and ctp.CommodityID = c.CommodityID and c.breedid = b.breedid
+    		</param>
+			<result>/mgr/app/timebargain/tradeparams/tradeTime_update.jsp</result>
+		</action>
+		
+		<action name="updateTradeTime" class="tradeParamsAction" method="update">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.tradeparams.TradeTime</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+
+		<action name="deleteTradeTime" class="tradeParamsAction" method="deleteTradeTime">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.tradeparams.TradeTime</param>
+			<result>tradeTimeList.action?sortColumns=order+by+sectionID+asc</result>
+		</action>
+        <!-- End -->
+		
+		<!-- 商品管理 Start -->
+		<action name="breedsList" class="breedAction" method="listResults">
+		    <param name="opr">findAllCmdtySorts</param>
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.tradeparams.Breed</param>
+			<result>/mgr/app/timebargain/tradeparams/breed_list.jsp</result>
+		</action>
+		
+		<action name="addBreedforward" class="breedAction" method="forwardAdd">
+		    <interceptor-ref name="mydefault"></interceptor-ref>
+		    <interceptor-ref name="crudTypeInterceptor">
+		    	<param name="crud">create</param>
+		    </interceptor-ref>
+		    <interceptor-ref name="useDelayInterceptor"></interceptor-ref>
+		    <interceptor-ref name="useBreedTradeModeInterceptor"></interceptor-ref>
+		    <interceptor-ref name="floatingTypeInterceptor"></interceptor-ref>
+		    <interceptor-ref name="findAllCmdtySortsInterceptor"></interceptor-ref>
+		    <interceptor-ref name="findTradeTimesInterceptor"></interceptor-ref>
+		    <interceptor-ref name="breedsListInterceptor"></interceptor-ref>
+			<result>/mgr/app/timebargain/tradeparams/breed.jsp</result>
+		</action>
+		
+		<action name="addBreed" class="breedAction" method="addBreed">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.tradeparams.Breed</param>
+			<result>breedsList.action?sortColumns=order+by+breedID+asc</result>
+		</action>
+		
+		<action name="detailBreed" class="breedAction" method="viewByIdBreed">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="crudTypeInterceptor">
+		    	<param name="crud">update</param>
+		    </interceptor-ref>
+		    <interceptor-ref name="useDelayInterceptor"></interceptor-ref>
+		    <interceptor-ref name="useBreedTradeModeInterceptor"></interceptor-ref>
+		    <interceptor-ref name="floatingTypeInterceptor"></interceptor-ref>
+		    <interceptor-ref name="findAllCmdtySortsInterceptor"></interceptor-ref>
+		    <interceptor-ref name="findTradeTimesInterceptor"></interceptor-ref>
+			<result>/mgr/app/timebargain/tradeparams/breed.jsp</result>
+		</action>
+		
+		<action name="updateBreed" class="breedAction" method="updateBreed">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.tradeparams.Breed</param>
+			<result>breedsList.action?sortColumns=order+by+breedID+asc</result>
+		</action>
+		
+		<action name="deleteBreed" class="breedAction" method="deleteBreed">
+		    <interceptor-ref name="mydefault"></interceptor-ref>
+		    <interceptor-ref name="deletesListInterceptor"></interceptor-ref>
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.tradeparams.Breed</param>
+			<result>breedsList.action?sortColumns=order+by+breedID+asc</result>
+		</action>
+		
+		<action name="addBCategoryforward" class="tradeParamsAction" method="forwardAdd">
+		    <interceptor-ref name="mydefault"></interceptor-ref>
+		    <interceptor-ref name="crudTypeInterceptor">
+		    	<param name="crud">create</param>
+		    </interceptor-ref>
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.tradeparams.CmdtySort</param>
+			<result>/mgr/app/timebargain/tradeparams/cmdtySort.jsp</result>
+		</action>
+		
+		<action name="addBCategoryList" class="tradeParamsAction" method="listByLimit">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.tradeparams.CmdtySort</param>
+			<result>/mgr/app/timebargain/tradeparams/cmdtySort_list.jsp</result>
+		</action>
+		
+		<action name="addBCategory" class="tradeParamsAction" method="add">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.tradeparams.CmdtySort</param>
+			<result>addBCategoryList.action</result>
+		</action>
+		
+		<action name="updateBCategoryforward" class="tradeParamsAction" method="viewById">
+		    <interceptor-ref name="mydefault"></interceptor-ref>
+		    <interceptor-ref name="crudTypeInterceptor">
+		    	<param name="crud">update</param>
+		    </interceptor-ref>
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.tradeparams.CmdtySort</param>
+			<result>/mgr/app/timebargain/tradeparams/cmdtySort.jsp</result>
+		</action>
+		
+		<action name="updateBCategory" class="tradeParamsAction" method="update">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.tradeparams.CmdtySort</param>
+			<result>addBCategoryList.action</result>
+		</action>
+		
+		<action name="deleteBCategory" class="tradeParamsAction" method="delete">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.tradeparams.CmdtySort</param>
+			<result>addBCategoryList.action</result>
+		</action>
+		
+		<action name="addCommodityforward" class="tradeParamsAction" method="forwardAddCommodity">
+		    <interceptor-ref name="mydefault"></interceptor-ref>
+		    <interceptor-ref name="crudTypeInterceptor">
+		    	<param name="crud">create</param>
+		    </interceptor-ref>
+		    <interceptor-ref name="useDelayInterceptor"></interceptor-ref>
+		    <interceptor-ref name="useBreedTradeModeInterceptor"></interceptor-ref>
+		    <interceptor-ref name="floatingTypeInterceptor"></interceptor-ref>
+		    <interceptor-ref name="findTradeTimesInterceptor"></interceptor-ref>
+		    <param name="entityName">gnnt.MEBS.timebargain.mgr.model.tradeparams.Commodity</param>
+		    <param name="opr">cur</param>
+			<result>/mgr/app/timebargain/tradeparams/commodity.jsp</result>
+		</action>
+		
+		<action name="detailToCommodity" class="tradeParamsAction" method="getCmdtyByBreedID">
+		    <param name="opr">cur</param>
+			<result>/mgr/app/timebargain/tradeparams/commodity_list.jsp</result>
+		</action>
+		
+		<action name="updateCommodityStatus" class="tradeParamsAction" method="updateCommodityStatus">
+		    <param name="entityName">gnnt.MEBS.timebargain.mgr.model.tradeparams.Commodity</param>
+			<result>detailToCommodity.action?sortColumns=order+by+commodityID+asc</result>
+		</action>
+		
+		<action name="detailToCommodityHis" class="tradeParamsAction" method="getCmdtyByBreedID">
+		    <param name="opr">his</param>
+			<result>/mgr/app/timebargain/tradeparams/commodity_list.jsp</result>
+		</action>
+		
+		<action name="addCommodity" class="tradeParamsAction" method="addCommodity">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.tradeparams.Commodity</param>
+			<result>detailToCommodity.action?sortColumns=order+by+commodityID+asc</result>
+		</action>
+		
+		<action name="detailCommodity" class="tradeParamsAction" method="viewByIdCommodity">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="crudTypeInterceptor">
+		    	<param name="crud">update</param>
+		    </interceptor-ref>
+		    <interceptor-ref name="useDelayInterceptor"></interceptor-ref>
+		    <interceptor-ref name="useBreedTradeModeInterceptor"></interceptor-ref>
+		    <interceptor-ref name="floatingTypeInterceptor"></interceptor-ref>
+		    <interceptor-ref name="findAllCmdtySortsInterceptor"></interceptor-ref>
+		    <interceptor-ref name="findTradeTimesInterceptor"></interceptor-ref>
+			<result>/mgr/app/timebargain/tradeparams/commodity.jsp</result>
+		</action>
+		
+		<action name="detailCommodityHis" class="tradeParamsAction" method="viewByIdHisCommodity">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="crudTypeInterceptor">
+		    	<param name="crud">update</param>
+		    </interceptor-ref>
+		    <interceptor-ref name="useDelayInterceptor"></interceptor-ref>
+		    <interceptor-ref name="useBreedTradeModeInterceptor"></interceptor-ref>
+		    <interceptor-ref name="floatingTypeInterceptor"></interceptor-ref>
+		    <interceptor-ref name="findAllCmdtySortsInterceptor"></interceptor-ref>
+		    <interceptor-ref name="findTradeTimesInterceptor"></interceptor-ref>
+			<result>/mgr/app/timebargain/tradeparams/commodity.jsp</result>
+		</action>
+		
+		<action name="updateCommodity" class="tradeParamsAction" method="updateCommodity">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.tradeparams.Commodity</param>
+			<result>detailToCommodity.action?sortColumns=order+by+commodityID+asc</result>
+		</action>
+		
+		<action name="deleteCommodity" class="tradeParamsAction" method="deleteCommodity">
+		    <interceptor-ref name="mydefault"></interceptor-ref>
+		    <interceptor-ref name="deletesListInterceptor"></interceptor-ref>
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.tradeparams.Commodity</param>
+			<result>detailToCommodity.action?sortColumns=order+by+commodityID+asc</result>
+		</action>
+		<!-- End -->
+		
+		<!-- 非交易日设置 Start -->
+		<action name="notTradeDayList" class="tradeParamsAction" method="getNotTradeDay">
+		    <interceptor-ref name="mydefault"></interceptor-ref>
+		    <interceptor-ref name="crudTypeInterceptor">
+		    	<param name="crud">trade</param>
+		    </interceptor-ref>
+		    <interceptor-ref name="tradeTimeTypeInterceptor"></interceptor-ref>
+		    <param name="entityName">gnnt.MEBS.timebargain.mgr.model.tradeparams.NotTradeDay</param>
+			<result>/mgr/app/timebargain/tradeparams/notTradeDay.jsp</result>
+		</action>
+
+		<action name="updateTradeDay" class="tradeParamsAction" method="updateTradeDay">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.tradeparams.NotTradeDay</param>
+			<result>notTradeDayList.action</result>
+		</action>
+		
+		<!-- 设置交易节 -->
+		<action name="setTradeDay" class="tradeParamsAction" method="setTradeDay">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.tradeparams.DaySection</param>
+			<result>/mgr/app/timebargain/tradeparams/daySection_middle.jsp</result>
+		</action>
+		<!-- 提交设置交易节 -->
+		<action name="updateTradeDaySection" class="tradeParamsAction" method="updateTradeDaySection">
+			 <param name="entityName">gnnt.MEBS.timebargain.mgr.model.tradeparams.NotTradeDay</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<action name="detailCalendar" class="tradeParamsAction" method="detailCalendar">
+		    <param name="opr">cal</param>
+		    <param name="sql">
+		    	select * from (select distinct(to_char(t.cleardate,'dd')) d from t_h_market t where to_char(t.cleardate,'yyyy-MM')='?' ) a order by d
+		    </param>
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.tradeparams.NotTradeDay</param>
+			<result>/mgr/app/timebargain/tradeparams/calendar.jsp</result>
+		</action>
+		<!-- End -->
+		
+		<!-- 手续费套餐 Start -->
+		<action name="tariffList" class="tradeParamsAction" method="getTariffs">
+		    <param name="sql">
+				select new gnnt.MEBS.timebargain.mgr.model.tradeparams.TariffSimple(t.tariffID, t.tariffName, t.createTime, t.createUser) from Tariff t where t.tariffID like ? order by t.tariffID
+			</param>
+			<result>/mgr/app/timebargain/tradeparams/tariff_list.jsp</result>
+		</action>
+		
+		<action name="detailTariff" class="tradeParamsAction" method="viewCmdtyByTariffID">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.tradeparams.CommodityTariff</param>
+			<result>/mgr/app/timebargain/tradeparams/commodityTariff.jsp</result>
+		</action>
+		
+		<action name="addTariff" class="tradeParamsAction" method="addTariffs">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.tradeparams.Tariff</param>
+			<result>tariffList.action</result>
+		</action>
+		
+		<action name="deleteTariff" class="tradeParamsAction" method="deleteTariff">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.tradeparams.Tariff</param>
+			<result>tariffList.action</result>
+		</action>
+		<!-- End -->
+	</package>
+</struts>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="GBK" ?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+	version="2.0">
+
+	<description>JSTL 1.0 functions library</description>
+	<display-name>JSTL functions</display-name>
+	<tlib-version>1.0</tlib-version>
+	<short-name>rightHyperlink</short-name>
+	<uri>http://gnnt.MEBS.common.mgr/rightHyperlink</uri>
+	<tag>
+		<!-- 标签名称-->
+		<name>rightHyperlink</name>
+		<!-- 标签对应的处理类-->
+		<tag-class>gnnt.MEBS.common.mgr.common.RightHyperlinkTag</tag-class>
+		<!-- 标签体内容,有标签体则设为jsp-->
+		<body-content>JSP</body-content>
+		<!-- 标签的属性声明-->
+		<attribute>
+			<name>id</name><!-- 对应 a 标签的 id 属性，可为空 -->
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>name</name><!-- 对应 a 标签的 name 属性，可为空 -->
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>title</name><!-- 对应 a 标签的 title 属性，可为空 -->
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>text</name><!-- 对应 a 标签的展示文字，不可为空 -->
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>className</name><!-- 对应 a 标签的 class 属性，可为空 -->
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>style</name><!-- 对应 a 标签的 style 属性，可为空 -->
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>target</name><!-- 对应 a 标签的 target 属性，可为空 -->
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>display</name><!-- 如果没有权限是否展示标签上的文字，为空或为 true 展示其余不展示，可为空 -->
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>onclick</name><!-- 对应 a 标签的 onclick 事件，可为空 -->
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>action</name><!-- 未设置 href 属性时，用于判断是否有权限的字段，如果有 onclick 事件，也可以做 onclick 事件的 action -->
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>href</name><!-- 对应 a 标签的 href 属性，可为空 -->
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+</taglib>
+

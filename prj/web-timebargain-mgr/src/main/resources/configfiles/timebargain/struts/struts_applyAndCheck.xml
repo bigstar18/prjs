@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="applyAndCheck" extends="base-struts2" abstract="true">
+	</package>
+	
+	<package name="apply" extends="applyAndCheck" namespace="/timebargain/apply">
+	
+		<action name="pledgeAppList" class="applyAction" method="listPledgeApp">
+			<result>/mgr/app/timebargain/applyAndCheck/apply/pledgeApp_list.jsp</result>
+		</action>
+	
+		<action name="addPledgeAppforward" class="applyAction" method="addForwardApply">
+			<result>/mgr/app/timebargain/applyAndCheck/apply/pledgeApp_form.jsp</result>
+		</action>
+		
+		<action name="addPledgeApp" class="applyAction" method="addPledgeApp">
+			<result>pledgeAppList.action</result>
+		</action>
+		
+		<action name="updatePledgeAppforward" class="applyAction" method="viewByIdApply">
+			<result>/mgr/app/timebargain/applyAndCheck/apply/pledgeApp_form.jsp</result>
+		</action>
+		
+		<action name="updatePledgeApp" class="applyAction" method="updatePledgeApp">
+			<result>pledgeAppList.action</result>
+		</action>
+		
+		<action name="commodityFeeAppList" class="applyAction" method="listCommodityFeeApp">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.apply.ApplyModel</param>
+			<result>/mgr/app/timebargain/applyAndCheck/apply/commodityFeeApp_list.jsp</result>
+		</action>
+	
+		<action name="addCommodityFeeAppforward" class="applyAction" method="addForwardApply">
+			<result>/mgr/app/timebargain/applyAndCheck/apply/commodityFeeApp_form.jsp</result>
+		</action>
+		
+		<action name="addCommodityFeeApp" class="applyAction" method="addCommodityFeeApp">
+			<result>commodityFeeAppList.action</result>
+		</action>
+		
+		<action name="updatePledgeAppforward" class="applyAction" method="viewByIdApply">
+			<result>/mgr/app/timebargain/applyAndCheck/apply/commodityFeeApp_form.jsp</result>
+		</action>
+		
+		<action name="updateCommodityFeeApp" class="applyAction" method="updateCommodityFeeApp">
+			<result>commodityFeeAppList.action</result>
+		</action>
+		
+		<action name="commodityMarginAppList" class="applyAction" method="listCommodityMarginApp">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.apply.ApplyModel</param>
+			<result>/mgr/app/timebargain/applyAndCheck/apply/commodityMarginApp_list.jsp</result>
+		</action>
+	
+		<action name="addCommodityMarginAppforward" class="applyAction" method="addForwardApply">
+			<result>/mgr/app/timebargain/applyAndCheck/apply/commodityMarginApp_form.jsp</result>
+		</action>
+		
+		<action name="addCommodityMarginApp" class="applyAction" method="addCommodityMarginApp">
+			<result>commodityMarginAppList.action</result>
+		</action>
+		
+		<action name="updatePledgeAppforward" class="applyAction" method="viewByIdApply">
+			<result>/mgr/app/timebargain/applyAndCheck/apply/commodityMarginApp_form.jsp</result>
+		</action>
+		
+		<action name="updateCommodityMarginApp" class="applyAction" method="updateCommodityMarginApp">
+			<result>commodityMarginAppList.action</result>
+		</action>
+	</package>
+	
+	<package name="Check" extends="applyAndCheck" namespace="/timebargain/check">
+		
+		<action name="pledgeCheList" class="checkAction" method="listPledgeChe">
+			<result>/mgr/app/timebargain/applyAndCheck/check/pledgeChe_list.jsp</result>
+		</action>
+		
+		<action name="updatePledgeCheforward" class="checkAction" method="viewByIdApply">
+		    <param name="entityName">gnnt.MEBS.timebargain.mgr.model.apply.ApplyModel</param>
+			<result>/mgr/app/timebargain/applyAndCheck/check/pledgeChe_form.jsp</result>
+		</action>
+		
+		<action name="updatePledgeChe" class="checkAction" method="updatePledgeChe">
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		
+		<action name="commodityFeeCheList" class="checkAction" method="listCommodityFeeChe">
+			<result>/mgr/app/timebargain/applyAndCheck/check/commodityFeeChe_list.jsp</result>
+		</action>
+		
+		<action name="updateCommodityFeeCheforward" class="checkAction" method="viewByIdCommodityFee">
+		    <param name="entityName">gnnt.MEBS.timebargain.mgr.model.apply.ApplyModel</param>
+			<result>/mgr/app/timebargain/applyAndCheck/check/commodityFeeChe_form.jsp</result>
+		</action>
+		
+		<action name="updateCommodityFeeChe" class="checkAction" method="updateCommodityFee">
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		
+		<action name="commodityMarginCheList" class="checkAction" method="listCommodityMarginChe">
+			<result>/mgr/app/timebargain/applyAndCheck/check/commodityMarginChe_list.jsp</result>
+		</action>
+		
+		<action name="updateCommodityMarginCheforward" class="checkAction" method="viewByIdCommodityMargin">
+		    <param name="entityName">gnnt.MEBS.timebargain.mgr.model.apply.ApplyModel</param>
+			<result>/mgr/app/timebargain/applyAndCheck/check/commodityMarginChe_form.jsp</result>
+		</action>
+		
+		<action name="updateCommodityMarginChe" class="checkAction" method="updateCommodityMargin">
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+	</package>
+</struts>

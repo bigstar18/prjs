@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Struts2Diagram version="2.0">
+  <package name="brokerDataquery" location="433,10" size="280,420">
+    <action name="listBrokerReward" location="65,57" size="150,41">
+      <result name="success">
+        <resourceEdge source="success" routing="0" target="brokerReward_list.jsp" />
+      </result>
+    </action>
+    <action name="updateBrokerRewardforward" location="65,232" size="150,41">
+      <result name="success">
+        <resourceEdge source="success" routing="0" target="changebrokerReward.jsp" />
+      </result>
+    </action>
+    <action name="updateBrokerReward" location="65,337" size="150,41">
+      <result name="success">
+        <resourceEdge source="success" routing="0" target="commonmsg.jsp" />
+      </result>
+    </action>
+    <action name="listBrokerTradeFee" location="0,0" size="0,0">
+      <result name="success">
+        <resourceEdge source="success" routing="0" target="listBrokerTradeFee.jsp" />
+      </result>
+    </action>
+    <action name="listCommodityTradeFee" location="0,0" size="0,0">
+      <result name="success">
+        <resourceEdge source="success" routing="0" target="listCommodityTradeFee.jsp" />
+      </result>
+    </action>
+    <action name="listFirmTradeFee" location="0,0" size="0,0">
+      <result name="success">
+        <resourceEdge source="success" routing="0" target="listFirmTradeFee.jsp" />
+      </result>
+    </action>
+  </package>
+  <webResource name="brokerReward_list.jsp" path="/mgr/app/broker/brokerDataquery/brokerReward_list.jsp" location="48,30" size="150,55" />
+  <webResource name="changebrokerReward.jsp" path="/mgr/app/broker/brokerDataquery/changebrokerReward.jsp" location="10,205" size="150,55" />
+  <webResource name="commonmsg.jsp" path="/mgr/public/jsp/commonmsg.jsp" location="750,310" size="150,55" />
+  <webResource name="listBrokerTradeFee.jsp" path="/mgr/app/broker/brokerDataquery/listBrokerTradeFee.jsp" location="0,0" size="0,0" />
+  <webResource name="listCommodityTradeFee.jsp" path="/mgr/app/broker/brokerDataquery/listCommodityTradeFee.jsp" location="0,0" size="0,0" />
+  <webResource name="listFirmTradeFee.jsp" path="/mgr/app/broker/brokerDataquery/listFirmTradeFee.jsp" location="0,0" size="0,0" />
+</Struts2Diagram>
+

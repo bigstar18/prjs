@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!--  综合日报表	-->
+	<package name="todayTogetherReport" extends="base-struts2" namespace="/timebargain/todayTogetherReport">
+		<!--  综合日报表查询页面	-->
+		<action name="firmlist" class="firmAction" method="getFirmListOrder">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.printReport.FirmModel</param>
+			<result>/mgr/app/timebargain/printReport/todayTogetherQuery.jsp</result>
+		</action>
+	</package>	
+	
+	<!--  资金结算表	-->
+	<package name="fundSettlementReport" extends="base-struts2" namespace="/timebargain/fundSettlementReport">
+		<!--  资金结算查询页面	-->
+		<action name="fundSettlementQuery" class="firmAction" method="getFirmListOrder">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.printReport.FirmModel</param>
+			<result>/mgr/app/timebargain/printReport/fundSettlementQuery.jsp</result>
+		</action>
+	</package>
+	
+	<!--  转让盈亏明细	   -->
+	<package name="transferProfitAndLossReport" extends="base-struts2" namespace="/timebargain/transferProfitAndLoss">
+		<!--  转让盈亏明细查询页面	-->
+		<action name="transferProfitAndLossQuery" class="firmAction" method="getFirmListOrder">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.printReport.FirmModel</param>
+			<result>/mgr/app/timebargain/printReport/transferProfitAndLossQuery.jsp</result>
+		</action>
+	</package>
+	
+	<!--  成交量统计	-->
+	<package name="tradeMonthReport" extends="base-struts2" namespace="/timebargain/tradeMonthReport">
+		<!--  成交量统计查询页面	-->
+		<action name="tradeMonthQuery" class="firmAction" method="getFirmListOrder">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.printReport.FirmModel</param>
+			<result>/mgr/app/timebargain/printReport/tradeMonthQuery.jsp</result>
+		</action>
+	</package>
+	<!--  成交记录	-->
+	<package name="bargainResultReport" extends="base-struts2" namespace="/timebargain/bargainResultReport">
+		<!--  成交记录查询页面	-->
+		<action name="bargainResultQuery" class="firmAction" method="getFirmListOrder">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.printReport.FirmModel</param>
+			<result>/mgr/app/timebargain/printReport/bargainResultQuery.jsp</result>
+		</action>
+	</package>
+	<!--  订货汇总	-->
+	<package name="indentCollectReport" extends="base-struts2" namespace="/timebargain/indentCollectReport">
+		<!--  订货汇总查询页面	-->
+		<action name="indentCollectQuery" class="firmAction" method="getFirmListOrder">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.printReport.FirmModel</param>
+			<result>/mgr/app/timebargain/printReport/indentCollectQuery.jsp</result>
+		</action>
+	</package>
+	<!--  订货汇总表(市值)	-->
+	<package name="ownGoodsCollectReport" extends="base-struts2" namespace="/timebargain/ownGoodsCollectReport">
+		<!--  订货汇总表(市值)查询页面	-->
+		<action name="ownGoodsCollectQuery" class="firmAction" method="getFirmListOrder">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.printReport.FirmModel</param>
+			<result>/mgr/app/timebargain/printReport/ownGoodsCollectQuery.jsp</result>
+		</action>
+	</package>
+	
+	<!--  资金日报表	-->
+	<package name="delayFinanceReport" extends="base-struts2" namespace="/timebargain/delayFinanceReport">
+		<!--  资金日报表查询页面	-->
+		<action name="delayFinanceQuery" class="firmAction" method="getFirmListOrder">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.printReport.FirmModel</param>
+			<result>/mgr/app/timebargain/printReport/delayFinanceQuery.jsp</result>
+		</action>
+	</package>
+	<!--  资金月报表	-->
+	<package name="dmonthFinanceReport" extends="base-struts2" namespace="/timebargain/monthFinanceReport">
+		<!--  资金月报表查询页面	-->
+		<action name="monthFinanceQuery" class="firmAction" method="getFirmListOrder">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.printReport.FirmModel</param>
+			<result>/mgr/app/timebargain/printReport/monthFinanceQuery.jsp</result>
+		</action>
+	</package>
+	
+	<!--  出入金记录	-->
+	<package name="cushInAndOutReport" extends="base-struts2" namespace="/timebargain/cushInAndOutReport">
+		<!--  出入金记录查询页面	-->
+		<action name="cushInAndOutQuery" class="firmAction" method="getFirmListOrder">
+			
+			<result>/mgr/app/timebargain/printReport/cushInAndOutQuery.jsp</result>
+		</action>
+		
+	</package>
+	<!--  资金不足情况	-->
+	<package name="tradeUserNotEnoughMoneyReport" extends="base-struts2" namespace="/timebargain/tradeUserNotEnoughMoneyReport">
+		<!--  资金不足情况查询页面	-->
+		<action name="tradeUserNotEnoughMoneyQuery" class="firmAction" method="getTradeUserNotEnoughMoneyQuery">
+			<result>/mgr/app/timebargain/printReport/tradeUserNotEnoughMoneyQuery.jsp</result>
+		</action>
+		
+	</package>
+	<!--  浮动亏损统计表	-->
+	<package name="superAddBailReport" extends="base-struts2" namespace="/timebargain/superAddBailReport">
+		<!--  浮动亏损统计表查询页面	-->
+		<action name="superAddBailQuery" class="firmAction" method="getFirmListOrder">
+			
+			<result>/mgr/app/timebargain/printReport/superAddBailQuery.jsp</result>
+		</action>
+		
+	</package>
+	<!--  转让和交收盈亏	-->
+	<package name="tAPLStatisticReport" extends="base-struts2" namespace="/timebargain/tAPLStatisticReport">
+		<!--  转让和交收盈亏查询页面	-->
+		<action name="tAPLStatisticQuery" class="firmAction" method="getFirmListOrder">
+			
+			<result>/mgr/app/timebargain/printReport/tAPLStatisticQuery.jsp</result>
+		</action>
+	</package>
+	<!--  ajax 验证信息相关 -->
+	<package name="ajaxReport" extends="json-default" namespace="/ajaxcheck/tAPLStatisticReport">
+		<action name="checkBreed" class="firmAction" method="checkBreed">
+			<result name="success" type="json">
+				<param name="root">data</param>
+			</result>
+		</action>
+	</package>
+	
+	
+	
+	<!--  手续费统计	-->
+	<package name="serviceFeeReport" extends="base-struts2" namespace="/timebargain/serviceFeeReport">
+		<!--  手续费统计查询页面	-->
+		<action name="serviceFeeQuery" class="firmAction" method="getTradeUserNotEnoughMoneyQuery">
+			<result>/mgr/app/timebargain/printReport/serviceFeeQuery.jsp</result>
+		</action>
+	</package>
+	<!--  订货明细	-->
+	<package name="indentDetailReport" extends="base-struts2" namespace="/timebargain/indentDetailReport">
+		<!--  订货明细表查询页面	-->
+		<action name="indentDetailQuery" class="firmAction" method="getFirmListOrder">
+			
+			<result>/mgr/app/timebargain/printReport/indentDetailQuery.jsp</result>
+		</action>
+	</package>
+	<!--  订货统计	-->
+	<package name="indentStatisticReport" extends="base-struts2" namespace="/timebargain/indentStatisticReport">
+		<!--  订货统计表查询页面	-->
+		<action name="indentStatisticQuery" class="firmAction" method="getFirmListOrder">
+			
+			<result>/mgr/app/timebargain/printReport/indentStatisticQuery.jsp</result>
+		</action>
+	</package>
+	
+	<!--  委托情况	-->
+	<package name="ordersReport" extends="base-struts2" namespace="/timebargain/ordersReport">
+		<!--  委托情况表查询页面	-->
+		<action name="ordersQuery" class="firmAction" method="getFirmListOrder">
+			
+			<result>/mgr/app/timebargain/printReport/ordersQuery.jsp</result>
+		</action>
+	</package>
+	<!--  当日分商品成交量	-->
+	<package name="comTradedayReport" extends="base-struts2" namespace="/timebargain/comTradedayReport">
+		<!--  当日分商品成交量表查询页面	-->
+		<action name="comTradedayQuery" class="firmAction" method="getFirmListOrder">
+			
+			<result>/mgr/app/timebargain/printReport/comTradedayQuery.jsp</result>
+		</action>
+	</package>
+	<!--  分商品成交量	-->
+	<package name="comTradeReport" extends="base-struts2" namespace="/timebargain/comTradeReport">
+		<!--  分商品成交量表查询页面	-->
+		<action name="comTradeQuery" class="firmAction" method="getFirmListOrder">
+			
+			<result>/mgr/app/timebargain/printReport/comTradeQuery.jsp</result>
+		</action>
+	</package>
+	
+	<!--  分交易商成交量	-->
+	<package name="comTradeDayRecordReport" extends="base-struts2" namespace="/timebargain/comTradeDayRecordReport">
+		<!--  分交易商成交量表查询页面	-->
+		<action name="comTradeDayRecordQuery" class="firmAction" method="getFirmListOrder">
+			
+			<result>/mgr/app/timebargain/printReport/comTradeDayRecordQuery.jsp</result>
+		</action>
+	</package>
+	<!--  分商品成交记录	-->
+	<package name="commodityTradeDayRecordReport" extends="base-struts2" namespace="/timebargain/commodityTradeDayRecordReport">
+		<!--  分商品成交记录表查询页面	-->
+		<action name="commodityTradeDayRecordQuery" class="firmAction" method="getFirmListOrder">
+			<result>/mgr/app/timebargain/printReport/commodityTradeDayRecordQuery.jsp</result>
+		</action>
+	</package>
+	
+	<!--  当日成交记录	-->
+	<package name="tradeDayResultReport" extends="base-struts2" namespace="/timebargain/tradeDayResultReport">
+		<!--  当日成交记录表查询页面	-->
+		<action name="tradeDayResultQuery" class="firmAction" method="getTradeUserNotEnoughMoneyQuery">
+			<result>/mgr/app/timebargain/printReport/tradeDayResultQuery.jsp</result>
+		</action>
+	</package>
+	<!--  每日收市行情	-->
+	<package name="dayHQReport" extends="base-struts2" namespace="/timebargain/dayHQReport">
+		<!--  每日收市行情表查询页面	-->
+		<action name="dayHQQuery" class="firmAction" method="getTradeUserNotEnoughMoneyQuery">
+			<result>/mgr/app/timebargain/printReport/dayHQQuery.jsp</result>
+		</action>
+	</package>
+	<!--  行情统计	-->
+	<package name="HQStatisticReport" extends="base-struts2" namespace="/timebargain/HQStatisticReport">
+		<!--  行情统计表查询页面	-->
+		<action name="HQStatisticQuery" class="firmAction" method="getTradeUserNotEnoughMoneyQuery">
+			<result>/mgr/app/timebargain/printReport/HQStatisticQuery.jsp</result>
+		</action>
+	</package>
+	<!--  抵顶记录	-->
+	<package name="supportsRecordReport" extends="base-struts2" namespace="/timebargain/supportsRecordReport">
+		<!--  抵顶记录表查询页面	-->
+		<action name="supportsRecordQuery" class="firmAction" method="getFirmListOrder">
+			<result>/mgr/app/timebargain/printReport/supportsRecordQuery.jsp</result>
+		</action>
+	</package>
+	<!--  交收记录	-->
+	<package name="tradeResultReport" extends="base-struts2" namespace="/timebargain/tradeResultReport">
+		<!--  交收记录表查询页面	-->
+		<action name="tradeResultQuery" class="firmAction" method="getTradeUserNotEnoughMoneyQuery">
+			<result>/mgr/app/timebargain/printReport/tradeResultQuery.jsp</result>
+		</action>
+	</package>
+	<!--  协议交收记录	-->
+	<package name="agreePCRecordReport" extends="base-struts2" namespace="/timebargain/agreePCRecordReport">
+		<!--  协议交收记录表查询页面	-->
+		<action name="agreePCRecordQuery" class="firmAction" method="getTradeUserNotEnoughMoneyQuery">
+			<result>/mgr/app/timebargain/printReport/agreePCRecordQuery.jsp</result>
+		</action>
+	</package>
+	<!--  交收汇总	-->
+	<package name="bargainOnCollectReport" extends="base-struts2" namespace="/timebargain/bargainOnCollectReport">
+		<!--  交收汇总表查询页面	-->
+		<action name="bargainOnCollectQuery" class="firmAction" method="getTradeUserNotEnoughMoneyQuery">
+			<result>/mgr/app/timebargain/printReport/bargainOnCollectQuery.jsp</result>
+		</action>
+	</package>
+	<!--  交收情况	-->
+	<package name="firmSettleReport" extends="base-struts2" namespace="/timebargain/firmSettleReport">
+		<!--  交易商交收情况表查询页面	-->
+		<action name="firmSettleQuery" class="firmAction" method="getFirmListOrder">
+			<result>/mgr/app/timebargain/printReport/firmSettleQuery.jsp</result>
+		</action>
+	</package>
+	<!-- 加盟商资金报表 -->
+	<package name="brokerFundflowReport" extends="base-struts2" namespace="/timebargain/brokerFundflowReport">
+		<!--  加盟商资金表查询页面	-->
+		<action name="brokerFundflowQuery" class="brokerAction" method="getBrokerListOrder">
+			<result>/mgr/app/timebargain/printReport/brokerFundflowQuery.jsp</result>
+		</action>
+	</package>
+	<!-- 交易商分商品盈亏表 -->
+	<package name="firmCommodityTradePLReport" extends="base-struts2" namespace="/timebargain/firmCommodityTradePLReport">
+		<!--  交易商分商品盈亏表页面	-->
+		<action name="firmCommodityTradePLQuery" class="firmAction" method="getFirmListOrder">
+			<result>/mgr/app/timebargain/printReport/firmCommodityTradePLQuery.jsp</result>
+		</action>
+	</package>
+	<!-- 交易商分商品成交表 -->
+	<package name="firmCommodityTradeReport" extends="base-struts2" namespace="/timebargain/firmCommodityTradeReport">
+		<!--  交易商分商品成交表 页面	-->
+		<action name="firmCommodityTradeQuery" class="firmAction" method="getFirmListOrder">
+			<result>/mgr/app/timebargain/printReport/firmCommodityTradeQuery.jsp</result>
+		</action>
+	</package>
+	<!-- 主力合约汇总表 -->
+	<package name="contractCollectReport" extends="base-struts2" namespace="/timebargain/contractCollectReport">
+		<!--  主力合约汇总表 页面	-->
+		<action name="contractCollectQuery" class="firmAction" method="getFirmListOrder">
+			<result>/mgr/app/timebargain/printReport/contractCollectQuery.jsp</result>
+		</action>
+	</package>
+		<!-- 交易商历史成交情况汇总 -->
+	<package name="brokerFirmTradeReport" extends="base-struts2" namespace="/timebargain/brokerFirmTradeReport">
+		<!--  交易商历史成交情况汇总 页面	-->
+		<action name="brokerFirmTradeQuery" class="firmAction" method="getBrokerAndFirmCategoryList">
+			<result>/mgr/app/timebargain/printReport/brokerFirmTradeQuery.jsp</result>
+		</action>
+	</package>
+	<!--  分加盟商成交统计表	-->
+	<package name="tradeBybrokerReport" extends="base-struts2" namespace="/timebargain/tradeBybrokerReport">
+		<!--  分加盟商成交统计表查询页面	-->
+		<action name="tradeBybrokerQuery" class="brokerAction" method="getBrokerListOrder">
+			
+			<result>/mgr/app/timebargain/printReport/tradeBybrokerQuery.jsp</result>
+		</action>
+	</package>
+	<!--  分加盟商订货统计表	-->
+	<package name="holdBybrokerReport" extends="base-struts2" namespace="/timebargain/holdBybrokerReport">
+		<!--  分加盟商订货统计表查询页面	-->
+		<action name="holdBybrokerQuery" class="brokerAction" method="getBrokerListOrder">
+			
+			<result>/mgr/app/timebargain/printReport/holdBybrokerQuery.jsp</result>
+		</action>
+	</package>
+	<!--  分加盟商综合统计表	-->
+	<package name="brokerAllReport" extends="base-struts2" namespace="/timebargain/brokerAllReport">
+		<!--  分加盟商综合统计表查询页面	-->
+		<action name="brokerAllQuery" class="brokerAction" method="getBrokerListOrder">
+			
+			<result>/mgr/app/timebargain/printReport/brokerAllQuery.jsp</result>
+		</action>
+	</package>
+</struts>

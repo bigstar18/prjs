@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="delay" extends="base-struts2" namespace="/timebargain/delay">
+	    <interceptors>
+			<interceptor name="settlePrivilegeInterceptor"
+					class="gnnt.MEBS.timebargain.mgr.action.interceptor.SettlePrivilegeInterceptor">
+			</interceptor>
+			<interceptor name="commoditySelectInterceptor"
+					class="gnnt.MEBS.timebargain.mgr.action.interceptor.CommoditySelectInterceptor">
+			</interceptor>
+			<interceptor name="delayQueryInterceptor"
+					class="gnnt.MEBS.timebargain.mgr.action.interceptor.DelayQueryInterceptor">
+			</interceptor>				
+		</interceptors>
+		
+		<!-- 延期交收节 Start -->
+		<action name="sectionList" class="delayAction" method="editDelaySection">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.delay.Delay</param>
+			<result>/mgr/app/timebargain/delay/delaySection.jsp</result>
+		</action>
+		
+		<action name="updateSection" class="delayAction" method="saveDelaySection">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.delay.Delay</param>
+			<result>sectionList.action</result>
+		</action>
+		
+		<action name="deleteSection" class="delayAction" method="deleteDelaySection">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.delay.Delay</param>
+			<result>sectionList.action</result>
+		</action>
+		<!-- End -->
+		
+		<!-- 商品交收权限 Start -->
+	    <action name="commodityList" class="delayAction" method="commoditySettlePropEditForward">
+	        <param name="sql">select * from T_A_CommoditySettleProp where sectionID=? order by commodityID</param>
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.delay.CommoditySettleProp</param>
+			<result>/mgr/app/timebargain/delay/commoditySettlePropEdit.jsp</result>
+		</action>
+		
+		<action name="updateCommodity" class="delayAction" method="commoditySettlePropEdit">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.delay.CommoditySettleProp</param>
+			<result>commodityList.action</result>
+		</action>
+		<!-- End -->
+		
+		<!-- 交易商交收权限 Start -->
+		<action name="privilegeList" class="delayAction" method="listSettlePrivilege">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.delay.SettlePrivilege</param>
+			<result>/mgr/app/timebargain/delay/settleprivilege_list.jsp</result>
+		</action>
+		
+		<action name="addPrivilegeforward" class="delayAction" method="forwardAdd">
+		    <interceptor-ref name="mydefault"></interceptor-ref>
+		    <interceptor-ref name="commoditySelectInterceptor"></interceptor-ref>
+		    <param name="opr">create</param>
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.delay.SettlePrivilege</param>
+			<result>/mgr/app/timebargain/delay/privilege_form.jsp</result>
+		</action>
+		<!-- 添加商品权限的方法修改：原来调用的是add方法，现改为addCommodity方法     By HXX 20150724-->
+		<action name="addPrivilege" class="delayAction" method="addCommodity">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.delay.SettlePrivilege</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+
+		<action name="detailPrivilegeforward" class="delayAction" method="viewById">
+		    <interceptor-ref name="mydefault"></interceptor-ref>
+		    <interceptor-ref name="commoditySelectInterceptor"></interceptor-ref>
+		    <param name="opr">update</param>
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.delay.SettlePrivilege</param>
+			<result>/mgr/app/timebargain/delay/privilege_form.jsp</result>
+		</action>
+		
+		<action name="updatePrivilege" class="delayAction" method="update">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.delay.SettlePrivilege</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+
+		<action name="deletePrivilege" class="delayAction" method="delete">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.delay.SettlePrivilege</param>
+			<result>privilegeList.action?sortColumns=order+by+ID+asc</result>
+		</action>
+		<!-- End -->
+		
+		<!-- 延期交收状态 Start -->
+		<action name="delayStatusList" class="delayAction" method="listDelayStatus">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.delay.DelayStatusLocal</param>
+			<result>/mgr/app/timebargain/delay/delayStatus_form.jsp</result>
+		</action>
+
+		<action name="updateDelayStatus" class="delayAction" method="updateDelayStatus">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.delay.DelayStatusLocal</param>
+			<result name="recoverTime">/mgr/app/timebargain/delay/delayStatus_WriteTime.jsp</result>
+			<result name="success">delayStatusList.action</result>
+		</action>
+		
+		<action name="updateDelayStatusRecoverTime" class="delayAction" method="recoverTime">
+			<param name="entityName">gnnt.MEBS.timebargain.mgr.model.delay.DelayStatusLocal</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<!-- End -->
+		
+		<!-- 查询 Start -->
+		<action name="delayOrdersList" class="delayAction" method="delayOrdersList">
+		    <interceptor-ref name="mydefault"></interceptor-ref>
+		    <interceptor-ref name="delayQueryInterceptor"></interceptor-ref>
+			<result>/mgr/app/timebargain/delay/delayOrders_list.jsp</result>
+		</action>
+		
+		<action name="delayTradeList" class="delayAction" method="delayTradeList">
+		    <interceptor-ref name="mydefault"></interceptor-ref>
+		    <interceptor-ref name="delayQueryInterceptor"></interceptor-ref>
+			<result>/mgr/app/timebargain/delay/delayTrade_list.jsp</result>
+		</action>
+		
+		<action name="delayQuotationList" class="delayAction" method="delayQuotationList">
+		    <interceptor-ref name="mydefault"></interceptor-ref>
+		    <interceptor-ref name="delayQueryInterceptor"></interceptor-ref>
+			<result>/mgr/app/timebargain/delay/delayQuotation_list.jsp</result>
+		</action>
+		<!-- End -->
+	</package>
+</struts>
