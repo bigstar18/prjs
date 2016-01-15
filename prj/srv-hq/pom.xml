@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>ogr.hxx</groupId>
+		<groupId>org.hxx</groupId>
 		<artifactId>prj-parent</artifactId>
 		<version>1.0.0</version>
 	</parent>
@@ -13,21 +13,6 @@
 	
 	<!-- 依赖项定义 -->
 	<dependencies>
-
-		<dependency>
-			<groupId>com.yrdce</groupId>
-			<artifactId>activeUser</artifactId>
-			<version>1.0.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/activeUser.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>com.yrdce</groupId>
-			<artifactId>config</artifactId>
-			<version>1.0.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/config.jar</systemPath>
-		</dependency>
 		<dependency>
 			<groupId>com.yrdce</groupId>
 			<artifactId>QuotationRMI</artifactId>
@@ -110,6 +95,11 @@
 		
 		<!-- TEST begin -->
 		<!-- TEST end -->
+		<dependency>
+			<groupId>org.hxx</groupId>
+			<artifactId>util-common</artifactId>
+			<version>1.0.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
