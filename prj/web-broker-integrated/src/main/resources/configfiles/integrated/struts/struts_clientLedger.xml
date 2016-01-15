@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="clientLedger" extends="base-struts2" namespace="/broker/clientLedger">
+		<action name="clientLedger" class="clientLedgerAction" method="clientLedger">
+			<param name="entityName">gnnt.MEBS.integrated.broker.model.fundsQuery.FirmBalance</param>
+			<result>/broker/app/integrated/fundsQuery/clientLedger/clientLedger.jsp</result>
+		</action>
+		<action name="clientLedgerSum" class="clientLedgerAction" method="clientLedgerSum">
+			<result>/broker/app/integrated/fundsQuery/clientLedger/clientLedgerSum.jsp</result>
+		</action>
+		 <!-- 待付佣金 -->
+		<action name="listBrokerReward" class="clientLedgerAction" method="listBrokerReward">
+		   <param name="entityName">gnnt.MEBS.integrated.broker.model.fundsQuery.BrokerReward</param>
+		   <result>/broker/app/integrated/fundsQuery/clientLedger/brokerRewardList.jsp</result>
+		</action>
+	</package>
+</struts>

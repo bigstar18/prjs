@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!--  ajax 验证信息相关 -->
+	<package name="ajaxVoucher" extends="json-default" namespace="/ajaxcheck/voucher">
+	
+	<!-- 鼠标移开事件检查交易商代码在交易商表(M_Firm)表中是否存在，存在返回成功，不存在返回失败 -->
+		<action name="mouseCheckFirmByFirmId" class="ajaxVoucher" method="mouseCheckFirmByFirmId">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+    
+    <!-- Form 表单提交事件检查交易商代码在交易商表(M_Firm)表中是否存在，存在返回成功，不存在返回失败 -->
+		<action name="formCheckFirmByFirmId" class="ajaxVoucher" method="formCheckFirmByFirmId">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+		
+	</package>
+	
+</struts>

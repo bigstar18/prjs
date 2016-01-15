@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="voucher" extends="base-struts2" namespace="/finance/voucher">
+	 
+	   <!-- 录入凭证 -->
+	
+		<!-- 凭证列表listByLimit 方法在 EcsideAction 中共用-->
+		<action name="voucherList" class="voucherAction" method="listVoucher">
+			<param name="entityName">gnnt.MEBS.finance.mgr.model.Voucher</param>
+			<result>/mgr/app/finance/voucher/voucher_list.jsp</result>
+		</action>
+		
+		<!-- 添加凭证跳转forwardAdd 方法在 StandardAction 中共用-->
+		<action name="addVoucherForward" class="voucherAction" method="forwardAdd">
+			<param name="entityName">gnnt.MEBS.finance.mgr.model.Voucher</param>
+			<result>/mgr/app/finance/voucher/voucher_add.jsp</result>
+		</action>
+
+		<!-- 添加凭证 -->
+		<action name="addVoucher" class="voucherAction" method="addVoucher">
+			<param name="entityName">gnnt.MEBS.finance.mgr.model.Voucher</param>
+			<result>voucherList.action</result>
+		</action>
+		
+		<!-- 批量删除凭证 -->
+		<action name="deleteVoucher" class="voucherAction" method="deleteVoucher">
+			<param name="entityName">gnnt.MEBS.finance.mgr.model.Voucher</param>
+			<result>voucherList.action</result>
+		</action>
+		
+		<!-- 凭证详情 viewById 方法在 StandardAction 中共用对象 -->
+		<action name="viewVoucher" class="voucherAction" method="viewById">
+			<param name="entityName">gnnt.MEBS.finance.mgr.model.Voucher</param>
+			<result>/mgr/app/finance/voucher/voucher_update.jsp</result>
+		</action>
+		
+		<!--修改凭证-->
+		<action name="updateVoucher" class="voucherAction" method="updateVoucher">
+			<param name="entityName">gnnt.MEBS.finance.mgr.model.Voucher</param>
+			<result>voucherList.action</result>
+		</action>
+		
+		<action name="viewSummary" class="voucherAction" method="listByLimit">
+			<param name="entityName">gnnt.MEBS.finance.mgr.model.SummaryF</param>
+			<result>/mgr/app/finance/voucher/voucherSummary_list.jsp</result>
+		</action>
+
+		<!-- 凭证确认列表listByLimit 方法在 EcsideAction 中共用-->
+		<action name="voucherConfirmList" class="voucherAction" method="listVoucherConfirm">
+			<param name="entityName">gnnt.MEBS.finance.mgr.model.Voucher</param>
+			<result>/mgr/app/finance/voucher/voucher_list_confirm.jsp</result>
+		</action>
+
+		
+
+		<!-- 当前凭证列表listByLimit 方法在 EcsideAction 中共用-->
+		<action name="voucherCurrentList" class="voucherAction" method="listVoucherCurrent">
+			<param name="entityName">gnnt.MEBS.finance.mgr.model.Voucher</param>
+			<result>/mgr/app/finance/voucher/voucher_list_current.jsp</result>
+		</action>
+
+		<!-- 历史凭证列表listByLimit 方法在 EcsideAction 中共用-->
+		<action name="voucherHistoryList" class="voucherAction" method="listVoucherHistory">
+			<param name="entityName">gnnt.MEBS.finance.mgr.model.Voucher</param>
+			<result>/mgr/app/finance/voucher/voucher_list_history.jsp</result>
+		</action>
+
+        <action name="viewVoucherAudit" class="voucherAction" method="viewById">
+			<param name="entityName">gnnt.MEBS.finance.mgr.model.Voucher</param>
+			<result>/mgr/app/finance/voucher/voucher_details.jsp</result>
+		</action>
+		
+		<action name="viewVoucherDetails" class="voucherAction" method="viewById">
+			<param name="entityName">gnnt.MEBS.finance.mgr.model.Voucher</param>
+			<result>/mgr/app/finance/voucher/voucher_view.jsp</result>
+		</action>
+		
+		
+
+
+		<!-- 快捷添加凭证跳转forwardAdd 方法在 StandardAction 中共用-->
+		<action name="addVoucherFastForward" class="voucherAction"
+			method="addVoucherFastForward">
+			<param name="entityName">gnnt.MEBS.finance.mgr.model.Voucher</param>
+			<result>/mgr/app/finance/voucher/voucher_add_fast.jsp</result>
+		</action>
+
+		<!-- 快捷添加凭证   方法在 StandardAction 中共用-->
+		<action name="addVoucherFast" class="voucherAction" method="addVoucherFast">
+			<param name="entityName">gnnt.MEBS.finance.mgr.model.Voucher</param>
+			<result>voucherList.action</result>
+		</action>
+
+		<!-- 提交审核   方法在 StandardAction 中共用-->
+		<action name="auditOne" class="voucherAction" method="updateAuditOne">
+			<param name="entityName">gnnt.MEBS.finance.mgr.model.Voucher</param>
+			<result>voucherConfirmList.action?sortColumns=order+by+voucherno+desc</result>
+		</action>
+
+		<!-- 全部提交审核   方法在 StandardAction 中共用-->
+		<action name="auditAll" class="voucherAction" method="updateAuditAll">
+			<param name="entityName">gnnt.MEBS.finance.mgr.model.Voucher</param>
+			<result>voucherConfirmList.action?sortColumns=order+by+voucherno+desc</result>
+		</action>
+		
+		<!-- 财务审核凭证列表listByLimit 方法在 EcsideAction 中共用-->
+		<action name="voucherAuditList" class="voucherAction" method="listVoucherAudit">
+			<param name="entityName">gnnt.MEBS.finance.mgr.model.Voucher</param>
+			<result>/mgr/app/finance/voucher/voucher_list_audit.jsp</result>
+		</action>
+		
+		<!-- 审核通过  方法在 StandardAction 中共用-->
+		<action name="auditVoucher" class="voucherAction" method="updateAuditVoucher">
+			<param name="entityName">gnnt.MEBS.finance.mgr.model.Voucher</param>
+			<result>voucherAuditList.action?sortColumns=order+by+voucherno+desc</result>
+		</action>
+		
+		<action name="auditVoucher1" class="voucherAction" method="updateAuditVoucher1">
+			<param name="entityName">gnnt.MEBS.finance.mgr.model.Voucher</param>
+			<result>voucherAuditList.action?sortColumns=order+by+voucherno+desc</result>
+		</action>
+	</package>
+</struts>

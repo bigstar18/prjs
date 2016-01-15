@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- 关于用户的操作 -->
+	<package name="com_user" extends="base-struts2" namespace="/user">
+		<!-- 用户登录 -->
+		<action name="logon" class="com_userAction" method="logon">
+			<result type="redirect">/broker/frame/mainframe.jsp</result>
+			<result name="error">/broker/logon.jsp</result>
+		</action>
+		<!-- 用户退出 -->
+		<action name="logout" class="com_userAction" method="logout">
+			<result type="redirect">/broker/logon.jsp</result>
+		</action>
+		<!-- 用户修改风格 -->
+		<action name="saveShinStyle" class="com_userAction" method="saveShinStyle">
+			<result>/broker/public/jsp/commonmsg.jsp</result>
+		</action>
+	</package>
+
+	<!-- 主页面修改登录密码 -->
+	<package name="com_userSelf" extends="base-struts2" namespace="/self">
+		<!-- 修改自己的登陆密码跳转 -->
+		<action name="passwordSelfMod" class="com_userAction" method="viewById">
+			<result>/broker/frame/modpasswordself.jsp</result>
+		</action>
+		<!-- 修改自己的登陆密码 -->
+		<action name="passwordSelfSave" class="com_userAction" method="updatePasswordSelfSave">
+			<result>/broker/public/jsp/commonmsg.jsp</result>
+		</action>
+	</package>
+
+	<!-- 快捷菜单设置 -->
+	<package name="com_myMenu" extends="base-struts2" namespace="/myMenu">
+		<!-- 修改快捷菜单跳转 -->
+		<action name="getMyMenu" class="com_menuAction" method="menuList">
+			<result>/broker/frame/logonusermenu.jsp</result>
+		</action>
+		<!-- 修改快捷菜单 -->
+		<action name="updateMyMenu" class="com_menuAction" method="modMyMenu">
+			<result>/broker/public/jsp/commonmsg.jsp</result>
+		</action>
+	</package>
+
+	<!-- 权限展示 -->
+	<package name="mgrcom_menu" extends="base-struts2" namespace="/menu">
+		<action name="menuList" class="com_menuAction" method="menuList">
+			<result>/broker/frame/leftmenu.jsp</result>
+			<result name="error">/broker/public/jsp/nosession.jsp</result>
+		</action>
+	</package>
+
+</struts>

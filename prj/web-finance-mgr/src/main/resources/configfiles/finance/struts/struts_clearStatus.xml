@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- 
+		测试例子，action 路径为 /demo/customerplay 开头的访问则进入本配置
+	 -->
+	<package name="clearStatus" extends="base-struts2" namespace="/finance/clearStatus">
+		<!-- 
+			测试列表
+				listByLimit 方法在 EcsideAction 中共用
+		-->
+		<action name="clearStatusList" class="clearStatusAction" method="listByLimit">
+			<param name="entityName">gnnt.MEBS.finance.mgr.model.ClearStatus</param>
+			<result>/mgr/app/finance/clearStatus/clearStatus_list.jsp</result>
+		</action>
+		
+		<action name="financeBalance" class="clearStatusAction" method="financeBalance">
+			<param name="entityName">gnnt.MEBS.finance.mgr.model.ClearStatus</param>
+			<result>/mgr/app/finance/clearStatus/financeBalance.jsp</result>
+		</action>
+	</package>
+</struts>

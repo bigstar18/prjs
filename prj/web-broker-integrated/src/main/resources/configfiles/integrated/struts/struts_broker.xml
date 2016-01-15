@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- 关于用户的操作 -->
+	<package name="com_broker" extends="base-struts2" namespace="/broker">
+		<!-- 用户登录 -->
+		<action name="logon" class="com_brokerAction" method="logon">
+			<result type="redirect">/broker/frame/mainframe.jsp</result>
+			<result name="error">/broker/logon.jsp</result>
+		</action>
+		<!-- 用户退出 -->
+		<action name="logout" class="com_brokerAction" method="logout">
+			<result type="redirect">/broker/logon.jsp</result>
+		</action>
+		<!-- 用户修改风格 -->
+		<action name="saveShinStyle" class="com_brokerAction" method="saveShinStyle">
+			<result>/broker/public/jsp/commonmsg.jsp</result>
+		</action>
+	</package>
+</struts>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!--  ajax 验证信息相关 -->
+	<package name="ajaxFirmApply" extends="json-default" namespace="/ajaxcheck/ajaxFirmApply">
+	<!-- 鼠标移开事件检查用户名是否已经存在，存在返回成功，不存在返回失败 -->
+		<action name="mouseCheckUserId" class="ajaxCheckFirmApply" method="mouseCheckUserId">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+	<!-- Form 表单提交事件检查用户名是否已经存在，存在返回成功，不存在返回失败 -->
+		<action name="checkFirmApplyForm" class="ajaxCheckFirmApply" method="checkFirmApplyForm">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+		
+	<!-- 修改Form 表单提交事件检查用户名是否已经存在，存在返回成功，不存在返回失败 -->
+		<action name="checkFirmApplyUpdateForm" class="ajaxCheckFirmApply" method="checkFirmApplyUpdateForm">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+	</package>
+</struts>

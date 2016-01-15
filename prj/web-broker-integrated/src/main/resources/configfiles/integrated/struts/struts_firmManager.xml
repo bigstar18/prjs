@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- 
+		用户管理action 路径为 /broker/firmManager 开头的访问则进入本配置
+	 -->
+	<package name="firmManager" extends="base-struts2" namespace="/broker/firmManager">
+		<!-- 
+			开户申请列表
+		-->
+		<action name="listFirmApply" class="firmManagerAction" method="listFirmApply">
+			<param name="entityName">gnnt.MEBS.integrated.broker.model.firmManager.MFirmApply</param>
+			<result>/broker/app/integrated/firmManager/firmApply_list.jsp</result>
+		</action>
+		
+		<!-- 
+			打开开户申请添加页面
+		-->
+		<action name="forwardAddFirmApply" class="firmManagerAction" method="forwardAddFirmApply">
+			<param name="entityName">gnnt.MEBS.integrated.broker.model.firmManager.MFirmApply</param>
+			<result>/broker/app/integrated/firmManager/firmApply_add.jsp</result>
+		</action>
+		
+		<!-- 
+			添加开户申请
+		-->
+		<action name="addFirmApply" class="firmManagerAction" method="addFirmApply">
+			<param name="entityName">gnnt.MEBS.integrated.broker.model.firmManager.MFirmApply</param>
+			<result>/broker/public/jsp/commonmsg.jsp</result>
+		</action>
+		
+		<!-- 
+			查看开户申请
+		-->
+		<action name="viewByIdFirmApply" class="firmManagerAction" method="viewByIdFirmApply">
+			<param name="entityName">gnnt.MEBS.integrated.broker.model.firmManager.MFirmApply</param>
+			<result>/broker/app/integrated/firmManager/firmApply_update.jsp</result>
+		</action>
+		
+		
+		<!-- 
+			修改开户申请
+		-->
+		<action name="updateFirmApply" class="firmManagerAction" method="updateFirmApply">
+			<param name="entityName">gnnt.MEBS.integrated.broker.model.firmManager.MFirmApply</param>
+			<result>/broker/public/jsp/commonmsg.jsp</result>
+		</action>
+		
+		<!-- 
+			删除开户申请
+		-->
+		<action name="delete" class="com_standardAction" method="deleteCollection">
+			<param name="entityName">gnnt.MEBS.integrated.broker.model.firmManager.MFirmApply</param>
+			<result>listFirmApply.action?sortColumns=order+by+createtime+desc</result>
+		</action>
+		
+		<!-- 
+			已审核交易商列表
+		-->
+		<action name="listFirm" class="firmManagerAction" method="listFirm">
+			<param name="entityName">gnnt.MEBS.integrated.broker.model.firmManager.BRFirm</param>
+			<result>/broker/app/integrated/firmManager/firm_list.jsp</result>
+		</action>
+		
+		<!-- 
+			查看已审核交易商
+		-->
+		<action name="viewByIdFirm" class="firmManagerAction" method="viewByIdFirm">
+			<param name="entityName">gnnt.MEBS.integrated.broker.model.firmManager.BRFirm</param>
+			<result>/broker/app/integrated/firmManager/firm_update.jsp</result>
+		</action>
+		
+		
+		<!-- 
+			修改已审核交易商
+		-->
+		<action name="updateFirm" class="firmManagerAction" method="update">
+			<param name="entityName">gnnt.MEBS.integrated.broker.model.firmManager.BRFirm</param>
+			<result>/broker/public/jsp/commonmsg.jsp</result>
+		</action>
+
+	
+		<!-- 
+			交易商开户申请跳转
+		-->
+		<action name="forwardAddFirm" class="firmManagerAction" method="forwardAddFirm">
+			<param name="entityName">gnnt.MEBS.integrated.broker.model.firmManager.MFirmApply</param>
+			<result>/broker/app/integrated/firmManager/firm_add.jsp</result>
+		</action>
+		
+		<!-- 
+			交易商开户
+		-->
+		<action name="addFirm" class="firmManagerAction" method="addFirm">
+			<param name="entityName">gnnt.MEBS.integrated.broker.model.firmManager.MFirmApply</param>
+			<result>/broker/app/integrated/firmManager/lookupOrAddFirm.jsp</result>
+		</action>
+	</package>
+</struts>

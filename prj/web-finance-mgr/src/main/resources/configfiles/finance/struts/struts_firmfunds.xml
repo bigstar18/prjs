@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="firmfunds" extends="base-struts2" namespace="/finance/firmfunds">
+		<!-- 
+			交易商当前资金列表
+		-->
+		<action name="firmcurfunds" class="firmFundsAction" method="firmCurfundsList">
+			<param name="entityName">gnnt.MEBS.finance.mgr.model.FirmCurFunds</param>
+			<result>/mgr/app/finance/firmfunds/firmcurfunds_list.jsp</result>
+		</action>
+		
+		<action name="fundsdetail" class="firmFundsAction" method="getFundsDetail">
+			<result>/mgr/app/finance/firmfunds/fundsdetail.jsp</result>
+		</action>
+		<action name="firmfundflow" class="firmFundsAction" method="fundFlowList">
+			<result>/mgr/app/finance/firmfunds/fundflowlist.jsp</result>
+		</action>
+		<action name="clientLedger" class="firmFundsAction" method="clientLedger">
+			<param name="entityName">gnnt.MEBS.finance.mgr.model.FirmBalance</param>
+			<result>/mgr/app/finance/firmfunds/clientLedger.jsp</result>
+		</action>
+		<action name="clientLedgerSum" class="firmFundsAction" method="clientLedgerSum">
+			<result>/mgr/app/finance/firmfunds/clientLedgerSum.jsp</result>
+		</action>
+	</package>
+</struts>

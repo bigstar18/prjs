@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!--
+	通过配置文件配置 Model 类与数据库表之间的字段联系
+	将本配置文件配置到 hibernate.cfg.xml 中
+-->
+<hibernate-mapping>
+	<class name="gnnt.MEBS.finance.mgr.model.AccountBook" table="F_ACCOUNTBOOK" >
+		<composite-id>
+            <key-property name="bdate" column="B_DATE"/>
+            <key-property name="voucherNo" />
+        </composite-id>
+		<property name="summaryNo" />
+		<property name="summary" />
+		<property name="contractNo"/>
+		<property name="debitNo" type="java.lang.String">
+		  <column name="DEBITCODE"></column>
+		</property>
+		<property name="creditNo" type="java.lang.String">
+		  <column name="CREDITCODE"></column>
+		</property>
+		<property name="amount" />
+		
+		<many-to-one name="debitAccount" class="gnnt.MEBS.finance.mgr.model.Account" insert="false" update="false" not-found="ignore">
+		 	<column name="DEBITCODE"  />
+		</many-to-one>
+		<many-to-one name="creditAccount" class="gnnt.MEBS.finance.mgr.model.Account" insert="false" update="false" not-found="ignore">
+		 	<column name="CREDITCODE"  />
+		</many-to-one>
+	</class>
+</hibernate-mapping>

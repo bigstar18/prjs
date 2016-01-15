@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+    <!-- 财务查询 -->
+	<package name="financialQuery" extends="base-struts2" namespace="/finance/financialQuery">
+	    <!-- 分类帐 -->
+		<action name="ledger" class="financialQueryAction" method="ledger">
+		  <result>/mgr/app/finance/financialQuery/ledger.jsp</result>
+		</action>
+	    <!-- 分类账合计 -->
+		<action name="ledgerSum" class="financialQueryAction" method="ledgerSum">
+		  <result>/mgr/app/finance/financialQuery/ledgerSum.jsp</result>
+		</action>
+		<!-- 帐簿查询 -->
+		<action name="ledgerQuery" class="financialQueryAction" method="ledgerQuery">
+		  <param name="entityName">gnnt.MEBS.finance.mgr.model.AccountBook</param>
+		  <result>/mgr/app/finance/financialQuery/ledgerQuery.jsp</result>
+		</action>
+		<!-- 结算查询 -->
+		<action name="balanceQuery" class="financialQueryAction" method="balanceQuery">
+		  <param name="entityName">gnnt.MEBS.finance.mgr.model.DailyBalance</param>
+		  <result>/mgr/app/finance/financialQuery/balanceQuery.jsp</result>
+		</action>
+		
+		<!-- 结算日报表 -->
+		<action name="balanceDayReport" class="financialQueryAction" method="balanceDayReport">
+		  <result>/mgr/app/finance/financialQuery/balanceDayReport.jsp</result>
+		</action>
+		
+		<!-- 借方结算日报表 -->
+		<action name="listDebitBalanceDayReport" class="financialQueryAction" method="listDebitBalanceDayReport">
+		  <param name="entityName">gnnt.MEBS.finance.mgr.model.DailyBalance</param>
+		  <result>/mgr/app/finance/financialQuery/debitBalanceDayReport.jsp</result>
+		</action>
+		
+		<!-- 贷方结算日报表 -->
+		<action name="listCreditBalanceDayReport" class="financialQueryAction" method="listCreditBalanceDayReport">
+		  <param name="entityName">gnnt.MEBS.finance.mgr.model.DailyBalance</param>
+		  <result>/mgr/app/finance/financialQuery/creditBalanceDayReport.jsp</result>
+		</action>
+		
+		<!-- 附加说明查询-->
+		<action name="attachExplain" class="attachExplainQueryAction" method="attachExplainQuery">
+		  <result>/mgr/app/finance/financialQuery/attachExplainQuery.jsp</result>
+		</action>
+	</package>
+</struts>

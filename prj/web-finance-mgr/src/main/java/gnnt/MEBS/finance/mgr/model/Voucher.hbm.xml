@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+	<!--
+	通过配置文件配置 Model 类与数据库表之间的字段联系
+	将本配置文件配置到 hibernate.cfg.xml 中
+-->
+<hibernate-mapping>
+	<class name="gnnt.MEBS.finance.mgr.model.Voucher" table="F_VOUCHER"
+		dynamic-update="true" lazy="false">
+		<id name="voucherNo"/>
+		<property name="summaryNo"/>
+		<property name="summary"/>
+		<property name="note"/>
+		<property name="inputUser"/>
+		<property name="auditor"/>
+		<property name="auditNote"/>
+		<property name="status"/>
+		<property name="contractNo"/>
+		<property name="fundFlowID"/>
+		<property name="b_date" insert="false" update="false"/>
+		<property name="inputTime"/>
+		<property name="auditTime"/>
+		<set name="voucherEntries" table="gnnt.MEBS.finance.mgr.model.VoucherEntry"
+			lazy="true" cascade="all" inverse="true">
+			<key column="voucherNo"></key>
+			<one-to-many class="gnnt.MEBS.finance.mgr.model.VoucherEntry"/>
+		</set>
+	</class>
+</hibernate-mapping>

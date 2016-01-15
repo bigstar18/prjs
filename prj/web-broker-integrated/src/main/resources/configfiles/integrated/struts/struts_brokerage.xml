@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="brokerage" extends="base-struts2" namespace="/broker/brokerage">
+		<action name="brokeragelist" class="brokerageAction" method="listByLimit">
+			<param name="entityName">gnnt.MEBS.common.broker.model.BrokerAge</param>
+			<result>/broker/app/integrated/brokerage/brokerage_list.jsp</result>
+		</action>
+		<action name="viewByIdBrokerage" class="brokerageAction" method="viewByIdBrokerage">
+			<param name="entityName">gnnt.MEBS.common.broker.model.BrokerAge</param>
+			<result>/broker/app/integrated/brokerage/brokerage_update.jsp</result>
+		</action>
+		<action name="updateBrokerage" class="brokerageAction" method="update">
+			<param name="entityName">gnnt.MEBS.common.broker.model.BrokerAge</param>
+			<result>/broker/public/jsp/commonmsg.jsp</result>
+		</action>
+		<action name="brokerageforward" class="brokerageAction" method="forwardAddBrokerage">
+			<param name="entityName">gnnt.MEBS.common.broker.model.BrokerAge</param>
+			<result>/broker/app/integrated/brokerage/brokerage_add.jsp</result>
+		</action>
+		<action name="addBrokerage" class="brokerageAction" method="addBrokerage">
+			<param name="entityName">gnnt.MEBS.common.broker.model.BrokerAge</param>
+			<result>/broker/public/jsp/commonmsg.jsp</result>
+		</action>
+		<action name="updatePWDForward" class="brokerageAction" method="viewById">
+			<param name="entityName">gnnt.MEBS.common.broker.model.BrokerAge</param>
+			<result>/broker/app/integrated/brokerage/brokerage_pwd.jsp</result>
+		</action>
+		<action name="updatePWD" class="brokerageAction" method="updatePWD">
+			<param name="entityName">gnnt.MEBS.common.broker.model.BrokerAge</param>
+			<result>/broker/public/jsp/commonmsg.jsp</result>
+		</action>
+		<action name="deleteBrokerage" class="brokerageAction" method="deleteBrokerage">
+			<param name="entityName">gnnt.MEBS.common.broker.model.BrokerAge</param>
+			<result name="success" type="chain">
+				<param name="actionName">brokeragelist</param>
+			</result>
+		</action>
+	<!--	居间商绑定交易商	-->
+		<action name="managerFirm" class="brokerageAndFirmAction" method="listBroAndFirm">
+			<param name="entityName">gnnt.MEBS.integrated.broker.model.brokerage.BrokerageAndFirm</param>
+			<result>/broker/app/integrated/brokerage/brokerageAndFirm_list.jsp</result>
+		</action>
+		<action name="managerFirmDele" class="brokerageAndFirmAction" method="deleteBroAndFirm">
+			<param name="entityName">gnnt.MEBS.integrated.broker.model.brokerage.BrokerageAndFirm</param>
+			<result name="success" type="chain">
+				<param name="actionName">managerFirm</param>
+			</result>
+		</action>
+		<action name="managerFirmForward" class="brokerageAndFirmAction" method="forwardManageFirmAdd">
+			<result>/broker/app/integrated/brokerage/brokerageAndFirm_add.jsp</result>
+		</action>
+		<action name="managerFirmAdd" class="brokerageAndFirmAction" method="addManagerFirm">
+			<param name="entityName">gnnt.MEBS.integrated.broker.model.brokerage.BrokerageAndFirm</param>
+			<result>/broker/public/jsp/commonmsg.jsp</result>
+		</action>
+	</package>
+</struts>

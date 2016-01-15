@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!--  ajax 验证信息相关 -->
+	<package name="ajaxcheck" extends="json-default" namespace="/ajaxcheck/finance">
+		<!-- 通过 summaryno 获取summary -->
+		<action name="getSummaryByNo" class="ajaxFinanceMaintain" method="getSummaryByNo">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+		
+		<!-- 通过 accountCode 获取accountName -->
+		<action name="getAccountByCode" class="ajaxFinanceMaintain" method="getAccountByCode">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+		
+		<!-- 获取accountName -->
+		<action name="getAccountName" class="ajaxFinanceMaintain" method="getAccountName">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+		
+		<!--  获取交易商 -->
+		<action name="getFirm" class="ajaxFinanceMaintain" method="getFirm">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+	</package>
+</struts>

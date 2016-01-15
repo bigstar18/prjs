@@ -13,14 +13,6 @@
 	
 	<!-- 依赖项定义 -->
 	<dependencies>
-
-		<dependency>
-			<groupId>com.yrdce</groupId>
-			<artifactId>common-front</artifactId>
-			<version>1.0.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/common_front.jar</systemPath>
-		</dependency>
 		<dependency>
 			<groupId>com.yrdce</groupId>
 			<artifactId>logon-server</artifactId>
@@ -37,10 +29,17 @@
 		</dependency>
 		<dependency>
 			<groupId>com.yrdce</groupId>
-			<artifactId>mgr-check-logon</artifactId>
+			<artifactId>frontCheckLogon</artifactId>
 			<version>1.0.0</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/MgrCheckLogon.jar</systemPath>
+			<systemPath>${project.basedir}/lib/frontCheckLogon.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>com.yrdce</groupId>
+			<artifactId>common-front</artifactId>
+			<version>1.0.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/common_front.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>com.yrdce</groupId>
@@ -48,13 +47,6 @@
 			<version>1.0.0</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/timebargainRMI.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>com.yrdce</groupId>
-			<artifactId>frontCheckLogon</artifactId>
-			<version>1.0.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/frontCheckLogon.jar</systemPath>
 		</dependency>
 
 		<dependency>

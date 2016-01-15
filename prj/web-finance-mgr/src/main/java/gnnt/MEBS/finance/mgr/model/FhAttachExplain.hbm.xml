@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!--
+	通过配置文件配置 Model 类与数据库表之间的字段联系
+	将本配置文件配置到 hibernate.cfg.xml 中
+-->
+<hibernate-mapping >
+	<class name="gnnt.MEBS.finance.mgr.model.FhAttachExplain" table="F_H_ATTACHEXPLAIN" >
+	
+		<id name="attachCode" >
+			<column name="ATTACHCODE" />
+			<generator class="assigned" />
+		</id>
+		<property name="attachType" column="ATTACHTYPE"/>
+		<property name="happenMoney" />
+		<property name="attachExplain"/>
+		<property name="happenDate"/>
+		<many-to-one name="fattachExplainType" class="gnnt.MEBS.finance.mgr.model.FattachExplainType" column="ATTACHTYPE" insert="false" update="false" not-found="ignore"></many-to-one>
+	</class>
+</hibernate-mapping>

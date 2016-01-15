@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+<!-- 
+	测试表状态的Map集合，
+	id 定义格式：模块号前三个字母(demo 模块前三个子都 dem)加下划线(_)加本集合名称(cardTypeMap)
+-->
+	<!-- 证件类型 -->
+	<util:map id="customer_cardTypeMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="01" value="身份证"></entry>
+		<entry key="02" value="机构代码"></entry>
+		<entry key="03" value="营业执照"></entry>
+	</util:map>
+
+	<!-- 客户类型 -->
+	<util:map id="customer_typeMap" map-class="java.util.HashMap"
+		key-type="java.lang.Integer" value-type="java.lang.String">
+		<entry key="0" value="双边客户"></entry>
+		<entry key="1" value="唯买客户"></entry>
+		<entry key="2" value="唯卖客户"></entry>
+	</util:map>
+
+	<!-- 银行代码 -->
+	<util:map id="customer_bankCodeMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="01" value="工商银行"></entry>
+		<entry key="02" value="中国银行"></entry>
+		<entry key="03" value="交通银行"></entry>
+		<entry key="04" value="建设银行"></entry>
+		<entry key="05" value="农业银行"></entry>
+	</util:map>
+
+	<!-- 客户状态 -->
+	<util:map id="customer_statusMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="N" value="可用"></entry>
+		<entry key="E" value="禁用"></entry>
+	</util:map>
+		
+	<!-- 是否需要合同号-->
+	<util:map id="voucherModel_need" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="Y" value="是"></entry>
+		<entry key="N" value="否"></entry>
+	</util:map>
+	
+	<!-- 摘要资金借贷方向-->
+	<util:map id="summary_fundDCFlagMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="C" value="记贷方"></entry>
+		<entry key="D" value="记借方"></entry>
+		<entry key="N" value="不涉及"></entry>
+	</util:map>
+	
+	<!-- 摘要附加帐-->
+	<util:map id="summary_appendAccountMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="T" value="增值税"></entry>
+		<entry key="W" value="担保金"></entry>
+		<entry key="S" value="交收保证金"></entry>
+		<entry key="N" value="无附加"></entry>
+	</util:map>
+	
+	<!-- 摘要是否初始化状态 -->
+	<util:map id="summary_isInitMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="Y" value="是"></entry>
+		<entry key="N" value="否"></entry>
+	</util:map>
+	
+	<!-- 科目附加帐-->
+	<util:map id="account_dCFlagMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="C" value="贷方"></entry>
+		<entry key="D" value="借方"></entry>
+	</util:map>
+	
+	<!-- 摘要是否初始化状态 -->
+	<util:map id="account_isInitMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="Y" value="是"></entry>
+		<entry key="N" value="否"></entry>
+	</util:map>
+	
+	<!-- 结算执行状态-->
+	<util:map id="clearStatus_statusMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="Y" value="完成"></entry>
+		<entry key="N" value="未执行"></entry>
+	</util:map>
+	
+	<!-- 凭证状态 -->
+	<util:map id="voucher_statusMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="editing" value="编辑中"></entry>
+		<entry key="auditing" value="待审核"></entry>
+		<entry key="audited" value="已审核"></entry>
+		<entry key="accounted" value="已记账"></entry>
+	</util:map>
+</beans>
