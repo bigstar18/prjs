@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+<!--注意：VALUE不能为空，不然会报解析不了XML的错误 -->
+	<COMPONENT>
+		<NAME>BANK</NAME>
+		<TYPE>normal</TYPE> 			
+			<!--工行适配器配置项-->
+			<SECTION>		
+				<NAME>Adapter</NAME>
+				<PROPERTYS>
+<!-- 配置本地 RMI 服务信息 begin -->
+					<!--银行代码-->
+					<PROPERTY>
+						<KEY>bankId</KEY>
+						<VALUE>10</VALUE>
+					</PROPERTY>
+					<!--本地RMI服务器地址 172.16.1.164-->
+					<PROPERTY>
+						<KEY>rimAdress</KEY>
+						<VALUE>172.18.100.22</VALUE>
+					</PROPERTY>
+					<!--本地RMI服务器端口 30058-->
+					<PROPERTY>
+						<KEY>rimPort</KEY>
+						<VALUE>30018</VALUE>
+					</PROPERTY>
+					<PROPERTY>
+						<KEY>rimDataPort</KEY>
+						<VALUE>30019</VALUE>
+					</PROPERTY>
+					<!--本地RMI服务器名称-->
+					<PROPERTY>
+						<KEY>rimName</KEY>
+						<VALUE>gnntBankImpl</VALUE>
+					</PROPERTY>
+					<!--实现类名-->
+					<PROPERTY>
+						<KEY>AdapterImpl</KEY>
+						<VALUE>ICBCBankImpl</VALUE>
+					</PROPERTY>
+<!-- 配置本地 RMI 服务信息 end -->
+<!-- 配置处理器服务信息 begin -->
+					<!--处理器RMI服务器地址 172.16.2.19-->
+					<PROPERTY>
+						<KEY>rimIp_Processor</KEY>
+						<VALUE>172.18.100.17</VALUE>
+					</PROPERTY>
+					<!--处理器RMI服务器端口-->
+					<PROPERTY>
+						<KEY>rimPort_Processor</KEY>
+						<VALUE>2118</VALUE>
+					</PROPERTY>
+					<!--处理器RMI服务器名称-->
+					<PROPERTY>
+						<KEY>rimName_Processor</KEY>
+						<VALUE>CapitalProcessorRMI</VALUE>
+					</PROPERTY>
+<!-- 配置处理器服务信息 end -->
+<!-- 配置市场 ftp 服务信息 begin -->
+					<!--市场ftp服务器IP-->
+					<PROPERTY>
+						<KEY>ftpIp</KEY>
+						<VALUE>172.18.100.22</VALUE>
+					</PROPERTY>
+					<!--市场ftp服务器用户名-->
+					<PROPERTY>
+						<KEY>ftpName</KEY>
+						<VALUE>bank</VALUE>
+					</PROPERTY>
+					<!--ftp服务器登陆密码-->
+					<PROPERTY>
+						<KEY>ftpPassword</KEY>
+						<VALUE>bank</VALUE>
+					</PROPERTY>
+					<!--ftp路径-->
+					<PROPERTY>
+						<KEY>ftpPath</KEY>
+						<VALUE>/</VALUE>
+					</PROPERTY>
+<!-- 配置市场 ftp 服务信息 end -->
+<!-- 配置本地 socket 服务信息 begin -->
+					<!--本地socket服务器端口-->
+					<PROPERTY>
+						<KEY>localSocketPort</KEY>
+						<VALUE>8811</VALUE>
+					</PROPERTY>
+<!-- 配置本地 socket 服务信息 end -->
+<!-- 配置银行 socket 服务信息 bigin -->
+					<!--银行socket服务器地址  83.36.2.95  172.16.1.199-->
+					<PROPERTY>
+						<KEY>socketIp</KEY>
+						<VALUE>192.1.1.78</VALUE>
+					</PROPERTY>					
+					<!--银行socket服务器端口-->
+					<PROPERTY>
+						<KEY>socketPort</KEY>
+						<VALUE>20106</VALUE>
+					</PROPERTY>
+<!-- 配置银行 socket 服务信息 end -->
+<!-- 配置银行 ftp 服务信息 bigin -->
+					<!--银行ftp服务器IP-->
+					<PROPERTY>
+						<KEY>ftpIp_bk</KEY>
+						<VALUE>172.18.100.22</VALUE>
+					</PROPERTY>
+					<!--银行ftp服务器用户名-->
+					<PROPERTY>
+						<KEY>ftpName_bk</KEY>
+						<VALUE>bank</VALUE>
+					</PROPERTY>
+					<!--银行ftp服务器登陆密码-->
+					<PROPERTY>
+						<KEY>ftpPassword_bk</KEY>
+						<VALUE>bank</VALUE>
+					</PROPERTY>
+					<!--银行ftp路径-->
+					<PROPERTY>
+						<KEY>ftpPath_bk</KEY>
+						<VALUE>/</VALUE>
+					</PROPERTY>
+<!-- 配置银行 ftp 服务信息 end -->
+<!-- 其他配置项信息 begin -->
+					<!--线程睡眠时间-->
+					<PROPERTY>
+						<KEY>runTime</KEY>
+						<VALUE>20000</VALUE>
+					</PROPERTY>	
+					<!--签到时间-->
+					<PROPERTY>
+						<KEY>loginTime</KEY>
+						<VALUE>06:00:00</VALUE>
+					</PROPERTY>			
+					<!--签退时间-->
+					<PROPERTY>
+						<KEY>quitTime</KEY>
+						<VALUE>23:30:00</VALUE>
+					</PROPERTY>		
+					<!--发送交收数据时间-->
+					<PROPERTY>
+						<KEY>sendTradeDataTime</KEY>
+						<VALUE>18:00:00</VALUE>
+					</PROPERTY>
+					<!--银行切日时间-->
+					<PROPERTY>
+						<KEY>nextDayTime</KEY>
+						<VALUE>23:59:59</VALUE>
+					</PROPERTY>
+					<!--市场机构代码 -->
+					<PROPERTY>
+						<KEY>MarketCode</KEY>
+						<VALUE>00001177</VALUE>
+					</PROPERTY>	
+					<!--银行机构代码 -->
+					<PROPERTY>
+						<KEY>BankCode</KEY>
+						<VALUE>04060019</VALUE>
+					</PROPERTY>
+					<!--银行代码 -->
+					<PROPERTY>
+						<KEY>BankCode1</KEY>
+						<VALUE>0000</VALUE>
+					</PROPERTY>
+					<!--是否开启MAC校验 -->
+					<PROPERTY>
+						<KEY>macAble</KEY>
+						<VALUE>true</VALUE>
+					</PROPERTY>
+					<!--是否开启周末签到 -->
+					<PROPERTY>
+						<KEY>setsun</KEY>
+						<VALUE>true</VALUE>
+					</PROPERTY>
+					<!-- 判定是否根据交易系统交易日状态发送签到 true 是 其他：不根据交易系统状态签到 -->
+					<PROPERTY>
+						<KEY>tradeState</KEY>
+						<VALUE>true</VALUE>
+					</PROPERTY>
+					<PROPERTY>
+						<KEY>openAccMarket</KEY>
+						<VALUE>true</VALUE>
+					</PROPERTY>
+					<PROPERTY>
+						<KEY>InterfaceLog</KEY>
+						<VALUE>1</VALUE>
+					</PROPERTY>
+<!-- 其他配置项信息 begin -->					
+				</PROPERTYS>		
+			</SECTION>
+			<!--工行适配器配置项-->			
+	</COMPONENT>
+</CONFIG>

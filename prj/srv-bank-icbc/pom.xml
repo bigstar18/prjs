@@ -6,25 +6,28 @@
 		<artifactId>prj-parent</artifactId>
 		<version>1.0.0</version>
 	</parent>
-	<artifactId>srv-hq</artifactId>
+	<artifactId>srv-bank-icbc</artifactId>
 	<packaging>jar</packaging>
 
 	<inceptionYear>2015-2015</inceptionYear>
 	
 	<!-- 依赖项定义 -->
 	<dependencies>
-		<dependency>
+
+		<!-- <dependency>
 			<groupId>com.yrdce</groupId>
-			<artifactId>QuotationRMI</artifactId>
+			<artifactId>activeUser</artifactId>
 			<version>1.0.0</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/deploy/lib/QuotationRMI.jar</systemPath>
-		</dependency>
+			<systemPath>${project.basedir}/lib/activeUser.jar</systemPath>
+		</dependency> -->
+
+
 		<!-- SPRING begin -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
-		</dependency>
+		</dependency> -->
 			
 		<!-- spring orm -->		
 		
@@ -97,8 +100,18 @@
 		<!-- TEST end -->
 		<dependency>
 			<groupId>org.hxx</groupId>
-			<artifactId>util-common</artifactId>
+			<artifactId>util-logon</artifactId>
 			<version>1.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hxx</groupId>
+			<artifactId>util-bank-processor</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<version>1.8.6</version>
 		</dependency>
 	</dependencies>
 

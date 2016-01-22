@@ -1,0 +1,1701 @@
+package gnnt.bank.adapter;
+import gnnt.bank.adapter.bankBusiness.BankBusiness;
+import gnnt.bank.adapter.bankBusiness.cpnt.FileInfo;
+import gnnt.bank.adapter.bankBusiness.dayData.DTL01;
+import gnnt.bank.adapter.bankBusiness.dayData.DTL02;
+import gnnt.bank.adapter.bankBusiness.dayData.DTL03;
+import gnnt.bank.adapter.bankBusiness.dayData.DTL04;
+import gnnt.bank.adapter.bankBusiness.dayData.STL01;
+import gnnt.bank.adapter.bankBusiness.dayData.STL02;
+import gnnt.bank.adapter.bankBusiness.dayData.STL03;
+import gnnt.bank.adapter.bankBusiness.enumElmt.BusinessCode;
+import gnnt.bank.adapter.bankBusiness.enumElmt.FileBusinessCode;
+import gnnt.bank.adapter.bankBusiness.enumElmt.ReturnCode;
+import gnnt.bank.adapter.bankBusiness.enumElmt.TradeSource;
+import gnnt.bank.adapter.bankBusiness.exception.BankActionDoubtedException;
+import gnnt.bank.adapter.bankBusiness.exception.BankCommException;
+import gnnt.bank.adapter.bankBusiness.exception.BankException;
+import gnnt.bank.adapter.bankBusiness.info.DayDataReady;
+import gnnt.bank.adapter.bankBusiness.info.DayDataReadyResponse;
+import gnnt.bank.adapter.bankBusiness.info.DelAccount;
+import gnnt.bank.adapter.bankBusiness.info.DelAccountResponse;
+import gnnt.bank.adapter.bankBusiness.info.Handshake;
+import gnnt.bank.adapter.bankBusiness.info.HandshakeResponse;
+import gnnt.bank.adapter.bankBusiness.info.InterTransfer;
+import gnnt.bank.adapter.bankBusiness.info.InterTransferResponse;
+import gnnt.bank.adapter.bankBusiness.info.ModAccount;
+import gnnt.bank.adapter.bankBusiness.info.ModAccountResponse;
+import gnnt.bank.adapter.bankBusiness.info.QryAccount;
+import gnnt.bank.adapter.bankBusiness.info.QryAccountResponse;
+import gnnt.bank.adapter.bankBusiness.info.Reversal;
+import gnnt.bank.adapter.bankBusiness.info.ReversalResponse;
+import gnnt.bank.adapter.bankBusiness.info.RgstAccount;
+import gnnt.bank.adapter.bankBusiness.info.RgstAccountResponse;
+import gnnt.bank.adapter.bankBusiness.info.Transfer;
+import gnnt.bank.adapter.bankBusiness.info.TransferResponse;
+import gnnt.bank.adapter.bankBusiness.info.UnCertain;
+import gnnt.bank.adapter.bankBusiness.info.UnCertainResponse;
+import gnnt.bank.adapter.rmi.service.RmiClient;
+import gnnt.bank.adapter.rmi.service.RmiServer;
+import gnnt.bank.adapter.socket.SocketServer;
+import gnnt.bank.adapter.util.Arith;
+import gnnt.bank.adapter.util.BankNativeImpl;
+import gnnt.bank.adapter.util.Common;
+import gnnt.bank.adapter.util.ErrorCodeRelation;
+import gnnt.bank.adapter.util.FileProcessor;
+import gnnt.bank.adapter.util.FileUtil;
+import gnnt.bank.adapter.util.FtpUtil;
+import gnnt.bank.adapter.util.GzipUtil;
+import gnnt.bank.adapter.util.MACVerify;
+import gnnt.trade.bank.processorrmi.CapitalProcessorRMI;
+import gnnt.trade.bank.util.ErrorCode;
+import gnnt.trade.bank.vo.ChargeAgainstValue;
+import gnnt.trade.bank.vo.CorrespondValue;
+import gnnt.trade.bank.vo.FirmBalanceValue;
+import gnnt.trade.bank.vo.InMoneyVO;
+import gnnt.trade.bank.vo.MoneyInfoValue;
+import gnnt.trade.bank.vo.OutMoneyVO;
+import gnnt.trade.bank.vo.ReturnValue;
+import gnnt.trade.bank.vo.TradeResultValue;
+import gnnt.trade.bank.vo.TransferMoneyVO;
+import gnnt.trade.bank.vo.bankdz.gs.sent.BankFirmRightValue;
+import gnnt.trade.bank.vo.bankdz.gs.sent.FirmRights;
+import gnnt.trade.bank.vo.bankdz.gs.sent.OpenOrDelFirmValue;
+import gnnt.trade.bank.vo.bankdz.gs.sent.ProperBalanceValue;
+import gnnt.trade.bank.vo.bankdz.gs.sent.TradingDetailsValue;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.rmi.AlreadyBoundException;
+import java.rmi.RemoteException;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
+import java.util.Vector;
+
+import org.quartz.SchedulerException;
+
+public class ICBCBankImpl extends BankAdapter{
+	
+	/*
+	 * 对象转换器
+	 */
+	private ObjTransformer objTransformer;
+	 
+	/*
+	 * 银行业务
+	 */
+	private BankBusiness bankBusiness;
+	
+	/*
+	 * 错误码对照：市场-银行
+	 */
+	Map ErrorCodeM2B;
+	
+	/*
+	 * 错误码对照：银行-市场
+	 */
+	Map ErrorCodeB2M;
+	
+	/*
+	 * 是否开启MAC校验
+	 */
+	public boolean macAble;
+	
+	/*
+	 * 初始化结果
+	 */
+	public boolean initFlag;
+	/**
+	 * 初始化	
+	 */
+	protected void init(){
+		BankAdapter.log("初始化...");		
+		initFlag = true;
+		objTransformer = Factory.getInstance().getObjTransfomer();	
+		bankBusiness = Factory.getInstance().getBankBusiniss();	
+		
+		//加载错误码		
+		ErrorCodeRelation errorCodeRelation = new ErrorCodeRelation();		
+		this.ErrorCodeB2M = errorCodeRelation.ErrorCodeB2M;
+		this.ErrorCodeM2B = errorCodeRelation.ErrorCodeM2B;		
+		//加载MAC校验标示
+		this.macAble = Boolean.parseBoolean(BankAdapter.getConfig("macAble"));	
+		//加载市场代码	
+		setMarketCode(BankAdapter.getConfig("MarketCode"));
+		//加载银行代码	
+		setBankCode(BankAdapter.getConfig("BankCode"));
+		//加载BANKID
+		setBankID(getConfig("bankId"));			
+		
+		//启动银行通信服务
+		SocketServer socketServer = null;
+		
+		try {
+			socketServer = Factory.getInstance().getSocketServer();
+		} catch (NumberFormatException e) {
+			log(Common.getExceptionTrace(e));  
+			initFlag = false;
+		} catch (IOException e) {
+			log(Common.getExceptionTrace(e));  
+			initFlag = false;
+		} catch (SchedulerException e) {
+			log(Common.getExceptionTrace(e));  
+			initFlag = false;
+		} catch (ParseException e) {
+			log(Common.getExceptionTrace(e));  
+			initFlag = false;
+		}
+		
+		socketServer.start();
+		
+		//启动本地RMI服务
+		try {
+			RmiServer.start();
+		} catch (RemoteException e) {
+			initFlag = false;
+			log(Common.getExceptionTrace(e));  
+		} catch (MalformedURLException e) {
+			initFlag = false;
+			log(Common.getExceptionTrace(e));  
+		} catch (AlreadyBoundException e) {
+			initFlag = false;
+			log(Common.getExceptionTrace(e));  
+		}
+		if(initFlag){
+			BankAdapter.log("初始化成功!");
+		}else{
+			BankAdapter.log("初始化失败!");
+		}
+		
+	}
+	
+	public CapitalProcessorRMI getPROCESSOR(){	
+		RmiClient rmiClient = Factory.getInstance().getRmiClient();
+		if(rmiClient.connProcessor()){
+			this.setProcessor(rmiClient.capitalProcessorRMI);
+		}
+		return this.PROCESSOR;
+	}
+	
+	/**
+	 * 市场端入金,入金请求提交
+	 * @param inMoneyInfo 入金信息
+	 * @return ReturnValue
+	 */	
+	
+	public ReturnValue inMoneyQueryBank(InMoneyVO inMoneyVO){
+		ReturnValue returnValue = new ReturnValue();
+		
+		Transfer transfer = objTransformer.getTransfer(inMoneyVO);
+	
+		TransferResponse transferResponse = null;
+		try {
+			transferResponse = (TransferResponse) bankBusiness.getResponse(transfer);
+		} catch (BankCommException e) {
+			returnValue.result = ErrorCode.bankhandle_failure;
+			returnValue.remark = "市场端入金连接银行失败";
+			log(Common.getExceptionTrace(e));  
+			BankAdapter.log("市场端入金连接银行失败");
+			return returnValue;
+		} catch (BankActionDoubtedException e) {
+			returnValue.result = ErrorCode.bankNull;
+			returnValue.remark = "市场端入金银行异常";
+			log(Common.getExceptionTrace(e));  
+			BankAdapter.log("市场端入金银行异常");
+			return returnValue;
+		}  
+		long backCallResult = 0;  
+		if(transferResponse.Rst.Code.equals(ReturnCode.CODE0000.getValue())){
+			try {  
+				backCallResult = getPROCESSOR().inMoney(this.getBankID(), inMoneyVO.getFirmID(), 
+						inMoneyVO.getPayInfo().account, new Timestamp(Common.getDate().getTime()), inMoneyVO.getMoney(), 
+						transferResponse.BkSeq,inMoneyVO.getActionID(), 0, "BFMem");
+			} catch (RemoteException e) {
+				returnValue.result = -1;
+				
+				log(Common.getExceptionTrace(e)); 
+			} catch (Exception e) {
+				returnValue.result = -1;
+				log(Common.getExceptionTrace(e)); 
+			}	
+			if(backCallResult >= 0){
+				returnValue.result = 0;	//处理结果
+				returnValue.funID = transferResponse.BkSeq;	//成功
+				returnValue.actionId = backCallResult;;				
+				returnValue.bankTime = transfer.GrpHdr.Date + transfer.GrpHdr.Time;
+			}else{
+				returnValue.result = backCallResult;
+			}
+		}else{			
+			if(ErrorCodeB2M.get(transferResponse.Rst.Code)!=null){
+				returnValue.result = (Long) ErrorCodeB2M.get(transferResponse.Rst.Code);
+			}else{
+				returnValue.result = ErrorCode.bankhandle_failure;
+			}
+			returnValue.remark = transferResponse.Rst.Info;
+		}
+		BankAdapter.log("\n");
+		BankAdapter.log("市场端入金结果-银行：");
+		BankAdapter.log("返回码："+transferResponse.Rst.Code);
+		BankAdapter.log("返回码信息："+transferResponse.Rst.Info);
+		BankAdapter.log("银行流水号："+transferResponse.BkSeq);
+		BankAdapter.log("市场流水号："+transferResponse.FtSeq);
+		BankAdapter.log("金额："+transferResponse.TrfAmt.amt+"分");
+		BankAdapter.log("市场端入金结果-处理器：");		
+		BankAdapter.log(returnValue.toString());
+		BankAdapter.log("\n");
+		return returnValue;
+	}
+	
+	/**
+	 * 银行端入金
+	 * @param transfer
+	 * @return
+	 */
+	public TransferResponse inMoneyBank(Object reqeust){
+		
+		ReturnValue returnValue = new ReturnValue();		
+		Transfer transfer = (Transfer)reqeust;
+		if(!MACVerify.verify(transfer,transfer.Mac)){
+			returnValue.result = -2;
+		}else{
+		
+			InMoneyVO inMoneyVO = objTransformer.getInMoneyVO(transfer);		
+			long backCallResult = 0;
+			
+			try {
+				
+				backCallResult = getPROCESSOR().inMoney(this.getBankID(), inMoneyVO.getFirmID(), 
+						inMoneyVO.getPayInfo().account, new Timestamp(Common.getDate().getTime()), inMoneyVO.getMoney(), 
+						transfer.BkSeq,inMoneyVO.getActionID(), 0, "Bank_in");
+				if(backCallResult>=0){
+					returnValue.result = 0;
+					returnValue.actionId = backCallResult;
+					returnValue.funID = transfer.BkSeq;
+					returnValue.bankTime = transfer.GrpHdr.Date + transfer.GrpHdr.Time;
+				}else{//其他错误			
+					returnValue.result = backCallResult;
+					returnValue.funID = transfer.BkSeq;
+				}
+			} catch (RemoteException e) {
+				returnValue.result = -1;
+				log(Common.getExceptionTrace(e)); 
+			} catch (Exception e) {
+				returnValue.result = -1;
+				log(Common.getExceptionTrace(e)); 
+			}
+		}
+		BankAdapter.log("\n");
+		BankAdapter.log("银行端入金结果：");
+		BankAdapter.log(returnValue.toString());
+		TransferResponse transferResponse = objTransformer.getTransferResponse(transfer,returnValue,false);
+		BankAdapter.log("银行端入金结果-返回给银行：");
+		BankAdapter.log("返回码："+transferResponse.Rst.Code);
+		BankAdapter.log("银行流水号："+transferResponse.BkSeq);
+		BankAdapter.log("市场流水号："+transferResponse.FtSeq);
+		BankAdapter.log("金额："+transferResponse.TrfAmt.amt+"分");
+		BankAdapter.log("\n");
+		return transferResponse;
+	}	
+	
+	/**
+	 * 银行端出金
+	 * @param reqeust
+	 * @return
+	 */
+	 
+	 
+	public TransferResponse outMoneyBank(Object reqeust){
+		ReturnValue returnValue = new ReturnValue();	
+		boolean asynFlag = false; 
+		Transfer transfer = (Transfer)reqeust;
+		if(!MACVerify.verify(transfer,transfer.Mac)){
+			returnValue.result = -2;
+		}else{		
+			
+			//long backCallResult = 0;
+			//成功、失败、待审核三种状态
+			//如果成功、待审核需要返回市场流水号
+			
+			try {
+				
+				returnValue  = getPROCESSOR().outMoney(BANKID, Arith.div((double)transfer.TrfAmt.amt,100), transfer.FtAcct.Id, 
+						transfer.BkAcct.Id,transfer.BkSeq,"Bank_out", 0,2);
+				log(returnValue.toString());
+				System.out.println("returnValue.type="+returnValue.type);
+				System.out.println("returnValue.actionId="+returnValue.actionId);
+				System.out.println("returnValue.result="+returnValue.result);
+				if(returnValue.type == 0&&returnValue.result>=0){//成功
+					returnValue.result = 0;
+					returnValue.actionId = returnValue.actionId;
+					returnValue.funID = transfer.BkSeq;
+					returnValue.bankTime = transfer.GrpHdr.Date + transfer.GrpHdr.Time;
+				}else if(returnValue.type == 1){//失败
+					returnValue.result = returnValue.result;
+					returnValue.funID = transfer.BkSeq;
+				}else if(returnValue.type == 3&&returnValue.result>=0){//待审核
+					asynFlag = true;
+					returnValue.result = 0;
+					returnValue.actionId = returnValue.actionId;
+					returnValue.funID = transfer.BkSeq;
+					returnValue.bankTime = transfer.GrpHdr.Date + transfer.GrpHdr.Time;
+				}else{//其他
+					
+				}
+				
+			} catch (RemoteException e) {
+				returnValue.result = -1;
+				log(Common.getExceptionTrace(e)); 
+			} catch (Exception e) {
+				returnValue.result = -1;
+				log(Common.getExceptionTrace(e)); 
+			}
+		}
+		BankAdapter.log("\n");
+		BankAdapter.log("银行端出金结果：");
+		BankAdapter.log(returnValue.toString());
+		TransferResponse transferResponse = objTransformer.getTransferResponse(transfer,returnValue,asynFlag);
+		BankAdapter.log("银行端出金结果-返回给银行：");
+		BankAdapter.log("返回码："+transferResponse.Rst.Code);
+		BankAdapter.log("银行流水号："+transferResponse.BkSeq);
+		BankAdapter.log("市场流水号："+transferResponse.FtSeq);
+		BankAdapter.log("金额："+transferResponse.TrfAmt.amt+"分");
+		BankAdapter.log("\n");
+		return transferResponse;
+	}
+
+	/**
+     * 出金,处理器审核方法调用
+     * @param outMoneyInfo 出金对象
+     * @return ReturnValue
+     */
+	
+	public ReturnValue outMoneyMarketDone(OutMoneyVO outMoneyVO){
+		ReturnValue returnValue = new ReturnValue();
+		
+		log("ICBCBankImpl市场出金，信息：");
+		log(""+outMoneyVO.bankname);
+		log(""+outMoneyVO.bankID);
+		log(""+outMoneyVO.money);
+		log(""+outMoneyVO.firmID);
+		log(""+outMoneyVO.actionID);
+		log(""+outMoneyVO.express);
+		log(""+outMoneyVO.funID);
+		log(""+outMoneyVO.payInfo == null ? "" : outMoneyVO.payInfo.toString());
+		log(""+outMoneyVO.receiveInfo == null ? "" : outMoneyVO.receiveInfo.toString());
+		Transfer transfer = objTransformer.getTransfer(outMoneyVO,false,false);
+	
+		TransferResponse transferResponse = null;
+		try {
+			transferResponse = (TransferResponse) bankBusiness.getResponse(transfer);
+		} catch (BankActionDoubtedException e) {
+			returnValue.result = ErrorCode.bankNull;
+			log(Common.getExceptionTrace(e)); 
+			BankAdapter.log("市场端出金异常"+returnValue.toString());
+			return returnValue;
+		} catch (BankCommException e) {
+			returnValue.result = ErrorCode.bankhandle_failure;
+			log(Common.getExceptionTrace(e)); 
+			BankAdapter.log("市场端出金失败"+returnValue.toString());
+			return returnValue;
+		}
+		if(transferResponse.Rst.Code.equals(ReturnCode.CODE0000.getValue())){	//成功	
+			returnValue.result = 0;
+			returnValue.actionId = outMoneyVO.actionID;
+			returnValue.funID = transferResponse.BkSeq;		
+			returnValue.bankTime = transfer.GrpHdr.Date + transfer.GrpHdr.Time;
+		}else{
+			if(ErrorCodeB2M.get(transferResponse.Rst.Code)!=null){
+				returnValue.result = (Long) ErrorCodeB2M.get(transferResponse.Rst.Code);
+			}else{
+				returnValue.result = ErrorCode.bankhandle_failure;
+			}
+			returnValue.remark = transferResponse.Rst.Info;
+		}
+		BankAdapter.log("\n");
+		BankAdapter.log("市场端出金结果-银行：");		
+		BankAdapter.log("返回码："+transferResponse.Rst.Code);
+		BankAdapter.log("返回码信息："+transferResponse.Rst.Info);
+		BankAdapter.log("银行流水号："+transferResponse.BkSeq);
+		BankAdapter.log("市场流水号："+transferResponse.FtSeq);
+		BankAdapter.log("金额："+transferResponse.TrfAmt.amt+"分");
+		BankAdapter.log("市场端出金结果-处理器：");
+		BankAdapter.log(returnValue.toString());
+		BankAdapter.log("\n");
+		return returnValue;
+	}
+	
+	
+	/**
+	 * 出金,银行端异步（需审核）出金,处理器审核方法调用
+	 */
+	@Override
+	public ReturnValue outMoneyBackBank(OutMoneyVO outMoneyVO, boolean isSuccess) {
+		
+		ReturnValue returnValue = new ReturnValue();		
+		
+		Transfer transfer = objTransformer.getTransfer(outMoneyVO,true,isSuccess);
+	
+		TransferResponse transferResponse = null;
+		try {
+			transferResponse = (TransferResponse) bankBusiness.getResponse(transfer);
+		} catch (BankException e) {
+			returnValue.result = ErrorCode.bankhandle_failure;
+			log(Common.getExceptionTrace(e)); 
+			BankAdapter.log("银行端出金市场端审核失败");
+			return returnValue;
+		}
+		
+		if(transferResponse.Rst.Code.equals(ReturnCode.CODE0000.getValue())){	//成功	
+			returnValue.result = 0;
+			returnValue.actionId = outMoneyVO.actionID;
+			returnValue.funID = transferResponse.BkSeq;		
+			returnValue.bankTime = transfer.GrpHdr.Date + transfer.GrpHdr.Time;
+		}else if(transferResponse.Rst.Code.equals(ReturnCode.CODE3015.getValue())){	//银行端出金，市场端给审核拒绝后，银行端处理原流水成功	
+			returnValue.result = 0;
+			returnValue.actionId = outMoneyVO.actionID;
+			returnValue.funID = transferResponse.BkSeq;		
+			returnValue.bankTime = transfer.GrpHdr.Date + transfer.GrpHdr.Time;
+		}else{
+			if(ErrorCodeB2M.get(transferResponse.Rst.Code)!=null){
+				returnValue.result = (Long) ErrorCodeB2M.get(transferResponse.Rst.Code);
+			}else{
+				returnValue.result = ErrorCode.bankhandle_failure;
+			}
+			returnValue.remark = transferResponse.Rst.Info;
+		}
+		BankAdapter.log("\n");
+		BankAdapter.log("银行端出金市场端审核结果-银行：");		
+		BankAdapter.log("返回码："+transferResponse.Rst.Code);
+		BankAdapter.log("返回码信息："+transferResponse.Rst.Info);
+		BankAdapter.log("银行流水号："+transferResponse.BkSeq);
+		BankAdapter.log("市场流水号："+transferResponse.FtSeq);
+		BankAdapter.log("金额："+transferResponse.TrfAmt.amt+"分");
+		BankAdapter.log("银行端出金市场端审核结果-处理器：");
+		BankAdapter.log(returnValue.toString());
+		BankAdapter.log("\n");
+		return returnValue;
+	}
+	/**
+	 * 跨行汇拨，预留给处理器的接口
+	 */
+	
+	public ReturnValue interTransfer(){
+		ReturnValue returnValue = new ReturnValue();
+		
+		InterTransfer interTransfer = null;
+		InterTransferResponse interTransferResponse = null;
+		
+		try {
+			interTransferResponse = (InterTransferResponse) bankBusiness.getResponse(interTransfer);
+		} catch (BankException e) {
+			returnValue.result = ErrorCode.bankhandle_failure;
+			log(Common.getExceptionTrace(e)); 
+			BankAdapter.log("跨行汇拨失败");
+			return returnValue;
+		}
+		if(interTransferResponse.Rst.Code.equals(ReturnCode.CODE0000.getValue())){	//成功	
+			returnValue.result = 0;
+			returnValue.actionId = 0;
+			returnValue.funID = interTransferResponse.BkSeq;		
+			returnValue.bankTime = interTransferResponse.GrpHdr.Date + interTransferResponse.GrpHdr.Time;
+		}else{
+			returnValue.result = (Long) ErrorCodeB2M.get(interTransferResponse.Rst.Code);
+			returnValue.remark = interTransferResponse.Rst.Info;
+		}
+		BankAdapter.log("\n");
+		BankAdapter.log("跨行汇拨结果-银行：");		
+		BankAdapter.log("返回码："+interTransferResponse.Rst.Code);
+		BankAdapter.log("返回码信息："+interTransferResponse.Rst.Info);
+		BankAdapter.log("银行流水号："+interTransferResponse.BkSeq);
+		BankAdapter.log("市场流水号："+interTransferResponse.FtSeq);
+		BankAdapter.log("金额："+interTransfer.TrfAmt.amt+"分");
+		BankAdapter.log("跨行汇拨结果-处理器：");
+		BankAdapter.log(returnValue.toString());
+		BankAdapter.log("\n");
+		return returnValue;
+	}
+	
+	/**
+     * 登录银行系统
+     * @param bankID 银行代码
+     * @return ReturnValue
+     * @throws 
+     */
+	
+	public ReturnValue loginBank(){
+		BankAdapter.log("\n");
+		BankAdapter.log("签到");
+		ReturnValue returnValue = new ReturnValue();
+		
+		Handshake handshake = objTransformer.getHandshake(BusinessCode.CODE20001,null);
+		
+		
+		HandshakeResponse handshakeResponse = null;
+		try {
+			handshakeResponse = (HandshakeResponse) bankBusiness.getResponse(handshake);
+		} catch (BankException e) {
+			returnValue.result = -1;
+			return returnValue;
+			//log(Common.getExceptionTrace(e)); 
+		}
+		if(handshakeResponse.Rst.Code.equals(ReturnCode.CODE0000.getValue())){
+			returnValue.result = 0;
+			returnValue.funID = handshakeResponse.BkSeq;	//成功			
+		}else{
+			returnValue.result = (Long) ErrorCodeB2M.get(handshakeResponse.Rst.Code);
+		}
+		
+		BankAdapter.log("签到结果-银行：");
+		BankAdapter.log("返回码："+handshakeResponse.Rst.Code);
+		BankAdapter.log("返回码信息："+handshakeResponse.Rst.Info);
+		BankAdapter.log("银行流水号："+handshakeResponse.BkSeq);
+		BankAdapter.log("市场流水号："+handshakeResponse.FtSeq);
+		BankAdapter.log("\n");
+		return returnValue;
+	}
+	
+	public ReturnValue loginBank1(){
+		ReturnValue rv = null; 
+		GregorianCalendar gc = new GregorianCalendar(); 
+		gc.setTime(new Date()); 		
+		while(true){
+			gc.add(Calendar.DAY_OF_MONTH, 1);		
+			String day = Common.df7.format(gc.getTime());
+			rv = loginBank();
+			if(rv.result == 0)
+				break;
+			
+			try {
+				sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				log(Common.getExceptionTrace(e)); 
+			}
+		}
+		return null;
+	}
+	
+	/**
+     * 退出银行系统
+     * @param bankID 银行代码
+     * @return ReturnValue
+     * @throws 
+     */
+	
+	public ReturnValue quitBank(){
+		BankAdapter.log("\n");
+		BankAdapter.log("签退");
+		ReturnValue returnValue = new ReturnValue();
+		
+		Handshake handshake = objTransformer.getHandshake(BusinessCode.CODE20002,null);
+		
+		
+		HandshakeResponse handshakeResponse = null;
+		try {
+			handshakeResponse = (HandshakeResponse) bankBusiness.getResponse(handshake);
+		} catch (BankException e) {
+			returnValue.result = -1;
+			return returnValue;
+			//log(Common.getExceptionTrace(e)); 
+		}
+		if(handshakeResponse.Rst.Code.equals(ReturnCode.CODE0000.getValue())){
+			returnValue.funID = handshakeResponse.BkSeq;	//成功
+			returnValue.result = 0;
+		}else{
+			returnValue.result = (Long) ErrorCodeB2M.get(handshakeResponse.Rst.Code);
+		}
+		
+		BankAdapter.log("签退结果-银行：");		
+		BankAdapter.log("返回码："+handshakeResponse.Rst.Code);
+		BankAdapter.log("返回码信息："+handshakeResponse.Rst.Info);
+		BankAdapter.log("银行流水号："+handshakeResponse.BkSeq);
+		BankAdapter.log("市场流水号："+handshakeResponse.FtSeq);
+		BankAdapter.log("\n");
+		return returnValue;
+	}
+	
+	/**
+     * 密钥同步
+     * @return ReturnValue
+     * @throws 
+     */
+	
+	public ReturnValue synchronizeKey(){
+		BankAdapter.log("\n");
+		BankAdapter.log("密钥同步");		
+		//加载MAC密钥
+		BankNativeImpl bni = new BankNativeImpl();		
+		String key = bni.GenZAK();		
+		ReturnValue returnValue = new ReturnValue();
+		
+		Handshake handshake = objTransformer.getHandshake(BusinessCode.CODE20004,key);
+		
+		
+		HandshakeResponse handshakeResponse = null;
+		try {
+			handshakeResponse = (HandshakeResponse) bankBusiness.getResponse(handshake);
+		} catch (BankException e) {
+			returnValue.result = -1;			
+			log(Common.getExceptionTrace(e)); 
+			return returnValue;			
+		}
+		if(handshakeResponse.Rst.Code.equals(ReturnCode.CODE0000.getValue())){
+			returnValue.funID = handshakeResponse.BkSeq;	//成功
+			returnValue.result = 0;
+			try {
+				FileUtil.write(key,"key.txt");
+			} catch (IOException e) {
+				BankAdapter.log("修改密钥文件失败");		
+				log(Common.getExceptionTrace(e)); 
+			}//同步成功才持久化密钥
+		}else{
+			returnValue.result = (Long) ErrorCodeB2M.get(handshakeResponse.Rst.Code);
+		}
+		
+		BankAdapter.log("密钥同步结果-银行：");		
+		BankAdapter.log("返回码："+handshakeResponse.Rst.Code);
+		BankAdapter.log("返回码信息："+handshakeResponse.Rst.Info);
+		BankAdapter.log("银行流水号："+handshakeResponse.BkSeq);
+		BankAdapter.log("市场流水号："+handshakeResponse.FtSeq);	
+		BankAdapter.log("\n");
+		return returnValue;
+	}
+
+	
+	/**
+	 * 通信检测
+	 * @param reqeust
+	 * @return
+	 */
+	public HandshakeResponse checkComm(Object reqeust){
+		Handshake handshake = (Handshake)reqeust;
+		
+		ReturnValue returnValue = new ReturnValue();
+		if(!MACVerify.verify(handshake,handshake.Mac)){
+			returnValue.result = -2;
+		}else{
+			returnValue.result = 0;
+		}
+		BankAdapter.log("\n");
+		BankAdapter.log("通信检测结果");
+		BankAdapter.log(returnValue.toString());
+		HandshakeResponse handshakeResponse = objTransformer.getHandshakeResponse(handshake, returnValue);	
+		BankAdapter.log("通信检测结果-返回给银行：");
+		BankAdapter.log("返回码："+handshakeResponse.Rst.Code);		
+		BankAdapter.log("银行流水号："+handshakeResponse.BkSeq);
+		BankAdapter.log("市场流水号："+handshakeResponse.FtSeq);
+		BankAdapter.log("\n");
+		return handshakeResponse;
+	}
+
+	/**
+	 * 开户
+	 * @param request
+	 * @return
+	 */	 
+	public RgstAccountResponse rgstAccount(Object request){
+		RgstAccount rgstAccount = (RgstAccount)request;
+		
+		ReturnValue returnValue = new ReturnValue();
+		if(!MACVerify.verify(rgstAccount,rgstAccount.Mac)){
+			returnValue.result = -2;
+		}else{
+			CorrespondValue correspondValue = objTransformer.getCorrespondValue(rgstAccount);
+			BankAdapter.log("bankID="+correspondValue.bankID);
+			BankAdapter.log("account="+correspondValue.account);
+			BankAdapter.log("firmID="+correspondValue.firmID);
+			
+			/**
+			 * 多银行，需验证开户信息:交易商代码、银行账号、证件号码;其他信息以银行为准覆盖本地包括：账号名称、证件类型
+			 */
+			Vector<CorrespondValue> ve = null;
+			try {
+				String cardFilter = " = '"+correspondValue.card;
+				if(correspondValue.cardType.equals("1"))
+				{
+					int index;
+					if(correspondValue.card.length()==15)
+					{
+						index = 6;
+					}
+					else
+					{
+						index = 8;
+					}
+					cardFilter = "like '"+correspondValue.card.substring(0, 6)+"%"+correspondValue.card.substring(index, index+9)+"_";
+				}
+				log(" where bankid='" + correspondValue.bankID + "'" + " and firmid='" + correspondValue.firmID + "'" + " and account='" + correspondValue.account + "'"
+				// + " and accountName = '" + correspondValue.accountName + "'"
+						// + " and cardtype = " + correspondValue.cardType
+						+ " and card " +cardFilter + "'");
+				ve = getPROCESSOR().getCorrespondValue(" where bankid='" + correspondValue.bankID + "'" + " and firmid='" + correspondValue.firmID + "'" + " and account='" + correspondValue.account + "'"
+				// + " and accountName = '" + correspondValue.accountName + "'"
+						// + " and cardtype = " + correspondValue.cardType
+						+ " and card " + cardFilter + "'");
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				log(Common.getExceptionTrace(e));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				log(Common.getExceptionTrace(e));
+			}
+			CorrespondValue correspondValueNew = null;
+			if(ve.size()>0){//验证通过
+				log("验证通过,调用处理器开户方法");
+				correspondValueNew = ve.get(0);
+				correspondValueNew.status = 0;
+				correspondValueNew.card = correspondValue.card;
+				correspondValueNew.cardType = correspondValue.cardType;
+				correspondValueNew.accountName = correspondValue.accountName;
+				/**
+				 * 调用处理器开户方法
+				 */
+				try {
+					returnValue = getPROCESSOR().openAccount(correspondValueNew);
+				} catch (RemoteException e) {
+					returnValue = new ReturnValue();
+					returnValue.result = -1;
+					log(Common.getExceptionTrace(e));
+				} catch (Exception e){
+					returnValue = new ReturnValue();
+					returnValue.result = -1;
+					log(Common.getExceptionTrace(e));
+				}	
+			}else{//验证失败
+				log("验证失败");
+				returnValue = new ReturnValue();
+				returnValue.result = ErrorCode.rgstAccount_InfoHalfbaked;
+			}
+			
+			
+		}
+		BankAdapter.log("\n");
+		BankAdapter.log("开户结果:");
+		BankAdapter.log(returnValue.toString());
+		RgstAccountResponse rgstAccountResponse = objTransformer.getRgstAccountResponse(rgstAccount,returnValue);
+		BankAdapter.log("开户结果-返回给银行：");
+		BankAdapter.log("返回码："+rgstAccountResponse.Rst.Code);
+		BankAdapter.log("银行流水号："+rgstAccountResponse.BkSeq);
+		BankAdapter.log("市场流水号："+rgstAccountResponse.FtSeq);
+		BankAdapter.log("\n");
+		return rgstAccountResponse;
+	}
+	
+	/**
+	 * 销户
+	 * @param request
+	 * @return
+	 */	
+	public DelAccountResponse delAccount(Object request){
+		DelAccount delAccount = (DelAccount)request;
+		
+		ReturnValue returnValue = new ReturnValue();
+		if(!MACVerify.verify(delAccount,delAccount.Mac)){
+			returnValue.result = -2;
+		}else{
+			CorrespondValue correspondValue = objTransformer.getCorrespondValue(delAccount);			
+			try {
+				//returnValue = getPROCESSOR().destroyAccount(correspondValue);
+				/**
+				 * 多银行，直接删除账户信息
+				 */
+				returnValue.result = getPROCESSOR().delAccount(correspondValue);
+			} catch (RemoteException e) {
+				returnValue = new ReturnValue();
+				returnValue.result = -1;
+				log(Common.getExceptionTrace(e));
+			} catch (Exception e){
+				returnValue = new ReturnValue();
+				returnValue.result = -1;
+				log(Common.getExceptionTrace(e));
+			}	
+		}
+		BankAdapter.log("\n");
+		BankAdapter.log("销户结果:");
+		BankAdapter.log(returnValue.toString());
+		DelAccountResponse delAccountResponse = objTransformer.getDelAccountResponse(delAccount,returnValue);
+		BankAdapter.log("销户结果-返回给银行：");
+		BankAdapter.log("返回码："+delAccountResponse.Rst.Code);
+		BankAdapter.log("银行流水号："+delAccountResponse.BkSeq);
+		BankAdapter.log("市场流水号："+delAccountResponse.FtSeq);
+		BankAdapter.log("\n");
+		return delAccountResponse;
+	}
+	
+	/**
+	 * 账户变更
+	 * @param request
+	 * @return
+	 */
+	public ModAccountResponse modAccount(Object request){
+		ModAccount modAccount = (ModAccount)request;
+		
+		ReturnValue returnValue = new ReturnValue();
+		if(!MACVerify.verify(modAccount,modAccount.Mac)){
+			returnValue.result = -2;
+		}else{
+			CorrespondValue correspondValue = objTransformer.getCorrespondValue(modAccount);			
+			CorrespondValue correspondValueNew = new CorrespondValue();			
+			Vector<CorrespondValue> ve = null;		
+			try {
+				log(" where bankid='" + correspondValue.bankID + "'"
+						+ " and firmid='" + correspondValue.firmID + "'"
+						+ " and account='" + correspondValue.account + "'"  
+						//+ " and accountName = '" + correspondValue.accountName + "'"
+						+ " and cardtype = "	+ correspondValue.cardType
+						+ " and card = '" + correspondValue.card + "'"
+						);
+				ve = getPROCESSOR().getCorrespondValue(" where bankid='" + correspondValue.bankID + "'"
+						+ " and firmid='" + correspondValue.firmID + "'"
+						+ " and account='" + correspondValue.account + "'"  
+						//+ " and accountName = '" + correspondValue.accountName + "'"
+						+ " and cardtype = "	+ correspondValue.cardType
+						+ " and card = '" + correspondValue.card + "'"
+						);
+				System.out.println("PROCESSOR="+getPROCESSOR());
+				System.out.println("ve="+ve);
+			} catch (RemoteException e) {//
+				// TODO Auto-generated catch block
+				log(Common.getExceptionTrace(e));
+			} catch (Exception e) {//
+				// TODO Auto-generated catch block
+				log(Common.getExceptionTrace(e));
+			}			
+			
+			if(ve.size()>0){//验证通过
+				log("验证通过,调用账户修改接口");
+				correspondValue = ve.get(0);					
+				correspondValueNew.account = modAccount.NewBkAcct.Id;
+				correspondValueNew.account1 = correspondValue.account1;
+				System.out.println("Name="+modAccount.Cust.Name);
+				correspondValueNew.accountName = modAccount.Cust.Name;
+				correspondValueNew.bankCity = correspondValue.bankCity;				
+				correspondValueNew.bankID = correspondValue.bankID;
+				correspondValueNew.bankName = correspondValue.bankName;
+				correspondValueNew.bankProvince = correspondValue.bankProvince;
+				correspondValueNew.card = correspondValue.card;
+				correspondValueNew.cardType = correspondValue.cardType;
+				correspondValueNew.email = correspondValue.email;
+				correspondValueNew.firmID = correspondValue.firmID;
+				correspondValueNew.isOpen = correspondValue.isOpen;
+				correspondValueNew.mobile = correspondValue.mobile;
+				correspondValueNew.status = correspondValue.status;					
+				
+				
+				/**
+				 * 调用处理器开户方法
+				 */
+				try {	
+					log("correspondValue==>");
+					log(correspondValue.toString());
+					log("correspondValueNew==>");
+					log(correspondValueNew.toString());
+					returnValue = getPROCESSOR().modAccount(correspondValue,correspondValueNew);
+				} catch (RemoteException e) {				
+					returnValue.result = -1;
+					log(Common.getExceptionTrace(e));
+				} catch (Exception e){				
+					returnValue.result = -1;
+					log(Common.getExceptionTrace(e));
+				}	
+		
+			}else{
+				returnValue.result = ErrorCode.inMoneyM_FirmNO;
+				log("交易系统中无此交易商");
+			}
+		}
+		BankAdapter.log("\n");
+		BankAdapter.log("账户变更结果:");
+		BankAdapter.log(returnValue.toString());
+		ModAccountResponse modAccountResponse = objTransformer.getModAccountResponse(modAccount,returnValue);
+		BankAdapter.log("账户变更结果-返回给银行：");
+		BankAdapter.log("返回码："+modAccountResponse.Rst.Code);
+		BankAdapter.log("银行流水号："+modAccountResponse.BkSeq);
+		BankAdapter.log("市场流水号："+modAccountResponse.FtSeq);
+		BankAdapter.log("\n");
+		return modAccountResponse;
+	}
+	
+	/**
+	 * 处理银行端发起的未知业务
+	 * @param request
+	 * @return
+	 */
+	public UnCertainResponse unCertain(Object request,String returnCode) {
+		UnCertain unCertain = (UnCertain)request;
+		
+		UnCertainResponse unCertainResponse =  objTransformer.getUnCertainResponse(unCertain,returnCode);
+		BankAdapter.log("\n");
+		BankAdapter.log("未知业务结果-返回给银行：");
+		BankAdapter.log("返回码："+unCertainResponse.Rst.Code);
+		BankAdapter.log("\n");
+		return unCertainResponse;
+	}
+	
+	/**
+	 * 取总分、分分对账结果
+	 */
+	public void getTradeDataRst(Date date){
+		FileInfo fileInfo = new FileInfo();
+		fileInfo.FileName = "B_DTL03_" + Common.df7.format(date);
+		getBankMoneyInfo(fileInfo);
+		fileInfo = new FileInfo();
+		fileInfo.FileName = "B_DTL04_" + Common.df7.format(date);
+		getBankMoneyInfo(fileInfo);
+	}
+	
+	/**
+	 * 机构段发送日终数据
+	 */
+	public void sendTradeData(){
+		/**
+		 * 生成日终文件：交收明细文件、客户资金台账资金余额明细表、客户资金台账开销户文档
+		 */
+		Vector<STL01> veSTL01 = new Vector();
+		Vector<STL02> veSTL02 = new Vector();
+		Vector<STL03> veSTL03 = new Vector();
+		
+		List<TradingDetailsValue> TradingDetailsValues = null;
+		List<FirmRights> FirmRightsValues = null;
+		List<OpenOrDelFirmValue> OpenOrDelFirmValues = null;
+		
+		
+		try {
+			TradingDetailsValues = this.getPROCESSOR().getChangeBalance(this.BANKID,null,Common.getDate());
+			FirmRightsValues = this.getPROCESSOR().getRightsList(this.BANKID,null,Common.getDate());
+			OpenOrDelFirmValues = this.getPROCESSOR().getOpenOrDropMaket(this.BANKID,Common.getDate());
+			System.out.println("TradingDetailsValues="+TradingDetailsValues);
+			System.out.println("FirmRightsValues="+FirmRightsValues);
+			System.out.println("OpenOrDelFirmValues="+OpenOrDelFirmValues);
+		} catch (RemoteException e) {
+			log(Common.getExceptionTrace(e)); 
+			BankAdapter.log("获取交收数据、交易商权益、开销户数据失败");			
+			return;
+		}
+		for(int i=0;i<TradingDetailsValues.size();i++){
+			TradingDetailsValue tradingDetailsValue = TradingDetailsValues.get(i);
+			STL01 stl01 = new STL01();
+			stl01.bankId = BankAdapter.getConfig("BankCode1");
+			stl01.futuresId = getMarketCode();
+			stl01.date = Common.df7.format(Common.getDate());
+			stl01.ftSeq = String.valueOf(tradingDetailsValue.maketNum);
+			stl01.bkAcct = tradingDetailsValue.account;
+			stl01.ftAcct = tradingDetailsValue.firmId;
+			stl01.custName = tradingDetailsValue.firmName;
+			stl01.busType = 0;
+			stl01.trfFlag = tradingDetailsValue.updown;
+			stl01.ccy = "001";
+			stl01.cashExCd = 0;
+			stl01.trfAmt = (long)Arith.mul(tradingDetailsValue.money,100);
+			stl01.info1 = "";
+			stl01.info2 = "";
+			stl01.info3 = "";
+			veSTL01.add(stl01);
+			
+			System.out.println(stl01);
+		}
+		for(int i=0;i<FirmRightsValues.size();i++){
+			FirmRights firmRights = FirmRightsValues.get(i);
+			STL02 stl02 = new STL02();
+			stl02.bankId = BankAdapter.getConfig("BankCode1");
+			stl02.futuresId = getMarketCode();
+			stl02.date = Common.df7.format(Common.getDate());
+			stl02.bkAcct = firmRights.account;
+			stl02.ftAcct = firmRights.firmId;
+			stl02.custName = firmRights.firmName;
+			stl02.ccy = "001";
+			stl02.cashExCd = 0;
+			stl02.FtBal = (long)Arith.mul(firmRights.money,100);
+			stl02.info1 = "";
+			stl02.info2 = "";
+			stl02.info3 = "";			
+			veSTL02.add(stl02);
+			
+			System.out.println(stl02);
+		}
+		for(int i=0;i<OpenOrDelFirmValues.size();i++){
+			OpenOrDelFirmValue openOrDelFirmValue = OpenOrDelFirmValues.get(i);
+			STL03 stl03 = new STL03();
+			stl03.bankId = BankAdapter.getConfig("BankCode1");
+			stl03.futuresId = getMarketCode();
+			stl03.date = Common.df7.format(Common.getDate());
+			stl03.ftSeq = String.valueOf(openOrDelFirmValue.maketNum);
+			stl03.ftAcct = openOrDelFirmValue.firmId;
+			stl03.custName = openOrDelFirmValue.firmName;
+			stl03.ccy = "001";
+			stl03.cashExCd = 0;
+			stl03.busType = openOrDelFirmValue.openordel;
+			stl03.info1 = "";
+			stl03.info2 = "";
+			stl03.info3 = "";
+			veSTL03.add(stl03);
+			
+			System.out.println(stl03);
+		}
+		
+		String basePath = "dayData/";		
+		FileProcessor fp = new FileProcessor(basePath);
+		String filenameSTL01 = "";
+		String filenameSTL02 = "";
+		String filenameSTL03 = "";
+		try {
+			filenameSTL01 = fp.setSTL01(veSTL01);
+		} catch (IOException e) {
+			log(Common.getExceptionTrace(e)); 
+			BankAdapter.log("生成交收明细文件失败");
+			return;
+		}
+		try {
+			filenameSTL02 = fp.setSTL02(veSTL02);
+		} catch (IOException e) {
+			log(Common.getExceptionTrace(e)); 
+			BankAdapter.log("生成客户资金台账资金余额明细表失败");
+			return;
+		}
+		try {
+			filenameSTL03 = fp.setSTL03(veSTL03);
+		} catch (IOException e) {
+			log(Common.getExceptionTrace(e)); 
+			BankAdapter.log("生成客户资金台账开销户文档失败");
+			return;
+		}
+		/**
+		 * 解压文件,并给文件命名
+		 */ 
+		String filenameSTL01New = filenameSTL01 + ".gz";
+		String filenameSTL02New = filenameSTL02 + ".gz";
+		String filenameSTL03New = filenameSTL03 + ".gz";
+		GzipUtil.zipFile(basePath+filenameSTL01,basePath+filenameSTL01New);
+		GzipUtil.zipFile(basePath+filenameSTL02,basePath+filenameSTL02New);
+		GzipUtil.zipFile(basePath+filenameSTL03,basePath+filenameSTL03New);
+
+		/**
+		 * 生成文件信息
+		 */
+		List fileList = new ArrayList();
+		FileInfo fileInfo1 = new FileInfo();
+		fileInfo1.FileName = filenameSTL01New;
+		fileList.add(fileInfo1);
+		FileInfo fileInfo2 = new FileInfo();
+		fileInfo2.FileName = filenameSTL02New;
+		fileList.add(fileInfo2);
+		FileInfo fileInfo3 = new FileInfo();
+		fileInfo3.FileName = filenameSTL03New;
+		fileList.add(fileInfo3);
+		/**
+		 * 将日终文件上传至银行主机
+		 */
+		
+		FtpUtil ftp = new FtpUtil();
+		String host = BankAdapter.getConfig("ftpIp_bk");//fileInfo.Host;
+		String ftpName = BankAdapter.getConfig("ftpName_bk"); 
+		String ftpPassword = BankAdapter.getConfig("ftpPassword_bk"); 
+		String ftpPath = BankAdapter.getConfig("ftpPath_bk"); 
+		try {
+			ftp.connectServer(host, ftpName, ftpPassword, ftpPath);	
+			System.out.println("filenameSTL01New="+filenameSTL01New);
+			System.out.println("filenameSTL02New="+filenameSTL02New);
+			System.out.println("filenameSTL03New="+filenameSTL03New);
+			long rst1 = ftp.upload(basePath + filenameSTL01New);
+			long rst2 = ftp.upload(basePath + filenameSTL02New);
+			long rst3 = ftp.upload(basePath + filenameSTL03New);
+			System.out.println("rst1="+rst1);
+			System.out.println("rst2="+rst2);
+			System.out.println("rst3="+rst3);
+		} catch (IOException e) {			
+			log(Common.getExceptionTrace(e)); 
+			BankAdapter.log("上传日终对账文件失败");
+			return;
+		}catch (Exception e) {			
+			log(Common.getExceptionTrace(e)); 
+			BankAdapter.log("上传日终对账文件失败");
+			return;
+		} 
+		/**
+		 * 发送日终数据就绪报文
+		 */
+		DayDataReady dayDataReady = objTransformer.getDayDataReady(fileList);
+		DayDataReadyResponse dayDataReadyResponse = (DayDataReadyResponse) bankBusiness.getResponse(dayDataReady);
+		
+		BankAdapter.log("发送日终数据就绪结果-银行：");
+		BankAdapter.log("返回码："+dayDataReadyResponse.Rst.Code);
+		BankAdapter.log("返回码信息："+dayDataReadyResponse.Rst.Info);
+		BankAdapter.log("银行流水号："+dayDataReadyResponse.BkSeq);
+		BankAdapter.log("市场流水号："+dayDataReadyResponse.FtSeq);	
+		
+	}
+	
+	/**
+	 * 日终数据就绪
+	 * @param request
+	 * @return
+	 * @throws RemoteException 
+	 */
+	public DayDataReadyResponse dayDataReady(Object request){
+		DayDataReady dayDataReady = (DayDataReady)request;
+		
+		ReturnValue returnValue = new ReturnValue();		
+		if(!MACVerify.verify(dayDataReady,dayDataReady.Mac)){
+			returnValue.result = -2;
+		}else{
+			List<FileInfo> fileInfos = dayDataReady.FileInfo;
+			/**
+			 * 取文件并对账
+			 */
+			for(int i=0;i<fileInfos.size();i++){
+				getBankMoneyInfo(fileInfos.get(i));
+			}
+			
+			try {
+				returnValue.actionId = getPROCESSOR().getMktActionID();
+				returnValue.result = 0;
+			} catch (RemoteException e) {
+				returnValue.result = -1;
+				log(Common.getExceptionTrace(e)); 
+			}
+		}
+		BankAdapter.log("\n");
+		BankAdapter.log("日终数据结果:");
+		BankAdapter.log(returnValue.toString());
+		DayDataReadyResponse dayDataReadyResponse = objTransformer.getDayDataReadyResponse(dayDataReady,returnValue);
+		BankAdapter.log("日终数据结果-返回给银行：");
+		BankAdapter.log("返回码："+dayDataReadyResponse.Rst.Code);
+		BankAdapter.log("银行流水号："+dayDataReadyResponse.BkSeq);
+		BankAdapter.log("市场流水号："+dayDataReadyResponse.FtSeq);
+		BankAdapter.log("\n");
+		return dayDataReadyResponse;
+	}
+	
+	
+	
+	/**
+	 * 对账
+	 * @param fileInfo
+	 * @throws RemoteException 
+	 */
+	public void getBankMoneyInfo(FileInfo fileInfo) {
+		String basePath = "dayData/";
+		/**
+		 * 获取文件
+		 */
+		FtpUtil ftp = new FtpUtil(); 		
+		String filename = fileInfo.FileName; 
+		String host = BankAdapter.getConfig("ftpIp");//fileInfo.Host;
+		String ftpName = BankAdapter.getConfig("ftpName"); 
+		String ftpPassword = BankAdapter.getConfig("ftpPassword"); 
+		String ftpPath = BankAdapter.getConfig("ftpPath"); 
+		try {
+			ftp.connectServer(host, ftpName, ftpPassword, ftpPath);			
+			ftp.download(filename,basePath+filename); 
+		} catch (IOException e) {			
+			log(Common.getExceptionTrace(e)); 
+			BankAdapter.log("下载日终对账文件失败");
+			return;
+		}catch (Exception e) {			
+			log(Common.getExceptionTrace(e)); 
+			BankAdapter.log("下载日终对账文件失败");
+			return;
+		} 
+		/**
+		 * 解压文件,并给文件命名
+		 */ 
+		String filenameNew = "";
+		filenameNew = filename.split("\\.")[0];
+		
+		try {
+			GzipUtil.upZip(basePath+filename,basePath+filenameNew);
+		} catch (FileNotFoundException e) {
+			log(Common.getExceptionTrace(e)); 
+			BankAdapter.log("解压日终对账文件失败");
+			return;			
+		} catch (IOException e) {
+			log(Common.getExceptionTrace(e)); 
+			BankAdapter.log("解压日终对账文件失败");
+			return;			
+		}
+		/**
+		 * 解析文件
+		 */
+		String path = basePath + filenameNew;
+		FileProcessor fp = new FileProcessor(path);
+		Vector<MoneyInfoValue> result = new Vector();//转账交易明细
+		Vector<BankFirmRightValue> bankFirmRightValues = new Vector();//交易商权益的分分核对
+		
+		
+		if(getFileType(filenameNew).equals("DTL01")){//转账交易明细对账文件
+			Vector <DTL01> ve = null;
+			try{
+				ve = fp.getDTL01();				
+			}catch(NumberFormatException nfe){
+				BankAdapter.log("对账文件内容有误,对账失败");
+				BankAdapter.log(nfe.getMessage());
+				return;
+			}
+			for(int i=0;i<ve.size();i++){
+				DTL01 dtl01 = ve.get(i);
+				BankAdapter.log(dtl01.toString());
+				MoneyInfoValue info = new MoneyInfoValue();
+				info.account = dtl01.bkAcct;
+				info.bankID	= this.getBankID();	
+				String year = dtl01.bankTransferDate.substring(0,4);
+				String month = dtl01.bankTransferDate.substring(4,6);
+				String date = dtl01.bankTransferDate.substring(6,8);				
+				Date tempDate = new Date(Integer.parseInt(year)-1900,Integer.parseInt(month)-1,Integer.parseInt(date));				
+				info.compareDate = new java.sql.Date(tempDate.getTime());				
+				info.firmID = dtl01.ftAcct;
+				info.id = dtl01.bkSeq;
+				info.m_Id = Long.parseLong((dtl01.ftSeq == null || dtl01.ftSeq.trim().length()<=0) ? "-2" : dtl01.ftSeq);
+				info.money = Arith.div((double)dtl01.trfAmt,100);
+				if(Integer.parseInt(dtl01.busCd) == BusinessCode.CODE22001.getValue()){//银转期-入金
+					info.type = 0;
+				}else if(Integer.parseInt(dtl01.busCd) == BusinessCode.CODE22002.getValue()){//期转银-出金
+					info.type = 1;
+				}
+				info.note = "";
+				info.status = 0;
+				BankAdapter.log(info.toString());
+				result.add(info);
+			}
+			/**
+			 * 调用处理器对账方法
+			 */
+			try {
+				getPROCESSOR().insertBankMoneyInfo(result,1);
+			} catch (RemoteException e) {
+				log(Common.getExceptionTrace(e)); 
+			}
+		}else if(getFileType(filenameNew).equals("DTL02")){//转账交易汇总对帐文件
+			DTL02 dtl02 = fp.getDTL02();	
+			BankAdapter.log(dtl02.toString());
+			MoneyInfoValue info = new MoneyInfoValue();			
+			info.bankID	= this.getBankID();	
+			String year = dtl02.sumDate.substring(0,4);
+			String month = dtl02.sumDate.substring(4,6);
+			String date = dtl02.sumDate.substring(6,8);
+			Date tempDate = new Date(Integer.parseInt(year)-1900,Integer.parseInt(month)-1,Integer.parseInt(date));
+			info.compareDate = new java.sql.Date(tempDate.getTime());				
+			info.money = Arith.div((double)dtl02.trfAmt,100);
+			if(dtl02.trfFlag.equals("0")){//0：轧差后为银转期-入金
+				info.type = 0;
+			}else if(dtl02.trfFlag.equals("1")){//1：轧差后为期转银-出金
+				info.type = 1;
+			}
+			info.note = "";
+			info.status = 0;
+			
+			BankAdapter.log(info.toString());
+			result.add(info);
+			/**
+			 * 调用处理器对账方法
+			 */
+			try {
+				getPROCESSOR().insertBankMoneyInfo(result,2);
+			} catch (RemoteException e) {
+				log(Common.getExceptionTrace(e)); 
+			}
+		}else if(getFileType(filenameNew).equals("DTL03")){//分分核对文件
+			Vector <DTL03> ve = null;
+			try{
+				ve = fp.getDTL03();				
+			}catch(NumberFormatException nfe){
+				BankAdapter.log("对账文件内容有误,对账失败");
+				BankAdapter.log(nfe.getMessage());
+				return;
+			}
+			for(int i=0;i<ve.size();i++){
+				DTL03 dtl03 = ve.get(i);
+				
+				BankFirmRightValue info = new BankFirmRightValue();
+				String year = dtl03.date.substring(0,4);
+				String month = dtl03.date.substring(4,6);
+				String date = dtl03.date.substring(6,8);				
+				Date tempDate = new Date(Integer.parseInt(year)-1900,Integer.parseInt(month)-1,Integer.parseInt(date));				
+				info.bdate = new java.sql.Timestamp(tempDate.getTime());	
+				info.firmId = dtl03.futuresId;
+				info.bankRight = Arith.div(dtl03.BkBal,100);
+				info.maketRight = Arith.div(dtl03.FtBal,100);
+				info.reason = dtl03.reason;
+				info.bankId = this.BANKID;
+				
+				BankAdapter.log(dtl03.toString());
+				BankAdapter.log(info.toString());
+				bankFirmRightValues.add(info);
+			}
+			/**
+			 * 调用处理器对账方法
+			 */
+			try {
+				getPROCESSOR().setBankFirmRightValue(bankFirmRightValues);
+			} catch (RemoteException e) {
+				log(Common.getExceptionTrace(e)); 
+			}
+		}else if(getFileType(filenameNew).equals("DTL04")){//总分平衡监管文件
+			
+			
+			DTL04 dtl04 = fp.getDTL04();
+			ProperBalanceValue info = new ProperBalanceValue();
+			String year = dtl04.date.substring(0,4);
+			String month = dtl04.date.substring(4,6);
+			String date = dtl04.date.substring(6,8);				
+			Date tempDate = new Date(Integer.parseInt(year)-1900,Integer.parseInt(month)-1,Integer.parseInt(date));				
+			info.bdate = new java.sql.Timestamp(tempDate.getTime());	
+			info.allMoney = Arith.div(dtl04.bkManageSumBlance,100);
+			info.gongMoney = Arith.div(dtl04.bkSumBlanceLocal,100);
+			info.otherMoney = Arith.div(dtl04.bkSumBlanceOther,100);
+			info.bankId = this.BANKID;
+			
+			BankAdapter.log(dtl04.toString());
+			BankAdapter.log(info.toString());
+			/**
+			 * 调用处理器对账方法
+			 */
+			try {
+				getPROCESSOR().setProperBalanceValue(info);
+			} catch (RemoteException e) {
+				log(Common.getExceptionTrace(e)); 
+			}
+		}
+	}
+	
+	/**
+	 * 检查日终文件类型
+	 */
+	private String getFileType(String name){
+		String fileType = name.split("_")[1];
+		return fileType;
+	}
+
+	/**
+	 * 查询银行账号余额
+	 */
+	public double accountQuery(CorrespondValue correspondValue, String password){
+		double result = 0;		
+		QryAccount qryAccount = objTransformer.getQryAccount(correspondValue);	
+		QryAccountResponse qryAccountResponse = null;
+		try {
+			qryAccountResponse = (QryAccountResponse) bankBusiness.getResponse(qryAccount);
+		} catch (BankException e) {
+			log(Common.getExceptionTrace(e));  
+			result = (Long) ErrorCode.bankhandle_failure;
+		}  
+		
+		if(qryAccountResponse.Rst.Code.equals(ReturnCode.CODE0000.getValue())){
+			result = Arith.div((double)qryAccountResponse.BkBal.CurBal.amt,100);
+		}else{
+			result = (Long) ErrorCodeB2M.get(qryAccountResponse.Rst.Code);
+		}
+		
+		BankAdapter.log("查询交易商银行余额结果：");
+		BankAdapter.log("返回码："+qryAccountResponse.Rst.Code);
+		BankAdapter.log("返回码信息："+qryAccountResponse.Rst.Info);
+		BankAdapter.log("银行流水号："+qryAccountResponse.BkSeq);
+		BankAdapter.log("市场流水号："+qryAccountResponse.FtSeq);
+		BankAdapter.log("当前余额："+qryAccountResponse.BkBal.CurBal.amt);
+		BankAdapter.log("可用余额："+qryAccountResponse.BkBal.UseBal.amt);
+		BankAdapter.log("可取余额："+qryAccountResponse.BkBal.FtcBal.amt);
+		
+		return result;
+	}
+	
+	/**
+	 * 查询交易商市场余额
+	 */
+	public QryAccountResponse accountQuery(Object request){
+		QryAccount qryAccount = (QryAccount)request;	
+		
+		ReturnValue returnValue = new ReturnValue();
+		FirmBalanceValue firmBalanceValue = null;		
+		if(!MACVerify.verify(qryAccount,qryAccount.Mac)){
+			returnValue.result = -2;
+		}else{
+			try{
+				firmBalanceValue = this.getPROCESSOR().getMarketBalance(qryAccount.FtAcct.Id);	
+				returnValue.result = 0;
+			}catch(Exception e){
+				returnValue.result = -1;
+			}
+		}
+		
+		BankAdapter.log("查询交易商市场余额结果:");
+		BankAdapter.log(returnValue.toString());
+		QryAccountResponse qryAccountResponse = objTransformer.getQryAccountResponse(qryAccount,firmBalanceValue,returnValue);
+		BankAdapter.log("查询交易商市场余额结果-返回给银行：");
+		BankAdapter.log("返回码："+qryAccountResponse.Rst.Code);
+		BankAdapter.log("银行流水号："+qryAccountResponse.BkSeq);
+		BankAdapter.log("市场流水号："+qryAccountResponse.FtSeq);
+		BankAdapter.log("当前余额："+qryAccountResponse.FtBal.CurBal.amt);
+		BankAdapter.log("可用余额："+qryAccountResponse.FtBal.UseBal.amt);
+		BankAdapter.log("可取余额："+qryAccountResponse.FtBal.FtcBal.amt);
+		
+		return qryAccountResponse;
+	}
+	
+	/**
+	 * 银行端冲正
+	 * @param request
+	 * @return
+	 */
+	public Object reversal(Object request){
+		Reversal reversal = (Reversal)request;
+		ReturnValue returnValue = null;
+		ChargeAgainstValue chargeAgainstValue = new ChargeAgainstValue();
+		chargeAgainstValue.bankID = this.BANKID;
+		chargeAgainstValue.funID = reversal.OldBankSeqNo;
+		chargeAgainstValue.bankTime = new Timestamp(Common.getDate().getTime());
+		chargeAgainstValue.funIDCA = reversal.BkSeq;
+		try {
+			returnValue = this.getPROCESSOR().chargeAgainst(chargeAgainstValue);			
+		} catch (RemoteException e) {
+			returnValue.result = -1;
+			log(Common.getExceptionTrace(e)); 
+		} catch (Exception e) {
+			returnValue.result = -1;
+			log(Common.getExceptionTrace(e)); 
+		}
+		
+		ReversalResponse reversalResponse = new ReversalResponse();
+		reversalResponse.GrpHdr = reversal.GrpHdr;	
+		if(ErrorCodeM2B.get(returnValue.result)!=null){
+			reversalResponse.Rst.Code = String.valueOf(ErrorCodeM2B.get(returnValue.result));
+		}else{
+			reversalResponse.Rst.Code = ReturnCode.CODE2041.getValue();
+		}
+		if(reversalResponse.Rst.Code != ReturnCode.CODE0000.getValue()){//出入金失败
+			return reversalResponse;		
+		}
+		reversalResponse.BkSeq = reversal.BkSeq;
+		reversalResponse.FtSeq = String.valueOf(returnValue.actionId);
+		reversalResponse.BkAcct = reversal.BkAcct;
+		reversalResponse.FtAcct = reversal.FtAcct;
+		reversalResponse.TrfAmt = reversal.TrfAmt;		
+		
+		reversalResponse.Mac = MACVerify.encryption(reversalResponse);
+		
+		BankAdapter.log("银行端冲正结果-返回给银行：");
+		BankAdapter.log("返回码："+reversalResponse.Rst.Code);
+		BankAdapter.log("银行流水号："+reversalResponse.BkSeq);
+		BankAdapter.log("市场流水号："+reversalResponse.FtSeq);
+		
+		return reversalResponse;		
+	}
+
+	public ReturnValue transferMoney(TransferMoneyVO arg0){
+		return null;
+	}
+
+	
+	public Vector<MoneyInfoValue> getBankMoneyInfo(Date date,Vector v) {
+		return this.getBankMoneyInfo(date);
+	}
+
+	
+	public int setBankMoneyInfo(Date arg0){
+		return 0;
+	}
+	
+	public List getData(int arg0, Date arg1){
+		return null;
+	}
+
+	
+	public List transferMoneyAfterTrade(){
+		return null;
+	}
+	
+	public ReturnValue rgstAccountQuery(CorrespondValue correspondValue) {
+		return null;
+	}
+	
+	public ReturnValue delAccountQuery(CorrespondValue correspondValue) {		
+		return null;
+	}	
+	
+	public List transferMoneyAfterTrade(Date date) {
+		return null;
+	}	
+
+	@Override
+	public Vector<MoneyInfoValue> getBankMoneyInfo(Date date) {
+		// TODO Auto-generated method stub
+		FileInfo fileInfo = new FileInfo();
+		fileInfo.FileName = "B_DTL01_" + Common.df7.format(date)+".gz";
+		getBankMoneyInfo(fileInfo);
+		fileInfo = new FileInfo();
+		fileInfo.FileName = "B_DTL02_" + Common.df7.format(date)+".gz";
+		getBankMoneyInfo(fileInfo);
+		return new Vector();
+	}
+
+	@Override
+	public ReturnValue setBankMoneyInfo(Hashtable<String, TradeResultValue> arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ReturnValue setTotalMoneyInfo(Hashtable<String, Double> arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public ReturnValue loginBank(String bankId){
+		return this.loginBank();
+	}
+	
+	@Override
+	public ReturnValue quitBank(String bankId){
+		return this.quitBank();
+	}
+	
+	/**
+	 * 适配器主函数
+	 * @param args
+	 */
+	public static void main(String[] args){
+		
+		ICBCBankImpl adapter = (ICBCBankImpl) Factory.getInstance().getBankAdapter();
+		adapter.init();			
+		
+		BufferedReader buf = new BufferedReader (new InputStreamReader(System.in));
+		String str = "";
+		
+		while(!str.equals("exit")){
+			try {
+
+			     str = buf.readLine();
+			     if(str.equals("check")){
+			    	 RmiClient rmiClient = Factory.getInstance().getRmiClient();
+			    	 if(rmiClient.connProcessor()){
+			    		 System.out.println("连接处理器成功");
+			    	 }		    	 
+
+			     }else if(str.trim().equals("bankid")){	
+			    	 System.out.println(adapter.BANKID);
+			     }else if(str.trim().equals("bankcode")){	
+			    	 System.out.println(adapter.BANKCODE);
+			     }else if(str.trim().equals("marketcode")){	
+			    	 System.out.println(adapter.MARKETCODE);
+			     }else if(str.trim().equals("daydata")){	
+			    	DayDataReady dayDataReady = new DayDataReady();
+			 		dayDataReady.GrpHdr.Version = "1.0";
+			 		dayDataReady.GrpHdr.BusCd = BusinessCode.CODE23001.getValue();
+			 		dayDataReady.GrpHdr.TradSrc = TradeSource.B;		
+			 		dayDataReady.GrpHdr.Sender.InstId = "10200000";
+			 		dayDataReady.GrpHdr.Recver.InstId = "00000148";
+			 		dayDataReady.GrpHdr.Date = Common.df7.format(Common.getDate());
+			 		dayDataReady.GrpHdr.Time = Common.df8.format(Common.getDate());
+			 		dayDataReady.BkSeq = "0001";
+			 		FileInfo fileInfo = new FileInfo();
+			 		fileInfo.BusCode = FileBusinessCode.DETAIL.getValue();
+			 		fileInfo.BusDate = "20091105";
+			 		fileInfo.Host = "183.9.100.235";
+			 		fileInfo.FileName = "B_DTL01_20091031.gz";
+			 		dayDataReady.add(fileInfo);
+			 		FileInfo fileInfo1 = new FileInfo();
+			 		fileInfo1.BusCode = FileBusinessCode.SUM.getValue();
+			 		fileInfo1.BusDate = "20091105";
+			 		fileInfo1.Host = "83.9.100.235";
+			 		fileInfo1.FileName = "B_DTL02_20091031.gz";
+			 		dayDataReady.add(fileInfo1);
+			 		
+			 		adapter.dayDataReady(dayDataReady);
+			     }else if(str.trim().equals("syn")){	
+			    	 ReturnValue returnValue = adapter.synchronizeKey();
+			    	 if(returnValue.result == 0){
+			    		 System.out.println("密钥同步成功");
+			    	 }else{
+			    		 System.out.println("密钥同步失败");
+			    	 }
+			     }else if(str.trim().equals("login")){
+			    	 ReturnValue returnValue = adapter.loginBank();
+			    	 if(returnValue.result == 0){
+			    		 System.out.println("签到成功");
+			    	 }else{
+			    		 System.out.println("签到失败");
+			    	 }
+			 		
+			     }else if(str.trim().equals("quit")){
+			    	 ReturnValue returnValue = adapter.quitBank();
+			    	 if(returnValue.result == 0){
+			    		 System.out.println("签退成功");
+			    	 }else{
+			    		 System.out.println("签退失败");
+			    	 }
+			     }else if(str.trim().equals("qry")){
+			    	 CorrespondValue correspondValue = new  CorrespondValue();
+			    	 correspondValue.account = "1202083109900332221";
+			    	 correspondValue.firmID = "0041";
+			    	 correspondValue.cardType = "9";
+			    	 correspondValue.card = "33012500000012365";
+			    	 correspondValue.accountName = "杭州";
+			    	 adapter.accountQuery(correspondValue,null);
+			     }else if(str.trim().equals("send")){
+			    	 adapter.sendTradeData();
+			     }else if(str.trim().equals("traderst")){
+			    	 adapter.getTradeDataRst(new Date());
+			     }else if(str.trim().equals("transrst")){
+			    	 adapter.getBankMoneyInfo(new Date());
+			     }else if(str.trim().equals("help")){			     
+			    	 
+			    	 System.out.println("--------------------------------------------------");
+			    	 System.out.println("     exit:                       退出                      ");			    	 
+			    	 System.out.println("     check:                      测试处理器连接             ");
+			    	 System.out.println("     bankid:                     银行代码                   ");
+			    	 System.out.println("     bankcode:                   银行机构代码               ");
+			    	 System.out.println("     marketcode:                 市场机构代码               ");
+			    	 System.out.println("     syn:                        密钥同步                   ");
+			    	 System.out.println("     login:                      签到                       ");
+			    	 System.out.println("     quit:                       签退                       ");
+			    	 System.out.println("     daydata:                    取日终数据                 ");		
+			    	 System.out.println("     send:                       发送交收数据                ");		
+			    	 System.out.println("     traderst:                   获取今日总分、分分结果       ");
+			    	 System.out.println("     transrst:                   获取今日转账交易明细        ");		
+			    	 //System.out.println("     qry:                        账户查询             ");
+			    	 System.out.println("--------------------------------------------------");
+			    	 
+			     }
+		     
+			} catch (IOException e) {
+				e.printStackTrace();				
+				continue;
+			} catch (Exception e) {
+				e.printStackTrace();				
+				continue;
+			}
+		}		
+		System.exit(0);
+	}
+
+
+	public Vector<BankFirmRightValue> getBankFirmRightValue(String bankID2,
+			Date date) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public ProperBalanceValue getProperBalanceValue(String bankID2, Date date) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public ReturnValue sendTradeData(List<FirmRights> frs,
+			List<TradingDetailsValue> tds, List<OpenOrDelFirmValue> opdf,
+			Date tradeDate) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+}
