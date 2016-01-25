@@ -1,0 +1,1 @@
+CommandSocketCilent.bat用于手工命令操作，既银行接口连通性测试使用
