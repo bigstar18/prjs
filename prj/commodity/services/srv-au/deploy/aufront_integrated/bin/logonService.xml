@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<!-- 主服务类 -->
+	<bean id="server" class="gnnt.MEBS.logonService.Server"/>
+
+	<!-- 配置通用信息 -->
+	<bean id="config" class="java.util.Properties">
+		<constructor-arg type="java.util.Properties">
+			<props>
+				<prop key="selfConfigID">210001</prop> <!-- AU编号 -->
+				<prop key="clearRMITimes">3</prop> <!-- 重连几次后到数据库重新获取连接 -->
+				<prop key="logonTimeOutTime">200</prop><!-- 验证登录超时线程睡眠时间，单位毫秒 -->
+			</props>
+		</constructor-arg>
+	</bean>
+
+	<!-- AU 超时 类型配置MAp -->
+	<util:map id="auExpireTimeMap" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Long">
+		<entry key="web" value="7200000"/>
+		<entry key="pc" value="300000"/>
+		<entry key="mobile" value="7200000"/>
+	</util:map>
+
+	<!-- 增加 properties 占位符 -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>jdbc.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driver}"/> <!-- 驱动名称 -->
+		<property name="url" value="${jdbc.url}"/> <!-- 连接地址 -->
+		<property name="username" value="${jdbc.username}"/> <!-- 数据库登录名 -->
+		<property name="password" value="${jdbc.password}"/> <!-- 数据库登录密码 -->
+		<property name="maxActive" value="150"/> <!-- 最大活动数量 -->
+		<property name="maxIdle" value="5"/> <!-- 最大空闲量 -->
+		<property name="initialSize" value="2"/> <!-- 初始化数量 -->
+		<property name="maxWait" value="120000"/> <!-- 最大等待时长 -->
+	</bean>
+
+
+
+</beans>

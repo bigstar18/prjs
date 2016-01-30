@@ -6,24 +6,18 @@
 		<artifactId>prj-parent</artifactId>
 		<version>1.0.0</version>
 	</parent>
-	<artifactId>util-warehoursinterface</artifactId>
+	<artifactId>srv-au</artifactId>
 	<packaging>jar</packaging>
 
 	<inceptionYear>2015-2015</inceptionYear>
 	
 	<!-- 依赖项定义 -->
 	<dependencies>
-
-		<!-- <dependency>
-			<groupId>com.yrdce</groupId>
-			<artifactId>activeUser</artifactId>
-			<version>1.0.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/activeUser.jar</systemPath>
-		</dependency> -->
-
-
 		<!-- SPRING begin -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+		</dependency>
 			
 		<!-- spring orm -->		
 		
@@ -101,7 +95,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.hxx</groupId>
-			<artifactId>srv-billcore</artifactId>
+			<artifactId>util-activeUser</artifactId>
 			<version>1.0.0</version>
 		</dependency>
 	</dependencies>

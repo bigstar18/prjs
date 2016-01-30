@@ -281,12 +281,12 @@
 		</dependency>
 		<dependency>
 			<groupId>org.hxx</groupId>
-			<artifactId>util-mgrgetfrontusers</artifactId>
+			<artifactId>srv-commoncore</artifactId>
 			<version>1.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hxx</groupId>
-			<artifactId>srv-commoncore</artifactId>
+			<artifactId>srv-mgrgetfrontusers</artifactId>
 			<version>1.0.0</version>
 		</dependency>
 	</dependencies>
