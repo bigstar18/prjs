@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+	<!-- 系统配置项 1开头的为错误信息 2开头的为警告信息-->
+	<bean id="errorCode" class="java.util.Properties">
+		<constructor-arg type="java.util.Properties">
+			<props>
+				<prop key="-1000">%s</prop>
+				<prop key="-1100">仓单号为 %s的仓单不存在</prop>
+				<prop key="-1101">仓单号为 %s的仓单不是注册状态</prop>
+				<prop key="-1102">卖仓单失败 仓单参与%s业务，仓单号%s</prop>
+				<prop key="-1107">卖仓单失败,返回码[1107] 请与管理员联系</prop>
+				<prop key="-1108">卖仓单失败,返回码[1108] 请与管理员联系</prop>
+
+				<prop key="-1110">撤销卖仓单失败,返回码[1110] 请与管理员联系</prop>
+				<prop key="-1111">撤销卖仓单失败,返回码[1111] 请与管理员联系</prop>
+
+				<prop key="-1120">卖仓单转交收仓单失败,返回码[1120] 请与管理员联系</prop>
+				<prop key="-1121">卖仓单转交收仓单失败,返回码[1121] 请与管理员联系</prop>
+				<prop key="-1122">卖仓单转交收仓单失败,仓单用户不匹配</prop>
+				<prop key="-1123">卖仓单转交收仓单失败,没有模块号为%d委托号为%s的卖仓单数据</prop>
+
+				<prop key="-1130">转入仓单失败,返回码[1130] 请与管理员联系</prop>
+				<prop key="-1131">转入仓单失败,返回码[1131] 请与管理员联系</prop>
+				<prop key="-1132">转入仓单失败,不存在仓单号为%s的仓单;</prop>
+				<prop key="-1133">转入仓单失败 仓单属于未注册仓单，仓单号%s</prop>
+				<prop key="-1134">转入仓单失败 仓单已出库，仓单号%s</prop>
+				<prop key="-1135">转入仓单失败 仓单参与%s业务，仓单号%s</prop>
+				<prop key="-1136">转入仓单失败 仓单不属于注册状态，仓单号%s</prop>
+				<prop key="-1140">转入仓单失败 仓单用户不匹配</prop>
+
+				<prop key="-1160">释放交收占用仓单失败,返回码[1160] 请与管理员联系</prop>
+				<prop key="-1161">释放交收占用仓单失败,返回码[1161] 请与管理员联系</prop>
+
+				<prop key="-1170">仓单交收失败,返回码[1170] 请与管理员联系</prop>
+				<prop key="-1171">仓单交收失败,返回码[1171] 请与管理员联系</prop>
+
+				<prop key="-1180">仓单货权失败,返回码[1180] 请与管理员联系</prop>
+				<prop key="-1181">仓单货权失败,返回码[1181] 请与管理员联系</prop>
+
+				<prop key="-1190">释放指定的交收仓单失败,返回码[1190] 请与管理员联系</prop>
+				<prop key="-1191">释放指定的交收仓单失败,返回码[1191] 请与管理员联系</prop>
+				<prop key="-1192">释放指定的交收仓单失败,指定的仓单数组为空！</prop>
+
+
+				<prop key="-1200">仓单融资申请失败,返回码[1200] 请与管理员联系</prop>
+				<prop key="-1201">仓单融资申请失败,返回码[1201] 请与管理员联系</prop>
+				<prop key="-1202">仓单融资申请失败,仓单参与%s业务,仓单号%s</prop>
+				
+				<prop key="-1210">拒绝仓单融资处理失败,返回码[1210] 请与管理员联系</prop>
+				<prop key="-1211">拒绝仓单融资处理失败,返回码[1211] 请与管理员联系</prop>
+				<prop key="-1213">拒绝仓单融资处理失败,融资仓单号为%s的融资仓单不存在</prop>
+				<prop key="-1214">拒绝仓单融资处理失败,融资仓单号为%s的融资仓单已经失效</prop>
+				
+				<prop key="-1220">仓单融资成功处理失败,返回码[1220] 请与管理员联系</prop>
+				<prop key="-1221">仓单融资成功处理失败,返回码[1221] 请与管理员联系</prop>
+				<prop key="-1222">仓单融资成功处理失败,融资仓单号为%s的融资仓单不存在</prop>
+				<prop key="-1223">仓单融资成功处理失败,融资仓单号为%s的融资仓单已经失效</prop>
+				
+				<prop key="-1230">录入仓单失败 返回码[1230] 请与管理员联系</prop>
+				<prop key="-1231">录入仓单失败 返回码[1231] 请与管理员联系</prop>
+				<prop key="-1232">录入仓单失败 仓单属性不能为空</prop>
+				<prop key="-1233">录入仓单失败 仓单所属仓库%s不存在</prop>
+				<prop key="-1234">录入仓单失败 仓单所属仓库%s当前不允许入库</prop>
+				
+				<prop key="-1240">添加仓单失败，交易系统中无此交易商，交易商代码[%s]</prop>
+				<prop key="-1241">添加仓单失败，交易商名称和交易系统交易商名称不一致，传入的交易商名称[%s]</prop>
+				<prop key="-1242">添加仓单失败，交易商密码错误</prop>
+				<prop key="-1243">添加仓单失败，传入的分类[%s]或品名[%s]不存在</prop>
+				<prop key="-1244">添加仓单失败，交易系统需要的属性[%s]未传入</prop>
+				<prop key="-1245">添加仓单失败，传入的仓库%s不存在</prop>
+				<prop key="-1246">添加仓单失败，仓库%s当前状态不允许添加仓单</prop>
+				
+				<prop key="-1250">拆仓单失败 返回码[1250] 请与管理员联系</prop>
+				<prop key="-1251">拆仓单失败 返回码[1251] 请与管理员联系</prop>
+				<prop key="-1252">拆仓单失败 ,仓单号为%s的仓单不存在</prop>
+				<prop key="-1253">拆仓单失败,仓单状态不是未注册状态，当前状态[%s]</prop>
+				<prop key="-1254">拆仓单失败,仓单数量为%f，拆单后数量总和为%f</prop>
+				<prop key="-1255">拆仓单失败,仓单号为%s的仓单，已经申请拆单</prop>
+				
+				<prop key="-1260">拆仓单处理失败 返回码[1260] 请与管理员联系</prop>
+				<prop key="-1261">拆仓单处理仓单出库失败 返回码[1261] 请与管理员联系</prop>
+				<prop key="-1262">拆仓单处理失败 ,仓单号为%s的仓单不存在</prop>
+				<prop key="-1263">拆仓单处理失败,仓单状态不是拆仓单中，当前状态[%s]</prop>
+				<prop key="-1264">拆仓单处理失败,仓单%s对应的拆单信息为空</prop>
+				<prop key="-1265">拆仓单处理失败,拆单后仓库仓单号不能为空,系统仓单号%d</prop>
+				
+				<prop key="-1270">注销仓单失败 返回码[1270] 请与管理员联系</prop>
+				<prop key="-1271">注销仓单失败 返回码[1271] 请与管理员联系</prop>
+				<prop key="-1272">注销仓单失败 ,仓单号为%s的仓单不存在</prop>
+				<prop key="-1273">注销仓单失败,仓单状态不是注册状态，当前状态[%s]</prop>
+				<prop key="-1274">注销仓单失败 仓单参与%s业务，仓单号%s</prop>
+				
+				<prop key="-1280">注册仓单失败 返回码[1280] 请与管理员联系s</prop>
+				<prop key="-1281">注册仓单失败 返回码[1281] 请与管理员联系</prop>
+				<prop key="-1282">注册仓单失败 ,仓单号为%s的仓单不存在</prop>
+				<prop key="-1283">注册仓单失败,仓单状态不是未注册状态，当前状态[%s]</prop>
+				
+				<prop key="-1290">仓单出库失败 返回码[1290] 请与管理员联系</prop>
+				<prop key="-1291">仓单出库失败 返回码[1291] 请与管理员联系</prop>
+				<prop key="-1292">仓单出库失败,仓单号为%s的仓单不存在</prop>
+				<prop key="-1293">仓单出库失败,仓单状态不是未注册状态，当前状态[%s]</prop>
+				
+				<prop key="-1300">仓单出库失败 返回码[1300] 请与管理员联系</prop>
+				<prop key="-1301">仓单出库失败 返回码[1301] 请与管理员联系</prop>
+
+				<prop key="-1401">查询仓单数量失败，传入的仓单集合为空</prop>
+				<prop key="-1402">查询仓单数量失败，传入的仓单 %s 不存在</prop>
+				<prop key="-1403">查询仓单数量失败，返回码[1403]请与管理员联系</prop>
+				<prop key="-1404">查询仓单数量失败，返回码[1404]请与管理员联系</prop>
+
+				<prop key="-1501">冻结仓单失败，传入的仓单集合为空</prop>
+				<prop key="-1502">冻结仓单失败，返回码[1502]请与管理员联系</prop>
+				<prop key="-1503">冻结仓单失败，返回码[1503]请与管理员联系</prop>
+				<prop key="-1504">冻结仓单失败，仓单%s不存在</prop>
+				<prop key="-1505">冻结仓单失败，仓单%s不是注册仓单</prop>
+				<prop key="-1506">冻结仓单失败，仓单%s已经参与了%s业务</prop>
+
+				<prop key="-1601">解冻仓单失败，传入的仓单集合为空</prop>
+				<prop key="-1602">解冻仓单失败，返回码[1602]请与管理员联系</prop>
+				<prop key="-1603">解冻仓单失败，返回码[1603]请与管理员联系</prop>
+				<prop key="-1604">解冻仓单失败，模块号%d没有冻结仓单%s所以无法解冻</prop>
+
+				<prop key="-1701">仓单出库申请失败，传入申请信息为空</prop>
+				<prop key="-1702">仓单出库申请失败，传入申请信息不完整</prop>
+				<prop key="-1703">仓单出库申请失败，传入仓单编号%s不存在</prop>
+				<prop key="-1704">仓单出库申请失败，仓单%s处于%s状态不能申请出库</prop>
+				<prop key="-1790">仓单出库申请失败，返回码[1790] 请与管理员联系</prop>
+				<prop key="-1791">仓单出库申请失败，返回码[1791] 请与管理员联系</prop>
+
+				<prop key="-1801">仓单出库失败，传入信息为空</prop>
+				<prop key="-1802">仓单出库失败，传入信息不完整</prop>
+				<prop key="-1803">仓单出库失败，传入仓单编号%s不存在</prop>
+				<prop key="-1804">仓单出库失败，仓单%s处于%s状态不能出库</prop>
+				<prop key="-1805">仓单出库失败，仓单出库密钥错误</prop>
+				<prop key="-1806">仓单出库失败，提货人错误</prop>
+				<prop key="-1807">仓单出库失败，提货人身份证号错误</prop>
+				<prop key="-1808">仓单出库失败，查询仓单%s待完成出库信息失败</prop>
+				<prop key="-1890">仓单出库失败，返回码[1890] 请与管理员联系</prop>
+				<prop key="-1891">仓单出库失败，返回码[1891] 请与管理员联系</prop>
+
+				<prop key="-1901">撤销仓单出库申请失败，传输仓单编号为空</prop>
+				<prop key="-1902">撤销仓单出库申请失败，传输仓单编号%s不存在</prop>
+				<prop key="-1903">撤销仓单出库申请失败，仓单%s处于%s状态不能撤销出库申请</prop>
+				<prop key="-1904">撤销仓单出库申请失败，查询仓单%s待完成出库信息失败</prop>
+				<prop key="-1990">撤销仓单出库申请失败，返回码[1990] 请与管理员联系</prop>
+				<prop key="-1991">撤销仓单出库申请失败，返回码[1991] 请与管理员联系</prop>
+
+				<prop key="-2030">录入冻结仓单失败 返回码[2030] 请与管理员联系</prop>
+				<prop key="-2031">录入冻结仓单失败 返回码[2031] 请与管理员联系</prop>
+
+				<prop key="-2101">冻结仓单出库失败，传入仓单集合为空</prop>
+				<prop key="-2102">冻结仓单出库失败，欲出库数量错误</prop>
+				<prop key="-2103">冻结仓单出库失败，仓单%s不是冻结仓单</prop>
+				<prop key="-2104">冻结仓单出库失败，仓单%s不存在</prop>
+				<prop key="-2105">冻结仓单出库失败，仓单%s不是注册仓单</prop>
+				<prop key="-2106">冻结仓单出库失败，传入仓单的总数量%s小于欲出库数量%s</prop>
+				<prop key="-2130">冻结仓单出库失败 返回码[2130] 请与管理员联系</prop>
+				<prop key="-2131">冻结仓单出库失败 返回码[2131] 请与管理员联系</prop>
+			</props>
+		</constructor-arg>
+	</bean>
+	<!-- 系统配置项结束 -->
+
+</beans>

@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<!-- begin task -->
+	<bean name="quartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="cronTrigger"/>
+				<ref bean="moveHistoryCronTrigger"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="task"/>	
+		<!--every day 08:00:00 execute once(0 0 8 * * ?), format: second minute hour date month weekday year(optional)-->
+		<property name="cronExpression" value="0 0 8 * * ?"/>
+	</bean>
+
+	<!-- call timer method -->
+	<bean id="task" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="server"/>
+		<property name="targetMethod" value="task"/>
+	</bean>	
+	
+	<bean id="moveHistoryCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="moveHistory"/>	
+		<!--every day 23:00:00 execute once(0 0 23 * * ?), format: second minute hour date month weekday year(optional)-->
+		<property name="cronExpression" value="0 0 23 * * ?"/>
+	</bean>
+
+	<!-- call timer method -->
+	<bean id="moveHistory" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="server"/>
+		<property name="targetMethod" value="moveHistory"/>
+	</bean>	
+	<!-- end task -->
+</beans>

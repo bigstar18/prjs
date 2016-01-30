@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	<!-- 仓单系统核心 RMI -->
+	<bean id="billKernelService" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
+		<property name="refreshStubOnConnectFailure">
+			<value>true</value>
+		</property>
+		<property name="lookupStubOnStartup">
+			<value>false</value>
+		</property>
+		<property name="serviceInterface">
+			<value>gnnt.MEBS.bill.core.service.IKernelService</value>
+		</property>
+		<!-- serviceUrl以rmi开头,定义服务器地址与端口和服务名 -->
+		<property name="serviceUrl">
+			<value>rmi://$[bill.rmi.ip]:$[bill.rmi.port]/$[bill.rmi.serviceName]</value>
+		</property>
+	</bean>
+</beans>  

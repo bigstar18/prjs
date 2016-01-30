@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="rmiservice" class="org.springframework.remoting.rmi.RmiServiceExporter">
+		<!-- 实现类 -->
+		<property name="service">
+			<ref bean="wareHouseStockImpl"/>
+		</property>
+		<!-- 定义服务名 -->
+		<property name="serviceName">
+			<value>wareHouseStockService</value>
+		</property>
+		<!-- 接口 -->
+		<property name="serviceInterface">
+			<value>gnnt.MEBS.billWarehoursInterface.kernel.IWareHouseStockServer</value>
+		</property>
+		<!-- 监听端口 -->
+		<property name="registryPort">
+			<value>$[rmi.server.port]</value>
+		</property>
+		<!-- 定义数据传输端口 -->
+		<property name="servicePort">
+			<value>$[rmi.server.dataport]</value>
+		</property>
+	</bean>
+</beans>

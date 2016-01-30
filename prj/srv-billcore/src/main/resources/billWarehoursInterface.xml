@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+	<!-- 系统配置项 -->
+	<bean id="config" class="java.util.Properties">
+		<constructor-arg type="java.util.Properties">
+			<props>
+				<prop key="Test">Test</prop><!--测试-->
+				<prop key="ip">127.0.0.1</prop><!--作为服务端ip地址-->
+				<prop key="port">1235</prop><!--作为服务端端口-->
+			</props>
+		</constructor-arg>
+	</bean>
+	<!-- 系统配置项结束 -->
+
+	<!-- RMI服务实现类配置 -->
+	<bean id="wareHouseStockImpl" class="gnnt.MEBS.billWarehoursInterface.kernel.impl.WareHouseStock">
+		<property name="client" ref="successClient" />	<!-- ref指向  (真实环境:cilent , 测试:successClient) -->
+	</bean>
+	<!-- RMI服务实现类配置结束 -->
+	
+	<!-- 真实环境使用cilent 测试时使用successclient -->
+	<bean id="client" class="gnnt.MEBS.billWarehoursInterface.client.impl.Client">
+		<property name="encrypt" ref="encrypt" />
+	</bean>
+	<bean id="successClient" class="gnnt.MEBS.billWarehoursInterface.client.impl.SuccessClient" />
+	<!-- 真实环境使用cilent 测试时使用successclient -->
+	
+	<bean id="warehoursClient" class="gnnt.MEBS.billWarehoursInterface.client.impl.WarehoursClient">
+		<property name="encrypt" ref="encrypt" />
+	</bean>
+	
+
+	<!-- 处理仓库系统发起业务实现类配置 -->
+	<bean id="invokeCore" class="gnnt.MEBS.billWarehoursInterface.operation.impl.InvokeCoreImpl">
+		<!-- 核心系统仓库部分RMI服务 -->
+		<property name="billKernelService" ref="billKernelService"></property>
+	</bean>
+	<!-- 处理仓库系统发起业务实现类配置结束 -->
+	<!-- 加密 -->
+	<bean name="encrypt" class="gnnt.MEBS.billWarehoursInterface.encrypt.DES3EncryptIMP">
+		<property name="strKey">
+			<value>${encrypt.strKey}</value>
+		</property>
+	</bean>
+	<!-- 加密 -->
+	
+	<!-- 数据库连接池  -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName">
+			<value>${jdbc.driver}</value>
+		</property>
+		<property name="url">
+			<value>${jdbc.url}</value>
+		</property>
+		<property name="username">
+			<value>${jdbc.username}</value>
+		</property>
+		<property name="password">
+			<value>${jdbc.password}</value>
+		</property>
+	</bean>
+	
+	<!-- 配置socket文件中使用占位符 -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="order" value="10"></property>
+		<property name="locations">
+			<list>
+				<value>gnnt.properties</value>
+				<value>jdbc.properties</value>
+			</list>
+		</property>
+	</bean>
+	<!-- 配置socket文件中使用占位符结束 -->
+	
+	<!-- 配置RMI文件中使用占位符 -->
+	<bean class="gnnt.MEBS.util.spring.rmi.CreateRMIPropertiesFileByDB">
+		<property name="order" value="20"></property>
+		<property name="setRMIPropertiesFromDB" value="false"></property>
+		<property name="moduleArr">
+			<list>
+				<value>13</value>
+			</list>
+		</property>
+		<property name="rmiPropertiesName" value="rmi.properties"></property>
+		<property name="dataSource">
+			<idref bean="dataSource"/>
+		</property>
+	</bean>
+	<!-- RMI文件中使用占位符和配置文件 -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="order" value="30"></property>
+		<property name="placeholderPrefix" value="$["></property>
+		<property name="placeholderSuffix" value="]"></property>
+		<property name="locations">
+			<list>
+				<value>rmi.properties</value>
+			</list>
+		</property>
+	</bean>
+</beans>

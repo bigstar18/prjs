@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+	<!--交易服务器主控制类.  destroy-method="close"-->
+	<bean id="server" class="gnnt.MEBS.bill.core.Server">
+	</bean>
+
+	<!--仓单管理-->
+	<bean id="manageStock" class="gnnt.MEBS.bill.core.operation.impl.ManageStock">
+		<!-- 仓库系统接口 -->
+		<property name="wareHouseStockService" ref="wareHouseStockService"/>
+	</bean>
+
+	<!--仓单交易相关-->
+	<bean id="stockTrade" class="gnnt.MEBS.bill.core.operation.impl.StockTrade_Standard"/>
+
+	<bean id="kernelService" class="gnnt.MEBS.bill.core.service.impl.KernelService">
+		<property name="manageStock" ref="manageStock"/>
+	</bean>
+
+	<bean id="tradeService" class="gnnt.MEBS.bill.core.service.impl.TradeService">
+		<property name="stockTrade" ref="stockTrade"/>
+	</bean>
+
+	<bean id="customizedService" class="gnnt.MEBS.bill.core.service.impl.CustomizedService">
+		<property name="customized">
+			<!--定制业务相关-->
+			<bean class="gnnt.MEBS.bill.core.operation.impl.Customized_Standard">
+				<property name="manageStock" ref="manageStock"/>
+				<property name="stockTrade" ref="stockTrade"/>
+			</bean>
+		</property>
+	</bean>
+
+	<!--配置文件中使用占位符-->
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="order" value="10" />
+		<property name="locations">
+			<list>
+				<value>jdbc.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 设置 RMI 信息修改类 -->
+	<bean class="gnnt.MEBS.util.spring.rmi.CreateRMIPropertiesFileByDB">
+		<property name="order" value="20" />
+		<!-- 是否从数据库获取RMI配置 -->
+		<property name="setRMIPropertiesFromDB" value="true" />
+		<!-- 需要获取配置的模块号 -->
+		<property name="moduleArr">
+			<list>
+				<value>13</value>
+				<value>27</value>
+			</list>
+		</property>
+		<!-- rmi属性文件名称 -->
+		<property name="rmiPropertiesName" value="rmi.properties" />
+		<property name="dataSource">
+			<idref bean="dataSource" />
+		</property>
+	</bean>
+	
+	<!-- 设置RMI配置方式 -->
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="order" value="30" />
+		<property name="placeholderPrefix" value="$[" />
+		<property name="placeholderSuffix" value="]" />
+		<property name="locations">
+			<list>
+				<value>rmi.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 数据库连接池  for 交易  -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName">
+			<value>${jdbc.driver}</value>
+		</property>
+		<property name="url">
+			<value>${jdbc.url}</value>
+		</property>
+		<property name="username">
+			<value>${jdbc.username}</value>
+		</property>
+		<property name="password">
+			<value>${jdbc.password}</value>
+		</property>
+		<property name="maxActive">
+			<value>50</value>
+		</property>
+		<property name="maxIdle">
+			<value>30</value>
+		</property>
+		<property name="initialSize">
+			<value>10</value>
+		</property>
+		<property name="maxWait">
+			<value>25000</value>
+		</property>
+	</bean>
+
+	<!-- 事务管理配置 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<!--newExcute方法开头的方法将在新事务中执行-->
+			<tx:method name="newExcute*" propagation="REQUIRES_NEW" />
+			<!--nestedExcute方法开头的方法将在嵌套事务中执行-->
+			<tx:method name="nestedExcute*" propagation="NESTED" />
+			<tx:method name="get*" read-only="true" />
+			<tx:method name="*" propagation="REQUIRED" rollback-for="Exception" />
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:config><!-- proxy-target-class="true"-->
+		<aop:pointcut id="interceptorDAO"
+			expression="execution(* gnnt.MEBS.bill.core.dao..*.*(..))" />
+		<aop:pointcut id="interceptorOperation"
+			expression="execution(* gnnt.MEBS.bill.core.operation..*.*(..))" />
+		<aop:pointcut id="interceptor"
+			expression="execution(* gnnt.MEBS.bill.core.dao..*.*(..)) or execution(* gnnt.MEBS.bill.core.operation..*.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="interceptor" />
+	</aop:config>
+	<!-- 事务管理配置结束 -->
+
+	<!-- DAO配置 -->
+	<bean id="wareHouseStockDAO" class="gnnt.MEBS.bill.core.dao.jdbc.WareHouseStockDAOJdbc">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<!-- 财务结算时调用RMI服务 -->
+	<bean id="balanceRMI" class="gnnt.MEBS.bill.communicate.BalanceRMIImpl"></bean>
+
+	<!-- 系统配置项 -->
+	<bean id="config" class="java.util.Properties">
+		<constructor-arg type="java.util.Properties">
+			<props>
+				<prop key="Test">Test</prop><!--测试-->
+				<prop key="SelfModuleID">13</prop><!-- 本系统模块编号 -->
+				<prop key="BalanceRMIServiceName">balanceRMI</prop><!-- 判断是否可以结算 RMI 服务名称 -->
+				<prop key="HaveWarehouse">0</prop><!--是否有仓库系统 0：没有 1：有，有仓库系统前后台出库处理方法不一样-->
+				<prop key="moveHistory">1</prop><!-- 提前几天的记录转入历史 -->
+			</props>
+		</constructor-arg>
+	</bean>
+	<!-- 系统配置项结束 -->
+</beans>

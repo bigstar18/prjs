@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="base-stock" extends="base-struts2" abstract="true">
+		<interceptors>
+			<interceptor name="tradeRightInterceptor"
+				class="gnnt.MEBS.bill.mgr.action.stockmanage.interceptor.TradeRightInterceptor"></interceptor>
+			<interceptor name="warehouseIdInterceptor"
+				class="gnnt.MEBS.bill.mgr.action.stockmanage.interceptor.WarehouseIdInterceptor"></interceptor>
+		</interceptors>
+	</package>
+	<package name="jsonforstock" extends="json-default" namespace="/stock/addStock/jsonForStock">
+		<!-- 通过分类信息查询品名 -->
+		<action name="getBreedByCategoryID" class="stockAction" method="getBreedByCategoryID">
+			<result name="success" type="json">
+				<param name="root">jsonReturn</param>
+			</result>
+		</action>
+		<!-- 通过品名编号获取品名属性信息 -->
+		<action name="getPropertyValueByBreedID" class="stockAction" method="getPropertyValueByBreedID">
+			<result name="success" type="json">
+				<param name="root">jsonReturn</param>
+			</result>
+		</action>
+		<!-- 通过仓单号查询分类品名属性等信息 -->
+		<action name="getStockJson" class="stockAction" method="getStockJson">
+			<result name="success" type="json">
+				<param name="root">jsonReturn</param>
+			</result>
+		</action>
+		
+	</package>
+	<package name="stockcl" extends="base-stock" namespace="/mgr/app/bill/checkneedless">
+		<!-- 通过品名编号获取品名属性信息 -->
+		<action name="getPropertyValueByBreedID" class="stockAction" method="getPropertyPagValueByBreedID">
+			<param name="entityName">gnnt.MEBS.bill.mgr.model.stockmanage.Stock</param>
+			<result>/mgr/app/bill/stockmanage/stock_propertys.jsp</result>
+		</action>
+	</package>
+	<package name="stock" extends="base-stock" namespace="/stock/list">
+		<!-- 仓单列表-->
+		<action name="stockList" class="stockAction" method="stockListByStatus">
+			<param name="entityName">gnnt.MEBS.bill.mgr.model.stockmanage.Stock</param>
+			<param name="stockStatus">0</param>
+			<result>/mgr/app/bill/stockmanage/stock_list.jsp</result>
+		</action>
+		<!-- 仓单详情-->
+		<action name="stockDetails" class="stockAction" method="getStockDetails">
+			<param name="entityName">gnnt.MEBS.bill.mgr.model.stockmanage.Stock</param>
+			<result>/mgr/app/bill/stockmanage/stock_details.jsp</result>
+		</action>	
+		<!-- 转到录入仓单 -->
+		<action name="addStockForward" class="stockAction" method="addStockForward">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="tradeRightInterceptor"></interceptor-ref>
+			<param name="entityName">gnnt.MEBS.bill.mgr.model.stockmanage.Stock</param>
+			<result>/mgr/app/bill/stockmanage/stock_add.jsp</result>
+		</action>
+		<!-- 录入仓单 -->
+		<action name="addStock" class="stockAction" method="addStock">
+			<param name="entityName">gnnt.MEBS.bill.mgr.model.stockmanage.Stock</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<!-- 注册仓单 -->
+		<action name="registerStock" class="stockAction" method="registerStock">
+			<param name="entityName">gnnt.MEBS.bill.mgr.model.stockmanage.Stock</param>
+			<result>stockList.action</result>
+		</action>
+		<!-- 无仓版仓单出库申请/有仓版仓单出库跳转 -->
+		<action name="forwardStockOut" class="stockAction" method="forwardStockOut">
+			<param name="entityName">gnnt.MEBS.bill.mgr.model.stockmanage.Stock</param>
+			<result>/mgr/app/bill/stockmanage/stock_out.jsp</result>
+		</action>
+		<!-- 有仓版仓单出库/ 无仓版仓单申请  -->
+		<action name="stockOut" class="stockAction" method="stockOutBase">
+			<param name="entityName">gnnt.MEBS.bill.mgr.model.stockmanage.Stock</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>	
+		<!-- 拆单跳转 -->
+		<action name="forwardDismantleStock" class="stockAction" method="viewById">
+			<param name="entityName">gnnt.MEBS.bill.mgr.model.stockmanage.Stock</param>
+			<result>/mgr/app/bill/stockmanage/stock_dismantlestock.jsp</result>
+		</action>
+		<!-- 拆单操作 -->
+		<action name="dismantleStock" class="stockAction" method="dismantleStock">
+			<param name="entityName">gnnt.MEBS.bill.mgr.model.stockmanage.Stock</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+	</package>
+	<package name="registerStock" extends="base-stock" namespace="/stock/registerlist">
+		<!-- 注册仓单列表 -->
+		<action name="stockList" class="stockAction" method="stockListByStatus">
+			<param name="entityName">gnnt.MEBS.bill.mgr.model.stockmanage.Stock</param>
+			<param name="stockStatus">1</param>
+			<result>/mgr/app/bill/stockmanage/stock_registerlist.jsp</result>
+		</action>
+		<!-- 注销注册仓单 -->
+		<action name="logoutStock" class="stockAction" method="logoutStock">
+			<param name="entityName">gnnt.MEBS.bill.mgr.model.stockmanage.Stock</param>
+			<result>stockList.action</result>
+		</action>
+	</package>
+	<package name="exitStock" extends="base-stock" namespace="/stock/exitlist">
+		<!-- 出库仓单申请列表 -->
+		<action name="stockOutApplyList" class="stockAction" method="stockListByStatus">
+			<param name="entityName">gnnt.MEBS.bill.mgr.model.stockmanage.Stock</param>
+			<param name="stockStatus">5</param>
+			<result>/mgr/app/bill/stockmanage/stock_exitapply_list.jsp</result>
+		</action>
+		
+		<!-- 出库申请仓单信息修改  -->
+		<action name="stockOutUpdate" class="stockAction" method="stockOutApplyUpdate">
+			<param name="entityName">gnnt.MEBS.bill.mgr.model.stockmanage.Stock</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		
+		
+		<!-- 仓单出库跳转 -->
+		<action name="stockOutForward" class="stockAction" method="stockOutForward">
+			<param name="entityName">gnnt.MEBS.bill.mgr.model.stockmanage.Stock</param>
+			<result>/mgr/app/bill/stockmanage/stock_exitout.jsp</result>
+		</action> 
+		<!-- 仓单出库操作-->
+		<action name="stockOutReal" class="stockAction" method="stockOutReal">
+			<param name="entityName">gnnt.MEBS.bill.mgr.model.stockmanage.Stock</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<!-- 撤销仓单出库申请 -->
+		<action name="stockOutCancel" class="stockAction" method="stockOutCancel">
+			<param name="entityName">gnnt.MEBS.bill.mgr.model.stockmanage.Stock</param>
+			<result>stockOutApplyList.action</result>
+		</action>
+		<!-- 出库仓单列表列表   -->
+		<action name="stockList" class="stockAction" method="stockListByStatus">
+			<param name="entityName">gnnt.MEBS.bill.mgr.model.stockmanage.Stock</param>
+			<param name="stockStatus">2</param>
+			<result>/mgr/app/bill/stockmanage/stock_exitlist.jsp</result>
+		</action>
+
+		<!-- 出库仓单列表 By HXX 20150721 -->
+		<action name="stockListHxx" class="stockAction" method="stockListByHxx">
+			<param name="entityName">gnnt.MEBS.bill.mgr.model.stockmanage.StockList</param>
+			<param name="stockStatus">2</param>
+			<result>/mgr/app/bill/stockmanage/stock_exitlist.jsp</result>
+		</action>
+	 
+	 
+		<!-- 出库仓单确认收货 -->
+		<action name="stockConfirm" class="stockAction" method="stockConfirm">
+			<param name="entityName">gnnt.MEBS.bill.mgr.model.stockmanage.StockList</param>
+			<result>stockListHxx.action?sortColumns=order+by+stockId</result>
+		</action>
+	</package>
+	<package name="dismantleAllStock" extends="base-stock" namespace="/stock/dismantlelist">
+	<!-- 已拆仓单列表 -->
+		<action name="stockDismantleList" class="stockAction" method="dismantleListByStatus">
+			<param name="entityName">gnnt.MEBS.bill.mgr.model.stockmanage.Dismantle</param>
+			<param name="stockStatus">3</param>
+			<result>/mgr/app/bill/stockmanage/stock_dismantlelist.jsp</result>
+		</action>
+		<!-- 仓单详情-->
+		<action name="dismantleDetails" class="stockAction" method="getDismantleDetails">
+			<param name="entityName">gnnt.MEBS.bill.mgr.model.stockmanage.Dismantle</param>
+			<result>/mgr/app/bill/stockmanage/dismantle_details.jsp</result>
+		</action>
+		<!-- 转到录入仓单 -->
+	</package>
+	<!-- 仓单业务 -->
+	<package name="settlement" extends="base-stock" namespace="/stockoperation/settlement">
+		<!-- 交收仓单 -->
+		<action name="list" class="stockAction" method="getTradeStock">
+		<param name="entityName">gnnt.MEBS.bill.mgr.model.stockmanage.TradeStock</param>
+			<param name="operation">settlement</param>
+			<result>/mgr/app/bill/stockoperation/tradestock_list.jsp</result>
+		</action>
+		<!-- 仓单详情-->
+		<action name="stockDetails" class="stockAction" method="getTradeStockDetail">
+			<param name="entityName">gnnt.MEBS.bill.mgr.model.stockmanage.TradeStock</param>
+			<result>/mgr/app/bill/stockoperation/tradestock_details.jsp</result>
+		</action>
+	</package>
+	<package name="frozen" extends="base-stock" namespace="/stockoperation/frozen">
+		<!-- 冻结仓单 -->
+		<action name="list" class="stockAction" method="getTradeStock">
+			<param name="entityName">gnnt.MEBS.bill.mgr.model.stockmanage.FrozenStock</param>
+			<param name="operation">frozen</param>
+			<result>/mgr/app/bill/stockoperation/frozenstock_list.jsp</result>
+		</action>
+		<!-- 仓单详情 -->
+		<action name="stockDetails" class="stockAction" method="getTradeStockDetail">
+			<param name="entityName">gnnt.MEBS.bill.mgr.model.stockmanage.FrozenStock</param>
+			<result>/mgr/app/bill/stockoperation/frozenstock_details.jsp</result>
+		</action>
+	</package>	
+	<package name="financing" extends="base-stock" namespace="/stockoperation/financing">
+		<!-- 融资仓单 -->
+		<action name="list" class="stockAction" method="stockOperationByOperation">
+		<param name="entityName">gnnt.MEBS.bill.mgr.model.stockmanage.StockOperation</param>
+			<param name="operationId">1</param>
+			<param name="operation">financing</param>
+			<result>/mgr/app/bill/stockoperation/stockoperation_list.jsp</result>
+		</action>
+		<!-- 仓单详情-->
+		<action name="stockDetails" class="stockAction" method="queryStockList">
+			<param name="entityName">gnnt.MEBS.bill.mgr.model.stockmanage.StockOperation</param>
+			<result>/mgr/app/bill/stockoperation/stockoperation_details.jsp</result>
+		</action>
+	</package>
+	<package name="sell" extends="base-stock" namespace="/stockoperation/sell">
+		<!-- 卖仓单 -->
+		<action name="list" class="stockAction" method="getTradeStock">
+		<param name="entityName">gnnt.MEBS.bill.mgr.model.stockmanage.PledgeStock</param>
+			<param name="operationId">2</param>
+			<param name="operation">sell</param>
+			<result>/mgr/app/bill/stockoperation/sellstock_list.jsp</result>
+		</action>
+		<!-- 仓单详情-->
+		<action name="stockDetails" class="stockAction" method="getTradeStockDetail">
+			<param name="entityName">gnnt.MEBS.bill.mgr.model.stockmanage.PledgeStock</param>
+			<result>/mgr/app/bill/stockoperation/sellstock_details.jsp</result>
+		</action>
+	</package>
+	<package name="apart" extends="base-stock" namespace="/stockoperation/apart">
+		<!-- 拆仓单处理 -->
+		<action name="list" class="stockAction" method="stockOperationByOperation">
+			<param name="entityName">gnnt.MEBS.bill.mgr.model.stockmanage.StockOperation</param>
+			<param name="operationId">0</param>
+			<param name="operation">apart</param>
+			<result>/mgr/app/bill/stockoperation/stockdispose_list.jsp</result>
+		</action>
+		<!-- 仓单详情-->
+		<action name="stockDetails" class="stockAction" method="queryStockList">
+			<param name="entityName">gnnt.MEBS.bill.mgr.model.stockmanage.StockOperation</param>
+			<result>/mgr/app/bill/stockoperation/stockoperation_details.jsp</result>
+		</action>
+		<!-- 拆仓单跳转页面-->
+		<action name="updateStockDispose" class="stockAction" method="queryDisposeList">
+			<param name="entityName">gnnt.MEBS.bill.mgr.model.stockmanage.Dismantle</param>
+			<result>/mgr/app/bill/stockoperation/stockdispose.jsp</result>
+		</action>
+		<!-- 拆仓成功处理方法-->
+		<action name="updateDisposeSuccess" class="stockAction" method="disposeSuccess">
+			<param name="entityName">gnnt.MEBS.bill.mgr.model.stockmanage.Dismantle</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<!-- 拆仓单失败处理方法-->
+		<action name="updateDisposeFail" class="stockAction" method="disposeFail">
+			<param name="entityName">gnnt.MEBS.bill.mgr.model.stockmanage.Dismantle</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+	</package>
+	
+	<package name="warehouse" extends="base-stock" namespace="/stock/warehouse">
+		<!-- 仓库查询 -->
+		<action name="list" class="stockAction" method="warehouseList">
+			<param name="entityName">gnnt.MEBS.bill.mgr.model.stockmanage.Warehouse</param>
+			<result>/mgr/app/bill/warehouse/warehouselist.jsp</result>
+		</action>
+		<!-- 仓库添加跳转 -->
+		<action name="addForward" class="stockAction" method="addWarehouseForward">
+			<param name="entityName">gnnt.MEBS.bill.mgr.model.stockmanage.Warehouse</param>
+			<result>/mgr/app/bill/warehouse/warehouseadd.jsp</result>
+		</action>
+		<!-- 仓库添加操作 -->
+		<action name="add" class="stockAction" method="addWarehouse">
+			<param name="entityName">gnnt.MEBS.bill.mgr.model.stockmanage.Warehouse</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<!-- 仓库修改跳转 -->
+		<action name="forwardUpdate" class="com_ecsideAction" method="viewById">
+			<param name="entityName">gnnt.MEBS.bill.mgr.model.stockmanage.Warehouse</param>
+			<result>/mgr/app/bill/warehouse/warehouseupdate.jsp</result>
+		</action>
+		<!-- 仓库修改操作 -->
+		<action name="update" class="com_ecsideAction" method="update">
+			<param name="entityName">gnnt.MEBS.bill.mgr.model.stockmanage.Warehouse</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<!-- 仓库删除操作 -->
+		<action name="delete" class="stockAction" method="deleteWareHouse">
+			<param name="entityName">gnnt.MEBS.bill.mgr.model.stockmanage.Warehouse</param>
+			<result>list.action</result>
+		</action>
+	</package>
+	
+	
+	<package name="stockLog" extends="base-stock" namespace="/stock/log">
+		<!-- 仓单日志查询 -->
+		<action name="list" class="stockAction" method="stockLogList">
+			<param name="entityName">gnnt.MEBS.common.mgr.model.OperateLog</param>
+			<result>/mgr/app/bill/stocklog/stocklist_log.jsp</result>
+		</action>
+	</package>
+
+	<!-- 仓库超级管理员操作 -->
+	<package name="warehouseUser" extends="base-stock" namespace="/stock/warehouseUser">
+		<!-- 转向添加仓库超级管理员界面 -->
+		<action name="addForward" class="userAction" method="addForward">
+			<param name="entityName">gnnt.MEBS.bill.mgr.model.warehouse.Wuser</param>
+			<result>/mgr/app/bill/warehouse/adduser.jsp</result>
+		</action>
+		<!-- 添加仓库超级管理员 -->
+		<action name="add" class="userAction" method="addUser">
+			<param name="entityName">gnnt.MEBS.bill.mgr.model.warehouse.Wuser</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+
+		<!-- 修改仓库超级管理员密码跳转 -->
+		<action name="updateForwardPassword" class="userAction" method="viewById">
+			<param name="entityName">gnnt.MEBS.bill.mgr.model.warehouse.Wuser</param>
+			<result>/mgr/app/bill/warehouse/modpassword.jsp</result>
+		</action>
+		<!-- 修改仓库超级管理员密码 -->
+		<action name="updatePassword" class="userAction" method="updatePassword">
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+	</package>
+
+	<package name="warehouseLog" extends="base-struts2" namespace="/warehouse/log">
+		<!--仓库登录日志查询 -->
+		<action name="logonList" class="stockAction" method="warehouseLogList">
+			<param name="logType">logon</param>
+			<result>/mgr/app/bill/stocklog/warehouse_operatelog_list.jsp</result>
+		</action>
+		<!--仓库操作日志查询 -->
+		<action name="operList" class="stockAction" method="warehouseLogList">
+			<param name="logType">oper</param>
+			<result>/mgr/app/bill/stocklog/warehouse_operatelog_list.jsp</result>
+		</action>
+	</package>
+
+</struts>

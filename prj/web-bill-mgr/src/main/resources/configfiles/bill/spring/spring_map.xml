@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<!-- 仓单状态 -->
+	<util:map id="stockStatusMap" map-class="java.util.HashMap"
+		key-type="java.lang.Integer" value-type="java.lang.String">
+		<entry key="0" value="未注册仓单"></entry>
+		<entry key="1" value="注册仓单"></entry>
+		<entry key="2" value="已出库仓单"></entry>
+		<entry key="3" value="已拆仓单"></entry>
+		<entry key="4" value="拆单处理中"></entry>
+	</util:map>
+	<!-- 仓单业务状态 -->
+	<util:map id="stockOperationStatusMap" map-class="java.util.HashMap"
+		key-type="java.lang.Integer" value-type="java.lang.String">
+		<entry key="0" value="未使用仓单"></entry>
+		<entry key="1" value="融资仓单"></entry>
+		<entry key="2" value="卖仓单"></entry>
+		<entry key="3" value="交收仓单"></entry>
+		<entry key="4" value="冻结仓单"></entry>
+	</util:map>
+	<!-- 仓单日志业务类型 -->
+	<util:map id="stockLogOperationMap" map-class="java.util.HashMap"
+		key-type="java.lang.Integer" value-type="java.lang.String">
+		<entry key="1" value="注册"></entry>
+		<entry key="2" value="解除注册"></entry>
+		<entry key="3" value="出库"></entry>
+		<entry key="4" value="参与交易"></entry>
+		<entry key="5" value="拆单"></entry>
+		<entry key="6" value="融资"></entry>
+	</util:map>
+	<!-- 仓库状态 -->
+	<util:map id="warehouseStatusMap" map-class="java.util.HashMap"
+		key-type="java.lang.Integer" value-type="java.lang.String">
+		<entry key="0" value="可用"></entry>
+		<entry key="1" value="不可用"></entry>
+	</util:map>
+
+</beans>

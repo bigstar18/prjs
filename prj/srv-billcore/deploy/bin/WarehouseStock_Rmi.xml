@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<!-- 调用RMI配置 -->
+	<bean id="wareHouseStockService" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
+		<property name="refreshStubOnConnectFailure">
+			<value>true</value>
+		</property>
+		<property name="lookupStubOnStartup">
+			<value>false</value>
+		</property>
+		<property name="serviceInterface">
+			<value>gnnt.MEBS.billWarehoursInterface.kernel.IWareHouseStockServer</value>
+		</property>
+		<!-- serviceUrl以rmi开头,定义服务器地址与端口和服务名 -->
+		<property name="serviceUrl">
+			<value>rmi://$[billWarehoursInterface.rmi.ip]:$[billWarehoursInterface.rmi.port]/$[billWarehoursInterface.rmi.servername]</value>
+		</property>
+	</bean>
+</beans>

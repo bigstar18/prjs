@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="GBK"?>
+<Context>
+  <Loader className="org.apache.catalina.loader.VirtualWebappLoader" virtualClasspath="../gnntcontextlib/*.jar"/>
+  <ResourceLink name="mgr" global="mgr" type="javax.sql.DataSource"/>
+   <ResourceParams name="mgr">
+    <parameter>
+      <name>removeAbandoned</name>
+      <value>true</value>
+    </parameter>
+    <parameter>
+      <name>removeAbandonedTimeout</name>
+      <value>60</value>
+    </parameter>
+    <parameter>
+      <name>logAbandoned</name>
+      <value>true</value>
+    </parameter>
+  </ResourceParams>
+
+  <ResourceLink name="mgrForQuery" global="mgrForQuery" type="javax.sql.DataSource"/>
+  <ResourceParams name="mgrForQuery">
+    <parameter>
+      <name>removeAbandoned</name>
+      <value>true</value>
+    </parameter>
+    <parameter>
+      <name>removeAbandonedTimeout</name>
+      <value>60</value>
+    </parameter>
+    <parameter>
+      <name>logAbandoned</name>
+      <value>true</value>
+    </parameter>
+  </ResourceParams>
+</Context>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="kernelRMIService" class="org.springframework.remoting.rmi.RmiServiceExporter">
+		<property name="service">
+			<ref bean="kernelService" />
+		</property>
+		<!-- 定义服务名 -->
+		<property name="serviceName">
+			<value>kernelService</value>
+		</property>
+		<property name="serviceInterface">
+			<value>gnnt.MEBS.bill.core.service.IKernelService</value>
+		</property>
+		<property name="registryPort">
+			<value>$[bill.rmi.port]</value>
+		</property>
+		<!-- 定义数据传输端口 -->
+		<property name="servicePort">
+			<value>$[bill.rmi.dataport]</value>
+		</property>
+	</bean>
+	<bean id="tradeRMIService" class="org.springframework.remoting.rmi.RmiServiceExporter">
+		<property name="service">
+			<ref bean="tradeService" />
+		</property>
+		<!-- 定义服务名 -->
+		<property name="serviceName">
+			<value>tradeService</value>
+		</property>
+		<property name="serviceInterface">
+			<value>gnnt.MEBS.bill.core.service.ITradeService</value>
+		</property>
+		<property name="registryPort">
+			<value>$[bill.rmi.port]</value>
+		</property>
+		<!-- 定义数据传输端口 -->
+		<property name="servicePort">
+			<value>$[bill.rmi.dataport]</value>
+		</property>
+	</bean>
+	<bean id="customizedRMIService" class="org.springframework.remoting.rmi.RmiServiceExporter">
+		<property name="service">
+			<ref bean="customizedService" />
+		</property>
+		<!-- 定义服务名 -->
+		<property name="serviceName">
+			<value>customizedService</value>
+		</property>
+		<property name="serviceInterface">
+			<value>gnnt.MEBS.bill.core.service.ICustomizedService</value>
+		</property>
+		<property name="registryPort">
+			<value>$[bill.rmi.port]</value>
+		</property>
+		<!-- 定义数据传输端口 -->
+		<property name="servicePort">
+			<value>$[bill.rmi.dataport]</value>
+		</property>
+	</bean>
+</beans>
