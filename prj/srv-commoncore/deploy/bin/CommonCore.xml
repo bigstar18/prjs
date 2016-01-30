@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+	<!--交易服务器主控制类.  destroy-method="close"-->
+	<bean id="server" class="gnnt.MEBS.common.core.Server">
+	</bean>
+	
+		<!--核心服务-->
+	<bean id="kernelService" class="gnnt.MEBS.common.core.kernel.impl.KernelService">
+	</bean>
+
+	<!--  后台消息订阅发送对象-->
+	<bean id="mgrProducerTopic" class="gnnt.MEBS.common.core.jms.ProducerToolSendTopic">
+		<constructor-arg index="0" value="${jms.mgr.topic}"></constructor-arg>
+	</bean>
+
+	<!-- 前台消息订阅发送对象 -->
+	<bean id="frontProducerTopic" class="gnnt.MEBS.common.core.jms.ProducerToolSendTopic">
+		<constructor-arg index="0" value="${jms.front.topic}"></constructor-arg>
+	</bean>
+
+	<!-- 点对点消息发送对象 -->
+	<bean id="producerQueue" class="gnnt.MEBS.common.core.jms.ProducerToolSendQueue">
+	</bean>
+
+	<!--配置文件中使用占位符-->
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="order" value="10" />
+		<property name="locations">
+			<list>
+				<value>jdbc.properties</value>
+				<value>jms.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 设置 RMI 信息修改类 -->
+	<bean class="gnnt.MEBS.util.spring.rmi.CreateRMIPropertiesFileByDB">
+		<property name="order" value="20" />
+		<!-- 是否从数据库获取RMI配置 -->
+		<property name="setRMIPropertiesFromDB" value="true" />
+		<!-- 需要获取配置的模块号 -->
+		<property name="moduleArr">
+			<list>
+				<value>99</value>
+			</list>
+		</property>
+		<!-- rmi属性文件名称 -->
+		<property name="rmiPropertiesName" value="rmi.properties" />
+		<property name="dataSource">
+			<idref bean="dataSource" />
+		</property>
+	</bean>
+	
+	<!-- 设置RMI配置方式 -->
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="order" value="30" />
+		<property name="placeholderPrefix" value="$[" />
+		<property name="placeholderSuffix" value="]" />
+		<property name="locations">
+			<list>
+				<value>rmi.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 数据库连接池  for 交易  -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName">
+			<value>${jdbc.driver}</value>
+		</property>
+		<property name="url">
+			<value>${jdbc.url}</value>
+		</property>
+		<property name="username">
+			<value>${jdbc.username}</value>
+		</property>
+		<property name="password">
+			<value>${jdbc.password}</value>
+		</property>
+		<property name="maxActive">
+			<value>15</value>
+		</property>
+		<property name="maxIdle">
+			<value>10</value>
+		</property>
+		<property name="initialSize">
+			<value>2</value>
+		</property>
+		<property name="maxWait">
+			<value>25000</value>
+		</property>
+	</bean>
+
+	<!-- 事务管理配置 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<!--newExcute方法开头的方法将在新事务中执行-->
+			<tx:method name="newExcute*" propagation="REQUIRES_NEW" />
+			<!--nestedExcute方法开头的方法将在嵌套事务中执行-->
+			<tx:method name="nestedExcute*" propagation="NESTED" />
+			<tx:method name="get*" read-only="true" />
+			<tx:method name="*" propagation="REQUIRED" rollback-for="Exception" />
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:config><!-- proxy-target-class="true"-->
+		<aop:pointcut id="interceptorDAO"
+			expression="execution(* gnnt.MEBS.common.core.dao..*.*(..))" />
+		<aop:pointcut id="interceptorOperation"
+			expression="execution(* gnnt.MEBS.common.core.operation..*.*(..))" />
+		<aop:pointcut id="interceptor"
+			expression="execution(* gnnt.MEBS.common.core.dao..*.*(..)) or execution(* gnnt.MEBS.common.core.operation..*.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="interceptor" />
+	</aop:config>
+	<!-- 事务管理配置结束 -->
+
+	<!-- DAO配置 -->
+	<bean id="sysSchedulerDAO" class="gnnt.MEBS.common.core.dao.jdbc.SysSchedulerDAOJdbc">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<!-- DAO配置结束 -->
+	<!-- 系统调度实现类 -->
+	<bean id="sysScheduler" class="gnnt.MEBS.common.core.sysscheduler.impl.SysSchedulerImpl">
+		<property name="sysSchedulerDAO" ref="sysSchedulerDAO" />
+	</bean>
+
+	<!-- 用于财务系统调用来判断是否需要结算判断的 RMI 实现类 -->
+	<bean id="balanceRMI" class="gnnt.MEBS.common.communicate.BalanceRMIImpl"/>
+
+	<!-- 系统配置项 -->
+	<bean id="config" class="java.util.Properties">
+		<constructor-arg type="java.util.Properties">
+			<props>
+				<prop key="Test">Test</prop><!--测试-->
+				<prop key="SelfModuleID">99</prop><!-- 本系统模块编号 -->
+				<prop key="BalanceRMIServiceName">balanceRMI</prop><!-- 判断是否可以结算 RMI 服务名称 -->
+			</props>
+		</constructor-arg>
+	</bean>
+	<!-- 系统配置项结束 -->
+</beans>

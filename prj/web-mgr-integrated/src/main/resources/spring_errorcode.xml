@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+	<!-- 
+		公用系统错误码定义方式：一位模块号+五位数字
+			公用系统错误码第一位模块号：1
+			五位数字设定方式：
+				第一位设定为成功失败的标志：1 成功、2 警告、3 失败
+				第二、三位设定为区分不同的交易使用(99 表示公用部分信息)
+				第四、五位为交易的错误码区分位，预计每个交易有 100 个错误码足够了
+	 -->
+	<bean id="errorCode" class="java.util.Properties">
+		<constructor-arg type="java.util.Properties">
+			<props>
+				<prop key="999999">%s</prop>
+				<prop key="999998">出现未知错误，请联系管理员</prop>
+<!-- 公用部分信息设定为 99 -->
+				<prop key="119901">添加成功</prop>
+				<prop key="119902">修改成功</prop>
+				<prop key="119903">删除成功</prop>
+				<prop key="119904">添加数据成功，等待审核</prop>
+				<prop key="119905">更新数据成功，等待审核</prop>
+				<prop key="119906">删除数据成功，等待审核</prop>
+				
+				<prop key="119907">交易不成功[%s]!</prop>
+				<prop key="119908">您的%s未成功，请稍后重试!</prop>
+				<prop key="119909">交易提示[%s]!</prop>
+				
+				<prop key="139904">管理后台启动异常，请联系管理人员</prop>
+
+<!-- 菜单管理信息设定为 10 -->
+				<prop key="111001">设置我的菜单成功</prop>
+				<prop key="131001">设置我的菜单失败，我的菜单最多不能多于%s个</prop>
+
+<!-- 用户登录设定为 12 -->
+				<prop key="111201">管理员登录成功</prop>
+				<prop key="131201">验证码为空，请重新登录</prop>
+				<prop key="131202">验证码错误，请重新登录</prop>
+				<prop key="131203">用户名或密码错误，请重新登录</prop>
+				<prop key="131204">key盘身份验证失败，请确认</prop>
+				<prop key="131205">用户被禁用，请联系系统管理员</prop>
+				<prop key="131206">系统返回未知错误，错误码%s，请联系系统管理员</prop>
+
+<!-- 修改登录密码定为 13 -->
+				<prop key="111301">修改密码成功</prop>
+				<prop key="111302">修改管理员%s密码成功</prop>
+				<prop key="111303">修改风格成功</prop>
+				<prop key="131301">修改密码失败，新密码与原密码一致</prop>
+				<prop key="131302">修改密码失败，旧密码错误</prop>
+
+<!-- 以上为 公用信息，其他项目也会有涉及  -->
+
+<!-- 交易商添加设定为 01 -->
+				<prop key="110101">添加交易商%s成功</prop>
+				<prop key="110102">交易商申请%s已经审核</prop>
+				<prop key="110103">添加交易商成功，分配交易商代码为%s</prop>
+				<prop key="130101">添加交易商%s失败</prop>
+				<prop key="130102">交易商申请%s审核通过，分配交易商代码为%s添加失败</prop>
+				<prop key="130103">交易商申请%s审核通过，分配交易商代码为%s添加失败,交易商代码%s长度应小于等于%s</prop>
+				<prop key="130104">交易商代码%s的长度应小于等于%s</prop>
+
+<!-- 修改交易商信息设定为 02 -->
+				<prop key="110201">修改交易商%s信息成功</prop>
+
+<!-- 注销交易商设定为 03 -->
+				<prop key="110301">注销交易商%s成功</prop>
+				<prop key="130301">注销交易商%s失败，交易商状态不正确</prop>
+				<prop key="130302">注销交易商%s失败，交易商资金不为0</prop>
+				<prop key="130303">注销交易商%s失败，持仓不为0</prop>
+				<prop key="130304">注销交易商%s失败，交易商不存在</prop>
+				<prop key="130305">注销交易商%s失败，交易商资金不足</prop>
+				<prop key="130306">注销交易商%s失败，其他错误，错误码%s</prop>
+				<prop key="130307">注销交易商%s失败，请与管理员联系。</prop>
+				<prop key="130308">注销交易商%s失败，原因%s</prop>
+
+<!-- 冻结交易商设定为 04 -->
+				<prop key="110401">冻结交易商%s成功</prop>
+				<prop key="110402">冻结交易商%s成功，但下线交易员%s失败</prop>
+				<prop key="130401">冻结交易商%s失败，交易商状态不正确</prop>
+				<prop key="130402">冻结交易商%s失败，交易商资金不为0</prop>
+				<prop key="130403">冻结交易商%s失败，持仓不为0</prop>
+				<prop key="130404">冻结交易商%s失败，交易商不存在</prop>
+				<prop key="130405">冻结交易商%s失败，交易商资金不足</prop>
+				<prop key="130406">冻结交易商%s失败，其他错误，错误码%s</prop>
+
+<!-- 解冻交易商设定为 05 -->
+				<prop key="110501">解冻交易商%s成功</prop>
+				<prop key="130501">解冻交易商%s失败，交易商状态不正确</prop>
+				<prop key="130502">解冻交易商%s失败，交易商资金不为0</prop>
+				<prop key="130503">解冻交易商%s失败，持仓不为0</prop>
+				<prop key="130504">解冻交易商%s失败，交易商不存在</prop>
+				<prop key="130505">解冻交易商%s失败，交易商资金不足</prop>
+				<prop key="130506">解冻交易商%s失败，其他错误，错误码%s</prop>
+
+<!-- 删除前台登陆失败记录信息设定为 06 -->
+				<prop key="110601">删除前台登陆失败记录信息%s成功</prop>
+				<prop key="110602">清空前台登陆失败记录信息成功</prop>
+				<prop key="110603">交易商%s解锁成功</prop>
+				<prop key="110604">交易商全部解锁成功</prop>
+
+<!-- 拒绝交易商申请设定为 07 -->
+				<prop key="110701">拒绝交易商申请%s成功</prop>
+				<prop key="110702">交易商申请%s已处理</prop>
+
+<!-- 操作交易员信息设定为 08 -->
+				<prop key="110801">修改交易员%s密码成功</prop>
+				<prop key="110802">禁止交易员%s操作成功</prop>
+				<prop key="110803">恢复交易员%s操作成功</prop>
+				<prop key="110804">强制交易员%s下线成功</prop>
+				<prop key="110805">强制交易员%s下线成功,%s下线失败</prop>
+				<prop key="130801">禁止交易员%s操作失败</prop>
+				<prop key="130802">恢复交易员%s操作失败</prop>
+				<prop key="130803">查询在线交易员失败，前台服务未启动</prop>
+				<prop key="130804">强制交易员%s下线失败</prop>
+				<prop key="130805">没有在线交易员</prop>
+
+<!-- 申请审核的信息设定为 09 -->
+				<prop key="110901">驳回申请%s成功</prop>
+				<prop key="110902">撤销申请%s成功</prop>
+				<prop key="110903">审核通过申请%s成功</prop>
+				<prop key="130901">驳回申请失败，申请号为空</prop>
+				<prop key="130902">驳回申请失败，传入的申请代码%s不正确</prop>
+				<prop key="130903">撤销申请失败，申请号为空</prop>
+				<prop key="130904">撤销申请失败，传入的申请代码%s不正确</prop>
+				<prop key="130905">审核通过申请失败，申请号为空</prop>
+				<prop key="130906">审核通过申请失败，传入的申请代码%s不正确</prop>
+
+<!-- 权限管理设定为 11  -->
+				<prop key="111101">保存管理员%s权限成功</prop>
+				<prop key="111102">保存角色%s权限成功</prop>
+				
+				<prop key="131101">保存管理员权限失败，管理员代码为空</prop>
+				<prop key="131102">保存管理员权限失败，管理员%s不存在</prop>
+				<prop key="131103">保存角色权限失败，角色代码为空</prop>
+				<prop key="131104">保存角色权限失败，角色%s不存在</prop>
+
+<!-- 后台管理员管理定为 14 -->
+				<prop key="111401">添加管理员%s成功</prop>
+				<prop key="111402">修改管理员%s成功</prop>
+				<prop key="111403">设置管理员%s关联角色成功</prop>
+				<prop key="111404">管理员%s强制下线成功</prop>
+				
+				<prop key="131401">管理员%s强制下线失败</prop>
+				<prop key="131402">管理员%s强制下线失败；%s强制下线成功</prop>
+			
+<!-- 操作代为交易员信息设定为15 -->
+                <prop key="111501">修改代为交易员%s密码成功</prop>
+                <prop key="111502">添加代为交易员%s成功</prop>	
+                <prop key="111503">删除代为交易员%s成功</prop>	
+                
+<!-- 商品管理操作信息的设定为 16-->
+				<prop key="111600">上一级分类下有品名，请删除品名后再操作！</prop>
+				<prop key="111601">此分类下有子分类，不能删除！</prop>
+				<prop key="111602">此分类下有品名，请删除品名后再操作！</prop>
+				<prop key="111603">此分类属性被占用，不能删除！</prop>
+				<prop key="111604">此品名被占用，不能删除！</prop>
+				<prop key="111605">分类超出上一级分类的所属模块的范围，请确认后操作</prop>
+				<prop key="111606">品名超出分类的所属模块的范围，请确认后操作</prop>		
+				<prop key="111607">修改品名提示[%s]!</prop>	
+				<prop key="111608">上一级分类下有品名，请删除品名后再操作！</prop>	
+				<prop key="111609">删除成功</prop>
+				
+<!-- 商品管理操作信息的设定为 16-->
+				<prop key="140001">获取图片失败！</prop>
+				<prop key="140002">图片下载已完成！</prop>
+
+				
+				<prop key="101003">删除%s成功</prop>
+			</props>
+		</constructor-arg>
+	</bean>
+	<!-- 系统配置项结束 -->
+
+</beans>

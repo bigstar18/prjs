@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- 关于交易员的操作-->
+	<package name="mgrcom_trader" extends="base-struts2" namespace="/trade/trader">
+
+		<!-- 交易员列表 -->
+		<action name="list" class="traderAction" method="listByLimit">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.usermanage.Trader</param>
+			<result>/mgr/app/integrated/trader/traderlist.jsp</result>
+		</action>
+
+		<!-- 跳转到交易员添加页面 -->
+		<action name="addTraderForward" class="traderAction" method="addTraderForward">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.usermanage.Trader</param>
+			<result>/mgr/app/integrated/trader/addtrader.jsp</result>
+		</action>
+
+		<!-- 添加交易员 -->
+		<action name="addTrader" class="traderAction" method="addTrader">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.usermanage.Trader</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+
+		<!-- 转向更新交易员信息页面 -->
+		<action name="updateForwardTrader" class="traderAction" method="getTraderDetails">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.usermanage.Trader</param>
+			<result>/mgr/app/integrated/trader/modtrader.jsp</result>
+		</action>
+
+		<!-- 交易员信息更新 -->
+		<action name="updateTrader" class="traderAction" method="updateTrader">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.usermanage.Trader</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		
+		<!-- 转向更新交易员密码信息页面 -->
+		<action name="updateForwardTraderCodes" class="traderAction" method="viewById">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.usermanage.Trader</param>
+			<result>/mgr/app/integrated/trader/mod_tradercode.jsp</result>
+		</action>
+
+		<!-- 交易员密码信息更新 -->
+		<action name="updateTraderCodes" class="traderAction" method="updatePassword">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.usermanage.Trader</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		
+		<!-- 禁止登录 -->
+		<action name="forbideTrader" class="traderAction" method="forbideTrader">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.usermanage.Trader</param>
+			<result>list.action?sortColumns=order+by+createTime+desc</result>
+		</action>
+		
+		<!-- 恢复登录 -->
+		<action name="recoverTrader" class="traderAction" method="recoverTrader">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.usermanage.Trader</param>
+			<result>list.action?sortColumns=order+by+createTime+desc</result>
+		</action>
+	</package>
+	<!-- 关于在线交易员的操作 -->
+	<package name="mgrcom_onlineTrader" extends="base-struts2" namespace="/trade/trader/online">
+		<!-- 在线交易员列表 -->
+		<action name="onlineList" class="traderAction" method="onlineTraderList">
+			<result>/mgr/app/integrated/trader/onlinetraderlist.jsp</result>
+		</action>
+		<!-- 强制下线操作-->
+		<action name="downOnlineTrader" class="traderAction" method="downOnlineTraders">
+			<result>onlineList.action</result>
+		</action>
+	</package>
+	
+	<package name="base-fund" extends="base-struts2" abstract="true">
+		<interceptors>
+			<interceptor name="tradeRightInterceptor"
+				class="gnnt.MEBS.integrated.mgr.action.usermanage.interceptor.TradeRightInterceptor"></interceptor>
+		</interceptors>
+	</package>
+</struts>

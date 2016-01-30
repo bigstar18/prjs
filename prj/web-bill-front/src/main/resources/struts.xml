@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<constant name="struts.i18n.encoding" value="GBK"></constant>
+	<constant name="struts.objectFactory" value="spring"></constant>
+	<constant name="struts.locale" value="zh_CN"></constant>
+	<constant name="struts.multipart.maxSize" value="307200"></constant>
+	<constant name="struts.multipart.parser" value="jakarta"></constant>
+	<constant name="struts.ui.theme" value="simple" />
+	<constant name="struts.ui.templateDir" value="template" />
+	<constant name="struts.ui.templateSuffix" value="ftl" />
+	<constant name="struts.devMode" value="false" />
+	<constant name="struts.enable.DynamicMethodInvocation" value="true"></constant>
+	<package name="defaults" extends="struts-default">
+		<global-results>
+			<result name="SysException">/front/public/jsp/error.jsp</result>
+		</global-results>
+	</package>
+
+	<!-- 我的平台struts配置 -->
+	<package name="base-struts2-mgr" extends="defaults" abstract="true">
+		<interceptors>
+			<interceptor name="throwsExceptionInterceptor"
+				class="gnnt.MEBS.common.front.webFrame.strutsInterceptor.ExceptionInterceptor">
+			</interceptor>
+			<interceptor name="writeLogInterceptor"
+				class="gnnt.MEBS.common.front.webFrame.strutsInterceptor.WriteLogInterceptor">
+			</interceptor>
+			<interceptor-stack name="mydefault">
+				<interceptor-ref name="throwsExceptionInterceptor" />
+				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="writeLogInterceptor" />
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="mydefault" />
+	</package>
+
+	<!-- 前台struts基本配置 -->
+	<package name="base-struts2-display" extends="defaults"
+		abstract="true">
+		<interceptors>
+			<interceptor name="throwsExceptionInterceptor"
+				class="gnnt.MEBS.common.front.webFrame.strutsInterceptor.ExceptionInterceptor">
+			</interceptor>
+			<interceptor-stack name="mydefault">
+				<interceptor-ref name="throwsExceptionInterceptor" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="mydefault" />
+	</package>
+
+	<!-- 公共权限部分 -->
+	<include file="configfiles/common/struts/struts_ajaxcheck.xml"></include>
+	<include file="configfiles/common/struts/struts_ajaxcommunications.xml"></include>
+	<include file="configfiles/common/struts/struts_firm_apply.xml"></include>
+	<include file="configfiles/common/struts/struts_mgr_user.xml"></include>
+	
+	<!-- 仓单管理平台部分struts配置文件 -->
+	<include file="configfiles/bill/struts/struts_ajaxforquery.xml"></include>
+	<include file="configfiles/bill/struts/struts_stockmanage.xml"></include>
+
+</struts>

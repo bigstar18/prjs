@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="com_checkneedless" extends="base-struts2-mgr" namespace="/checkneedless/user/logon">
+		<action name="logon" class="com_userAction" method="checkLogon">
+			<param name="entityName">gnnt.MEBS.common.front.model.integrated.User</param>
+			<result name="error">/front/logon/logon.jsp</result>
+			<result>/front/logon/logonsuccess.jsp</result>
+		</action>
+	</package>
+	<!-- 
+		关于用户的操作 
+	-->
+	<package name="com_user" extends="base-struts2-mgr" namespace="/front/app/mgr/user">
+
+		<!-- 用户登录 -->
+		<action name="logon" class="com_userAction" method="logon">
+			<param name="entityName">gnnt.MEBS.common.front.model.integrated.User</param>
+			<result name="error">/front/logon/logon.jsp</result>
+			<result>/front/logon/logonsuccess.jsp</result>
+		</action>
+
+		<!-- 用户退出 -->
+		<action name="logout" class="com_userAction" method="logout">
+		    <param name="entityName">gnnt.MEBS.common.front.model.integrated.User</param>
+			<result type="redirect">/front/logon/logon.jsp</result>
+		</action>
+
+		<!-- 用户修改风格 -->
+		<action name="saveShinStyle" class="com_userAction" method="saveShinStyle">
+		    <param name="entityName">gnnt.MEBS.common.front.model.integrated.User</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+	</package>
+
+	<!-- 
+		主页面修改登录密码 
+	-->
+	<package name="com_self" extends="base-struts2-mgr" namespace="/front/app/mgr/self">
+
+		<!-- 主页面修改登录页面跳转 -->
+		<action name="passwordSelfMod" class="com_userAction" method="viewById">
+		    <param name="entityName">gnnt.MEBS.common.front.model.integrated.User</param>
+			<result>/front/frame/moduserpassword.jsp</result>
+		</action>
+
+		<!-- 主页面修改登录密码 -->
+		<action name="passwordSelfSave" class="com_userAction" method="updatePasswordSelfSave">
+		    <param name="entityName">gnnt.MEBS.common.front.model.integrated.User</param>
+			<result>/front/frame/moduserpassword.jsp</result>
+		</action>
+	</package>
+
+	<!-- 
+		权限展示 
+	-->
+	<package name="com_menu" extends="base-struts2-mgr" namespace="/menu">
+
+		<!-- 查询左菜单权限 -->
+		<action name="menuList" class="com_menuAction" method="menuList">
+			<result>/front/frame/leftmenu.jsp</result>
+			<result name="error">/front/public/jsp/nosession.jsp</result>
+		</action>
+
+		<!-- 跳转到主页 -->
+		<action name="homepage" class="com_standardAction" method="forwardAdd">
+			<result>/front/frame/homepage.jsp</result>
+		</action>
+
+		<!-- 修改我的菜单 -->
+		<action name="changemymenu" class="com_menuAction" method="changemymenu">
+			<result name="success" >/front/public/jsp/submitsuccess.jsp</result>
+		</action>
+	</package>
+</struts>

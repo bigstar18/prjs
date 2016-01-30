@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<!-- 前台系统维护的所有模块的 map 集合，key：moduleID(模块编号) value：moduleMsg(模块信息，其中信息依然以 Map 形式存储) -->
+	<util:map id="tradeModuleMap" map-class="java.util.LinkedHashMap" key-type="java.lang.Integer" value-type="java.util.Map">
+		<!--<entry key="99" value-ref="module99"/> 公用系统 -->
+		<entry key="10" value-ref="module10"/><!-- 综合系统 -->
+		<entry key="15" value-ref="module15"/><!-- 仓单系统 -->
+	</util:map>
+	
+	<!-- 综合系统配置信息 -->
+	<util:map id="module10" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="id" value=""/><!-- ID -->
+		<entry key="cnName" value="综合系统"/><!-- 中文名称 -->
+		<entry key="enName" value="integrated"/><!-- 英文名称 -->
+		<entry key="shortName" value="综合系统"/><!-- 中文简称 -->
+		<entry key="context" value="integrated_broker"/><!-- 部署在tomcat中的名称 -->
+		<entry key="img" value="integrated_broker.png"/><!-- 展示图片 -->
+		<entry key="prefixPath" value=""/><!-- 服务地址 -->
+		<entry key="relativePath" value="/broker/frame/mainframe_nohead.jsp"/><!-- 相对地址 -->
+	</util:map>
+	<!-- 订单系统配置信息 -->
+	<util:map id="module15" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="id" value="defaultframe"/><!-- ID -->
+		<entry key="cnName" value="订单系统"/><!-- 中文名称 -->
+		<entry key="enName" value="timebargain"/><!-- 英文名称 -->
+		<entry key="shortName" value="订单系统"/><!-- 中文简称 -->
+		<entry key="context" value="timebargain_broker"/><!-- 部署在tomcat中的名称 -->
+		<entry key="img" value="timebargain_broker.png"/><!-- 展示图片 -->
+		<entry key="prefixPath" value=""/><!-- 服务地址 -->
+		<entry key="relativePath" value="/broker/frame/mainframe_nohead.jsp"/><!-- 相对地址 -->
+	</util:map>
+	
+</beans>

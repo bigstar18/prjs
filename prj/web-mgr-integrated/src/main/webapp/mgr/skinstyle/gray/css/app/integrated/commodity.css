@@ -1,0 +1,9 @@
+/*商品分类展示树的样式*/
+.tree_yj{width:100px; padding:0px 0px 0px 0px;font-size:12px;line-height:10px;color:#000;height:10px;}
+
+/*---------------------------商品属性展示列表样式------------------------*/
+
+.product_table{line-height: 24px;border-top:1px solid #CCC;border-left: 1px solid #CCC; }
+.product_table td{border: 1px solid #CCC ;border-width: 0 1px 1px 0;}
+.product_table tr{background: #fff;}
+.table_title{background:#B7E2F5;  }

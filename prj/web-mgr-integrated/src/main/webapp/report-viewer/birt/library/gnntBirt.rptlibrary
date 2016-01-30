@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.21" id="1">
+    <property name="createdBy">MyEclipse Report Designer Version 8.0.0</property>
+    <property name="units">in</property>
+    <property name="theme">format</property>
+    <parameters>
+        <scalar-parameter name="frameHeight" id="32">
+            <property name="hidden">true</property>
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">integer</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">500</value>
+            </simple-property-list>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="frameWidth" id="33"/>
+    </parameters>
+    <data-sources>
+        <oda-data-source extensionID="com.genuitec.eclipse.reporting.oda" name="gnntBirtSource" id="5">
+            <property name="meDriver">oracle.jdbc.driver.OracleDriver</property>
+            <property name="odaDriverClass">oracle.jdbc.driver.OracleDriver</property>
+            <property name="odaURL">jdbc:oracle:thin:@172.16.2.55:1521:gnnt</property>
+            <property name="odaUser">mebs06</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">cGFzc3dvcmQ=</encrypted-property>
+            <property name="odaJndiName">java:comp/env/mgrForQuery</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="com.genuitec.eclipse.reporting.oda.dataSet" name="gnntBirtDataSet" id="6">
+            <structure name="cachedMetaData"/>
+            <property name="dataSource">gnntBirtSource</property>
+            <xml-property name="queryText"><![CDATA[select 
+from ]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <themes>
+        <theme name="defaultTheme" id="4"/>
+        <theme name="format" id="25">
+            <styles>
+                <style name="fmtNum" id="26">
+                    <structure name="numberFormat">
+                        <property name="category">Custom</property>
+                        <property name="pattern">###,##0.00</property>
+                    </structure>
+                    <property name="textAlign">right</property>
+                </style>
+                <style name="fmtDate" id="27">
+                    <structure name="dateTimeFormat">
+                        <property name="category">Custom</property>
+                        <property name="pattern">yyyy-MM-dd</property>
+                    </structure>
+                </style>
+                <style name="fmtTextL" id="28">
+                    <property name="textAlign">left</property>
+                </style>
+                <style name="fmtTextR" id="29">
+                    <property name="textAlign">right</property>
+                </style>
+            </styles>
+        </theme>
+    </themes>
+    <page-setup>
+        <simple-master-page name="NewSimpleMasterPage" id="3"/>
+    </page-setup>
+</library>

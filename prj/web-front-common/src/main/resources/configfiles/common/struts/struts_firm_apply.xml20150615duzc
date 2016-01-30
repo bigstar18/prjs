@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- 交易商注册 -->
+	<package name="com_firmApply" extends="base-struts2-mgr" namespace="/checkneedless/firmapply">
+
+		<!-- 跳转到交易商注册申请页面 -->
+		<action name="registerforwardtemp" class="com_firmApplyAction" method="firmApplyForwardTemp">
+			<result>/front/logon/pageXYS.jsp</result>
+		</action>
+		<action name="registerforward" class="com_firmApplyAction" method="firmApplyForward">
+			<result>/front/logon/register.jsp</result>
+		</action>
+
+		<!-- 执行交易商注册 -->
+		<action name="register" class="com_firmApplyAction" method="firmApply">
+		    <param name="entityName">gnnt.MEBS.common.front.model.integrated.MFirmApply</param>
+			<result name="error">/front/logon/register.jsp</result>
+			<result name="success">/front/public/jsp/submitsuccess.jsp</result>
+		</action>
+
+	</package>
+
+</struts>

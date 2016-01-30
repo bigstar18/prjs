@@ -1,0 +1,1 @@
+chart图表中文乱码解决方案路径在：report-viewer/birt/documents/birt Chart图表中文乱码解决方案.docx中有详细介绍。

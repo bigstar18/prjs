@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="GBK"?>
+<sitemap>
+	<node title="未注册仓单列表" href="/front/bill/unregister/list.action?sortColumns=order+by+createTime+desc" path="/front/app/bill/stockmanage/stock_unregister_list.jsp">
+		<node title="未注册仓单详情" path="/front/app/bill/stockmanage/stock_detail.jsp"/>
+	</node>
+	<node title="注册仓单管理列表" href="/front/bill/register/list.action?sortColumns=order+by+createTime+desc" path="/front/app/bill/stockmanage/stock_register_list.jsp">
+		<node title="注册仓单详情" path="/front/app/bill/stockmanage/stock_register_detail.jsp"/>
+	</node>
+	<node title="注册仓单管理列表" href="/front/bill/register/list.action?sortColumns=order+by+createTime+desc" path="/front/app/bill/stockmanage/stock_register_list.jsp">
+		<node title="仓单详情" path="/front/app/bill/stockmanage/stock_opration_detail.jsp"/>
+	</node>	
+	<node title="拆单管理列表" href="/front/bill/split/list.action?sortColumns=order+by+dismantleId+desc" path="/front/app/bill/stockmanage/stock_dismantle_list.jsp">
+		<node title="拆单详情" path="/front/app/bill/stockmanage/stock_dismantle_detail.jsp"/>
+	</node>
+	<node title="出库仓单管理列表" href="/front/bill/exit/list.action?sortColumns=order+by+stockId+desc" path="/front/app/bill/stockmanage/stock_exit_list.jsp">
+		<node title="出库仓单详情" path="/front/app/bill/stockmanage/stock_exit_detail.jsp"/>
+	</node>
+	<!-- 卖出仓单位置（xief 2015.07.23） -->
+	<node title="出库仓单管理列表" href="/front/bill/exit/list.action?sortColumns=order+by+stockId+desc" path="/front/app/bill/stockmanage/stock_sell_list.jsp">
+	
+	</node>
+	
+	<node title="登录" href="/" path="/">
+		<node title="注册" path="/front/logon/register.jsp"/>
+	</node>
+	<node title="登录" href="/" path="/front/logon/logon.jsp"/>
+</sitemap>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="queryOperateLogSearch" extends="base-struts2" namespace="/logquery/queryOperateLogSearch">
+	<!-- 统计日志查询 -->
+		<action name="list" class="logQueryAction" method="operateLogList">
+			<param name="entityName">gnnt.MEBS.common.mgr.model.OperateLog</param>
+			<param name="logMethod">queryOperateLogSearch</param>
+			<param name="logtype"></param>
+			<result>/mgr/frame/logquery/operatelog_list.jsp</result>
+		</action>
+	
+	<!-- 前台登录管理日志查询 -->
+		<action name="frontList" class="logQueryAction" method="frontLogList">
+			<param name="entityName">gnnt.MEBS.common.mgr.model.OperateLog</param>
+			<result>/mgr/frame/logquery/front_logonlog_list.jsp</result>
+		</action>
+	
+	<!-- 后台登录管理日志查询 -->
+		<action name="mgrList" class="logQueryAction" method="mgrLogList">
+			<param name="entityName">gnnt.MEBS.common.mgr.model.OperateLog</param>
+			<result>/mgr/frame/logquery/mgr_logonlog_list.jsp</result>
+		</action>
+	</package>
+	<package name="mfirmLogQuery" extends="base-struts2" namespace="/logquery/mfirmLogQuery">
+		<!-- 交易商操作日志 -->
+		<action name="mfirmlogList" class="logQueryAction" method="operateLogList">
+			<param name="entityName">gnnt.MEBS.common.mgr.model.OperateLog</param>
+			<param name="logMethod">mfirmLogQuery</param>
+			<param name="logtype">2</param>
+			<result>/mgr/app/integrated/firm/mfirm_operatelog_list.jsp</result>
+		</action>
+	</package>
+	<package name="mgrManageLogLists" extends="base-struts2"  namespace="/logquery/mgrManageLogList">
+		<!-- 后台操作管理日志查询 -->
+		<action name="list" class="logQueryAction" method="operateLogList">
+			<param name="entityName">gnnt.MEBS.common.mgr.model.OperateLog</param>
+			<param name="logMethod">mgrManageLogList</param>
+			<param name="logtype">1</param>
+			<result>/mgr/frame/logquery/operatelog_list.jsp</result>
+		</action>
+	</package>
+	<package name="coreManageLogList" extends="base-struts2"  namespace="/logquery/coreManageLogList">
+		<!-- 核心操作管理日志查询 -->
+		<action name="list" class="logQueryAction" method="operateLogList">
+			<param name="entityName">gnnt.MEBS.common.mgr.model.OperateLog</param>
+			<param name="logMethod">coreManageLogList</param>
+			<param name="logtype">3</param>
+			<result>/mgr/frame/logquery/operatelog_list.jsp</result>
+		</action>
+	</package>
+	<package name="logqueryajax" extends="json-default" namespace="/ajaxcheck/logquery">
+	<!-- ajax 方式查询系统模块列表 -->
+		<action name="getLogMoudleList" class="logQueryAction" method="getLogMoudleList">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+	<!-- ajax 方式查询属于某个系统模块的日志分类列表 -->
+		<action name="getLogCateLogByMoudleID" class="logQueryAction" method="getLogCateLogByMoudleID">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+	</package>
+</struts>

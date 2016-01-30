@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<!-- 
+		用户信息
+	-->
+	<package name="userInformation" extends="base-struts2-display" namespace="/front/app/integrated/userInformation">
+	
+	<!-- 用户信息详情 -->
+		<action name="userInformation" class="userAction" method="userInformation">
+			<param name="entityName">gnnt.MEBS.common.front.model.integrated.User</param>
+			<result>/front/app/integrated/user/userinformation.jsp</result>
+		</action>
+	
+	</package>
+	
+</struts>

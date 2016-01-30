@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+	<package name="mgrcom_com_audit" extends="base-struts2" namespace="/audit/baseAudit">
+		<!-- 待审核列表 -->
+		<action name="waitAuditList" class="applyAndAuditAction"
+			method="waitAuditList">
+			<param name="entityName">gnnt.MEBS.common.mgr.model.Apply</param>
+			<result>/mgr/frame/audit/waitaudit_list.jsp</result>
+		</action>
+		<!-- 审核通过列表 -->
+		<action name="passAuditList" class="applyAndAuditAction"
+			method="passAuditList">
+			<param name="entityName">gnnt.MEBS.common.mgr.model.Audit</param>
+			<result>/mgr/frame/audit/passaudit_list.jsp</result>
+		</action>
+		<!-- 被驳回审核列表 -->
+		<action name="rejectAuditList" class="applyAndAuditAction"
+			method="rejectAuditList">
+			<param name="entityName">gnnt.MEBS.common.mgr.model.Audit</param>
+			<result>/mgr/frame/audit/rejectaudit_list.jsp</result>
+		</action>
+		<!-- 已撤销申请列表 -->
+		<action name="withdrawedList" class="applyAndAuditAction"
+			method="withdrawedList">
+			<param name="entityName">gnnt.MEBS.common.mgr.model.Apply</param>
+			<result>/mgr/frame/audit/withdrawed_list.jsp</result>
+		</action>
+		<!-- 可撤销申请列表 -->
+		<action name="canWithdrawList" class="applyAndAuditAction"
+			method="canWithdrawList">
+			<param name="entityName">gnnt.MEBS.common.mgr.model.Apply</param>
+			<result>/mgr/frame/audit/canwithdraw_list.jsp</result>
+		</action>
+
+		<!-- 待审核详情 -->
+		<action name="waitAuditDetails" class="applyAndAuditAction" method="applyDetails">
+		    <param name="entityName">gnnt.MEBS.common.mgr.model.Apply</param>
+			<result>/mgr/frame/audit/waitaudit_details.jsp</result>
+		</action>
+		<!-- 审核通过详情 -->
+		<action name="passAuditDetails" class="applyAndAuditAction" method="auditDetails">
+		    <param name="entityName">gnnt.MEBS.common.mgr.model.Audit</param>
+			<result>/mgr/frame/audit/passaudit_details.jsp</result>
+		</action>
+		<!-- 驳回详情 -->
+		<action name="rejectAuditDetails" class="applyAndAuditAction" method="auditDetails">
+		    <param name="entityName">gnnt.MEBS.common.mgr.model.Audit</param>
+			<result>/mgr/frame/audit/rejectaudit_details.jsp</result>
+		</action>
+		<!-- 可撤销申请详情 -->
+		<action name="canWithdrawDetails" class="applyAndAuditAction" method="applyDetails">
+		    <param name="entityName">gnnt.MEBS.common.mgr.model.Apply</param>
+			<result>/mgr/frame/audit/canwithdraw_details.jsp</result>
+		</action>
+		<!-- 已撤销申请详情 -->
+		<action name="withdrawedDetails" class="applyAndAuditAction" method="applyDetails">
+		    <param name="entityName">gnnt.MEBS.common.mgr.model.Apply</param>
+			<result>/mgr/frame/audit/withdrawed_details.jsp</result>
+		</action>
+		
+		<!-- 驳回操作 -->
+		<action name="rejectApply" class="applyAndAuditAction" method="rejectApply">
+		    <param name="entityName">gnnt.MEBS.common.mgr.model.Apply</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<!--审核通过操作 -->
+		<action name="passApply" class="applyAndAuditAction" method="passApply">
+		    <param name="entityName">gnnt.MEBS.common.mgr.model.Apply</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<!-- 撤销操作-->
+		<action name="withdrawApply" class="applyAndAuditAction" method="withdrawApply">
+		    <param name="entityName">gnnt.MEBS.common.mgr.model.Apply</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+	</package>
+</struts>

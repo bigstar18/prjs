@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="gnnt.MEBS.common.front.model.integrated.User" table="M_Trader"  dynamic-insert="true" dynamic-update="true">
+		<id name="traderID"/>
+		<property name="userID"/>
+		<property name="name"/>
+		<property name="password"/>
+		<property name="status"/>
+		<property name="type"/>
+		<property name="createTime"/>
+		<property name="modifyTime"/>
+		<property name="keyCode"/>
+		<property name="enableKey"/>
+		<property name="trustKey"/>
+		<property name="forceChangePwd"/>
+		<property name="lastIP"/>
+		<property name="lastTime"/>
+		<property name="skin"/>
+
+		<many-to-one name="belongtoFirm" column="firmID" class="gnnt.MEBS.common.front.model.integrated.MFirm"></many-to-one>
+
+		<set name="rightSet" table="C_FRONT_USER_RIGHT" cascade="none" lazy="true" fetch="select">
+			<key column="USERID" />
+			<many-to-many class="gnnt.MEBS.common.front.model.front.Right" column="RIGHTID"/>
+		</set>
+		<set name="roleSet" table="C_FRONT_USER_ROLE" cascade="none" lazy="true" fetch="select" order-by="roleId desc">
+			<key column="USERID" />
+			<many-to-many class="gnnt.MEBS.common.front.model.front.Role" column="ROLEID"/>
+		</set>
+		<set name="traderModule" lazy="false">
+			<key column="traderID" />
+			<one-to-many class="gnnt.MEBS.common.front.model.integrated.TraderModule"/>
+		</set>
+	</class>
+</hibernate-mapping>

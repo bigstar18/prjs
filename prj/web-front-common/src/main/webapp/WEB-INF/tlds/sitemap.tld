@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="GBK" ?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+	version="2.0">
+	<description>JSTL 1.0 functions library</description>
+	<display-name>JSTL sitemap</display-name>
+	<tlib-version>1.0</tlib-version>
+	<short-name>current</short-name>
+	<uri>http://gnnt.MEBS.common.front/current</uri>
+	<tag>
+		<!-- 标签名称 -->
+		<name>sitemap</name>
+		<!-- 标签对应处理类 -->
+		<tag-class>gnnt.MEBS.common.front.common.SitemapTag</tag-class>
+		<!-- 标签体内容，没有标签体则为 empty -->
+		<body-content>empty</body-content>
+	</tag>
+</taglib>

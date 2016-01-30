@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- 关于用户的操作 -->
+	<package name="mgrcom_user" extends="base-struts2" namespace="/user">
+		<!-- 用户列表 -->
+		<action name="list" class="userAction" method="listByLimit">
+			<param name="entityName">gnnt.MEBS.common.mgr.model.User</param>
+			<result>/mgr/frame/users/userslist.jsp</result>
+		</action>
+		<!-- 转向添加用户界面 -->
+		<action name="addForward" class="userAction" method="forwardAdd">
+			<param name="entityName">gnnt.MEBS.common.mgr.model.User</param>
+			<result>/mgr/frame/users/adduser.jsp</result>
+		</action>
+		<!-- 添加用户 -->
+		<action name="add" class="userAction" method="addUser">
+			<param name="entityName">gnnt.MEBS.common.mgr.model.User</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<!-- 转向更新用户信息页面-->
+		<action name="forwardUpdate" class="userAction" method="viewById">
+			<param name="entityName">gnnt.MEBS.common.mgr.model.User</param>
+			<result>/mgr/frame/users/moduser.jsp</result>
+		</action>
+
+		<!-- 用户信息更新 -->
+		<action name="update" class="userAction" method="updateUser">
+			<param name="entityName">gnnt.MEBS.common.mgr.model.User</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+
+		<!-- 删除用户 -->
+		<action name="delete" class="userAction" method="delete">
+			<param name="entityName">gnnt.MEBS.common.mgr.model.User</param>
+			<result>list.action</result>
+		</action>
+		<!-- 修改密码跳转 -->
+		<action name="forwardUpdatePassword" class="userAction" method="viewById">
+			<result>/mgr/frame/users/modpassword.jsp</result>
+		</action>
+		<!-- 修改密码 -->
+		<action name="updatePassword" class="userAction" method="updatePassword">
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		
+		<!-- 转向用户关联角色页面 -->
+		<action name="forwardRelatedRight" class="userAction" method="relatedRightForward">
+			<result>/mgr/frame/users/relatedright.jsp</result>
+		</action>
+		<!-- 修改关联角色-->
+		<action name="updateRelatedRight" class="userAction" method="updateRelatedRight">
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+	</package>
+	<!-- 关于在线用户的操作 -->
+	<package name="mgrcom_onlineUser" extends="base-struts2" namespace="/user/online">
+		<!-- 在线用户列表 -->
+		<action name="list" class="userAction" method="onlineUserList">
+			<result>/mgr/frame/users/onlineuserlist.jsp</result>
+		</action>
+		<!-- 强制下线操作-->
+		<action name="downOnlineUser" class="userAction" method="updateDownOnlineUsers">
+			<result>list.action</result>
+		</action>
+	</package>
+
+	<!-- 权限和角色begin -->
+	<!-- 关于角色的操作-->
+	<package name="mgrcom_role" extends="base-struts2" namespace="/role">
+		<!-- 角色列表 -->
+		<action name="commonRoleList" class="roleAction" method="listByLimit">
+			<result>/mgr/frame/roles/rolelist.jsp</result>
+		</action>
+		<!-- 跳转添加角色页面-->
+		<action name="addForwardRole" class="roleAction" method="forwardAdd">
+			<result>/mgr/frame/roles/addrole.jsp</result>
+		</action>
+		<!-- 添加角色 -->
+		<action name="addRole" class="roleAction" method="add">
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<!-- 跳转修改角色页面 -->
+		<action name="updateForwardRole" class="roleAction" method="viewById">
+			<result>/mgr/frame/roles/modrole.jsp</result>
+		</action>
+		<!-- 修改角色 -->
+		<action name="updateRole" class="roleAction" method="update">
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<!--  跳转角色权限页面-->
+		<action name="updateForwardRoleRight" class="rightAction" method="updateForwardRoleRight">
+			<result>/mgr/frame/roles/assignrolerights.jsp</result>
+		</action>
+		<!-- 查询角色模块权限信息 -->
+		<action name="updateRoleModuleRight" class="rightAction" method="updateRoleModuleRight">
+			<result>/mgr/frame/roles/rolemoduleright.jsp</result>
+		</action>
+		<!-- 修改角色权限 -->
+		<action name="updateRoleRight" class="rightAction" method="updateRoleRight">
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<!-- 删除角色 -->
+		<action name="deleteRole" class="roleAction" method="deleteRole">
+			<result>commonRoleList.action</result>
+		</action>
+	</package>
+
+</struts>

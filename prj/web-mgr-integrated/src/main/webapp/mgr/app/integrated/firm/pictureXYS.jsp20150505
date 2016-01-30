@@ -1,0 +1,27 @@
+<%@ page contentType="text/html;charset=GBK"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page import="gnnt.MEBS.integrated.mgr.model.usermanage.MFirmApply,
+					javax.servlet.ServletOutputStream,java.io.* " %>
+
+<html>
+	<head>
+		<title>入市协议书</title>
+		<meta http-equiv="Pragma" content="no-cache">
+		<base target="_self">
+	</head>
+	<body style="overflow-y: hidden">
+				<div id="printDiv" align="center">
+					<p>这是入市协议书</p>
+				</div>
+				<div id=noPrint style="position: absolute;bottom: 40px;right:30px;">
+					<input type="button" value="print" onClick="myPrint()"/>
+				</div>
+	</body>
+	<script  language="javascript">
+		function myPrint(){
+			document.getElementById("noPrint").style.display="none";
+			window.print();
+			document.getElementById("noPrint").style.display="";
+		}
+	</script>
+</html>

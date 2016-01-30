@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="todayTogetherReport" extends="base-struts2" namespace="/timebargain/report">
+		<!--  订货汇总表	-->
+		<action name="indentCollectQuery" class="commReportAction" method="getConditionList">
+			<result>/broker/app/timebargain/report/indentCollectQuery.jsp</result>
+		</action>
+		<!--  资金结算查询页面	-->
+		<action name="fundSettlementQuery" class="commReportAction" method="getConditionList">
+			<result>/broker/app/timebargain/report/fundSettlementQuery.jsp</result>
+		</action>
+		<!--  资金汇总查询页面	-->
+		<action name="fundCollectQuery" class="commReportAction" method="getConditionList">
+			<result>/broker/app/timebargain/report/fundCollectQuery.jsp</result>
+		</action>
+		<!--  转让盈亏明细查询页面	-->
+		<action name="transferProfitAndLossQuery" class="commReportAction" method="getConditionList">
+			<result>/broker/app/timebargain/report/transferProfitAndLossQuery.jsp</result>
+		</action>
+		<!--  成交记录查询页面	-->
+		<action name="bargainResultQuery" class="commReportAction" method="getConditionList">
+			<result>/broker/app/timebargain/report/bargainResultQuery.jsp</result>
+		</action>
+		<!--  订货统计查询页面	-->
+		<action name="indentStatisticQuery" class="commReportAction" method="getCommodityList">
+			<result>/broker/app/timebargain/report/indentStatisticQuery.jsp</result>
+		</action>
+		<!--  分商品成交量统计查询页面	-->
+		<action name="comTradeQuery" class="commReportAction" method="getCommodityList">
+			<result>/broker/app/timebargain/report/comTradeQuery.jsp</result>
+		</action>
+		<!--  交割情况查询页面	-->
+		<action name="settleStatusQuery" class="commReportAction" method="getConditionList">
+			<result>/broker/app/timebargain/report/settleStatusQuery.jsp</result>
+		</action>
+		<!--  资金不足情况查询页面	-->
+		<action name="tradeUserNotEnoughMoneyQuery" class="commReportAction" method="getConditionList">
+			<result>/broker/app/timebargain/report/tradeUserNotEnoughMoneyQuery.jsp</result>
+		</action>
+	</package>
+</struts>

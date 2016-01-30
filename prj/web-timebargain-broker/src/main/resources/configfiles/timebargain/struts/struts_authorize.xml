@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="authorize" extends="base-struts2" namespace="/timebargain/authorize">
+		<action name="authorizeForward" class="authorizeAction" method="authorizeForward">
+			<param name="entityName">gnnt.MEBS.timebargain.broker.model.Orders</param>
+			<result>/broker/app/timebargain/authorize/orders.jsp</result>
+		</action>
+	
+		<action name="chkLogin" class="authorizeAction" method="chkLogin">
+			<param name="entityName">gnnt.MEBS.timebargain.broker.model.Orders</param>
+			<result>/broker/app/timebargain/authorize/traderLogin_chk.jsp</result>
+		</action>
+		
+		<action name="loginConsigner" class="authorizeAction" method="login">
+			<param name="entityName">gnnt.MEBS.timebargain.broker.model.Orders</param>
+			<result>/broker/app/timebargain/authorize/traderLogin_form_hidd.jsp</result>
+		</action>
+		
+		<action name="logoffConsigner" class="authorizeAction" method="logoff">
+			<param name="entityName">gnnt.MEBS.timebargain.broker.model.Orders</param>
+			<result>/broker/app/timebargain/authorize/msg_logoff.jsp</result>
+		</action>
+			
+		<action name="editOrder" class="authorizeAction" method="edit">
+			<param name="entityName">gnnt.MEBS.timebargain.broker.model.Orders</param>
+			<result>/broker/app/timebargain/authorize/orders_form.jsp</result>
+		</action>
+		
+		<action name="order" class="authorizeAction" method="order">
+			<param name="entityName">gnnt.MEBS.timebargain.broker.model.Orders</param>
+			<result>/broker/app/timebargain/authorize/orders_form_save.jsp</result>
+		</action>
+		
+		<action name="noTradeListForward" class="authorizeAction" method="noTradeListForward">
+			<param name="entityName">gnnt.MEBS.timebargain.broker.model.Orders</param>
+			<result>/broker/app/timebargain/authorize/noTrade.jsp</result>
+		</action>
+		
+		<action name="noTradeList" class="authorizeAction" method="noTradeList">
+			<param name="entityName">gnnt.MEBS.timebargain.broker.model.Orders</param>
+			<result>/broker/app/timebargain/authorize/noTrade_list.jsp</result>
+		</action>
+		
+		<action name="withdrawOrder" class="authorizeAction" method="withdrawOrder">
+			<param name="entityName">gnnt.MEBS.timebargain.broker.model.Orders</param>
+			<result name="success" type="chain">
+			<param name="actionName">noTradeList</param>	
+			</result>
+		</action>
+		
+		<action name="forceForward" class="authorizeAction" method="forceForward">
+			<param name="entityName">gnnt.MEBS.timebargain.broker.model.Orders</param>
+			<result>/broker/app/timebargain/authorize/forceClose.jsp</result>
+		</action>
+		
+		<action name="searchForceClose" class="authorizeAction" method="searchForceClose">
+			<param name="entityName">gnnt.MEBS.timebargain.broker.model.Orders</param>
+			<result>/broker/app/timebargain/authorize/forceClose_list.jsp</result>
+		</action>
+		
+		<action name="forceCloseInfo" class="authorizeAction" method="forceCloseInfo">
+			<param name="entityName">gnnt.MEBS.timebargain.broker.model.Orders</param>
+			<result>/broker/app/timebargain/authorize/forceClose_list_qp_form.jsp</result>
+		</action>
+		
+		<action name="forceClose" class="authorizeAction" method="forceClose">
+			<param name="entityName">gnnt.MEBS.timebargain.broker.model.Orders</param>
+			<result>/broker/app/timebargain/authorize/forceClose_list_qp_form_save.jsp</result>
+		</action>
+		
+			
+		<action name="passwordForward" class="authorizeAction" method="passwordForward">
+			<param name="entityName">gnnt.MEBS.timebargain.broker.model.Orders</param>
+			<result>/broker/app/timebargain/authorize/password.jsp</result>
+		</action>
+		
+		
+		<action name="updatePasswordForward" class="authorizeAction" method="updatePasswordForward">
+			<param name="entityName">gnnt.MEBS.timebargain.broker.model.Orders</param>
+			<result>/broker/app/timebargain/authorize/updatePassword.jsp</result>
+		</action>
+		
+		<action name="updatePassword" class="authorizeAction" method="updatePassword">
+			<param name="entityName">gnnt.MEBS.timebargain.broker.model.Orders</param>
+			<result name="success" type="chain">
+			<param name="actionName">updatePasswordForward</param>
+			</result>
+		</action>
+		
+		
+	</package>
+</struts>

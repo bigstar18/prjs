@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="tradeMonitor" extends="base-struts2" namespace="/timebargain/monitor">
+		<action name="monitorGetCommodityList" class="monitorSetAction" method="getCommoditySelect">
+			<result name="tradeList">/broker/app/timebargain/monitor/monitor_tradeList.jsp</result>
+			<result name="orderMonitor">/broker/app/timebargain/monitor/monitor_orderMonitor.jsp</result>
+			<result name="commodityMonitor">/broker/app/timebargain/monitor/monitor_commodityMonitor.jsp</result>
+		</action>	
+	</package>
+	
+	<package name="monitor" extends="json-default" namespace="/ajaxcheck/monitor">
+		<action name="monitorTradeList" class="monitorSetAction" method="listTradeList">
+		</action>
+		<action name="monitorAnalyseInfo" class="monitorSetAction" method="listAnalyseInfo">
+		</action>
+		<!--	 资金预警	-->
+		<action name="monitorFundsAnalysis" class="monitorSetAction" method="listFundsAnalysis">
+		</action>
+		<!--	委托监控	-->
+		<action name="monitorOrderMonitor" class="monitorSetAction" method="listOrderMonitor">
+		</action>
+		<!--	商品持仓查询买订货	-->
+		<action name="monitorListCommodityB" class="monitorSetAction" method="listCommodityMonitorB">
+		</action>
+		<!--	商品持仓查询卖订货	-->
+		<action name="monitorListCommodityS" class="monitorSetAction" method="listCommodityMonitorS">
+		</action>
+		<!--	商品持仓查询监控成交量	-->
+		<action name="monitorListCommodityQ" class="monitorSetAction" method="listCommodityMonitorQ">
+		</action>
+	</package>
+</struts>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<constant name="struts.i18n.encoding" value="GBK"></constant>
+	<constant name="struts.objectFactory" value="spring"></constant>
+	<constant name="struts.locale" value="zh_CN"></constant>
+	<constant name="struts.multipart.maxSize" value="307200"></constant>
+	<constant name="struts.multipart.parser" value="jakarta"></constant>
+	<constant name="struts.ui.theme" value="simple" />
+	<constant name="struts.ui.templateDir" value="template" />
+	<constant name="struts.ui.templateSuffix" value="ftl" />
+	<constant name="struts.devMode" value="false" />
+	<constant name="struts.enable.DynamicMethodInvocation" value="true"></constant>
+	<package name="defaults" extends="struts-default">
+		<global-results>
+			<result name="SysException">/broker/public/jsp/error.jsp</result>
+			<result name="verifyQuit">/broker/public/jsp/commonmsg.jsp</result>
+		</global-results>
+	</package>
+<!-- 重新指定request封装类 -->
+	<package name="base-struts2" extends="defaults" abstract="true">
+		<interceptors>
+			<interceptor name="throwsExceptionInterceptor"
+				class="gnnt.MEBS.common.broker.webframe.strutsinterceptor.ExceptionInterceptor">
+			</interceptor>
+			<interceptor name="writeLogInterceptor"
+				class="gnnt.MEBS.common.broker.webframe.strutsinterceptor.WriteLogInterceptor">
+			</interceptor>
+			<interceptor name="auditInterceptor"
+				class="gnnt.MEBS.common.broker.webframe.strutsinterceptor.AuditInterceptor">
+			</interceptor>
+			<interceptor-stack name="mydefault">
+				<interceptor-ref name="throwsExceptionInterceptor" />
+				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="writeLogInterceptor" />
+				<interceptor-ref name="auditInterceptor" />
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="mydefault" />
+	</package>
+<!-- 公用部分 struts 配置文件 -->
+	<include file="configfiles/common/struts/struts_user.xml"></include>
+	<include file="configfiles/common/struts/struts_ajaxquery.xml"></include>
+	<include file="configfiles/common/struts/struts_ajaxcommunications.xml"></include>
+
+<!-- 测试部分 struts 配置文件 -->
+	<include file="configfiles/timebargain/struts/struts_customer.xml"></include>
+	<include file="configfiles/timebargain/struts/struts_ajaxcheck.xml"></include>
+<!-- 统计报表配置文件	-->
+	<include file="configfiles/timebargain/struts/struts_report.xml"></include>
+<!-- 代为委托配置文件	-->
+	<include file="configfiles/timebargain/struts/struts_ajaxorder.xml"></include>
+	<include file="configfiles/timebargain/struts/struts_authorize.xml"></include>
+<!-- 风险监控配置文件	-->
+	<include file="configfiles/timebargain/struts/struts_monitorSet.xml"></include>
+	<include file="configfiles/timebargain/struts/struts_tariff.xml"></include>
+</struts>

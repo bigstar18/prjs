@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="gnnt.MEBS.common.front.model.LogCatalog" table="C_LogCatalog" dynamic-update="true" dynamic-insert="true">
+		<id name="catalogID"/>
+		<property name="catalogName"/>
+		<property name="moduleID"/>
+	</class>
+</hibernate-mapping>

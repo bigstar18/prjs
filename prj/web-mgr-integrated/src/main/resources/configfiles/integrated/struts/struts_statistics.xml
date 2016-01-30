@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="base-statistics" extends="base-struts2" abstract="true">
+	</package>
+	<!-- 关于登录情况统计的操作 -->
+	<package name="frontlogonStatistics" extends="base-statistics" namespace="/statisticsQuery/frontlogon">
+		<action name="frontLogonForwardQuery" class="statisticsQueryAction" method="forwardQuery">
+			<result>/mgr/app/integrated/statistics/frontlogon.jsp</result>
+		</action>
+	</package>
+	<package name="mfirmCreateStatistics" extends="base-statistics" namespace="/statisticsQuery/mfirmCreate">
+		<!-- 开户统计 -->
+		<action name="mfirmCreateForwardQuery" class="statisticsQueryAction" method="forwardQuery">
+			<result>/mgr/app/integrated/statistics/mfirmcreate.jsp</result>
+		</action>
+	</package>
+</struts>

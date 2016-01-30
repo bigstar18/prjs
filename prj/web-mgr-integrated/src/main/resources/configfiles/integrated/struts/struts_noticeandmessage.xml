@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- 公告管理 -->
+	<package name="mgrcom_notice" extends="base-struts2" namespace="/trade/notice">
+		<!-- 公告列表 -->
+		<action name="noticeList" class="noticeAction" method="listByLimit">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.noticeandmessage.Notice</param>
+			<result>/mgr/app/integrated/noticeandmessage/notice_list.jsp</result>
+		</action>
+		<!-- 查看公告 -->
+		<action name="noticeDetail" class="noticeAction" method="viewById">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.noticeandmessage.Notice</param>
+			<result>/mgr/app/integrated/noticeandmessage/notice_detail.jsp</result>
+		</action>
+		<!-- 到新加公告 -->
+		<action name="addNoticeToPage" class="noticeAction" method="forwardAdd">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.noticeandmessage.Notice</param>
+			<result>/mgr/app/integrated/noticeandmessage/notice_add.jsp</result>
+		</action>
+		<!-- 新加公告 -->
+		<action name="addNotice" class="noticeAction" method="addNotice">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.noticeandmessage.Notice</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+	</package>
+	<!-- 消息管理 -->
+	<package name="mgrcom_message" extends="base-struts2" namespace="/trade/message">
+		<!-- 消息列表 -->
+		<action name="messageList" class="messageAction" method="list">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.noticeandmessage.Message</param>
+			<result>/mgr/app/integrated/noticeandmessage/message_list.jsp</result>
+		</action>
+		<!-- 查看消息 -->
+		<action name="forwardMessage" class="messageAction" method="viewById">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.noticeandmessage.Message</param>
+			<result>/mgr/app/integrated/noticeandmessage/message_look.jsp</result>
+		</action>
+		<!-- 添加跳转消息 -->
+		<action name="addForwardMessage" class="messageAction" method="forwardAdd">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.noticeandmessage.Message</param>
+			<result>/mgr/app/integrated/noticeandmessage/message_add.jsp</result>
+		</action>
+		<!-- 添加消息 -->
+		<action name="addMessage" class="messageAction" method="addMessage">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.noticeandmessage.Message</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+	</package>
+</struts>

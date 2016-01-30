@@ -1,0 +1,12 @@
+开启统计  mfirmcreate  
+登录情况  frontlogon
+违约情况 tradebreach
+平台收入统计 platformrevenue
+分类成交额统计categorytradeamount
+品名成交额统计 breedtradeamount
+市场仲裁统计arbitration.rptdesign
+分类交收类型统计categorytradetype
+品名交收类型统计breedtradetype
+分类收入分布统计 categoryRevenue
+品名收入分布统计breedrevenue
+

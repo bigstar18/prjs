@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="base-category" extends="base-struts2" abstract="true">
+	</package>
+		<package name="jsonforprops" extends="json-default" namespace="/stock/addBreedProps/jsonForProps">
+		<!-- 通过属性ID获取品名属性的输入类型 -->
+		<action name="getBreedPropsValueType" class="breedPropsAction" method="getBreedPropsValueType">
+			<result name="success" type="json">
+				<param name="root">jsonReturn</param>
+			</result>
+		</action>
+	</package>
+	
+	<package name="jsonforcommodity" extends="json-default" namespace="/commoditymanage/jsonForCommodity">
+		<!-- 通过属性ID获取品名属性的输入类型 -->
+		<action name="getCommodityInfoByCategoryId" class="categoryAction" method="getCommodityInfoByCategoryId">
+			<result name="success" type="json">
+				<param name="root">jsonReturn</param>
+			</result>
+		</action>
+	</package>
+	<!-- 商品分类树 -->
+	<package name="category" extends="base-category" namespace="/category/commodity">
+		<!-- 商品分类菜单点击触发 -->
+		<action name="categoryShow" class="categoryAction" method="forwardAdd">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.commodity.Category</param>
+			<result>/mgr/app/integrated/category/mainframe.jsp</result>
+		</action>
+		<!--展示分类树 -->
+		<action name="categoryTree" class="categoryAction" method="categoryShow">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.commodity.Category</param>
+			<result>/mgr/app/integrated/category/categoryTree.jsp</result>
+		</action>
+		<!-- 添加分类跳转-->
+		<action name="addForwardCategory" class="categoryAction" method="addForwardCategory">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.commodity.Category</param>
+			<result>/mgr/app/integrated/category/category_add.jsp</result>
+		</action>
+		<!-- 添加分类-->
+		<action name="addCategory" class="categoryAction" method="addCategory">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.commodity.Category</param>
+			<result>/mgr/app/integrated/category/category_add.jsp</result>
+		</action>
+		<!-- 修改分类跳转-->
+		<action name="updateForwardCategory" class="categoryAction" method="viewByIdCategory">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.commodity.Category</param>
+			<result>/mgr/app/integrated/category/category_update.jsp</result>
+		</action>
+		<!-- 修改分类-->
+		<action name="updateCategory" class="categoryAction" method="updateCategory">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.commodity.Category</param>
+			<result>/mgr/app/integrated/category/category_update.jsp</result>
+		</action>
+		<!-- 分类删除-->
+		<action name="deleteCategory" class="categoryAction" method="removeCategory">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.commodity.Category</param>
+			<result>/mgr/app/integrated/category/deleteforward.jsp</result>
+		</action>
+		<!-- 属性添加跳转 -->
+		<action name="addForwardProperty" class="categoryPropertyAction" method="forwardAddPoperty">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.commodity.CategoryProperty</param>
+			<result>/mgr/app/integrated/category/property_add.jsp</result>
+		</action>
+		<!-- 属性添加 -->
+		<action name="addProperty" class="categoryPropertyAction" method="addProperty">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.commodity.CategoryProperty</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<!-- 属性修改跳转 -->
+		<action name="updateForwardProperty" class="categoryPropertyAction" method="viewPropertyById">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.commodity.CategoryProperty</param>
+			<result>/mgr/app/integrated/category/property_update.jsp</result>
+		</action>
+		<!-- 属性修改-->
+		<action name="updateProperty" class="categoryPropertyAction" method="updateProperty">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.commodity.CategoryProperty</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<!-- 属性删除-->
+		<action name="deleteProperty" class="categoryPropertyAction" method="removeProperty">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.commodity.CategoryProperty</param>
+			<result>updateForwardCategory.action?entity.categoryId=${categoryId}</result>
+		</action>
+	</package>
+		<!-- 商品品名树 -->
+	<package name="breed" extends="base-category" namespace="/category/breed">
+	<!-- 品名管理菜单点击触发 -->
+		<action name="breedShow" class="categoryAction" method="forwardAdd">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.commodity.Category</param>
+			<result>/mgr/app/integrated/breed/mainframe.jsp</result>
+		</action>
+		<!--展示品名树 -->
+		<action name="breedTree" class="categoryAction" method="breedShow">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.commodity.Category</param>
+			<result>/mgr/app/integrated/breed/categorybreedTree.jsp</result>
+		</action>
+		<!-- 品名添加跳转 -->
+		<action name="addForwardBreed" class="breedAction" method="addForwardBreed">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.commodity.Breed</param>
+			<result>/mgr/app/integrated/breed/breedadd.jsp</result>
+		</action>
+		<!-- 品名添加 -->
+		<action name="addBreed" class="breedAction" method="addBreed">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.commodity.Breed</param>
+			<result>/mgr/app/integrated/breed/breedadd.jsp</result>
+		</action>
+		<!-- 品名修改跳转 -->
+		<action name="updateForwardBreed" class="breedAction" method="updateFowardBreed">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.commodity.Breed</param>
+			<result>/mgr/app/integrated/breed/breedupdate.jsp</result>
+		</action>
+		<!-- 品名修改 -->
+		<action name="updateBreed" class="breedAction" method="updateBreed">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.commodity.Breed</param>
+			<result>/mgr/app/integrated/breed/breedupdate.jsp</result>
+		</action>
+		<!-- 品名删除-->
+		<action name="deleteBreed" class="breedAction" method="removeBreed">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.commodity.Breed</param>
+			<result>/mgr/app/integrated/category/deleteforward.jsp</result>
+		</action>
+		<!--品名属性添加跳转 -->
+		<action name="addForwardProps" class="breedPropsAction" method="forwardAddBreedProps">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.commodity.BreedProps</param>
+			<result>/mgr/app/integrated/breed/breedprops_add.jsp</result>
+		</action>
+		<!-- 品名属性添加 -->
+		<action name="addProps" class="breedPropsAction" method="addBreedProps">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.commodity.BreedProps</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<!-- 品名属性修改跳转 -->
+		<action name="updateForwardProps" class="breedPropsAction" method="viewByIdProps">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.commodity.BreedProps</param>
+			<result>/mgr/app/integrated/breed/breedprops_update.jsp</result>
+		</action>
+		<!--品名 属性修改-->
+		<action name="updateProps" class="breedPropsAction" method="modProps">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.commodity.BreedProps</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<!-- 品名属性删除-->
+		<action name="deleteProps" class="breedPropsAction" method="removeProps">
+			<result>updateForwardBreed.action</result>
+		</action>
+	</package>
+	
+	<!-- 查看图片时可以不要权限  -->
+	<package name="trd_nosecurity_pic" extends="base-category" namespace="/nosecurity/pic">
+		<action name="getBreedPic" class="breedAction" method="getBreedPic">
+		</action>
+	</package>
+	
+	<!-- 商品分类属性类型管理 -->
+	<package name="propertyType" extends="base-category" namespace="/category/propertytype">
+		<!-- 属性类型列表 -->
+		<action name="list" class="categoryPropertyTypeAction" method="listByLimit">
+			 <param name="entityName">gnnt.MEBS.integrated.mgr.model.commodity.PropertyType</param>
+			 <result>/mgr/app/integrated/categorypropertytype/propertytype_list.jsp</result>
+		</action>
+		<!-- 添加属性类型跳转 -->
+		<action name="addForwardPropertyType" class="categoryPropertyTypeAction" method="forwardAdd">
+			 <param name="entityName">gnnt.MEBS.integrated.mgr.model.commodity.PropertyType</param>
+			 <result>/mgr/app/integrated/categorypropertytype/propertytype_add.jsp</result>
+		</action>
+		<!-- 添加属性类型-->
+		<action name="addPropertyType" class="categoryPropertyTypeAction" method="addPropertyType">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.commodity.PropertyType</param>
+			 <result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<!-- 修改属性类型跳转-->
+		<action name="updateForwardPropertyType" class="categoryPropertyTypeAction" method="viewById">
+			 <param name="entityName">gnnt.MEBS.integrated.mgr.model.commodity.PropertyType</param>
+			 <result>/mgr/app/integrated/categorypropertytype/propertytype_update.jsp</result>
+		</action>
+		<!-- 修改属性类型 -->
+		<action name="updatePropertyType" class="categoryPropertyTypeAction" method="updatePropertyType">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.commodity.PropertyType</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<!-- 删除属性类型 -->
+		<action name="deletePropertyType" class="categoryPropertyTypeAction" method="deletePropertyType">
+			 <param name="entityName">gnnt.MEBS.integrated.mgr.model.commodity.PropertyType</param>
+			 <result>list.action</result>
+		</action>
+	
+	</package>
+</struts>

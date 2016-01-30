@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="GBK"?>
+<sitemap>
+	<node title="主页" href="/menu/homepage.action">
+		<node title="公告列表" path="/front/app/mgr/noticeandmessage/noticelist.jsp"/>
+		<node title="消息列表" path="/front/app/mgr/noticeandmessage/messagelist.jsp"/>
+	</node>
+	<node title="登录" href="/" path="/">
+		<node title="确认协议书" href="/front/logon/pageXYS.jsp" path="/">
+			<node title="注册" path="/front/logon/register.jsp"/>
+		</node>
+	</node>
+	<node title="登录" href="/" path="/">
+		<node title="确认协议书" path="/front/logon/pageXYS.jsp"/>
+	</node>
+	<node title="登录" href="/" path="/front/logon/logon.jsp"/>
+</sitemap>

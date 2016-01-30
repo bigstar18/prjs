@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<!-- 审核类型对应的汉字描述 -->
+	<util:map id="auditOperateMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.util.HashMap">
+		<entry key="testAudit" value-ref="testAuditMap" />
+	</util:map>
+
+	<util:map id="testAuditMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<!-- 审核名称 -->
+		<entry key="name" value="测试更新审核" />
+		<!-- 展示审核内容的table路径 -->
+		<entry key="detailTablePath" value="testaudit/commontable.jsp" />
+	</util:map>
+	
+</beans>

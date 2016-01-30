@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+	<!-- 
+		公用系统错误码定义方式：二位位模块号+五位数字
+			公用系统错误码第一位模块号：99
+			五位数字设定方式：
+				第一位设定为成功失败的标志：1 成功、2 警告、3 失败
+				第二、三位设定为区分不同的交易使用(99 表示公用部分信息)
+				第四、五位为交易的错误码区分位，预计每个交易有 100 个错误码足够了
+	 -->
+	<bean id="errorCode" class="java.util.Properties">
+		<constructor-arg type="java.util.Properties">
+			<props>
+<!-- 公用部分 -->
+                <prop key="10000">注册成功</prop>
+				<prop key="9910001">操作成功</prop>
+				<prop key="9910002">添加成功</prop>
+				<prop key="9910003">修改成功</prop>
+				<prop key="9910004">删除成功</prop>
+				<prop key="9910005">申请成功</prop>
+				<prop key="9910006">撤销成功</prop>
+
+				<prop key="9910011">操作成功，请等待审核！</prop>
+				<prop key="9910012">添加成功，请等待审核！</prop>
+				<prop key="9910013">修改成功，请等待审核！</prop>
+				<prop key="9910014">删除成功，请等待审核！</prop>
+				<prop key="9910015">申请成功，请等待审核！</prop>
+				<prop key="9910016">撤销成功，请等待审核！</prop>
+
+				<prop key="9920001">信息提示：%s</prop>
+
+				<prop key="9930001">操作失败</prop>
+				<prop key="9930002">添加失败</prop>
+				<prop key="9930003">修改失败</prop>
+				<prop key="9930004">删除失败</prop>
+				<prop key="9930005">申请失败</prop>
+				<prop key="9930006">撤销失败</prop>
+
+				<prop key="9930091">您的操作未成功,请您稍后重试!</prop>
+				<prop key="9930092">%s</prop>
+
+				<!-- 登录 -->
+				<prop key="9910101">登录成功</prop>
+				<prop key="9930101">传入的 SessionID不存在</prop>
+				<prop key="9930102">通过 SessionID信息向管理端写入信息失败</prop>
+				<prop key="9930103">用户信息与 SessionID信息不一致</prop>
+
+				<prop key="9930101">获取系统生成的验证码失败</prop>
+				<prop key="9930102">传入的验证码为空</prop>
+				<prop key="9930103">验证码错误</prop>
+				<prop key="9930111">登录核心返回错误</prop>
+				<prop key="9930112">交易员不存在</prop>
+				<prop key="9930113">用户口令不正确</prop>
+				<prop key="9930114">您的账号被禁止</prop>
+				<prop key="9930115">Key盘验证失败</prop>
+				<prop key="9930116">您的账号不能登录本系统</prop>
+				<prop key="9930117">登录时出现未知异常，请您联系管理员[%s]</prop>
+				<prop key="9930118">用户不存在或密码错误</prop>
+
+				<!-- 修改自己密码 -->
+				<prop key="9910201">修改密码成功</prop>
+				<prop key="9930201">旧密码不正确</prop>
+
+				<!-- 修改风格 -->
+				<prop key="9910301">修改风格成功</prop>
+
+				<!-- 修改快捷菜单 -->
+				<prop key="9910401">修改快捷菜单成功</prop>
+				<prop key="9930401">用户信息为空，请先登录</prop>
+				
+				<!-- 读取加盟商失败 -->
+				<prop key="9940001">读取加盟商失败，请稍后重试</prop>
+				<prop key="100001">注册成功，交易所审核通过后悔通过短信方式通知到您预留的手机号码上，请注意查收。</prop>
+
+			</props>
+		</constructor-arg>
+	</bean>
+	<!-- 系统配置项结束 -->
+
+</beans>

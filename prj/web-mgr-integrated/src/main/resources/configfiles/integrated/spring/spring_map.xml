@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<!-- 交易商状态 -->
+	<util:map id="firmStatusMap" map-class="java.util.HashMap" 
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="N" value="正常"></entry>
+		<entry key="D" value="冻结"></entry>
+		<entry key="E" value="注销"></entry>
+	</util:map>
+
+	<!-- 交易商类型 -->
+	<util:map id="mfirmTypeMap" map-class="java.util.HashMap" 
+		key-type="java.lang.Integer" value-type="java.lang.String">
+		<entry key="1" value="法人"></entry>
+		<entry key="2" value="代理"></entry>
+		<entry key="3" value="个人"></entry>
+	</util:map>
+	
+	<!-- 交易商证件类型 -->
+	<util:map id="certificateTypeMap" map-class="java.util.HashMap"
+		key-type="java.lang.Integer" value-type="java.lang.String">
+		<entry  key="1" value="居民身份证"></entry>
+		<entry  key="2" value="士官证"></entry>
+		<entry  key="3" value="学生证"></entry>
+		<entry  key="4" value="驾照证"></entry>
+		<entry  key="5" value="护照"></entry>
+		<entry  key="6" value="港澳通行证"></entry>
+	</util:map>
+
+	<!-- 交易员类型 -->
+	<util:map id="traderTypeMap" map-class="java.util.HashMap" 
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="A" value="管理员"></entry>
+		<entry key="N" value="一般交易员"></entry>
+	</util:map>
+
+	<!-- 交易员状态 -->
+	<util:map id="traderStatusMap" map-class="java.util.HashMap" 
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="N" value="正常"></entry>
+		<entry key="D" value="禁用"></entry>
+	</util:map>
+	
+	<!-- 代为交易员类型 -->
+	<util:map id="agentTraderTypeMap" map-class="java.util.HashMap"
+	    key-type="java.lang.Long" value-type="java.lang.String">
+	    <entry key="0" value="代为交易员"></entry>
+	    <entry key="1" value="强平员"></entry>
+	</util:map>
+
+	<!-- 代为交易员状态 -->
+	<util:map id="agentTraderStatusMap" map-class="java.util.HashMap"
+	    key-type="java.lang.Long" value-type="java.lang.String">
+	    <entry key="0" value="正常"></entry>
+	    <entry key="1" value="禁止登陆"></entry>
+	</util:map>
+
+	<!-- 交易员是否启用key -->
+	<util:map id="traderKeyMap" map-class="java.util.HashMap" 
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="Y" value="启用"></entry>
+		<entry key="N" value="不启用"></entry>
+	</util:map>
+
+	<!-- 交易商申请审核状态 -->
+	<util:map id="applyStatusMap" map-class="java.util.HashMap" 
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="0" value="待审核"></entry>
+		<entry key="1" value="审核通过"></entry>
+		<entry key="2" value="审核不通过"></entry>
+	</util:map>
+
+	<!-- 消息管理中的接收类型 -->
+	<util:map id="recieverMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="1" value="在线交易员" />
+		<entry key="2" value="在线管理员" />
+		<entry key="3" value="在线用户" />
+		<entry key="4" value="指定交易员" />
+		<entry key="5" value="指定管理员" />
+	</util:map>
+	
+	<!-- 品名交易模式  -->
+	<util:map id="breedModeMap" map-class="java.util.HashMap"
+		key-type="java.lang.Integer" value-type="java.lang.String">
+		<entry key="1" value="诚信保障金模式"></entry>
+		<entry key="2" value="保证金模式"></entry>
+	</util:map>
+
+	<!--商品分类属性填写类型 -->
+	<util:map id="categoryPropTypeMap" map-class="java.util.HashMap"
+		key-type="java.lang.Integer" value-type="java.lang.String">
+		<entry key="0" value="字符串" />
+		<entry key="1" value="数字" />
+	</util:map>
+	
+	<!--是否允许溢短申请 -->
+	<util:map id="isPickOrSubOrderMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="Y" value="允许" />
+		<entry key="N" value="不允许" />
+	</util:map>
+	<!-- 是否显示 -->
+	<util:map id="isvisibalMap" map-class="java.util.LinkedHashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="Y" value="可选择"></entry>
+		<entry key="N" value="不可选择"></entry>
+	</util:map>
+	<!-- 商品分类属性类型状态 -->
+	<util:map id="categoryPropTypeStatusMap" map-class="java.util.LinkedHashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="0" value="可见"></entry>
+		<entry key="1" value="不可见"></entry>
+	</util:map>
+
+</beans>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+	<package name="tariff" extends="base-struts2" namespace="/firm/tariff">
+		<interceptors>
+			<interceptor name="listTariffInterceptor"
+					class="gnnt.MEBS.timebargain.broker.action.interceptor.TariffListInterceptor">
+			</interceptor>	
+		</interceptors>
+		<action name="tariffList" class="firmTariffAction" method="listFirmTariff">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+		    <interceptor-ref name="listTariffInterceptor">
+		    </interceptor-ref>
+			<result>/broker/app/timebargain/tariff/tariff_list.jsp</result>
+		</action>
+
+		<action name="detailTariff" class="firmTariffAction" method="viewById">
+		    <interceptor-ref name="mydefault"></interceptor-ref>
+		    <interceptor-ref name="listTariffInterceptor">
+		    </interceptor-ref>
+			<param name="entityName">gnnt.MEBS.common.broker.model.MFirm</param>
+			<result>/broker/app/timebargain/tariff/viewFirm.jsp</result>
+		</action>
+		
+		<action name="detailTariffCommodity" class="firmTariffAction" method="getTariffCommodityList">
+			<result>/broker/app/timebargain/tariff/tariffCommodity.jsp</result>
+		</action>
+		
+		<action name="updateTariff" class="firmTariffAction" method="updateTariff">
+			<param name="entityName">gnnt.MEBS.common.broker.model.MFirm</param>
+			<result>tariffList.action?sortColumns=order+by+firmID+asc</result>
+		</action>
+		
+		<action name="tradeFeeFirmList" class="firmTariffAction" method="listTradeFeeFirm">
+			<result>/broker/app/timebargain/tariff/tradeFeeFirm_list.jsp</result>
+		</action>
+		
+		<action name="tradeFeeFirmCommodityList" class="firmTariffAction" method="listTradeFeeFirmCommodityList">
+			<result>/broker/app/timebargain/tariff/tradeFeeFirmCommodity_list.jsp</result>
+		</action>
+	</package>
+</struts>

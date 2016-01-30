@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd
+        http://www.springframework.org/schema/jee    
+        http://www.springframework.org/schema/jee/spring-jee-2.5.xsd">
+     <!-- jdbc数据库连接 在没有启动tomcat容器时测试使用 -->
+     <bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName">
+			<value>oracle.jdbc.driver.OracleDriver</value>
+		</property>
+		<property name="url">
+			<value>jdbc:oracle:thin:@172.16.2.55:1521:gnnt</value>
+		</property>
+		<property name="username">
+			<value>mebs01</value>
+		</property>
+		<property name="password">
+			<value>password</value>
+		</property>
+		<property name="maxActive">
+			<value>8</value>
+		</property>
+		<property name="maxIdle">
+			<value>5</value>
+		</property>
+		<property name="maxWait">
+			<value>3000</value>
+		</property>
+	</bean>
+        
+    <bean id="dataSourceForQuery"
+		class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName">
+			<value>oracle.jdbc.driver.OracleDriver</value>
+		</property>
+		<property name="url">
+			<value>jdbc:oracle:thin:@172.16.2.55:1521:gnnt</value>
+		</property>
+		<property name="username">
+			<value>mebs02</value>
+		</property>
+		<property name="password">
+			<value>password</value>
+		</property>
+		<property name="maxActive">
+			<value>8</value>
+		</property>
+		<property name="maxIdle">
+			<value>5</value>
+		</property>
+		<property name="maxWait">
+			<value>3000</value>
+		</property>
+	</bean>
+</beans>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!--  ajax 验证信息相关 -->
+	<package name="ajaxorder" extends="json-default" namespace="/ajaxcheck/order">
+	<!-- 返回一手对应的保证金 -->
+		<action name="searchForceCloseMoney" class="ajaxOrder" method="searchForceCloseMoney">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+	</package>
+</struts>

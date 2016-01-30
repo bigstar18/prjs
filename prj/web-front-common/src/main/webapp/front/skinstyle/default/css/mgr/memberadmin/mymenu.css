@@ -1,0 +1,30 @@
+@charset "GBK";
+body,table{font:12px/20px Arial,"Microsoft Yahei","SimSun";  background:#FFF;}
+.mymenu-mymenuWrap2,.mymenu-in,.mymenu-close{display:inline-block;}
+.mymenu-mymenuWrap2{border:1px solid #c6e1f4; background-color:#F4FBFF;position:absolute;text-align:left;padding-top:6px;padding-left:6px; padding-bottom:6px;}
+.mymenu-in{position:absolute;zoom:1;border:10px dashed transparent;width:0px;height:0px;}
+.mymenu-in span{zoom:1;width:0px;height:0px;overflow:hidden;}
+.set_close{display:inline-block;right:0;top:0;position:absolute;background:url(../../../image/mgr/memberadmin/close.gif) no-repeat;width:20px;height:28px;}
+.set_bg{ clear:both;background-color:#FFF; border:1px solid #c6e1f4; margin-right:6px;font-size:12px;}
+.mymenu-close{position:absolute; text-decoration:none;color:#000;font-size:14px; height:9px; width:9px; overflow:hidden;line-height:0.5em; right:0; top:0;}
+.mymenu-close:hover{color:#39F;}
+.mymenu-top{border-top:10px solid #8FC8E8;bottom:-20px; left:3px;}
+.mymenu-top span{border-top:10px solid #F4FBFF;margin:-11px 0 0 -10px;}
+.mymenu-right{border-right:10px solid #8FC8E8;left:-20px; top:3px;}
+.mymenu-right span{border-right:10px solid #F4FBFF;margin:-10px 0 0 -9px;}
+.mymenu-bottom{border-bottom:10px solid #8FC8E8;top:-20px; left:3px;}
+.mymenu-bottom span{border-bottom:10px solid #F4FBFF;margin:-9px 0 0 -10px;}
+.mymenu-left{border-left:10px solid #8FC8E8;right:-20px; top:3px; }
+.mymenu-left span{border-left:10px solid #F4FBFF;margin:-10px 0 0 -11px;}
+.mymenu-left ~ .mymenu-close{left:0;}
+.clear{clear:both;}
+
+/*css 3 渐进增强F4FBFF*/
+.mymenu-mymenuWrap2{-webkit-border-radius:3px;-moz-border-radius:3px;-webkit-box-shadow:2px 2px 3px #eee;-moz-box-shadow:2px 2px 3px #eee;}
+
+/*数据循环 li dt dd */
+#mymenudiv td{ line-height:24px;}
+.font_14B{ font-size:14px; font-weight:bold; line-height:30px;}
+.borderB{ border-bottom:1px solid #CCC;}
+.borderT{ border-top:1px solid #CCC; padding-top:7px;}
+.button{ width:50px; height:24px; border:none; background:url(../../../image/mgr/memberadmin/set.gif) no-repeat; color:#FFF; font-weight:bold; line-height:24px;}

@@ -13,41 +13,19 @@
 	
 	<!-- 依赖项定义 -->
 	<dependencies>
+		<dependency>
+			<groupId>org.hxx</groupId>
+			<artifactId>web-mgr-common</artifactId>
+			<version>1.0.0</version>
+			<classifier>classes</classifier>
+		</dependency>
 
-		<dependency>
-			<groupId>com.yrdce</groupId>
-			<artifactId>logon-server</artifactId>
-			<version>1.0.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/LogonServer.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>com.yrdce</groupId>
-			<artifactId>logon-server-util</artifactId>
-			<version>1.0.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/logonServerUtil.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>com.yrdce</groupId>
-			<artifactId>mgr-check-logon</artifactId>
-			<version>1.0.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/MgrCheckLogon.jar</systemPath>
-		</dependency>
 		<dependency>
 			<groupId>com.yrdce</groupId>
 			<artifactId>bill_core</artifactId>
 			<version>1.0.0</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/bill_core.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>com.yrdce</groupId>
-			<artifactId>common_mgr.java</artifactId>
-			<version>1.0.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/common_mgr.java.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>com.yrdce</groupId>
@@ -62,20 +40,8 @@
 			<artifactId>javassist</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>javax.validation</groupId>
-			<artifactId>validation-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>javax.cache</groupId>
-			<artifactId>cache-api</artifactId>
 		</dependency>
 		
 		<!-- SPRING begin -->
@@ -114,11 +80,7 @@
 			
 		<!-- spring orm -->		
 		
-		<!-- bean validate -->
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-validator</artifactId>
-		</dependency>	
+		<!-- bean validate -->	
 		<!-- SPRING end -->
 		
 		<!-- AOP begin -->
@@ -141,14 +103,6 @@
 			<artifactId>spring-web</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-oxm</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>taglibs</groupId>
 			<artifactId>standard</artifactId>
 		</dependency>
@@ -164,14 +118,6 @@
 		<!-- WEB end -->
 
 		<!-- CACHE begin -->
-		<dependency>
-			<groupId>net.sf.ehcache</groupId>
-			<artifactId>ehcache-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>net.sf.ehcache</groupId>
-			<artifactId>ehcache-web</artifactId>
-		</dependency>
 		<!-- CACHE end -->
 		
 		<!-- SECURITY begin -->
@@ -227,10 +173,6 @@
 		<!-- LOGGING end -->
 		
 		<!-- GENERAL UTILS begin -->
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-		</dependency>
 		<!-- <dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
@@ -255,10 +197,6 @@
 		</dependency> -->
 		
 		<!-- google java lib -->
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-		</dependency>
 		
 		<!-- jackson json -->
 		
@@ -341,15 +279,7 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-		</dependency>
 		<!-- TEST end -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-jdbc</artifactId>
-		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
@@ -395,6 +325,16 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-orm</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hxx</groupId>
+			<artifactId>util-logon</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hxx</groupId>
+			<artifactId>util-checkLogon</artifactId>
+			<version>1.0.0</version>
 		</dependency>
 	</dependencies>
 

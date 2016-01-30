@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="billwarehousestock" extends="base-struts2-display" namespace="/front/bill/stock">
+		<!-- 查询用户没有用到的仓单 -->
+		<action name="getNotUseStock" class="stockAction" method="getNotUseStock">
+			<result>/front/app/bill/stockmanage/notusewarehouse.jsp</result>
+		</action>
+	</package>
+	<package name="registerStock" extends="base-struts2-display" namespace="/front/bill/register">
+		<!-- 注册仓单列表  -->
+		<action name="list" class="stockAction" method="stockRegisterList">
+			<result>/front/app/bill/stockmanage/stock_register_list.jsp</result>
+		</action>
+		<!-- 注销仓单 -->
+		<action name="logoutStock" class="stockAction" method="logoutStock">
+			<result>/front/public/jsp/submitsuccess.jsp</result>
+		</action>
+		<!-- 可用仓单详情 -->
+		<action name="detail" class="stockAction" method="stockDetail">
+			<param name="entityName">gnnt.MEBS.bill.front.model.stockmanage.Stock</param>
+			<result>/front/app/bill/stockmanage/stock_register_detail.jsp</result>
+		</action>
+		<!-- 融资仓单详情 -->
+		<action name="financingstockdetail" class="stockAction" method="stockDetail">
+			<param name="oprationId">1</param>
+			<param name="entityName">gnnt.MEBS.bill.front.model.stockmanage.Stock</param>
+			<result>/front/app/bill/stockmanage/stock_opration_detail.jsp</result>
+		</action>
+		<!-- 交收仓单详情 -->
+		<action name="tradestockdetail" class="stockAction" method="stockDetail">
+			<param name="oprationId">3</param>
+			<param name="entityName">gnnt.MEBS.bill.front.model.stockmanage.Stock</param>
+			<result>/front/app/bill/stockmanage/stock_opration_detail.jsp</result>
+		</action>
+		<!-- 卖仓单详情 -->
+		<action name="sellstockdetail" class="stockAction" method="stockDetail">
+			<param name="oprationId">2</param>
+			<param name="entityName">gnnt.MEBS.bill.front.model.stockmanage.Stock</param>
+			<result>/front/app/bill/stockmanage/stock_opration_detail.jsp</result>
+		</action>
+		<!-- 冻结仓单详情 -->
+		<action name="frozenstockdetail" class="stockAction" method="stockDetail">
+			<param name="oprationId">4</param>
+			<param name="entityName">gnnt.MEBS.bill.front.model.stockmanage.Stock</param>
+			<result>/front/app/bill/stockmanage/stock_opration_detail.jsp</result>
+		</action>
+	</package>
+	<package name="unregisterStock" extends="base-struts2-display" namespace="/front/bill/unregister">
+		<!-- 未注册仓单列表  -->
+		<action name="list" class="stockAction" method="stockList">
+			<param name="stockStatus">0</param>
+			<result>/front/app/bill/stockmanage/stock_unregister_list.jsp</result>
+		</action>
+		<!-- 未注册仓单详情 -->
+		<action name="detail" class="stockAction" method="stockDetail">
+			<param name="entityName">gnnt.MEBS.bill.front.model.stockmanage.Stock</param>
+			<result>/front/app/bill/stockmanage/stock_detail.jsp</result>
+		</action>
+		<!-- 注册仓单详情 -->
+		<action name="userfaldetail" class="stockAction" method="stockDetail">
+			<param name="entityName">gnnt.MEBS.bill.front.model.stockmanage.Stock</param>
+			<result>/front/app/bill/stockmanage/stock_detail.jsp</result>
+		</action>
+		<!-- 注册仓单 -->
+		<action name="registerStock" class="stockAction" method="registerStock">
+			<result>/front/public/jsp/submitsuccess.jsp</result>
+		</action>
+		<!-- 无仓版仓单出库申请/有仓版仓单出库跳转 -->
+		<action name="forwardExitStock" class="stockAction" method="forwardStockOut">
+			<param name="entityName">gnnt.MEBS.bill.front.model.stockmanage.Stock</param>
+			<result>/front/app/bill/stockmanage/stockout.jsp</result>
+		</action>
+		<!-- 有仓版仓单出库/ 无仓版仓单申请  -->
+		<action name="exitStock" class="stockAction" method="exitStock">
+			<result>/front/public/jsp/submitsuccess.jsp</result>
+		</action>
+		<!-- 拆单  -->
+		<action name="dismantleStockToPage" class="stockAction" method="viewById">
+			<param name="entityName">gnnt.MEBS.bill.front.model.stockmanage.Stock</param>
+			<result>/front/app/bill/stockmanage/stock_dismantle.jsp</result>
+		</action>
+		<action name="dismantleStock" class="stockAction" method="dismantleStock">
+			<result>/front/public/jsp/submitsuccess.jsp</result>
+		</action>
+	</package>
+	<package name="exitStock" extends="base-struts2-display" namespace="/front/bill/exit">
+		<!-- 出库仓单列表  -->
+	    <!--
+		<action name="list" class="stockAction" method="stockList">
+			<param name="stockStatus">2</param>
+			<result>/front/app/bill/stockmanage/stock_exit_list.jsp</result>
+		</action>
+		-->
+		<!--出库仓单列表  修改 xief 20150722  -->
+		<action name="list" class="stockAction" method="stockListNow">
+			<param name="stockStatus">2</param>
+			<result>/front/app/bill/stockmanage/stock_exit_list.jsp</result>
+		</action>
+		<!-- 出库申请仓单列表 -->
+		<action name="stockOutApplyList" class="stockAction" method="stockList">
+			<param name="stockStatus">5</param>
+			<result>/front/app/bill/stockmanage/stock_exit_list.jsp</result>
+		</action>
+		<!-- 撤销仓单出库申请 -->
+		<action name="stockOutCancel" class="stockAction" method="stockOutCancel">
+			<param name="entityName">gnnt.MEBS.bill.front.model.stockmanage.Stock</param>
+			<result>stockOutApplyList.action</result>
+		</action>
+		<!-- 仓单详情 -->
+		<action name="detail" class="stockAction" method="stockDetail">
+			<param name="entityName">gnnt.MEBS.bill.front.model.stockmanage.Stock</param>
+			<param name="oprationId">5</param>
+			<result>/front/app/bill/stockmanage/stock_exit_detail.jsp</result>
+		</action>
+		<!-- 卖出仓单列表 xief 2015.07.20 -->
+		<action name="stockBySeller" class="stockAction" method="stockBySeller">
+			<param name="entityName">gnnt.MEBS.bill.front.model.stockmanage.BusinessRelationship</param>
+			<param name="received">1</param>
+			<result>/front/app/bill/stockmanage/stock_sell_list.jsp</result>
+		</action>
+		<!-- 查看发票信息 xief 2015.07.21 -->
+		<action name="showInvoice" class="stockAction" method="showInvoice">
+			<param name="entityName">gnnt.MEBS.bill.front.model.stockmanage.Invoiceinform</param>
+			<result>/front/app/bill/stockmanage/stock_invoice_detail.jsp</result>
+		</action>
+		<!-- 确认收货 -->
+		<action name="stockConfirm" class="stockAction" method="stockConfirm">
+			<result>list.action</result>
+		</action>
+	</package>
+	<package name="splitStock" extends="base-struts2-display" namespace="/front/bill/split">
+		<!-- 拆单管理  -->
+		<action name="list" class="stockAction" method="stockSplitList">
+			<param name="stockStatus">3</param>
+			<result>/front/app/bill/stockmanage/stock_dismantle_list.jsp</result>
+		</action>
+		<!-- 仓单详情 -->
+		<action name="detail" class="stockAction" method="stockDetail">
+			<param name="entityName">gnnt.MEBS.bill.front.model.stockmanage.Stock</param>
+			<result>/front/app/bill/stockmanage/stock_dismantle_detail.jsp</result>
+		</action>
+	</package>
+</struts>

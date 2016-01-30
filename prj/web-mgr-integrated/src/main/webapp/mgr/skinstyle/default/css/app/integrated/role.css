@@ -1,0 +1,74 @@
+/*设置父菜单样式*/
+.fmodulediv{
+	clear:both;
+	background-color:#f7fcff;
+	border-top:1px solid #c6e1f4;
+	border-left:1px solid #c6e1f4;
+	border-right:1px solid #c6e1f4;
+	border-bottom:1px solid #c6e1f4;
+	margin-right:6px;
+	height:480px;
+}
+/*父框外层框样式*/
+.fmodulediv2{
+	border:1px solid #c6e1f4;
+	background-color:#FFFFFF;
+	position:absolute;
+	text-align:left;
+	padding-top:6px;
+	padding-left:6px;
+	padding-bottom:6px;
+	width: 92%;
+	margin-left: 3px;
+}
+/*复选框样式*/
+.boxcla{
+	
+}
+/*设置 label 手状*/
+label{
+	cursor: hand;
+}
+/*设置模块点击按钮样式*/
+label.module{
+	color: #146aa5;
+	font-weight:bold;
+}
+/*展示模块label样式*/
+label.modulelab{
+	color: #FF0000;
+}
+/*一级菜单label样式*/
+label.fright{
+	color: #d70808;
+	font-weight:bold;
+}
+/*二级菜单label样式*/
+label.sright{
+	color: #595959;
+	font-weight:bold;
+}
+/*三级菜单label样式*/
+label.tright{
+	color: #e28601;
+	font-weight:bold;
+}
+/*四级菜单label样式*/
+label.fbright{
+	color: #1d61b2;
+	font-weight:bold;
+}
+/*五级菜单label样式*/
+label.sbright{
+	color: #096dbb;
+}
+/*六级菜单label样式*/
+label.tbright{
+	color: #696969;
+}
+
+
+
+.mymenu_div{border:1px solid #c6e1f4; background-color:#FFFFFF;position:absolute;text-align:left;padding-top:6px;padding-left:6px; padding-bottom:6px;width: 98%;margin-left: 3px;}
+.mymenu_div1{ clear:both;background-color:#f7fcff; border-top:1px solid #c6e1f4;border-left:1px solid #c6e1f4;border-right:1px solid #c6e1f4; border-bottom:1px solid #c6e1f4; margin-right:6px;height:480px;}
+.mymenu_div2{overflow-x:hidden;position:absolute;z-index:1;overflow:auto;height:480px;width: 99%;}

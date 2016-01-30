@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hebernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="gnnt.MEBS.integrated.front.model">
+    <class name="Message" table="M_Message" dynamic-update="true" lazy="false">
+        <id name="messageId"/>
+
+        <property name="message"/> 
+        <property name="recieverType"/> 
+        <property name="traderID"/>
+        <property name="createTime" insert="false" update="false"/> 
+        <property name="userId"/>     
+        
+    </class>
+</hibernate-mapping>

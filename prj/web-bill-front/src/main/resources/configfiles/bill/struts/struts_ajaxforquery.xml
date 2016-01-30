@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<!-- 用于查询的 ajax 配置 -->
+	<package name="jsonforstockquery" extends="json-default" namespace="/front/bill/jsonforstock">
+		<!-- 通过仓单编号获取仓单信息json -->
+		<action name="getStockJson" class="ajaxForQuery" method="getStockJson">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+	</package>
+</struts>

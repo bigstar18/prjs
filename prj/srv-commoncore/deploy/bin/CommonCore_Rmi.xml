@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="kernelRMIService" class="org.springframework.remoting.rmi.RmiServiceExporter">
+		<property name="service">
+			<ref bean="kernelService" />
+		</property>
+		<!-- 定义服务名 -->
+		<property name="serviceName">
+			<value>kernelService</value>
+		</property>
+		<property name="serviceInterface">
+			<value>gnnt.MEBS.common.core.kernel.IKernelService</value>
+		</property>
+		<property name="registryPort">
+			<value>$[common.rmi.port]</value>
+		</property>
+	</bean>
+</beans>

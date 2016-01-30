@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- 注册的操作 -->
+	<package name="register" extends="base-struts2" namespace="/mgr/app/integrated/checkneedless">
+		<!-- 注册跳转 -->
+		<action name="register" class="com_standardAction" method="add">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.usermanage.MFirmApply</param>
+			<!--  <result name="error">/mgr/app/integrated/checkneedless/register.jsp</result>-->
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+	</package>
+
+</struts>

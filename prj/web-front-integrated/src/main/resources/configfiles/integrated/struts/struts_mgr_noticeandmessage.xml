@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<!-- 
+		系统公告、消息权限配置 
+	-->
+	<package name="mgrnoticeandmessage" extends="base-struts2-display" namespace="/front/app/integrated/noticeandmessage">
+
+		<!-- 查询公告列表 -->
+		<action name="noticeList" class="noticeAndMessageAction" method="noticeList">
+			<param name="entityName">gnnt.MEBS.integrated.front.model.Notice</param>
+			<result>/front/app/integrated/noticeandmessage/noticelist.jsp</result>
+		</action>
+
+		<!-- 查询公告详情 -->
+		<action name="noticeDetails" class="noticeAndMessageAction" method="noticeDetails">
+			<param name="entityName">gnnt.MEBS.integrated.front.model.Notice</param>
+			<result>/front/app/integrated/noticeandmessage/noticedetails.jsp</result>
+		</action>
+
+		<!-- 查询只发给本交易员的消息 -->
+		<action name="messageList" class="noticeAndMessageAction" method="messageList">
+			<param name="entityName">gnnt.MEBS.integrated.front.model.Message</param>
+			<result>/front/app/integrated/noticeandmessage/messagelist.jsp</result>
+		</action>
+
+		<!-- 查询消息详情 -->
+		<action name="messageDetails" class="noticeAndMessageAction" method="messageDetails">
+			<param name="entityName">gnnt.MEBS.integrated.front.model.Message</param>
+			<result>/front/app/integrated/noticeandmessage/messagedetails.jsp</result>
+		</action>
+		
+	</package>
+
+</struts>

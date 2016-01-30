@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+	<!-- 
+		公用系统错误码定义方式：一位模块号+五位数字
+			公用系统错误码第一位模块号：1
+			五位数字设定方式：
+				第一位设定为成功失败的标志：1 成功、2 警告、3 失败
+				第二、三位设定为区分不同的交易使用(99 表示公用部分信息)
+				第四、五位为交易的错误码区分位，预计每个交易有 100 个错误码足够了
+	 -->
+	<bean id="errorCode" class="java.util.Properties">
+		<constructor-arg type="java.util.Properties">
+			<props>
+<!-- 公用部分信息设定为 99 -->
+				<prop key="119901">添加成功</prop>
+				<prop key="119902">修改成功</prop>
+				<prop key="119903">删除成功</prop>
+				<prop key="119904">添加数据成功，等待审核</prop>
+				<prop key="119905">更新数据成功，等待审核</prop>
+				<prop key="119906">删除数据成功，等待审核</prop>
+				
+				<prop key="139904">系统异常，请联系管理人员</prop>
+
+<!-- 菜单管理信息设定为 10 -->
+				<prop key="111001">设置我的菜单成功</prop>
+				<prop key="131001">设置我的菜单失败，我的菜单最多不能多于%s个</prop>
+
+<!-- 用户登录设定为 12 -->
+				<prop key="111201">管理员登录成功</prop>
+				<prop key="131201">验证码为空，请重新登录</prop>
+				<prop key="131202">验证码错误，请重新登录</prop>
+				<prop key="131203">用户名或密码错误，请重新登录</prop>
+				<prop key="131204">key盘身份验证失败，请确认</prop>
+				<prop key="131205">用户被禁用，请联系系统管理员</prop>
+				<prop key="131206">系统返回未知错误，错误码%s，请联系系统管理员</prop>
+
+<!-- 修改登录密码定为 13 -->
+				<prop key="111301">修改密码成功</prop>
+				<prop key="111302">修改管理员%s密码成功</prop>
+				<prop key="111303">修改风格成功</prop>
+				<prop key="131301">修改密码失败，新密码与原密码一致</prop>
+				<prop key="131302">修改密码失败，旧密码错误</prop>
+
+<!-- 以上为 公用信息，其他项目也会有涉及  -->
+
+				
+			</props>
+		</constructor-arg>
+	</bean>
+	<!-- 系统配置项结束 -->
+
+</beans>

@@ -1,0 +1,210 @@
+ /*公共部分*/
+body{margin:0; padding:0; font:12px/20px"宋体",Arial; color:#333;}
+div,dl,dt,dd,ul,ol,li,pre,form,fieldset,input,textarea,blockquote,p,img{margin:0px; padding:0px;font:12px/20px"宋体",Arial, ;list-style:none;}
+h1,h2,h3,h4,h5,h6{ margin:0px; padding:0px; font-weight:normal;font-style:normal;}
+a img{ border:0px;}
+.clear{ clear:both;}
+a {color:#5A4208;}
+a:hvoer {color:#F60;}
+
+ /*错误页面*/
+.error_bor01{ width:570px; border:1px solid #c5c0c0; height:230px; margin:0px auto 0px auto;}
+.error_bor02{ width:568px; border:1px solid #ffffff; height:228px; background:#e4e2e2;}
+
+/*logon  登录页面的样式
+.login_body{margin:0px;background:#f3f3f3;}
+.login_bq{font-size:14px;color:#a6a5a5;height:50px;line-height:25px;}
+.login_left{float:left; width:427px; height:auto;}
+.login_logo{width:427px;height:63px;background:url(../image/login_logo.gif) no-repeat center top;}
+.login_pic{	width:427px;height:200px;margin:10px 0px 10px 0px;background:url(../image/login_bg01.gif) no-repeat center;}
+.login_topbg{height:14px;background:url(../image/login_bg03.jpg) no-repeat top left;}
+.login_dowbg{height:14px;background:url(../image/login_bg04.jpg) no-repeat top left;}
+.logo_midbgl{height:40px;font-size:14px;line-height:40px;background:#fff;border-left:1px solid #cfcfcf;}
+.logo_midbgr{height:40px;font-size:14px;line-height:40px;background-color:#fff;border-right:1px solid #cfcfcf;}
+.logo_midbgr1{height:40px;font-size:14px;	line-height:40px;background-color:#fff;}
+.login_pw:link,.login_pw:visited,.login_pw:active,.login_pw:hover{color:#a6a5a5;font-size:14px;font-weight:bold;text-decoration:underline;}
+
+*/
+.login{width:955px; height:307px; background:url(../image/logon/bg1.gif) no-repeat; padding-left:5px; margin:0 auto;}
+.login .left{ float:left;width:417px;;}
+.login .right{float:right;width:193px; height:117px; background:url(../image/logon/bg_pic.gif); padding:77px 140px 113px 205px;}
+.login .logo1{ float:left; width:266px; height:77px;}
+.login .left_bg{float:left;width:1%; height:230px; background-image: url(../image/logon/left_bg.gif);}
+.login .center_bg{float:left; width:403px;height:39px; background:url(../image/logon/center_bg.gif) repeat-x; padding:70px 7px;}
+.login .footer{ float:left;width:417px; height:30px; padding:14px 0 7px 0;}
+.login .footer .l_bt{ float:left;width:115px; height:30px; line-height:30px; font-size:12px; color:#FFFFFF; text-align:center;}
+.login .footer .r_bg{ float:left;width:297px; height:30px; background:#f1f1f1;line-height:30px; font-size:12px; color:#000; padding-left:5px;}
+.font_12b{font-size:12px; color:#FFFFFF; font-weight:bold;}
+
+
+
+/*列表页面的样式*/
+#main_stats_body{width:98%;height:98%;background-color:#fff;border:1px solid #fff; margin:2px auto 0;}
+#main_body{width:98%;height:auto;background-color:#fff;border:1px solid #fff; margin:2px auto 0;}
+.div_cx{width:100%;border-style:none;margin-bottom:2px;}
+.div2_top{height:auto;width:100%;margin:0 auto 0 10px;}
+.div_gn{width:100%;	height:21px; margin:0 auto 2px auto;}
+.div_table_gn{width:100%;height:21px; margin:0 auto 2px auto;}
+.div_table_gn table{width:100%;border:1px solid #bfbfbf;border-width: 0 1px 1px 0;margin-top: 5px}
+.div_table_gn td{border:1px solid #bfbfbf;border-width:1px 0 0 1px;}
+.div_table_gn li{float:left;width:80px;height:21px;padding:0 7px;}
+.div_table_gn li a{text-decoration: none;}
+.div_table_gn li a:hover{text-decoration: underline;}
+.div_list{width:100%;height:auto;/*border-left-width:1px;border-left-style:solid;border-left-color:#d9d9d9;*/}
+.table1_style{width:100%;padding-left:15px;}
+.table2_style{width:100%;border:1px solid #bfbfbf;}
+.table_left_style{width:800px;margin-top:20px;margin-left: 20px;}
+.table_out_style{width:800px;border:1px solid #bfbfbf;margin-top: 20px;background: #fff;}
+.table_out1_style{width:100%;border:1px solid #bfbfbf;background: #f2f2f2}
+.table2_td_width{width:570px;height:40px;}
+.table3_style{width:800px;}
+.table4_style{width:1000px;}
+.table4_td_width{width:970px;height:40px;}
+.table3_td_1{width:200px;height:40px;padding:0px;line-height:40px;color:#000;}
+.table3_td_anniu{width:160px;height:40px;padding:0px;line-height:40px;color:#000;}
+.btn_sec{width:70px;height:21px;line-height:22px;font-weight:bold;color:#C30;text-align:center;background:url(../image/btn_sec.gif) no-repeat;border:none;}
+.btn_sec1{width:100px;height:21px;line-height:22px;font-weight:bold;color:#C30;text-align:center;background:url(../image/btn_sec1.gif) no-repeat;border:none;}
+.btn_cz{width:70px;height:21px;line-height:22px;font-weight:bold;color:#C30;text-align:center;background:url(../image/btn_cz.gif) no-repeat;border:none;}
+.anniu_btn{width:70px;height:21px;line-height:22px;font-weight:bold;color:#960;text-align:center;background:url(../image/btn.gif) no-repeat;border:none;}
+.table5_td_width{height:40px;width: 800px;}
+.table4_td_width{height:40px;width: 900px;}
+/*添加页面样式*/
+.st_title{width:100%;height:30px; font:bold 16px/30px "宋体", Arial;	padding:10px 0px 5px 5px;}
+.div_cxtj{float:left;height:24px;background:url(../image/title_BG.gif) repeat-x;a}
+.div_cxtjL{	float:left;	width:10px;	height:24px;background:url(../image/title_L.gif) no-repeat;}
+.div_cxtjC{	float:left;	padding:4px 7px 0 14px;	font:bold 12px/20px "宋体", Arial;color:#5A4208;background:url(../image/title_icon.gif) no-repeat 0px 8px;}
+.div_cxtjR{	float:left;	width:10px;	height:24px;background:url(../image/title_R.gif) no-repeat;}
+.div_clear{	clear:both;}
+.input_text_pwdmin{width:120px;height:20px;background-color:#eee;border:1px solid #7f9db9;}
+.input_text{width:120px;height:20px;background-color:#FFFFFF;border:1px solid #7f9db9;}
+
+/*添加修改时提示信息样式*/
+.onShow{padding-left:20px;background:url(../image/onShow.gif) no-repeat;}
+.onFocus{padding-left:20px;background:url(../image/onFocus.gif) no-repeat 0 -3px;border:0px solid #40b3ff;color:#3783DC;}
+.onError{padding-left:20px;background:#fff2f2 url(../image/onError.gif) no-repeat;border:1px solid #ff8080;}
+.onCorrect{padding-left:20px;background:url(../image/onCorrect.gif) no-repeat;}
+.onLoad{padding-left:20px;background:url(../image/onLoad.gif) no-repeat 3px 3px;}
+
+/*top页面的样式*/
+#haeder{background:url(../image/frame/topframe/topC.gif) repeat-x top;}
+.logo{ width:100%; height:70px;background:url(../image/frame/topframe/topL.gif) no-repeat;}
+.anniu_kuangCopy{float:right; text-align:right; padding-right:20px;font:12px/70px"宋体",Arial, ; color:#5A4208;}
+.anniu_kuang{float:right; width:230px; height:65px;padding:5px 0 0 0;}
+.anniu_kuang ul li{ float:right;margin-right:20px;_margin-right:15px;}
+.anniu_kuang ul li img{}
+.anniu_kuang ul li a{color:#FFFFFF;text-decoration:none;}
+.anniu_kuang ul li a:hover img{filter:alpha(opacity=70)}
+.required{color: red;}
+/*top1页面样式*/
+.rightframe_top{ padding-top:5px; font:13px/25px "宋体", Arial; color:#333;}
+.rightframe_top a:hvoer{ color:#F60;}
+
+/*rightFrame_bottom页面的中间图片样式*/
+.framebottom{background:url(../image/frame/rightframe_bottom1.png) no-repeat center 50px; border:1px solid #F2F2F2;}
+
+/*leftMenu页面的div样式*/
+#div_Drawer{position:absolute; top:0px; left:0px; z-index:10;}
+#div_entry{position:absolute; top:0px; left:0px; z-index:20; width:185px; height:21px; overflow:hidden; cursor:hand;}
+#div_Container{position:absolute; z-index:11; left:0px; display:none; width:185px; height:0px; overflow:hidden;}
+#div_drw_Panel{ width:183px; height:26px; margin-bottom:0px; padding-top:7px;background:url(../image/frame/menu/menu_content.gif) no-repeat bottom center; font:bold 13px/26px "宋体", Arial; color:#5A4208; overflow:hidden;cursor:hand;}
+#div_drw_Content{width:183px; height:600px; height:window.screen.availHeight; overflow-x:hidden; overflow-y:auto; line-height:26px;}
+#div_BackGround{width:100%; height:100%; overflow:hidden; background:#fff; padding-top:45px; padding-right:6px;}
+
+
+
+#tree{ padding:10px 10px 10px 5px; font:12px/22px"宋体",Arial; color:#5A4208;}
+#tree img{ margin-right:5px;}
+.menu_bottom{ display:block;width:183px; height:14px; background:url(../image/frame/menu/menu_bottom1.gif); border:1px solid #FAAA50; border-width:1px 0px;}
+/*快捷菜单页面样式*/
+.mymenu_div{border:1px solid #c6e1f4; background-color:#FFFFFF;position:absolute;text-align:left;padding-top:6px;padding-left:6px; padding-bottom:6px;width: 98%;margin-left: 3px;}
+.mymenu_div1{ clear:both;background-color:#f7fcff; border-top:1px solid #c6e1f4;border-left:1px solid #c6e1f4;border-right:1px solid #c6e1f4; border-bottom:1px solid #c6e1f4; margin-right:6px;height:480px;}
+.mymenu_div2{overflow-x:hidden;position:absolute;z-index:1;overflow:auto;height:480px;width: 99%;}
+
+/*密码修改页面样式*/
+.st_bor{border:1px solid #bfbfbf;}
+.td_size{font-size:12px;}
+.input_text_pwd{background:#eee; height:20px; width:180px; border:1px solid #7f9db9;}
+.input_text_mid{background:#FFF; height:20px; width:180px; border:1px solid #7f9db9;}
+.check_input{color:#f00;}
+
+/*角色添加页面*/
+.st_body{background:fff6f4;	margin:0px;	color:#333;	height:35px; font:12px/35px"宋体",Arial, ;}
+
+/*角色权限页面*/
+.tab_pad{position:absolute;	bottom:10;	z-index:2;	center:0;}
+
+/*用户关联角色页面*/
+.panel_tHead_MB{background:#ffcc99; color:#5A4208;font-size:9pt;	font-family:simsun;	vertical-align:middle;	border-right:1px #ffffff solid;	line-height:25px; height:20px;}
+.tab_td_border{border-bottom:1px solid #d9d9d9; border-left:1px solid #d9d9d9;}
+
+/*权限菜单样式*/
+.leftMenu_div{background-color:#eee;border-left:1px solid #94989A;border-right:1px solid #94989A;	filter:Alpha(opacity =90);}
+
+/*---------------------------消息框样式------------------------*/
+
+.userMessageDiv {
+	z-index: 9999;
+	position: absolute;
+	display: none;
+	bottom: 0;
+	right: 0;
+	overflow: hidden;
+}
+.sysMessageDiv {
+	z-index: 9999;
+	position: absolute;
+	display: none;
+	bottom: 0;
+	left: 0;
+	overflow: hidden;
+}
+.messageToolDiv {
+	width: 100%;
+	height: 25px;
+	overflow: hidden;
+}
+
+.msgtitleDiv {
+	padding: 3px 0 0 35px;
+	width: 100px;
+	line-height: 20px;
+	text-align: center;
+	overflow: hidden;
+	position: absolute;
+}
+
+.messageCloseDiv {
+	right: 10px;
+	width: 16px;
+	text-align: center;
+	cursor: pointer;
+	position: absolute;
+}
+
+.messageContentDiv {
+	margin: 0 5px 0 5px;
+	padding: 10px 0 10px 5px;
+	width: 239px;
+	height: 135px;
+	text-align: left;
+	overflow: hidden;
+}
+/*---------------------------详情页面的温馨提示样式------------------------*/
+.warning{ background:#FFF9E5 url(../image/warning.gif) no-repeat 10px 10px; border:1px solid #FBA845; padding:10px 10px 10px 85px; margin-bottom:10px;}
+.warning .content{min-height:55px;height:55px; line-height:26px;}
+
+/*=======   字体样式定义   {命名规则：Font+颜色+具体属性}=======*/
+
+.font_orange_12{color:#f30; font-size:12px; line-height:18px;}
+.font_orange_14b{color:#f60; font-weight:bold; font-size:14px; line-height:24px; }
+.font_red_12b{color:#f00; font-weight:bold;}
+.font_red_18b{font-size:18px;color:#f00; font-weight:bold;}
+.font_blue_12{color:#1767b1;}
+.font_blue_12_2{color:#1ea7e5;}
+.font_blue_14b{color:#1767b1; font-weight:bold; font-size:14px; line-height:24px; }
+.font_green_12{color:#1b8b01;}
+.font_black_14b{color:#222; font-weight:bold; font-size:14px; line-height:24px; }
+.font_black_12b{color:#222; font-weight:bold; font-size:12px; line-height:24px; }
+.font_black_14{color:#222; font-weight:bold; font-size:14px; line-height:24px; }
+.font_gray_12{color:#999; font-size:14px; line-height:24px; }
+.font_gray_14{color:#666; font-size:14px; line-height:24px; }

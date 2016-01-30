@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- 多个项目之间通讯 ajax 配置 -->
+	<package name="com_ajaxcommunications" extends="json-default" namespace="/ajaxcheck/communications">
+
+	<!-- 通过 ajax 方法修改系统的风格 -->
+		<action name="changeStyle" class="com_ajaxForCommunications" method="changeStyle">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+			 <!-- 定义ajax类型的resultType -->  
+	        <result name="ajax" type="stream">  
+	            <param name="contentType">text/html</param>  
+	                    <param name="inputName">ajaxInputStream</param>  
+	                    <param name="allowCaching">false</param>  
+	                    <param name="contentCharSet ">;charset=utf-8</param>  
+	         </result>
+		</action>
+
+	<!-- 通过 ajax 方法推出系统(清空 Session) -->
+		<action name="logout" class="com_ajaxForCommunications" method="logout">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+			 <!-- 定义ajax类型的resultType -->  
+	        <result name="ajax" type="stream">  
+	            <param name="contentType">text/html</param>  
+	                    <param name="inputName">ajaxInputStream</param>  
+	                    <param name="allowCaching">false</param>  
+	                    <param name="contentCharSet ">;charset=utf-8</param>  
+	         </result>  
+		</action>
+
+	    <!-- 通过 ajax 调用系统的无返回方法，以防止超时问题 -->
+		<action name="sessionGetUser" class="com_ajaxForCommunications" method="sessionGetUser">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+			 <!-- 定义ajax类型的resultType -->  
+	        <result name="ajax" type="stream">  
+	            <param name="contentType">text/html</param>  
+	                    <param name="inputName">ajaxInputStream</param>  
+	                    <param name="allowCaching">false</param>  
+	                    <param name="contentCharSet ">;charset=utf-8</param>  
+	         </result>  
+		</action>
+	</package>
+</struts>

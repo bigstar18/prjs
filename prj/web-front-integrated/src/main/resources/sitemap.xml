@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="GBK"?>
+<sitemap>
+    <node title="用户信息" path="/front/app/integrated/user/userinformation.jsp"/>
+	<node title="公告列表" path="/front/app/integrated/noticeandmessage/noticelist.jsp"/>
+	<node title="消息列表" path="/front/app/integrated/noticeandmessage/messagelist.jsp"/>
+	<node title="登录" href="/" path="/">
+		<node title="注册" path="/front/logon/register.jsp"/>
+	</node>
+	<node title="登录" href="/" path="/front/logon/logon.jsp"/>
+</sitemap>

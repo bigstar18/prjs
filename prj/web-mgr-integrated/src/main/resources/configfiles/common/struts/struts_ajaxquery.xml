@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- sysdate ajax 查询信息相关 -->
+	<package name="com_ajaxquerysysdate" extends="json-default" namespace="/sysDate">
+	<!-- 通过 ajax 获取数据库时间 -->
+		<action name="getDate" class="com_ajaxQuery" method="getSystemTimeJson">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+	</package>
+</struts>

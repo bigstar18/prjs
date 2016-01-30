@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hebernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="gnnt.MEBS.integrated.front.model">
+    <class name="AgentTrader" table="M_AgentTrader" dynamic-update="true" lazy="false">
+        <id name="agentTraderId"/>
+
+        <property name="name"/> 
+        <property name="password"/> 
+        <property name="type"/> 
+        <property name="status"/> 
+        <property name="operateFirm"/> 
+        <property name="createTime" insert="false" update="false"/> 
+        <property name="modifyTime" insert="false" update="true"/>     
+        
+    </class>
+</hibernate-mapping>

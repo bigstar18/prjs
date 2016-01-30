@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="gnnt.MEBS.common.mgr.model.LogCatalog" table="C_LOGCATALOG" lazy="true" dynamic-update="true" dynamic-insert="true">
+		<id name="catalogID" type="java.lang.Integer">
+			<column name="catalogID" length="4" />
+		</id>
+		<property name="catalogName" type="java.lang.String">
+			<column name="CATALOGNAME" length="128" />
+		</property>
+		<many-to-one name="tradeModule" column="moduleID"
+			class="gnnt.MEBS.common.mgr.model.TradeModule">
+		</many-to-one>
+	</class>
+</hibernate-mapping>

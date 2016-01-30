@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+<!-- 
+	测试表状态的Map集合，
+	id 定义格式：模块号前三个字母(demo 模块前三个子都 dem)加下划线(_)加本集合名称(cardTypeMap)
+-->
+	<!-- 证件类型 -->
+	<util:map id="customer_cardTypeMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="01" value="身份证"></entry>
+		<entry key="02" value="机构代码"></entry>
+		<entry key="03" value="营业执照"></entry>
+	</util:map>
+
+	<!-- 客户类型 -->
+	<util:map id="customer_typeMap" map-class="java.util.HashMap"
+		key-type="java.lang.Integer" value-type="java.lang.String">
+		<entry key="0" value="双边客户"></entry>
+		<entry key="1" value="唯买客户"></entry>
+		<entry key="2" value="唯卖客户"></entry>
+	</util:map>
+
+	<!-- 银行代码 -->
+	<util:map id="customer_bankCodeMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="01" value="工商银行"></entry>
+		<entry key="02" value="中国银行"></entry>
+		<entry key="03" value="交通银行"></entry>
+		<entry key="04" value="建设银行"></entry>
+		<entry key="05" value="农业银行"></entry>
+	</util:map>
+
+	<!-- 客户状态 -->
+	<util:map id="customer_statusMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="N" value="可用"></entry>
+		<entry key="E" value="禁用"></entry>
+	</util:map>
+	
+	<!-- 买卖标识 -->
+	<util:map id="authorize_BS_FlagMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="1" value="买"></entry>
+		<entry key="2" value="卖"></entry>
+	</util:map>
+	
+	<!-- 委托类型 -->
+	<util:map id="authorize_OrderTypeMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="1" value="开仓"></entry>
+		<entry key="2" value="平仓"></entry>
+		<entry key="4" value="撤单"></entry>
+	</util:map>
+	
+	<!-- 委托状态 -->
+	<util:map id="authorize_Order_StatusMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="1" value="已委托"></entry>
+		<entry key="2" value="部分成交"></entry>
+		<entry key="3" value="全部成交"></entry>
+		<entry key="4" value="正在撤单"></entry>
+		<entry key="5" value="全部撤单"></entry>
+		<entry key="6" value="部分成交后撤单"></entry>
+		<entry key="7" value="撤单委托成功"></entry>
+		<entry key="8" value="撤单委托失败"></entry>
+	</util:map>
+	
+	<!-- 平仓标识 -->
+	<util:map id="authorize_CloseFlagMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="1" value="交易员正常平仓"></entry>
+		<entry key="2" value="客户委托交易员平仓"></entry>
+		<entry key="3" value="交易员替客户强行平仓"></entry>
+	</util:map>
+	
+	<!-- 交易商状态 -->
+	<util:map id="unauditedFirm_StatusMap" map-class="java.util.HashMap"
+		key-type="java.lang.Character" value-type="java.lang.String">
+		<entry key="R" value="被驳回"></entry>
+		<entry key="U" value="未审核"></entry>
+		<entry key="N" value="已审核"></entry>
+		<entry key="D" value="已禁止"></entry>
+		<entry key="E" value="已退市"></entry>
+	</util:map>
+</beans>

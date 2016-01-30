@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="gnnt.MEBS.common.front.model.TradeModule" table="C_TradeModule"  dynamic-insert="true" dynamic-update="true">
+		<id name="moduleID"/>
+		<property name="cnName"/>
+		<property name="enName"/>
+		<property name="shortName"/>
+		<property name="addFirmFn"/>
+		<property name="updateFirmStatusFn"/>
+		<property name="delFirmFn"/>
+		<property name="isFirmSet"/>
+		<property name="isNeedBreed"/>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,153 @@
+<%@ page contentType="text/html;charset=GBK"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<%@ include file="/front/public/includefiles/allIncludeFiles.jsp"%>
+<base target="_self"/> 
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>仓单<c:if test="${HaveWarehouse eq 1}">出库</c:if><c:if test="${HaveWarehouse eq 0}">出库申请</c:if></title>
+		<link href="${skinPath}/css/mgr/memberadmin/module.css"
+			rel="stylesheet" type="text/css" />
+		<link rel="stylesheet"
+			href="${skinPath }/css/validationEngine.jquery.css" type="text/css" />
+		<script type="text/javascript"
+			src="${publicPath}/js/jquery-1.6.2.min.js"></script>
+		<script type="text/javascript" src="${basePath }/front/app/bill/js/jquery.validationEngine-zh_CN.js"></script>
+		<script type="text/javascript"
+			src="${publicPath }/js/jquery.validationEngine.js"></script>
+		<script>
+		jQuery(document).ready(function() {
+		
+			$("#frm").validationEngine('attach');
+			$("#update").click(function(check) {
+				if ($("#frm").validationEngine('validate')) {
+					var vaild = affirm("您确定要操作吗？");
+					if (vaild == true) {
+						$("#frm").validationEngine('detach');
+						//$('#frm').attr('action', 'action');
+					$('#frm').submit();
+				}
+			}
+		}	);
+		});
+		function showMsgBoxCallbak(result){
+			if(result==1){
+				closeDialog(1);
+			}else{
+				clearSubmitCount();
+			}
+		}
+</script>
+	</head>
+	<body>
+		<div class="main">
+			<div class="warning">
+				<div class="title font_orange_14b">温馨提示:</div>
+				<div class="content">输入正确的仓单<c:if test="${HaveWarehouse eq 1}">出库</c:if><c:if test="${HaveWarehouse eq 0}">出库申请</c:if>的相关信息，否则出库失败！</div>
+			</div>
+			<iframe  name="hiddenframe" width=0 height=0  application='yes'></iframe>
+			<form id="frm" name="frm" target="hiddenframe"
+				action="${frontPath}/bill/unregister/exitStock.action"
+				method="post">
+				<div class="form margin_10b">
+					<div class="column1">
+						仓单<c:if test="${HaveWarehouse eq 1}">出库</c:if><c:if test="${HaveWarehouse eq 0}">出库申请</c:if>：
+					</div>
+					<table border="0" cellspacing="0" cellpadding="0" class="content">
+						<tr>
+							<th scope="row">
+								仓单号：
+								<span class="font_orange_12">*</span>
+							</th>
+							<td>
+								<input type="hidden" name="stockId" value="${entity.stockId }"/>
+								${entity.stockId }
+							</td>
+						</tr>
+						<!-- 有仓版仓单出库 -->
+						<c:if test="${HaveWarehouse eq 1}">
+						<tr>
+							<th scope="row">
+								仓库系统账户编号：
+								<span class="font_orange_12">*</span>
+							</th>
+							<td>
+								<div class="validInput"><input type="input" id="userId" name="userId"
+									class="validate[required] input_text"  value=""/>
+								&nbsp;</div>
+								<div class="warning_tip">
+									请输入账户编号！
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">
+								仓库系统账户名：
+								<span class="font_orange_12">*</span>
+							</th>
+							<td><div class="validInput">
+								<input type="input" id="userName" name="userName"
+									class="validate[required] input_text" value=""/>
+								&nbsp;</div>
+								<div class="warning_tip">
+									请输入账户名！&nbsp;&nbsp;&nbsp;&nbsp;
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">
+								仓库系统验证密码：
+								<span class="font_orange_12">*</span>
+							</th>
+							<td>
+								<div class="validInput"><input type="password" id="password" name="password"
+									class="validate[required] input_text" value=""/>
+								&nbsp;</div>
+								<div class="warning_tip">
+									请输入验证密码！
+								</div>
+							</td>
+						</tr>
+						</c:if>
+						
+						<!-- 无仓版仓单出库申请 -->
+						<c:if test="${HaveWarehouse eq 0}">
+						<tr>
+							<th scope="row">
+								提货人：
+								<span class="font_orange_12">*</span>
+							</th>
+							<td><div class="validInput">
+								<input type="input" id="deliveryPerson" name="deliveryPerson"
+									class="validate[required,maxSize[32]] input_text" value=""/>
+								&nbsp;</div>
+								<div class="warning_tip">
+									请输入提货人！&nbsp;&nbsp;&nbsp;&nbsp;
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">
+								提货人身份证号：
+								<span class="font_orange_12">*</span>
+							</th>
+							<td><div class="validInput">
+								<input type="input" id="idnumber" name="idnumber"
+									class="validate[custom[onlyLetterNumber],maxSize[18]] input_text" value=""/>
+								&nbsp;</div>
+								<div class="warning_tip">
+									请输入提货人身份证号！&nbsp;&nbsp;&nbsp;&nbsp;
+								</div>
+							</td>
+						</tr>
+						</c:if>
+					</table>
+					<div class="page text_center">
+					<label><input type="button" id="update" value="出库" class="btbg"/></label>&nbsp;&nbsp;
+					<label><input type="button" value="关闭" onclick="window.close();" class="btbg"/></label>
+				</div>
+				</div>
+			</form>
+		</div>
+	</body>
+</html>
+<%@include file="/front/public/jsp/dialogmessage.jsp"%>

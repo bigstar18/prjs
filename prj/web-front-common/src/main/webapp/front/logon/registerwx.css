@@ -1,0 +1,72 @@
+* {
+    overflow-x: hidden;
+}
+.bodyStep2{
+    margin-top: 3px;
+}
+fieldset{
+	margin-top: 20px !important;
+	width: 360px !important;
+	overflow-x: hidden;
+}
+
+fieldset div{
+	margin-top: 5px !important;
+	width: 360px !important;
+}
+
+.header_bg {
+	width: 360px !important;
+    height: 95px !important;
+    background-color: #fff;
+}
+
+.header_bg .wrap {
+	width: 360px !important;
+    margin: 0px;
+    height: 95px;
+}
+
+.header_bg .wrap .logo {
+    width: 360px;
+    height: 95px;
+    margin-left: 0px !important;
+}
+
+.header_bg .wrap .logo img {
+	margin-left: 2px !important;
+    margin-top: 8px !important;
+    width: 360px;
+    height: 80px;
+}
+
+.state {
+    padding: 0px !important;
+    height: 100% !important;
+    width: 100% !important
+}
+.userIDformError, .parentFormregistfrm, .formError{
+	left: 120px !important;
+}
+.bodyStep2 {
+    width: 360px !important;
+}
+.inputwidth{
+	width:100% !important;
+}
+.bodyStep2 label:first-of-type {
+    float: left;
+    width: 10em !important;
+    text-align: center !important;
+}
+.bodyStep2 label:last-of-type {
+    float: left;
+    width: 180px !important;
+    text-align: center !important;
+}
+.bodyStep2 div {
+    padding: 0px !important;
+}
+#verifycode {
+    margin-left: 150px
+}

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+    
+<struts>
+    <!-- 代为交易员的操作 -->
+    <package name="mgrcom_agenttrader" extends="base-struts2" namespace="/trade/agenttrader">
+    
+        <!-- 代为交易员列表 -->
+        <action name="list" class="agentTraderAction" method="agentTraderList">
+            <param name="entityName">gnnt.MEBS.integrated.mgr.model.usermanage.AgentTrader</param>
+            <result>/mgr/app/integrated/agenttrader/agenttrader_list.jsp</result>
+        </action>
+        
+        <!-- 添加代为交易员跳转 -->
+        <action name="addForwardAgentTrader" class="agentTraderAction" method="forwardAdd">
+            <param name="entityName">gnnt.MEBS.integrated.mgr.model.usermanage.AgentTrader</param>
+            <result>/mgr/app/integrated/agenttrader/agentrader_add.jsp</result>
+        </action>
+        
+        <!-- 添加代为交易员 -->
+        <action name="addAgentTrader" class="agentTraderAction" method="addAgentTrader">
+            <param name="entityName">gnnt.MEBS.integrated.mgr.model.usermanage.AgentTrader</param>
+            <result>/mgr/public/jsp/commonmsg.jsp</result>
+        </action>
+        
+        <!-- 删除代为交易员 -->
+        <action name="deleteAgentTrader" class="agentTraderAction" method="deleteAgentTrader">
+            <param name="entityName">gnnt.MEBS.integrated.mgr.model.usermanage.AgentTrader</param>
+            <result>list.action?sortColumns=order+by+createTime+desc</result>
+        </action>
+        
+        <!-- 代为交易员详情 跳转-->
+        <action name="detailsForwardAgentTrader" class="agentTraderAction" method="viewById">
+            <param name="entityName">gnnt.MEBS.integrated.mgr.model.usermanage.AgentTrader</param>
+            <result>/mgr/app/integrated/agenttrader/agenttrader_details.jsp</result>
+        </action>
+        
+        <!-- 修改代为交易员跳转 -->
+        <action name="updateForwardAgentTrader" class="agentTraderAction" method="updateAgentTraderForward">
+            <param name="entityName">gnnt.MEBS.integrated.mgr.model.usermanage.AgentTrader</param>
+            <result>/mgr/app/integrated/agenttrader/agenttrader_update.jsp</result>
+        </action>
+        
+        <!-- 修改代为交易员 -->
+        <action name="updateAgentTrader" class="agentTraderAction" method="updateAgentTrader">
+            <param name="entityName">gnnt.MEBS.integrated.mgr.model.usermanage.AgentTrader</param>
+            <result>/mgr/public/jsp/commonmsg.jsp</result>
+        </action>
+        
+        <!-- 修改代为交易员密码跳转 -->
+        <action name="updatePasswordForward" class="agentTraderAction" method="viewById">
+            <param name="entityName">gnnt.MEBS.integrated.mgr.model.usermanage.AgentTrader</param>
+            <result>/mgr/app/integrated/agenttrader/password_update.jsp</result>
+        </action>
+        
+        <!-- 修改代为交易员密码 -->
+        <action name="updatePassword" class="agentTraderAction" method="updatePassword">
+            <param name="entityName">gnnt.MEBS.integrated.mgr.model.usermanage.AgentTrader</param>
+            <result>/mgr/public/jsp/commonmsg.jsp</result>
+        </action>
+    </package>
+</struts>

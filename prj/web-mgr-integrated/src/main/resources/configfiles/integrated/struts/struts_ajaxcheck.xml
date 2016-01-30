@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="ajaxcheck" extends="json-default" namespace="/ajaxcheck">
+<!-- ==交易商管理== -->
+	<!-- 鼠标移开事件检查交易商代码在交易商表(M_Firm)表中是否存在(存在返回失败，不存在返回成功) -->
+		<action name="checkFirmByFirmId" class="ajaxCheck"
+			method="checkFirmByFirmId">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+		<!-- 鼠标移开事件检查交易商用户名是否存在，存在返回失败，不存在返回成功 -->
+		<action name="checkFirmByUserId" class="ajaxCheck" method="checkFirmByUserId">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+		<!-- Form 表单提交事件检查交易商代码在交易商表(M_Firm)表中是否存在，同时检查交易商用户名在交易商申请表(M_Firm_Apply)和交易员表(M_Trader)表中是否存在(存在返回失败，不存在返回成功) -->
+		<action name="checkFirmForm" class="ajaxCheck"
+			method="checkFirmForm">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+		<!-- 用户注册 鼠标移开事件检查事件检查用户名在交易商申请表(M_Firm_Apply)和交易员表(M_Trader)表中是否存在(存在返回失败，不存在返回成功) -->
+		<action name="checkRegiesterUserId" class="ajaxCheck"
+			method="checkRegiesterUserId">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+<!-- ===用户管理== -->
+	<!-- 鼠标移开事件检查后台管理员代码在管理员表(C_USER)是否存在(存在返回失败，不存在返回成功) -->
+		<action name="checkUserByUserId" class="ajaxCheck"
+			method="checkUserByUserId">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+	<!-- Form 表单提交事件检查后台管理员代码在管理员表(C_USER)是否存在(存在返回失败，不存在返回成功) -->
+		<action name="checkUserForm" class="ajaxCheck"
+			method="checkUserForm">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+
+<!-- ===角色管理== -->
+	<!-- 鼠标移开事件检查较色编号在较色表(C_ROLE)中是否存在(存在返回失败，不存在返回成功) -->
+		<action name="checkRoleByName" class="ajaxCheck"
+			method="checkRoleByName">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+	<!-- Form 表单提交事件检查较色编号在较色表(C_ROLE)中是否存在(存在返回失败，不存在返回成功) -->
+		<action name="checkRoleForm" class="ajaxCheck"
+			method="checkRoleForm">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+
+	<!-- 鼠标移开事件通过接收人类型检查接收人是否存在(存在返回成功，不存在返回失败) -->
+		<action name="checkMessageByUserId" class="ajaxCheck"
+			method="checkMessageByUserId">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+	<!-- Form 表单提交事件通过接收人类型检查接收人是否存在(存在返回成功，不存在返回失败) -->
+		<action name="checkMessageForm" class="ajaxCheck"
+			method="checkMessageForm">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+
+	<!-- 鼠标移开事件检查交易商代码是否存在，存在并且可用返回成功，不存在返回失败 -->
+		<action name="checkFirmId" class="ajaxCheck" method="checkFirmId">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+
+	<!-- 鼠标移开事件检查交易员用户名是否存在，存在返回失败，不存在返回成功 -->
+		<action name="checkNoTraderUserId" class="ajaxCheck" method="checkNoTraderUserId">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+
+	<!-- 鼠标移开事件检查交易员代码是否存在，存在返回失败，不存在返回成功 -->
+		<action name="checkNoTraderId" class="ajaxCheck" method="checkNoTraderId">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+
+	<!-- Form 表单提交事件检查交易员添加 -->
+		<action name="checkAddTraderForm" class="ajaxCheck" method="checkAddTraderForm">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+		
+	<!-- 鼠标移开事件检查代为交易员代码是否存在，存在返回失败，不存在返回成功 -->
+	    <action name="checkAgentTraderId" class="ajaxCheck" method="checkAgentTraderId">
+	        <result name="success" type="json">
+	            <param name="root">jsonValidateReturn</param>
+	        </result>
+	    </action>
+		
+	<!-- Form 表单提交事件检查代为交易员添加 -->
+	    <action name="checkAddAgentTraderForm" class="ajaxCheck" method="checkAddAgentTraderForm">
+	        <result name="success" type="json">
+	            <param name="root">jsonValidateReturn</param>
+	        </result>
+	    </action>
+	    
+	    
+ <!-- 交易商属性字典维护   -->
+   	<!--  地域维护 -->
+		<!-- 鼠标移开事件检查地域编号在地域(M_Zone)表中是否存在(存在返回失败，不存在返回成功) -->
+		<action name="checkZoneByCode" class="ajaxCheck"
+			method="checkZoneByCode">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+		<!-- 鼠标移开事件检查排序号在地域(M_Zone)表中是否存在(存在返回失败，不存在返回成功) -->
+		<action name="checkZoneBySortNo" class="ajaxCheck"
+			method="checkZoneBySortNo">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+		<!-- Form 表单提交事件检查地域编号、排序号在地域表(M_Zone)表中是否存在-->
+		<action name="checkAddZoneForm" class="ajaxCheck"
+			method="checkAddZoneForm">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+		
+	<!--  行业维护 -->
+		<!-- 鼠标移开事件检查行业编号在行业(M_Zone)表中是否存在(存在返回失败，不存在返回成功) -->
+		<action name="checkIndustryByCode" class="ajaxCheck"
+			method="checkIndustryByCode">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+		<!-- 鼠标移开事件检查排序号在行业(M_Industry)表中是否存在(存在返回失败，不存在返回成功) -->
+		<action name="checkIndustryBySortNo" class="ajaxCheck"
+			method="checkIndustryBySortNo">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+		<!-- Form 表单提交事件检查行业编号、排序号在行业表(M_Industry)表中是否存在-->
+		<action name="checkAddIndustryForm" class="ajaxCheck"
+			method="checkAddIndustryForm">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+	<!--  证件类型维护 -->
+		<!-- 鼠标移开事件检查证件类型编号在证件类型(M_CertificateType)表中是否存在(存在返回失败，不存在返回成功) -->
+		<action name="checkCertificateTypeByCode" class="ajaxCheck"
+			method="checkCertificateTypeByCode">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+		<!-- 鼠标移开事件检查排序号在证件类型(M_CertificateType)表中是否存在(存在返回失败，不存在返回成功) -->
+		<action name="checkCertificateTypeBySortNo" class="ajaxCheck"
+			method="checkCertificateTypeBySortNo">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+		<!-- Form 表单提交事件检查证件类型编号、排序号在证件类型表(M_CertificateType)表中是否存在-->
+		<action name="checkAddCertificateTypeForm" class="ajaxCheck"
+			method="checkAddCertificateTypeForm">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+	<!--  交易商类别维护 -->
+		<!-- 鼠标移开事件检查交易商类别编号在交易商类别(M_CertificateType)表中是否存在(存在返回失败，不存在返回成功) -->
+		<action name="checkFirmCategoryByName" class="ajaxCheck"
+			method="checkFirmCategoryByName">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+		<!-- 鼠标移开事件检查排序号在交易商类别(M_FirmCategory)表中是否存在(存在返回失败，不存在返回成功) -->
+		<action name="checkFirmCategoryBySortNo" class="ajaxCheck"
+			method="checkFirmCategoryBySortNo">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+		<!-- Form 表单提交事件检查交易商类别编号、排序号在交易商类别表(M_FirmCategory)表中是否存在-->
+		<action name="checkAddFirmCategoryForm" class="ajaxCheck"
+			method="checkAddFirmCategoryForm">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+	
+
+	</package>
+
+	<!-- firm ajax 查询信息相关 -->
+	<package name="ajaxqueryfirm" extends="json-default" namespace="/ajaxcheck/mfirm">
+
+	<!-- 通过 ajax 获取交易商代码的列表 -->
+		<action name="getfirmListJson" class="ajaxQuery" method="getfirmListJson">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+
+	<!-- 通过 ajax 获取交易商模块列表 -->
+		<action name="getfirmModuleIdJson" class="ajaxQuery" method="getfirmModuleIdJson">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+	</package>
+	
+	<!-- 商品管理下   ajax 信息相关 -->
+	<package name="ajaxcommodity" extends="json-default" namespace="/ajaxcheck/commodity">
+	<!-- 检查分类操作的ajax -->
+		<action name="checkCategoryBySortNo" class="ajaxCheck"
+			method="checkCategoryBySortNo">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+
+		<action name="checkCategoryForm" class="ajaxCheck"
+			method="checkCategoryForm">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+		<!-- 检查分类属性操作的ajax -->
+		<action name="checkCategoryPropBySortNo" class="ajaxCheck"
+			method="checkCategoryPropBySortNo">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+		<action name="checkCategoryPropForm" class="ajaxCheck"
+			method="checkCategoryPropForm">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+		<action name="checkCategoryPropName" class="ajaxCheck"
+			method="checkCategoryPropName">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+		<!-- 检查品名操作的ajax -->
+		<action name="checkBreedBySortNo" class="ajaxCheck"
+			method="checkBreedBySortNo">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+
+		<action name="checkBreedForm" class="ajaxCheck"
+			method="checkBreedForm">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+		<!-- 检查品名属性操作的ajax -->
+		<action name="checkBreedPropsBySortNo" class="ajaxCheck"
+			method="checkBreedPropsBySortNo">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+		<action name="checkBreedPropByValue" class="ajaxCheck"
+			method="checkBreedPropByValue">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+		<action name="checkPropertyPropForm" class="ajaxCheck"
+			method="checkPropertyPropForm">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+		
+		
+		<!-- 检查分类属性类型操作的ajax -->
+		<action name="checkCategoryPropTypeBySortNo" class="ajaxCheck"
+			method="checkCategoryPropTypeBySortNo">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+		<action name="checkCategoryPropTypeForm" class="ajaxCheck"
+			method="checkCategoryPropTypeForm">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+		<action name="checkCategoryPropTypeByName" class="ajaxCheck"
+			method="checkCategoryPropTypeByName">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+	</package>
+
+</struts>
