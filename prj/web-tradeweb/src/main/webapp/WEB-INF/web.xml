@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
+ 
+<web-app>
+	<display-name>tradeweb</display-name>
+	<description>客户下单系统</description>
+	<!-- 是否启用验证码 -->
+	<context-param>
+		<param-name>yzm</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	<!-- 客户名称 -->
+	<context-param>
+		<param-name>ClientName</param-name>
+		<param-value>北京金网安泰下单系统</param-value>
+	</context-param>	
+	<!-- 获取服务RMI配置信息的模块    add  by chaizy -->
+	<context-param>
+		<param-name>ServiceModule</param-name>
+		<param-value>1</param-value>
+	</context-param>	
+	<context-param>
+		<param-name>
+			javax.servlet.jsp.jstl.fmt.localizationContext
+		</param-name>
+		<param-value>ApplicationResources</param-value>
+	</context-param>
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/applicationContext-*.xml</param-value>
+	</context-param>
+	<filter>
+		<filter-name>Set Character Encoding</filter-name>
+		<filter-class>
+			gnnt.MEBS.timebargain.tradeweb.webapp.filter.SetCharacterEncodingFilter
+		</filter-class>
+	</filter>	
+	<filter-mapping>
+		<filter-name>Set Character Encoding</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<listener>
+		<listener-class>
+			org.springframework.web.util.IntrospectorCleanupListener
+		</listener-class>
+	</listener>
+	<listener>
+		<listener-class>
+			gnnt.MEBS.timebargain.tradeweb.webapp.listener.StartupListener
+		</listener-class>
+	</listener>
+	<listener>
+		<listener-class>
+			gnnt.MEBS.timebargain.tradeweb.webapp.listener.SessionListener
+		</listener-class>
+	</listener>
+
+	<servlet>
+		<servlet-name>httpXmlServlet</servlet-name>
+		<servlet-class>gnnt.MEBS.timebargain.tradeweb.webapp.action.HttpXmlServlet</servlet-class>
+		<load-on-startup>0</load-on-startup>
+	</servlet>
+	<!-- 监视交易系统中登录交易员的数量，在资金结算后到交易初始化之间这段时间不写日志。
+	        1. 日志在tradeweb/logs下，每日一个文件，
+	        2. 每隔1秒钟记录一次，数据格式用逗号分隔，数据由“当前交易时间，当前数量”组成
+	        3. MonitorPage.jsp可以查看当前登录的交易员数量和IP信息
+		注释掉下面的servlet映射，禁用改功能。
+		由于该功能通过调用timebargain的rmi实现，只需要在一个tradeweb下开启即可。
+	-->
+	<!-- 
+	<servlet>
+		<servlet-name>MonitorAction</servlet-name>
+		<servlet-class>gnnt.MEBS.timebargain.tradeweb.webapp.action.MonitorAction</servlet-class>
+		<load-on-startup>0</load-on-startup>
+	</servlet>
+	 -->
+
+	<servlet>
+		<servlet-name>mobileServlet</servlet-name>
+		<servlet-class>gnnt.MEBS.timebargain.tradeweb.webapp.action.MobileServlet</servlet-class>
+		<load-on-startup>0</load-on-startup>
+	</servlet>
+	<servlet>
+		<servlet-name>testHttpXmlServlet</servlet-name>
+		<servlet-class>gnnt.MEBS.timebargain.tradeweb.webapp.action.TestHttpXmlServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>httpXmlServlet</servlet-name>
+		<url-pattern>/httpXmlServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>testHttpXmlServlet</servlet-name>
+		<url-pattern>/testHttpXmlServlet</url-pattern>
+	</servlet-mapping>	
+	<servlet-mapping>
+		<servlet-name>mobileServlet</servlet-name>
+		<url-pattern>/mobileServlet</url-pattern>
+	</servlet-mapping>
+	
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
+	
+	<context-param>   <!-- tradeWeb版本号 -->
+		<param-name>versionInfo</param-name>
+		<param-value>B1.5.10</param-value>
+	</context-param>
+	
+</web-app>
+

@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+	<!-- begin task -->
+	<bean name="quartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="cronTrigger"/>
+			</list>
+		</property>
+		<property name="configLocation" value="classpath:quartz.properties"/>
+	</bean>
+	<bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="commodity_data_query_task"/>
+		<!--every 3 second between 07:00:00 and 18:00:00 execute once(0/3 * 7-18 * * ?), format: second minute hour date month weekday year(optional)-->
+		<property name="cronExpression" value="0/1 * * * * ?"/>
+	</bean>
+	<bean id="commodity_data_query_task" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="ordersManager"/>
+		<property name="targetMethod" value="commodity_data_query_task"/>
+	</bean>	
+	<!-- end task -->                
+
+</beans>
+
+
+
+
+
+
+
+
+
+
+

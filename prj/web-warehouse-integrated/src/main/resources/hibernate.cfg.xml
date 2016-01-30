@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='GBK'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+          "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+		<property name="dialect">
+			org.hibernate.dialect.OracleDialect
+		</property>
+			<property name="show_sql">false</property>
+			<property name="hbm2ddl.auto">none</property>
+			<property name="format_sql">false</property>
+			<property name="hibernate.cache.use_structured_entries">
+				true
+		</property><!--  最优化二级缓存-->
+			<property name="hibernate.cache.use_second_level_cache">
+				true
+		</property>
+			<!--
+				完全禁用二级缓存开关，对那些在类的映射定义中指定cache的类，默认开启二级缓存
+			-->
+			<property name="hibernate.cache.provider_class">
+				org.hibernate.cache.EhCacheProvider
+		</property>
+			<property name="hibernate.cache.use_query_cache">true</property>
+			<property name="hibernate.cache.provider_configuration_file_resource_path">
+				/ehcache.xml
+		</property>
+<!-- 公共服务 model 配置部分 -->
+		<mapping resource="gnnt/MEBS/common/mgr/model/LogCatalog.hbm.xml" />
+		<mapping resource="gnnt/MEBS/common/mgr/model/Menu.hbm.xml" />
+		<mapping resource="gnnt/MEBS/common/mgr/model/MyMenu.hbm.xml" />
+		<mapping resource="gnnt/MEBS/common/mgr/model/OperateLog.hbm.xml" />
+		<mapping resource="gnnt/MEBS/common/mgr/model/OperateLogHis.hbm.xml" />
+		<mapping resource="gnnt/MEBS/common/mgr/model/Right.hbm.xml" />
+		<mapping resource="gnnt/MEBS/common/mgr/model/Role.hbm.xml" />
+		<mapping resource="gnnt/MEBS/common/mgr/model/TradeModule.hbm.xml" />
+		<mapping resource="gnnt/MEBS/common/mgr/model/User.hbm.xml" />
+
+<!-- 仓库服务 model 配置部分 -->
+		<mapping resource="gnnt/MEBS/integrated/mgr/model/usermanage/ErrorLoginLog.hbm.xml"/>
+		<mapping resource="gnnt/MEBS/integrated/mgr/model/usermanage/VerrorLoginLog.hbm.xml"/>
+		<mapping resource="gnnt/MEBS/integrated/mgr/model/usermanage/MFirm.hbm.xml"/>
+		<mapping resource="gnnt/MEBS/integrated/mgr/model/usermanage/RoleRight.hbm.xml" />
+		
+		<mapping resource="gnnt/MEBS/integrated/mgr/model/commoditymanage/Breed.hbm.xml" />
+		<mapping resource="gnnt/MEBS/integrated/mgr/model/commoditymanage/BreedProps.hbm.xml" />
+		<mapping resource="gnnt/MEBS/integrated/mgr/model/commoditymanage/Category.hbm.xml" />
+		<mapping resource="gnnt/MEBS/integrated/mgr/model/commoditymanage/CategoryProperty.hbm.xml" />
+		<mapping resource="gnnt/MEBS/integrated/mgr/model/commoditymanage/PropertyType.hbm.xml" />
+
+		<mapping resource="gnnt/MEBS/integrated/mgr/model/stockmanage/BFirm.hbm.xml" />
+		<mapping resource="gnnt/MEBS/integrated/mgr/model/stockmanage/Dismantle.hbm.xml" />
+		<mapping resource="gnnt/MEBS/integrated/mgr/model/stockmanage/Stock.hbm.xml" />
+		<mapping resource="gnnt/MEBS/integrated/mgr/model/stockmanage/StockGoodsProperty.hbm.xml" />
+		<mapping resource="gnnt/MEBS/integrated/mgr/model/stockmanage/StockOperation.hbm.xml" />
+		<mapping resource="gnnt/MEBS/integrated/mgr/model/stockmanage/OutStock.hbm.xml" />
+		<mapping resource="gnnt/MEBS/integrated/mgr/model/stockmanage/Warehouse.hbm.xml" />
+		<mapping resource="gnnt/MEBS/integrated/mgr/model/stockmanage/Logistics.hbm.xml" />
+	</session-factory>
+
+</hibernate-configuration>

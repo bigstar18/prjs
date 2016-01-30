@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- 关于用户的操作 -->
+	<package name="com_user" extends="base-struts2" namespace="/user">
+		<!-- 用户登录 -->
+		<action name="logon" class="com_userAction" method="logon">
+			<result type="redirect">/mgr/frame/mainframe.jsp</result><!-- 分系统展示菜单时使用 -->
+			<!-- <result type="redirect">/mgr/frame/commonmenu/mainframe.jsp</result> --><!-- 将所有系统的菜单都综合到公用系统中时使用 -->
+			<result name="error">/mgr/logon.jsp</result>
+		</action>
+		<!-- 用户退出 -->
+		<action name="logout" class="com_userAction" method="logout">
+			<result type="redirect">/mgr/logon.jsp</result>
+		</action>
+		<!-- 用户修改风格 -->
+		<action name="saveShinStyle" class="com_userAction" method="saveShinStyle">
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+	</package>
+
+	<!-- 主页面修改登录密码 -->
+	<package name="com_userSelf" extends="base-struts2" namespace="/self">
+		<!-- 修改自己的登陆密码跳转 -->
+		<action name="passwordSelfMod" class="com_userAction" method="viewById">
+			<result>/mgr/frame/modpasswordself.jsp</result>
+		</action>
+		<!-- 修改自己的登陆密码 -->
+		<action name="passwordSelfSave" class="com_userAction" method="updatePasswordSelfSave">
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+	</package>
+
+	<!-- 快捷菜单设置 -->
+	<package name="com_myMenu" extends="base-struts2" namespace="/myMenu">
+		<!-- 修改快捷菜单跳转 -->
+		<action name="getMyMenu" class="com_menuAction" method="menuList">
+			<result>/mgr/frame/logonusermenu.jsp</result>
+		</action>
+		<!-- 修改快捷菜单 -->
+		<action name="updateMyMenu" class="com_menuAction" method="modMyMenu">
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+	</package>
+
+	<!-- 权限展示 -->
+	<package name="mgrcom_menu" extends="base-struts2" namespace="/menu">
+		<action name="menuList" class="com_menuAction" method="menuList">
+			<result>/mgr/frame/leftmenu.jsp</result>
+			<result name="error">/mgr/public/jsp/nosession.jsp</result>
+		</action>
+	</package>
+
+</struts>

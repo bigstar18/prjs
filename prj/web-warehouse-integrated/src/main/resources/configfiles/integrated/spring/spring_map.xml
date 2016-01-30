@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+        
+        
+		<!-- 仓单状态 -->
+		<util:map id="stockStatusMap" map-class="java.util.HashMap"
+			key-type="java.lang.Integer" value-type="java.lang.String">
+			<entry key="0" value="未注册仓单"></entry>
+			<entry key="1" value="注册仓单"></entry>
+			<entry key="2" value="已出库仓单"></entry>
+			<entry key="3" value="已拆仓单"></entry>
+			<entry key="4" value="拆仓单处理中"></entry>
+		</util:map>
+	
+</beans>

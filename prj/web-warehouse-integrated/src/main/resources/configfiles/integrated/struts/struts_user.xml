@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="w_user" extends="base-struts2" namespace="/user">
+		<action name="list" class="userAction" method="userList">
+			<param name="entityName">gnnt.MEBS.common.mgr.model.User</param>
+			<result>/mgr/app/integrated/usermanage/userslist.jsp</result>
+		</action>
+		<!-- 转向添加用户界面 -->
+		<action name="addForward" class="userAction" method="forwardAdd">
+			<param name="entityName">gnnt.MEBS.common.mgr.model.User</param>
+			<result>/mgr/app/integrated/usermanage/adduser.jsp</result>
+		</action>
+		<!-- 添加用户 -->
+		<action name="add" class="userAction" method="addUser">
+			<param name="entityName">gnnt.MEBS.common.mgr.model.User</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<!-- 转向更新用户信息页面-->
+		<action name="updateForward" class="userAction" method="viewById">
+			<param name="entityName">gnnt.MEBS.common.mgr.model.User</param>
+			<result>/mgr/app/integrated/usermanage/moduser.jsp</result>
+		</action>
+
+		<!-- 用户信息更新 -->
+		<action name="updateUser" class="userAction" method="updateUser">
+			<param name="entityName">gnnt.MEBS.common.mgr.model.User</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+
+		<!-- 删除用户 -->
+		<action name="delete" class="userAction" method="delete">
+			<param name="entityName">gnnt.MEBS.common.mgr.model.User</param>
+			<result>list.action</result>
+		</action>
+		<!-- 修改密码跳转 -->
+		<action name="forwardUpdatePassword" class="userAction" method="viewById">
+			<param name="entityName">gnnt.MEBS.common.mgr.model.User</param>
+			<result>/mgr/app/integrated/usermanage/modpassword.jsp</result>
+		</action>
+		<!-- 修改密码 -->
+		<action name="updatePassword" class="userAction" method="updatePassword">
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		
+		<!-- 转向用户关联角色页面 -->
+		<action name="forwardRelatedRight" class="userAction" method="relatedRightForward">
+			<result>/mgr/app/integrated/usermanage/relatedright.jsp</result>
+		</action>
+		<!-- 修改关联角色-->
+		<action name="updateRelatedRight" class="userAction" method="updateRelatedRight">
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+	</package>
+	
+		<!-- 权限和角色begin -->
+	<!-- 关于角色的操作-->
+	<package name="mgrcom_role" extends="base-struts2" namespace="/role">
+		<!-- 角色列表 -->
+		<action name="roleList" class="roleAction" method="listRole">
+			<param name="entityName">gnnt.MEBS.common.mgr.model.Role</param>
+			<result>/mgr/app/integrated/roles/rolelist.jsp</result>
+		</action>
+		<!-- 跳转添加角色页面-->
+		<action name="addForwardRole" class="roleAction" method="forwardAddRole">
+			<param name="entityName">gnnt.MEBS.common.mgr.model.Role</param>
+			<result>/mgr/app/integrated/roles/addrole.jsp</result>
+		</action>
+		<!-- 添加角色 -->
+		<action name="addRole" class="roleAction" method="addRole">
+			<param name="entityName">gnnt.MEBS.common.mgr.model.Role</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<!-- 跳转修改角色页面 -->
+		<action name="updateForwardRole" class="roleAction" method="updateForwardRole">
+			<param name="entityName">gnnt.MEBS.common.mgr.model.Role</param>
+			<result>/mgr/app/integrated/roles/modrole.jsp</result>
+		</action>
+		<!-- 修改角色 -->
+		<action name="updateRole" class="roleAction" method="updateRole">
+			<param name="entityName">gnnt.MEBS.common.mgr.model.Role</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<!--  跳转角色权限页面-->
+		<action name="updateForwardRoleRight" class="rightAction" method="updateForwardRoleRight">
+			<result>/mgr/app/integrated/roles/assignrolerights.jsp</result>
+		</action>
+		<!-- 查询角色模块权限信息 -->
+		<action name="updateRoleModuleRight" class="rightAction" method="updateRoleModuleRight">
+			<result>/mgr/app/integrated/roles/rolemoduleright.jsp</result>
+		</action>
+		<!-- 修改角色权限 -->
+		<action name="updateRoleRight" class="rightAction" method="updateRoleRight">
+			<param name="entityName">gnnt.MEBS.common.mgr.model.Role</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<!-- 删除角色 -->
+		<action name="deleteRole" class="roleAction" method="deleteRole">
+			<param name="entityName">gnnt.MEBS.common.mgr.model.Role</param>
+			<result>roleList.action</result>
+		</action>
+	</package>
+	<!-- 管理员操作日志 -->
+	<package name="mgrcom_log" extends="base-struts2" namespace="/log">
+		<action name="list" class="roleAction" method="operateLogList">
+			<param name="logtype"></param>
+			<result>/mgr/app/integrated/useroperatelog_list.jsp</result>
+		</action>
+	</package>
+	
+<!-- 用户解锁处理 -->
+	<package name="w_errorLogonLog" extends="base-struts2" namespace="/user/errorLogonLog">
+		<!-- 查询前台登陆次数超过了当天允许登陆失败错误次数最大值的交易员列表  -->
+		<action name="list" class="errorLoginLogAction" method="getList">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.usermanage.VerrorLoginLog</param>
+			<result>/mgr/app/integrated/usermanage/errorloginlist.jsp</result>
+		</action>
+		<!-- 查询交易员登陆失败信息列表 -->
+		<action name="getDetail" class="errorLoginLogAction" method="getDetail">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.usermanage.ErrorLoginLog</param>
+			<result>/mgr/app/integrated/usermanage/errorlogindetail.jsp</result>
+		</action>
+		<!-- 部分解锁 -->
+		<action name="activeTraders" class="errorLoginLogAction" method="deleteTraders">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.usermanage.VerrorLoginLog</param>
+			<result>list.action</result>
+		</action>
+		<!-- 全部解锁 -->
+		<action name="activeAllTraders" class="errorLoginLogAction" method="deleteAllActive">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.usermanage.VerrorLoginLog</param>
+			<result>list.action</result>
+		</action>
+	</package>
+</struts>

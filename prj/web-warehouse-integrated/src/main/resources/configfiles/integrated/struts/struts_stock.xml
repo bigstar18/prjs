@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="w_stock" extends="base-struts2" namespace="/stock">
+		<interceptors>
+			<interceptor name="tradeRightInterceptor"
+				class="gnnt.MEBS.integrated.mgr.action.stocknamage.interceptor.TradeRightInterceptor"></interceptor>
+		</interceptors>
+	</package>
+	<package name="jsonforstock" extends="json-default" namespace="/stock/addStock/jsonForStock">
+		<!-- 通过分类信息查询品名 -->
+		<action name="getBreedByCategoryID" class="stockAction" method="getBreedByCategoryID">
+			<result name="success" type="json">
+				<param name="root">jsonReturn</param>
+			</result>
+		</action>
+		<!-- 通过品名编号获取品名属性信息 -->
+		<action name="getPropertyValueByBreedID" class="stockAction" method="getPropertyValueByBreedID">
+			<result name="success" type="json">
+				<param name="root">jsonReturn</param>
+			</result>
+		</action>
+		<!-- 通过仓单号查询分类品名属性等信息 -->
+		<action name="getStockJson" class="stockAction" method="getStockJson">
+			<result name="success" type="json">
+				<param name="root">jsonReturn</param>
+			</result>
+		</action>
+		
+	</package>
+	<package name="w_stockApart" extends="base-struts2" namespace="/stock/apart">
+		<!-- 拆仓单处理 -->
+		<action name="list" class="stockApartAction" method="stockOperationByOperation">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.stockmanage.StockOperation</param>
+			<param name="operationId">0</param>
+			<param name="operation">apart</param>
+			<result>/mgr/app/integrated/stockapartmanage/stockdispose_list.jsp</result>
+		</action>
+		<!-- 仓单详情-->
+		<action name="stockDetails" class="stockApartAction" method="queryStockList">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.stockmanage.StockOperation</param>
+			<result>/mgr/app/integrated/stockapartmanage/stockoperation_details.jsp</result>
+		</action>
+		<!-- 拆仓单跳转页面-->
+		<action name="updateStockDispose" class="stockApartAction" method="queryDisposeList">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.stockmanage.Dismantle</param>
+			<result>/mgr/app/integrated/stockapartmanage/stockdispose.jsp</result>
+		</action>
+		<!-- 拆仓成功处理方法-->
+		<action name="updateDisposeSuccess" class="stockApartAction" method="disposeSuccess">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.stockmanage.Dismantle</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+		<!-- 拆仓单失败处理方法-->
+		<action name="updateDisposeFail" class="stockApartAction" method="disposeFail">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.stockmanage.Dismantle</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+	</package>
+	<package name="dismantleAllStock" extends="base-struts2" namespace="/stock/dismantlelist">
+	<!-- 已拆仓单列表 -->
+		<action name="stockDismantleList" class="stockApartAction" method="dismantleListByStatus">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.stockmanage.Dismantle</param>
+			<param name="stockStatus">3</param>
+			<result>/mgr/app/integrated/stockapartmanage/stock_dismantlelist.jsp</result>
+		</action>
+		<!-- 仓单详情-->
+		<action name="dismantleDetails" class="stockApartAction" method="getDismantleDetails">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.stockmanage.Dismantle</param>
+			<result>/mgr/app/integrated/stockapartmanage/dismantle_details.jsp</result>
+		</action>
+		<!-- 转到录入仓单 -->
+	</package>
+	<package name="exitStock" extends="base-struts2" namespace="/stock/exitlist">
+		<!-- 出库仓单列表列表 -->
+		<action name="stockList" class="stockApartAction" method="stockListByStatus">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.stockmanage.Stock</param>
+			<param name="stockStatus">2</param>
+			<result>/mgr/app/integrated/stockapartmanage/stock_exitlist.jsp</result>
+		</action>
+		
+		<!-- 出库仓单申请列表 -->
+		<action name="stockOutApplyList" class="stockApartAction" method="stockListByStatus">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.stockmanage.Stock</param>
+			<param name="stockStatus">5</param>
+			<result>/mgr/app/integrated/stockapartmanage/stock_exitapply_list.jsp</result>
+		</action>
+		
+		<!-- 仓单出库跳转 -->
+		<action name="stockOutForward" class="stockApartAction" method="stockOutForward">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.stockmanage.Stock</param>
+			<result>/mgr/app/integrated/stockapartmanage/stock_exitout.jsp</result>
+		</action>
+		<!-- 仓单出库操作-->
+		<action name="stockOutReal" class="stockApartAction" method="stockOutReal">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.stockmanage.Stock</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+	</package>
+	<package name="stockcl" extends="w_stock" namespace="/mgr/app/warehouse/checkneedless">
+		<!-- 通过品名编号获取品名属性信息 -->
+		<action name="getPropertyValueByBreedID" class="stockAction" method="getPropertyPagValueByBreedID">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.stockmanage.Stock</param>
+			<result>/mgr/app/integrated/stockmanage/stock_propertys.jsp</result>
+		</action>
+	</package>
+	<package name="stockList" extends="w_stock" namespace="/stock/list">
+		<!-- 可用仓单列表-->
+		<action name="stockList" class="stockAction" method="getList">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.stockmanage.Stock</param>
+			<result>/mgr/app/integrated/stockmanage/stock_list.jsp</result>
+		</action>
+		<!-- 仓单详情-->
+		<action name="stockDetails" class="stockAction" method="getStockDetails">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.stockmanage.Stock</param>
+			<result>/mgr/app/integrated/stockmanage/stock_details.jsp</result>
+		</action>
+		<!-- 录入仓单跳转 -->
+		<action name="addStockForward" class="stockAction" method="addStockForward">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="tradeRightInterceptor"></interceptor-ref>
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.stockmanage.Stock</param>
+			<result>/mgr/app/integrated/stockmanage/stock_add.jsp</result>
+		</action>
+		<!-- 录入仓单 -->
+		<action name="addStock" class="stockAction" method="addStock">
+			<param name="entityName">gnnt.MEBS.integrated.mgr.model.stockmanage.Stock</param>
+			<result>/mgr/public/jsp/commonmsg.jsp</result>
+		</action>
+	</package>
+</struts>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+ 
+<beans>
+    <bean id="lookupManager" class="gnnt.MEBS.timebargain.tradeweb.service.impl.LookupManagerImpl">
+        <property name="lookupDAO" ref="lookupDAO"/>
+    </bean>
+	
+    <!-- Transaction template for Managers, from:
+         http://blog.exis.com/colin/archives/2004/07/31/concise-transaction-definitions-spring-11/ 
+    <bean id="txProxyTemplate" abstract="true"
+        class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+        <property name="transactionManager"><ref bean="transactionManager"/></property> 
+        <property name="transactionAttributes">
+            <props>
+                <prop key="insert*">PROPAGATION_REQUIRED</prop>
+                <prop key="update*">PROPAGATION_REQUIRED</prop>
+                <prop key="delete*">PROPAGATION_REQUIRED</prop>
+                <prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+            </props>
+        </property>
+    </bean>
+    -->
+    <bean id="manager" class="gnnt.MEBS.timebargain.tradeweb.service.impl.BaseManager" >
+        <property name="DAO"><ref bean="dao"/></property>
+    </bean>
+    <bean id="customerManager" class="gnnt.MEBS.timebargain.tradeweb.service.impl.CustomerManagerImpl" autowire="byName">
+    </bean>    
+    <bean id="ordersManager" class="gnnt.MEBS.timebargain.tradeweb.service.impl.OrdersManagerImpl" autowire="byName">
+    </bean>   
+    <bean id="ordersPagingManager" class="gnnt.MEBS.timebargain.tradeweb.service.impl.OrdersPagingManagerImpl" autowire="byName">
+    </bean>   
+    <bean id="conditionOrderManager" class="gnnt.MEBS.timebargain.tradeweb.service.impl.ConditionOrderManagerImpl">
+    	<property name="conditionDAO"><ref bean="conditionDAO"/></property>
+    </bean>
+
+     <!--交收申报
+    <bean id="settleOrdersManager" class="gnnt.MEBS.timebargain.tradeweb.service.impl.SettleOrdersManagerImpl" autowire="byName">
+    </bean>
+     -->
+    <!-- 
+    <bean id="manager">
+        <property name="target">
+            <bean class="gnnt.MEBS.timebargain.tradeweb.service.impl.BaseManager">
+                <property name="DAO"><ref bean="dao"/></property>
+            </bean>
+        </property>
+    </bean>
+    <bean id="customerManager" >
+        <property name="target">
+            <bean class="gnnt.MEBS.timebargain.tradeweb.service.impl.CustomerManagerImpl" autowire="byName"/>
+        </property>
+    </bean>    
+    <bean id="ordersManager" >
+        <property name="target">
+            <bean class="gnnt.MEBS.timebargain.tradeweb.service.impl.OrdersManagerImpl" autowire="byName"/>
+        </property>
+    </bean>  
+    <bean id="reportManager" >
+        <property name="target">
+            <bean class="gnnt.MEBS.timebargain.tradeweb.service.impl.ReportManagerImpl" autowire="byName"/>
+        </property>
+    </bean>   
+     -->
+    
+</beans>
+
+
+
+
+
+
+
+
+
+
+

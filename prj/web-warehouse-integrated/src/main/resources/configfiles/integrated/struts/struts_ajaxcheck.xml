@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!--  ajax 验证信息相关 -->
+	<package name="ajaxcheck" extends="json-default" namespace="/ajaxcheck/warehouse">
+		<!-- ===角色管理== -->
+	<!-- 鼠标移开事件检查较色编号在较色表(C_ROLE)中是否存在(存在返回失败，不存在返回成功) -->
+		<action name="checkRoleByName" class="ajaxCheck"
+			method="checkRoleByName">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+	<!-- 鼠标移开事件检查密钥是否正确(不正确返回失败，正确返回成功) hxx -->
+		<action name="checkKey" class="ajaxCheck"
+			method="checkKey">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param> 
+			</result>
+		</action>
+	<!-- Form 表单提交事件检查较色编号在较色表(C_ROLE)中是否存在(存在返回失败，不存在返回成功) -->
+		<action name="checkRoleForm" class="ajaxCheck"
+			method="checkRoleForm">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+		<!-- 鼠标移开事件检查后台管理员代码在管理员表(W_USER)是否存在(存在返回失败，不存在返回成功) -->
+		<action name="checkUserByUserId" class="ajaxCheck"
+			method="checkUserByUserId">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+	<!-- Form 表单提交事件检查后台管理员代码在管理员表(W_USER)是否存在(存在返回失败，不存在返回成功) -->
+		<action name="checkUserForm" class="ajaxCheck"
+			method="checkUserForm">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+		
+		
+		<!-- ==仓单录入 交易商代码== -->
+		<!-- 鼠标移开事件检查交易商代码在交易商列表表(M_Firm)表中是否存在(存在返回失败，不存在返回成功) -->
+		<action name="checkStockByFirmId" class="ajaxCheck"
+			method="checkStockByFirmId">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+		<!-- Form 表单提交事件检查交易商代码在交易商列表表(M_Firm)表中是否存在(存在返回失败，不存在返回成功 -->
+		<action name="checkStockFirmIdForm" class="ajaxCheck" method="checkStockFirmIdForm">
+			<result name="success" type="json">
+				<param name="root">jsonValidateReturn</param>
+			</result>
+		</action>
+	</package>
+</struts>

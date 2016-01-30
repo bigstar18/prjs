@@ -13,13 +13,6 @@
 	
 	<!-- 依赖项定义 -->
 	<dependencies>
-		<dependency>
-			<groupId>com.yrdce</groupId>
-			<artifactId>bill_core</artifactId>
-			<version>1.0.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/bill_core.jar</systemPath>
-		</dependency>
 		
 		<dependency>
 			<groupId>org.hxx</groupId>
@@ -292,6 +285,11 @@
 		<dependency>
 			<groupId>org.hxx</groupId>
 			<artifactId>util-checkLogon</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hxx</groupId>
+			<artifactId>srv-billcore</artifactId>
 			<version>1.0.0</version>
 		</dependency>
 	</dependencies>
