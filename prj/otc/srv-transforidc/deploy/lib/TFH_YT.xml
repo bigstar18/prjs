@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+      http://www.springframework.org/schema/beans/spring-beans.xsd   
+      http://www.springframework.org/schema/tx 
+      http://www.springframework.org/schema/tx/spring-tx.xsd      
+      http://www.springframework.org/schema/aop 
+      http://www.springframework.org/schema/aop/spring-aop.xsd
+      http://www.springframework.org/schema/util 
+      http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+      
+      
+	    <!--该配置用来配置多行情服务器 -->
+	<util:list id="ipConfigList" list-class="java.util.ArrayList" value-type="gnnt.MEBS.transformhq.server.model.IPConfig">
+		<ref bean="ytcj"></ref>
+		<ref bean="ytqh"></ref>
+	</util:list>
+
+	<bean id="ytcj" class="gnnt.MEBS.transformhq.server.model.IPConfig">
+		<property name="iP">     <!-- 线路IP -->
+			<value>ytcj.com</value>
+		</property>
+		<property name="port">     <!-- 线路端口 -->
+			<value>6789</value>
+		</property>
+		<property name="name">     <!-- 登录用户名 -->
+			<value>admin</value>
+		</property>
+		<property name="password">  <!-- 登录密码 -->
+			<value>null</value>
+		</property>
+		<property name="demoTime">   <!-- 线路行情守护时间 单位为秒，判断该线路为无效 -->
+			<value>40</value>
+		</property>
+		<property name="roadLevel"> <!-- 线路级别,int型越小，级别越高 -->
+			<value>0</value>
+		</property>
+	</bean>
+
+	<bean id="ytqh" class="gnnt.MEBS.transformhq.server.model.IPConfig">
+		<property name="iP">
+			<value>211.152.45.237</value>
+		</property>
+		<property name="port">
+			<value>6789</value>
+		</property>
+		<property name="name">
+			<value>admin</value>
+		</property>
+		<property name="password">
+			<value>null</value>
+		</property>
+		<property name="demoTime">
+			<value>40</value>
+		</property>
+		<property name="roadLevel">
+			<value>1</value>
+		</property>
+	</bean>
+	<!-- 倚天线路配置结束 --> 
+	
+	<!-- 倚天商品配置开始 -->
+	<util:map id="inCommodity" value-type="gnnt.MEBS.transformhq.server.model.InCommodity">
+		<entry>
+			<key>
+				<value>XAG</value> <!-- 从外盘接收到的商品代码 -->
+			</key>
+			<ref bean="xag" />
+		</entry>
+		<entry>
+			<key>
+				<value>XAU</value> <!-- 从外盘接收到的商品代码 -->
+			</key>
+			<ref bean="xau" />
+		</entry>
+	</util:map>
+
+	<bean id="xag" class="gnnt.MEBS.transformhq.server.model.InCommodity">
+		<property name="requestCommodityId">   <!-- 像外盘申请发送的商品代码 -->
+			<value>XAG</value>
+		</property>
+		<property name="inCommodityId"> <!-- 发给交易核心的商品代码 -->
+			<value>XAG</value>
+		</property>
+		<property name="timeOut">		<!-- 该商品超时时间，如果时间内没有收到该商品，则线路判断异常 单位为秒 -->
+			<value>90</value>
+		</property>
+		<property name="repeatSend"> 	<!-- 重复发送次数 -->
+			<value>1</value>
+		</property>
+		<property name="randomStart">    <!-- 价格随机开始位 -->
+			<value>3</value>
+		</property>
+		<property name="randomEnd">    <!-- 价格随机结束位 -->
+			<value>4</value>
+		</property>
+	</bean>
+
+	<bean id="xau" class="gnnt.MEBS.transformhq.server.model.InCommodity">
+		<property name="requestCommodityId">   <!-- 像外盘申请发送的商品代码 -->
+			<value>XAU</value>
+		</property>
+		<property name="inCommodityId"> <!-- 发给交易核心的商品代码 -->
+			<value>XAU</value>
+		</property>
+		<property name="timeOut">		<!-- 该商品超时时间，如果时间内没有收到该商品，则线路判断异常 单位为秒 -->
+			<value>120</value>
+		</property>
+		<property name="repeatSend"> 	<!-- 重复发送次数 -->
+			<value>1</value>
+		</property>
+		<property name="randomStart">    <!-- 价格随机开始位 -->
+			<value>3</value>
+		</property>
+		<property name="randomEnd">    <!-- 价格随机结束位 -->
+			<value>4</value>
+		</property>
+	</bean>
+
+</beans>
+
+
+
+
+
+
+
+
+
+
+

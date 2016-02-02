@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+<!--注意：VALUE不能为空，不然会报解析不了XML的错误 -->
+	<COMPONENT>
+		<NAME>BANK</NAME>
+		<TYPE>normal</TYPE>
+			<SECTION>
+			<NAME>Adapter</NAME>
+				<PROPERTYS>
+<!-- 相关机器端口部署信息 -->
+					<!-- 客户端RMI名称 -->
+					<PROPERTY>
+						<KEY>AdapterName</KEY>
+						<VALUE>BankAdapterRMI</VALUE>
+					</PROPERTY>
+					<!-- 服务器端RMI名称 -->
+					<PROPERTY>
+						<KEY>ServiceName</KEY>
+						<VALUE>CapitalProcessorRMI</VALUE>
+					</PROPERTY>
+					<!-- 处理器所在服务器IP地址-->
+					<PROPERTY>
+						<KEY>ProcessorIP</KEY>
+						<VALUE>172.18.100.23</VALUE>
+					</PROPERTY>
+					<!-- 处理器所在服务器端口 -->
+					<PROPERTY>
+						<KEY>ProcessorPort</KEY>
+						<VALUE>15051</VALUE>
+					</PROPERTY>
+					<!-- 适配器所在服务器IP地址 -->
+					<PROPERTY>
+						<KEY>AdapterIP</KEY>
+						<VALUE>172.18.100.23</VALUE>
+					</PROPERTY>
+					<!-- 适配器所在服务器端口 -->
+					<PROPERTY>
+						<KEY>AdapterPort</KEY>
+						<VALUE>15052</VALUE>
+					</PROPERTY>
+<!-- 数据库配置 -->
+					<!-- 数据库地址 -->
+					<PROPERTY>
+						<KEY>DBUrl</KEY>
+						<VALUE>jdbc:oracle:thin:@172.18.100.19:1521:gnnt</VALUE>
+					</PROPERTY>
+					<!-- 数据库用户名 -->
+					<PROPERTY>
+						<KEY>DBUser</KEY>
+						<VALUE>trade_demo</VALUE>
+					</PROPERTY>
+					<!-- 数据库用户密码 -->
+					<PROPERTY>
+						<KEY>DBPwd</KEY>
+						<VALUE>password</VALUE>
+					</PROPERTY>
+<!-- 银行端自动入金配置 -->
+					<!-- 会员自动入金后银行剩余权益 -->
+					<PROPERTY>
+						<KEY>memberright</KEY>
+						<VALUE>100000000</VALUE>
+					</PROPERTY>
+					<!-- 客户自动入金后银行剩余权益 -->
+					<PROPERTY>
+						<KEY>customerright</KEY>
+						<VALUE>9000000</VALUE>
+					</PROPERTY>
+					<!-- 会员初始入金 -->
+					<PROPERTY>
+						<KEY>memberinmoney</KEY>
+						<VALUE>100000000</VALUE>
+					</PROPERTY>
+					<!-- 客户初始入金 -->
+					<PROPERTY>
+						<KEY>customerinmoney</KEY>
+						<VALUE>100000</VALUE>
+					</PROPERTY>
+<!-- 是否连接数据库 -->
+					<!-- 如果不连接数据库，交易是否成功 -->
+					<PROPERTY>
+						<KEY>ifsuccessful</KEY>
+						<VALUE>true</VALUE>
+					</PROPERTY>
+					<!-- 签约、查询等的默认金额 -->
+					<PROPERTY>
+						<KEY>money</KEY>
+						<VALUE>200000000</VALUE>
+					</PROPERTY>
+					<!-- 是否连接数据库 -->
+					<PROPERTY>
+						<KEY>connectionDB</KEY>
+						<VALUE>true</VALUE>
+					</PROPERTY>
+
+				</PROPERTYS>
+			</SECTION>
+	</COMPONENT>
+</CONFIG>

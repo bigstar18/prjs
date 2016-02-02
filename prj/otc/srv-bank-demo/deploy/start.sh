@@ -1,0 +1,1 @@
+nohup java -jar ./DemoBank.jar Adapter_Demo >>./logs/Adapterlog  & tail -f -n0 ./logs/Adapterlog

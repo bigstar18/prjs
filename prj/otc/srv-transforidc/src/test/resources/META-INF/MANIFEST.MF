@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Class-Path: lib/processor4adapter.jar lib/log4j-1.2.9.jar lib/commons-
+ logging.jar lib/commons-collections-3.2.1.jar lib/quartz-1.6.5.jar li
+ b/commons-httpclient-3.0.1.jar lib/commons-codec-1.4.jar lib/weblogic
+ .jar 
+Main-Class: gnnt.bank.adapter.CCBBankImpl
+

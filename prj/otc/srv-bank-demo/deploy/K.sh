@@ -1,0 +1,76 @@
+:
+#####################################################################
+#CRIPT:         K
+
+#       DESCRIPTION:    Kill processes by name
+
+#
+
+#       Author: Guan Jian       Date: August 10, 1993
+
+#       Revision: 2.1.1
+
+#
+
+#
+
+#       This source code is copyright 1994-1996 by MagiTech System Limited.
+
+#       Use, duplication and disclosure subject to a Source
+
+#       Code License Agreement with MagiTech System Limited.
+
+#
+
+######################################################################
+
+if [ $# -ne 1 ] && [ $# -ne 2 ]
+
+then
+
+        echo "Usage: $0 process_name [signal]"
+
+        exit
+
+fi
+
+ 
+
+PROCESSES=`ps -ef| grep $1 | grep -v grep | cut -c10-14 | sort -r`
+
+for i in $PROCESSES
+
+do
+
+        if [ $# = 2 ]
+
+        then
+
+                kill $2 $i
+
+        else
+
+                kill $i
+
+        fi
+
+done
+
+ 
+
+######################################################################
+
+# BEGIN MODIFICATION HISTORY
+
+#
+
+# Revision #      Date      Time    Changes By
+
+# ------------  --------  --------  ----------
+
+#
+
+# END MODIFICATION HISTORY
+
+######################################################################
+

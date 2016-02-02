@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+      http://www.springframework.org/schema/beans/spring-beans.xsd   
+      http://www.springframework.org/schema/tx 
+      http://www.springframework.org/schema/tx/spring-tx.xsd      
+      http://www.springframework.org/schema/aop 
+      http://www.springframework.org/schema/aop/spring-aop.xsd
+      http://www.springframework.org/schema/util 
+      http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+      
+      
+	    <!--该配置用来配置多行情服务器 -->
+	<util:list id="ipConfigList" list-class="java.util.ArrayList" value-type="gnnt.MEBS.transformhq.server.model.IPConfig">
+		<ref bean="idc"></ref>
+	</util:list>
+
+	<bean id="idc" class="gnnt.MEBS.transformhq.server.model.IPConfig">
+		<property name="iP">     <!-- 线路IP -->
+			<value>192.168.30.45</value>
+		</property>
+		<property name="port">     <!-- 线路端口 -->
+			<value>8100</value>
+		</property>
+		<property name="name">     <!-- 登录用户名 -->
+			<value>YANGTZE_VPN</value>
+		</property>
+		<property name="password">  <!-- 登录密码 -->
+			<value>YANGTZE_VPN</value>
+		</property>
+		<property name="demoTime">   <!-- 线路行情守护时间 单位为秒，判断该线路为无效 -->
+			<value>40</value>
+		</property>
+		<property name="roadLevel"> <!-- 线路级别,int型越小，级别越高 -->
+			<value>0</value>
+		</property>
+	</bean> 
+	
+	<!-- IDC商品配置开始 -->
+	<util:map id="inCommodity" value-type="gnnt.MEBS.transformhq.server.model.InCommodity">
+		<entry>
+			<key>
+				<value>C:PXAGUSDOZ\SP</value> <!-- 从外盘接收到的商品代码 -->
+			</key>
+			<ref bean="xag" />
+		</entry>
+		<entry>
+			<key>
+				<value>F2:CA\3M</value> <!-- 从外盘接收到的商品代码 -->
+			</key>
+			<ref bean="lmcd" />
+		</entry>
+		<entry>
+			<key>
+				<value>F2:NI\3M</value> <!-- 从外盘接收到的商品代码 -->
+			</key>
+			<ref bean="ni" />
+		</entry>
+		<entry>
+			<key>
+				<value>F2:CL\X15</value> <!-- 从外盘接收到的商品代码 -->
+			</key>
+			<ref bean="csy" />
+		</entry>
+	</util:map>
+
+	<bean id="xag" class="gnnt.MEBS.transformhq.server.model.InCommodity">
+		<property name="requestCommodityId">    <!-- 像外盘申请发送的商品代码 -->
+			<value>C:PXAGUSDOZ\SP</value>
+		</property>
+		<property name="inCommodityId"> <!-- 发给交易核心的商品代码 -->
+			<value>XAG</value>
+		</property>
+		<property name="timeOut">		<!-- 该商品超时时间，如果时间内没有收到该商品，则线路判断异常 单位为秒 -->
+			<value>0</value>
+		</property>
+		<property name="repeatSend"> 	<!-- 重复发送次数 -->
+			<value>1</value>
+		</property>
+		<property name="randomStart">    <!-- 价格随机开始位 -->
+			<value>3</value>
+		</property>
+		<property name="randomEnd">    <!-- 价格随机结束位 -->
+			<value>4</value>
+		</property>
+		<property name="quoSupplier"> <!-- 是否为报价商提供商品,IDC专用 -->
+			<value>false</value>
+		</property>
+		<property name="requestType">  <!-- 申请商品类型代码，IDC专用，贵金属为：4=691|，铜为：4=579| -->
+			<value>4=691|</value>
+		</property>
+	</bean>
+
+	<bean id="csy" class="gnnt.MEBS.transformhq.server.model.InCommodity">
+		<property name="requestCommodityId">    <!-- 像外盘申请发送的商品代码 -->
+			<value>F2:CL\X15</value>
+		</property>
+		<property name="inCommodityId"> <!-- 发给交易核心的商品代码 -->
+			<value>CSY</value>
+		</property>
+		<property name="timeOut">               <!-- 该商品超时时间，如果时间内没有收到该商品，则线路判断异常 单位为秒 -->
+			<value>0</value>
+		</property>
+		<property name="repeatSend">    <!-- 重复发送次数 -->
+			<value>1</value>
+		</property>
+		<property name="randomStart">    <!-- 价格随机开始位 -->
+			<value>3</value>
+		</property>
+		<property name="randomEnd">    <!-- 价格随机结束位 -->
+			<value>4</value>
+		</property>
+		<property name="quoSupplier"> <!-- 是否为报价商提供商品,IDC专用 -->
+			<value>true</value>
+		</property>
+		<property name="requestType">  <!-- 申请商品类型代码，IDC专用，贵金属为：4=691|，铜为：4=579| -->
+			<value>4=686|</value>
+		</property>
+	</bean>
+
+	<bean id="lmcd" class="gnnt.MEBS.transformhq.server.model.InCommodity">
+		<property name="requestCommodityId">    <!-- 像外盘申请发送的商品代码 -->
+			<value>F2:CA\3M</value>
+		</property>
+		<property name="inCommodityId"> <!-- 发给交易核心的商品代码 -->
+			<value>LMCD</value>
+		</property>
+		<property name="timeOut">		<!-- 该商品超时时间，如果时间内没有收到该商品，则线路判断异常 单位为秒 -->
+			<value>0</value>
+		</property>
+		<property name="repeatSend"> 	<!-- 重复发送次数 -->
+			<value>1</value>
+		</property>
+		<property name="randomStart">    <!-- 价格随机开始位 -->
+			<value>3</value>
+		</property>
+		<property name="randomEnd">    <!-- 价格随机结束位 -->
+			<value>4</value>
+		</property>
+		<property name="quoSupplier"> <!-- 是否为报价商提供商品,IDC专用 -->
+			<value>true</value>
+		</property>
+		<property name="requestType">  <!-- 申请商品类型代码，IDC专用，贵金属为：4=691|，铜为：4=579| -->
+			<value>4=579|</value>
+		</property>
+	</bean>
+
+	<bean id="ni" class="gnnt.MEBS.transformhq.server.model.InCommodity">
+		<property name="requestCommodityId">    <!-- 像外盘申请发送的商品代码 -->
+			<value>F2:NI\3M</value>
+		</property>
+		<property name="inCommodityId"> <!-- 发给交易核心的商品代码 -->
+			<value>NI</value>
+		</property>
+		<property name="timeOut">	<!-- 该商品超时时间，如果时间内没有收到该商品，则线路判断异常 单位为秒 -->
+			<value>0</value>
+		</property>
+		<property name="repeatSend"> 	<!-- 重复发送次数 -->
+			<value>1</value>
+		</property>
+		<property name="randomStart">    <!-- 价格随机开始位 -->
+			<value>3</value>
+		</property>
+		<property name="randomEnd">    <!-- 价格随机结束位 -->
+			<value>4</value>
+		</property>
+		<property name="quoSupplier"> <!-- 是否为报价商提供商品,IDC专用 -->
+			<value>true</value>
+		</property>
+		<property name="requestType">  <!-- 申请商品类型代码，IDC专用，贵金属为：4=691|，铜为：4=579| -->
+			<value>4=579|</value>
+		</property>
+	</bean>
+	
+	<!-- 接收行情市场，目前只支持一个阶梯 -->
+	<util:map id="marketMap" key-type="java.lang.String" value-type="java.lang.Character">
+		<entry key="CCIB" value="A"></entry>
+		<entry key="SAXO" value="A"></entry>
+		<entry key="FXN" value="A"></entry>
+		<entry key="GACI" value="A"></entry>
+	</util:map>
+</beans>

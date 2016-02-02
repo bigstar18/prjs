@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Class-Path: lib/log4j-1.2.15.jar lib/processor4adapter.jar lib/9i-ojdb
+ c14.jar
+Main-Class: gnnt.bank.adapter.rmi.serice.StartUpAdapter
+

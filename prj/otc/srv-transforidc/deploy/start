@@ -1,0 +1,20 @@
+#!/bin/sh
+:
+
+./stop
+
+CLASSPATH=$CLASSPATH:\
+./lib:\
+./lib/transformHQServer.jar:\
+./lib/transformHQClient.jar:\
+./lib/blpapi3.jar:\
+./lib/commons-collections.jar:\
+./lib/commons-logging-1.1.jar:\
+./lib/log4j-1.2.13.jar:\
+./lib/fanbase.jar:\
+./lib/spring-2.0.jar:\
+./lib/quartz-1.5.2.jar 
+
+echo 正在启动行情转换系统 version 1.0.0.0......
+echo $CLASSPATH
+nohup $JAVA_HOME/bin/java -classpath $CLASSPATH gnnt.MEBS.transformhq.server.TransStart transformhq>> ./logs/transFormservice.log & tail -f -n0 ./logs/transFormservice.log

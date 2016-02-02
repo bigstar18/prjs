@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+      http://www.springframework.org/schema/beans/spring-beans.xsd   
+      http://www.springframework.org/schema/tx 
+      http://www.springframework.org/schema/tx/spring-tx.xsd      
+      http://www.springframework.org/schema/aop 
+      http://www.springframework.org/schema/aop/spring-aop.xsd
+      http://www.springframework.org/schema/util 
+      http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+      
+   <!-- 导入各个不同的行情源配置 -->
+	<import resource="TFH_YT.xml" />   <!-- 倚天行情源 -->
+ <!--  <import resource="TFH_Bloomberg.xml"/> -->  <!-- 彭博行情源 -->
+   <!--   <import resource="TFH_GNNT.xml"/>  -->  <!-- 金网行情源 -->
+  <!--  <import resource="TFH_IDC.xml"/> --> <!-- IDC行情源 -->
+
+
+	<!-- 本机ip配置    PS:防止本地启多个本服务导致端口占用问题-->
+	<bean id="localIpConfig" class="gnnt.MEBS.transformhq.server.model.LocalIpConfig">
+		<property name="ip">
+			<value>172.18.100.23</value>  <!-- 本机ip配置 -->
+		</property>
+		<property name="socketPort">
+			<value>16891</value>         <!-- socket服务端口 -->
+		</property>
+		<property name="rmiPort">
+			<value>16892</value>         <!-- rmi服务端口 -->
+		</property>
+	</bean>
+
+	<bean id="config" class="java.util.Properties">
+		<constructor-arg type="java.util.Properties">
+			<props>
+				<prop key="isSecondPrice">false</prop>	<!-- 是否进行同一秒价格过滤 -->
+				<prop key="isBurrPrice">true</prop>	    <!-- 是否进行毛刺价格过滤 -->
+				<prop key="heartBeat">1</prop>          <!-- 心跳包发送时间 单位为秒 -->
+				<prop key="diffTime">5</prop>          <!-- 没有正常线路等待时间 单位为秒  超过该时间，则将该行情转发器状态置为无效-->
+				<prop key="cacheTime">20</prop>         <!-- 以阶段时间最高价，最低价过滤同一秒价格，单位为分钟 -->
+				<prop key="initTime">07:00:00</prop>    <!-- 行情初始化时间，避免开市时，没有正常行情可用。必须严格按照HH:MM:SS配置 -->
+			</props>
+		</constructor-arg>
+	</bean>	
+	
+	<!-- 同一秒价格过滤接口配置 -->
+	<bean id="secondPrice" class="gnnt.MEBS.transformhq.server.PricefiterInterFace.impl.SecondTopPriceFiterImpl"></bean>
+
+	<!-- 毛刺价格过滤接口配置-->
+	<bean id="burrPrice" class="gnnt.MEBS.transformhq.server.PricefiterInterFace.impl.BurrPriceFilterImpl">
+		<property name="defaultGlitch" ref="defaultGlitch"></property>
+		<property name="glitchSet" ref="glitchSet"></property>
+	</bean>
+	
+	
+	<!-- 商品特殊超时时间配置,key为商品代码，value值为超时对象 -->
+	<util:map id="timeOutSet" key-type="java.lang.String" value-type="java.util.ArrayList">
+		<entry key="XAG" value-ref="xagTMList"></entry>
+	</util:map>
+
+	<util:list id="xagTMList" list-class="java.util.ArrayList" value-type="gnnt.MEBS.transformhq.server.model.TimeOut">
+		<ref bean="tm1" />
+	</util:list>
+
+	<bean id="tm1" class="gnnt.MEBS.transformhq.server.model.TimeOut">
+		<property name="beginTime" value="21:00:00"></property> <!-- 开始有效时间  必须严格按照HH:MM:SS配置-->
+		<property name="endTime" value="22:00:00"></property>   <!-- 结束有效时间  必须严格按照HH:MM:SS配置-->
+		<property name="timeOut" value="40"></property> 		<!-- 超时时间，单位为秒 -->
+	</bean>
+	
+	
+
+	<!-- 默认滤价配置项，毛刺价格合理次数、价格波动合理范围值、价格波动合理 百分比 、是否保留毛刺数据-->
+	<bean id="defaultGlitch" class="gnnt.MEBS.transformhq.server.model.Glitch">
+		<property name="frequency" value="3" />
+		<property name="range" value="0.05"></property>
+		<property name="glitchRange" value="20"></property>
+		<property name="isHoldData" value="false" />
+	</bean>
+	
+	
+	<!-- 特殊虑价配置项，根据商品代码进行特殊设置，这里的商品代码为发送给核心的商品代码 -->
+	<util:map id="glitchSet" value-type="java.util.ArrayList">
+		<entry key="XAG" value-ref="xagGlitchList"></entry>
+	</util:map>
+
+	<util:list id="xagGlitchList" list-class="java.util.ArrayList" value-type="gnnt.MEBS.transformhq.server.model.Glitch">
+		<ref bean="glitch1" />
+	</util:list>
+	
+	
+	<!--有效开始时间，有效结束时间，滤价配置项，毛刺价格合理次数、价格波动合理范围值、价格波动合理 百分比 、是否保留毛刺数据-->
+	<bean id="glitch1" class="gnnt.MEBS.transformhq.server.model.Glitch">
+		<property name="beginTime" value="21:00:00" /> <!-- 开始有效时间  必须严格按照HH:MM:SS配置-->
+		<property name="endTime" value="22:00:00" />  <!-- 结束有效时间  必须严格按照HH:MM:SS配置-->
+		<property name="frequency" value="3" />
+		<property name="range" value="0.05"></property>
+		<property name="glitchRange" value="20"></property>
+		<property name="isHoldData" value="false" />
+	</bean>
+
+
+</beans>
+
+
+
+
+
+
+
+
+
+
+
