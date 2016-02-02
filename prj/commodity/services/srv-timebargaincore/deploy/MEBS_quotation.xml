@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<CONFIG>
+	<TIMESPACE>300</TIMESPACE>
+	<!-- 开市前几分钟清数据 -->
+	<CLEARTIME>15</CLEARTIME>
+	<!-- 扫描商品方式：0：扫描全部商品(默认)；1：扫描定期，延期商品；2：扫描提单交易商品； -->
+	<COMMODITYSTYLE>0</COMMODITYSTYLE>	
+	<!--  * 行情引擎默认状态  * 0：启动  * 2: 不启动 -->
+	<HQENGINESTATUS>0</HQENGINESTATUS>	
+	<SOURCE>
+		<DBTYPE>Oracle</DBTYPE>
+		<DBDriver>oracle.jdbc.driver.OracleDriver</DBDriver>
+		<DBURL>jdbc:oracle:thin:trade_gnnt/password@172.18.11.27:1521:gnnt</DBURL>
+	</SOURCE>
+	<TARGET>
+		<DBTYPE>Oracle</DBTYPE>
+		<DBDriver>oracle.jdbc.driver.OracleDriver</DBDriver>
+		<DBURL>jdbc:oracle:thin:hquser_gnnt/password@172.18.11.27:1521:gnnt</DBURL>
+	</TARGET>
+</CONFIG>

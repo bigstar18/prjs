@@ -13,20 +13,6 @@
 	
 	<!-- 依赖项定义 -->
 	<dependencies>
-		<dependency>
-			<groupId>com.yrdce</groupId>
-			<artifactId>timebargainRMI</artifactId>
-			<version>1.0.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/timebargainRMI.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>com.yrdce</groupId>
-			<artifactId>conditionRMI</artifactId>
-			<version>1.0.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/conditionRMI.jar</systemPath>
-		</dependency>
 
 		<dependency>
 			<groupId>org.javassist</groupId>
@@ -301,6 +287,16 @@
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
 			<version>2.6</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hxx</groupId>
+			<artifactId>srv-conditionplugin</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hxx</groupId>
+			<artifactId>srv-timebargaincore</artifactId>
+			<version>1.0.0</version>
 		</dependency>
 	</dependencies>
 

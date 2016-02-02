@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+    
+
+<beans>
+	<!--配置文件中使用占位符-->
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="order" value="10"/>
+		<property name="locations">
+			<list>
+				<value>jdbc.properties</value>
+			</list>
+		</property>
+	</bean>
+	<!-- 数据库连接池  for 交易  -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName">
+			<value>${exchange.jdbc.driver}</value>
+		</property>
+		<property name="url">
+			<value>${exchange.jdbc.url}</value>
+		</property>
+		<property name="username">
+			<value>${exchange.jdbc.username}</value>
+		</property>
+		<property name="password">
+			<value>${exchange.jdbc.password}</value>
+		</property>
+    	<property name="maxActive">
+			<value>500</value>
+		</property>
+		<property name="maxIdle">
+			<value>300</value>
+		</property>
+		<property name="initialSize">
+			<value>50</value>
+		</property>
+		<property name="maxWait">
+			<value>25000</value>
+		</property>	
+   		<property name="testOnBorrow">
+   			<value>true</value>
+   		</property>  
+   		<property name="validationQuery">
+   			<value>select 1 from dual</value>
+   		</property> 
+	</bean>
+	
+	<!-- 数据库连接池  for AU-->
+	<bean id="auDataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName">
+			<value>${au.jdbc.driver}</value>
+		</property>
+		<property name="url">
+			<value>${au.jdbc.url}</value>
+		</property>
+		<property name="username">
+			<value>${au.jdbc.username}</value>
+		</property>
+		<property name="password">
+			<value>${au.jdbc.password}</value>
+		</property>
+  		<property name="maxActive">
+			<value>150</value>
+		</property>
+		<property name="maxIdle">
+			<value>30</value>
+		</property>
+		<property name="initialSize">
+			<value>15</value>
+		</property>
+		<property name="maxWait">
+			<value>120000</value>
+		</property>		
+	</bean>
+	
+	<!-- 数据库连接池  for 供实盘模拟行情采集的正式盘的交易数据库（口令不加密）-->
+	<bean id="simHqDataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName">
+			<value>${sim.jdbc.driver}</value>
+		</property>
+		<property name="url">
+			<value>${sim.jdbc.url}</value>
+		</property>
+		<property name="username">
+			<value>${sim.jdbc.username}</value>
+		</property>
+		<property name="password">
+			<value>${sim.jdbc.password}</value>
+		</property>
+  		<property name="maxActive">
+			<value>5</value>
+		</property>
+		<property name="maxIdle">
+			<value>3</value>
+		</property>
+		<property name="initialSize">
+			<value>2</value>
+		</property>
+		<property name="maxWait">
+			<value>25000</value>
+		</property>	
+	</bean>
+	
+	<bean id="config" class="java.util.Properties">
+		<constructor-arg type="java.util.Properties">
+			<props>
+			   
+				<prop key="FloatingSpace">1000</prop>	<!-- 浮亏计算时间间隔,单位:毫秒 -->
+				<prop key="FloatingFirmSection">5</prop>	<!-- 计算交易商浮亏的段 -->
+				<prop key="RoleType">1</prop>	<!-- 角色类型，1：交易(默认)；2：模拟； -->
+				<prop key="SectionStopOrder">2</prop>	<!-- 节间休息能否接收委托，1：能；2：不能(默认)； -->
+				<prop key="EndWithdraw">2</prop>	<!-- 交易结束时是否自动撤单，1：是；2：不是(默认)； -->
+				<prop key="TradePriceType">1</prop>	<!-- 撮合成交价类型，1：先入价；2：中间价； -->
+		        <prop key="orderTrace">0</prop><!-- 是否记录委托到Trace文件：0：否 1：是 -->
+		        <prop key="quotationTwoSide">1</prop><!-- 是否行情双边：0：否 1：是 -->
+		        <prop key="DelaySettleMatchType">0</prop><!-- 交收申报撮合类型：0：实时撮合； 1：延期交易结束时撮合 -->
+		        <prop key="DelayNeutralMatchType">0</prop><!-- 中立仓申报撮合类型：0：实时撮合； 1：延期交易结束时撮合 -->
+		        <prop key="DelayMatchSpace">1000</prop>	<!-- 延期实时撮合时间间隔,单位:毫秒 -->
+		        
+		        <!--AU配置-->
+		        
+		        <prop key="callMode">1</prop>	<!--0：rmi访问登录管理(默认为rmi访问) 1：本地访问登录管理  -->
+				
+				<!-- 重连几次后到数据库重新获取连接 --> 
+				<prop key="clearRMITimes">3</prop> 
+				
+				<!-- 验证登录超时线程睡眠时间，单位毫秒 -->
+				<prop key="timeSpace">200</prop>
+			</props>
+		</constructor-arg>
+	</bean>	
+	
+	<!-- AU 超时 类型配置MAp -->
+	<bean id="auExpireTimeMap" class="java.util.HashMap">
+      <constructor-arg>
+        <map>
+          <entry key="web">
+            <value type="java.lang.Long">7200000</value>
+          </entry>
+          <entry key="pc" >
+            <value type="java.lang.Long">30000</value>
+          </entry>
+          <entry key="mobile">
+            <value type="java.lang.Long">7200000</value>
+          </entry>
+        </map>
+      </constructor-arg>
+    </bean>
+	
+	<!-- begin task -->
+	<bean name="quartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="cronTrigger"/>
+				<ref bean="cronTriggerAutoBalance"/>
+			</list>
+		</property>
+		<property name="configLocation" value="classpath:quartz.properties"/>
+	</bean>
+	<bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="autoOpenServer"/>	
+		<!--every day 08:00:00 execute once(0 0 8 * * ?), format: second minute hour date month weekday year(optional)-->
+		<property name="cronExpression" value="0 0 8 * * ?"/>
+	</bean>
+	<bean id="cronTriggerAutoBalance" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="autoBalance"/>	
+		<!--every day 16:00:00 execute once(0 0 16 * * ?), format: second minute hour date month weekday year(optional)-->
+		<property name="cronExpression" value="0 0 16 * * ?"/>
+	</bean>	
+	<!-- call timer method -->
+	<bean id="autoOpenServer" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="server"/>
+		<property name="targetMethod" value="autoOpenServer"/>
+	</bean>	
+	<bean id="autoBalance" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="server"/>
+		<property name="targetMethod" value="autoBalance"/>
+	</bean>		
+	<!-- end task -->
+
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<bean id="dao" class="gnnt.MEBS.timebargain.server.dao.jdbc.BaseDAOJdbc">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<bean id="serverDAO"
+		class="gnnt.MEBS.timebargain.server.dao.jdbc.ServerDAOJdbc">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<bean id="tradeDAO"
+		class="gnnt.MEBS.timebargain.server.dao.jdbc.TradeDAOJdbc">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<bean id="extendDAO"
+		class="gnnt.MEBS.timebargain.server.dao.jdbc.ExtendDAOJdbc">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<bean id="proxyDAO"
+		class="gnnt.MEBS.timebargain.server.dao.jdbc.ProxyDAOJdbc">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<bean id="delayDAO"
+		class="gnnt.MEBS.timebargain.server.dao.jdbc.DelayDAOJdbc">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<!-- 实盘模拟使用的DAO  - begain -->
+	<bean id="simHqDAO"
+		class="gnnt.MEBS.timebargain.server.dao.sim.jdbc.SimHqDAOJdbc">
+		<property name="dataSource" ref="simHqDataSource" />
+	</bean>
+	<bean id="simServerDAO"
+		class="gnnt.MEBS.timebargain.server.dao.sim.jdbc.SimServerDAOJdbc">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<!-- 实盘模拟使用的DAO  - end -->
+		
+	<bean id="server" class="gnnt.MEBS.timebargain.server.Server">
+	</bean>
+	
+	<!-- 20100507 add by yukx 通过注入集合竞价的不同实现来获得开盘价 -->
+	<bean id="callAuction" autowire="byName" class="gnnt.MEBS.timebargain.server.engine.callAuction.impl.CallAuctionMinDifPriceImpl"/>
+
+</beans>
+
+
+
+
+
+
+
+
+
+
+

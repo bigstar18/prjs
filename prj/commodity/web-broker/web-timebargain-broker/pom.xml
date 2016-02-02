@@ -14,13 +14,6 @@
 	<!-- 依赖项定义 -->
 	<dependencies>
 
-		<dependency>
-			<groupId>com.yrdce</groupId>
-			<artifactId>timebargainRMI</artifactId>
-			<version>1.0.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/timebargainRMI.jar</systemPath>
-		</dependency>
 		
 		<dependency>
 			<groupId>net.sf.json-lib</groupId>
@@ -323,6 +316,11 @@
 			<artifactId>web-broker-common</artifactId>
 			<version>1.0.0</version>
 			<classifier>classes</classifier>
+		</dependency>
+		<dependency>
+			<groupId>org.hxx</groupId>
+			<artifactId>srv-timebargaincore</artifactId>
+			<version>1.0.0</version>
 		</dependency>
 	</dependencies>
 

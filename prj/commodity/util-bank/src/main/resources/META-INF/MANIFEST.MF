@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.7.1
+Class-Path: lib/processor4adapter.jar lib/log4j-1.2.9.jar lib/commons-
+ logging.jar lib/commons-collections-3.2.1.jar lib/quartz-1.6.5.jar li
+ b/Des.jar
+Main-Class: gnnt.bank.adapter.CMBCBankImpl
+

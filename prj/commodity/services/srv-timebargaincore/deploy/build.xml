@@ -1,0 +1,65 @@
+<project name="Timebargain_Trunk" default="dist" basedir=".">
+  <description>
+    打包，部署到测试环境
+  </description>
+  <property name="dist"  location="dist"/>
+  <property name="build"  location="bin"/>
+  <property name="lib"  location="lib"/>
+
+  <property name="jarfile"  value="${dist}/lib/MEBS_timebargain.jar"/>
+  
+  <property name="testpath_1"  value="test1301:gnnt@172.16.2.10:/users/test1301/timebargain"/>	
+  <property name="testpath"  value="testn:testn123@172.16.10.125:/users/testn/Timebargain"/>		
+  <property name="test_sim_path" value="bjsytest:bjsytest123@172.16.10.125:/users/bjsytest/Timebargain_sim"/>	
+
+  <target name="test" depends="dist" description="部署到测试环境" >
+	<scp file="${jarfile}" trust="true" todir="${testpath}/lib/" />
+  </target>
+	
+  <target name="test_sim" depends="dist" description="部署到实盘模拟的测试环境" >
+	<scp file="${jarfile}" trust="true"	todir="${test_sim_path}/lib/"/>
+  </target>
+
+  <target name="clean" description="清理dist目录" >
+    <delete dir="${dist}"/>
+  </target>
+	
+  <target name="dist" description="发布新版本到dist目录" >
+  	<mkdir dir="${dist}"/>
+  	<!--拷贝lib目录，并将编译后的代码打成jar包放到目的lib目录-->
+    <mkdir dir="${dist}/lib"/>
+  	<copy todir="${dist}/lib">
+  		<fileset dir="${lib}">
+  		    <include name="*.jar"/>
+        </fileset>
+  	</copy>
+    <jar jarfile="${jarfile}">
+    	<fileset dir="${build}" excludes="*.properties *.xml" />
+    </jar>
+
+  	<!--拷贝bin目录下的配置文件-->
+  	<mkdir dir="${dist}/bin"/>
+  	<copy todir="${dist}/bin">
+  		<fileset dir="${build}">
+  		    <include name="*.xml"/>
+  			<include name="*.properties"/>
+  			<!--exclude name="build.xml" /-->
+        </fileset>
+  	</copy>
+  	
+  	<!--拷贝工程目录下的脚本-->
+  	<copy todir="${dist}">
+	  	<fileset dir="">
+	  		<include name="*.bat"/>
+	  		<include name="*.sh"/>
+		    <include name="start*"/>
+	  		<include name="stop*"/>
+	  	</fileset>
+  	</copy>
+  	
+  	<!--生成空目录-->
+  	<mkdir dir="${dist}/logs"/>
+  </target>
+
+</project>
+
