@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dwr PUBLIC
+"-//GetAhead Limited//DTD Direct Web Remoting 1.0//EN"
+"http://www.getahead.ltd.uk/dwr/dwr10.dtd">
+<dwr>
+	<allow>
+		<create creator="spring" javascript="checkAction">
+			<param name="beanName" value="checkIdAction"/>
+			<include method="existMemberId"/>
+			<include method="existMemberInfoId"/>
+			<include method="existSpecialMemberId"/>
+			<include method="existUserId"/>
+			<include method="existRoleId"/>
+			<include method="existUserName"/>
+			<include method="existRoleName"/>
+			<include method="existId"/>
+			<include method="existCustomerPapers"/>
+			<include method="existSectionid"/>
+			<include method="existMemberPapers"/>
+			<include method="existFirmId"/>
+			<include method="existMemberMargin"/>
+			<include method="existCustomerMargin"/>
+			<include method="existMemberTakeFee"/>
+			<include method="existSpecialMemberTakeFee"/>
+			<include method="existMemberDelayFee"/>
+			<include method="existSpecialMemberDelayFee"/>
+			<include method="existMemberQuotePoint"/>
+			<include method="existSpecialMemberQuotePoint"/>
+			<include method="existMemberHoldQuantily"/>
+			<include method="existCustomerHoldQuantily"/>
+			<include method="existMemberTradeAuth"/>
+			<include method="existSpecialMemberTradeAuth"/>
+			<include method="existCustomerTradeAuth"/>
+			<include method="existMemberFundsLadder"/>
+			<include method="existCommodityId"/>
+			<include method="existCommodityName"/>
+			<include method="existCommodityNameSecond"/>
+			<include method="getFirmNameByFirmId"/>
+			<include method="existCustomerTakeFee"/>
+			<include method="existMemCustomerTakeFee"/>
+			<include method="existCommodityDelayTrade"/>
+			<include method="existMemCustomerDelayTrade"/>
+			
+			<include method="existDelayTradeApplyAdd" />
+			<include method="existApplyAdd"/>
+			<include method="existApplyAddAnOther"/>
+			<include method="existApplyAddThread"/>
+			<include method="getBankId"/>
+		</create>
+		<create creator="spring" javascript="customerAdd">
+			<param name="beanName" value="customerAdd"/>
+			<include method="getBrokerageAndManagerList"/>
+			<include method="getOrganizationList"/>
+			<include method="getBrokerageListByMember"/>
+		</create>
+		<create creator="spring" javascript="settleStatus">
+			<param name="beanName" value="settleStatusAction"/>
+			<include method="getSettleStatus"/>
+		</create>
+		
+		<create creator="spring" javascript="memberLoad">
+			<param name="beanName" value="memberInfoTreeDwr"/>
+			<include method="treeForMemberInfo"/>
+		</create>
+		
+		<create creator="spring" javascript="noticePrompt">
+			<param name="beanName" value="noticePromptAction"/>
+			<include method="promptFun"/>
+		</create>
+		
+		<create creator="spring" javascript="checkPrice">
+			<param name="beanName" value="tqLogAction"/>
+			<include method="judgePrice"/>
+		</create>
+		
+		<convert converter="bean" match="gnnt.MEBS.broke.model.BrokerageVO"></convert>
+		<convert converter="bean" match="gnnt.MEBS.broke.model.Brokerage"></convert>
+		<convert converter="bean" match="gnnt.MEBS.broke.model.Manager"></convert>
+		<convert converter="bean" match="gnnt.MEBS.broke.model.Organization"></convert>
+		<convert converter="bean" match="gnnt.MEBS.audit.model.ApplyView"></convert>
+		<convert converter="bean" match="gnnt.MEBS.announcement.model.Trade"></convert>
+		<convert converter="exception" match="java.lang.Exception"></convert>
+
+		<!--	持仓监控	-->
+		<create creator="spring" javascript="positionMon">
+			<param name="beanName" value="firmUpdateAction"/>
+			<include method="getFirmUpdateCount"/>
+		</create>
+	</allow>
+</dwr>

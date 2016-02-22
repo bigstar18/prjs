@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="ecside" extends="base-struts2" namespace="/student">
+
+		<action name="list" class="stuTestAction" method="list">
+			<result>/test/student/list.jsp</result>
+			<result name="xls">/test/student/testExcel.jsp</result>
+			<interceptor-ref name="mydefault"></interceptor-ref> 
+			<interceptor-ref name="addMsgHandler" />
+			<interceptor-ref name="forEcsideList" />
+		</action>
+
+		<action name="delete" class="stuTestAction" method="delete">
+			<result type="redirectAction">
+				list
+			</result>
+		</action>
+		<action name="forwardAdd" class="stuTestAction" method="forwardAdd">
+			<result>/test/student/add.jsp</result>
+		</action>
+
+		<action name="add" class="stuTestAction" method="add">
+			<result>/test/student/add.jsp</result>
+		</action>
+
+		<action name="forwardUpdate" class="stuTestAction" method="viewById">
+			<result>/test/student/update.jsp</result>
+		</action>
+
+		<action name="update" class="stuTestAction" method="update">
+			<result>/test/student/update.jsp</result>
+		</action>
+	</package>
+</struts>

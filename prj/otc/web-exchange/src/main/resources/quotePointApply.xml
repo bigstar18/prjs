@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="quotePointApply" extends="base-struts2" namespace="/apply/quotePointApply">
+	 <interceptors>
+		    <interceptor name="quotePointInterceptor"
+					class="gnnt.MEBS.audit.action.interceptor.LogInterceptor">
+					<param name="classFullName">
+					   gnnt.MEBS.commodity.model.QuotePoint
+					</param>
+					<param name="serrviceName">
+					   quotePointService
+					</param>
+			 </interceptor>
+	    </interceptors>
+		<!-- 申请操作 -->
+		<action name="update" class="quotePointApplyAction" method="apply">
+		<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="quotePointInterceptor"></interceptor-ref>
+			<result name="returnList" type="chain">
+				<param name="actionName">applyList</param>
+			</result>
+			<result>/public/commonMsg.jsp</result>
+		</action>
+	</package>
+</struts>

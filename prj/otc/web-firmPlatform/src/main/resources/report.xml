@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- 客户报表
+	<package name="customer" extends="struts-default" namespace="/report/customer">
+		<interceptors>
+			<interceptor name="customerReportInterceptor" class="gnnt.MEBS.report.action.interceptor.CustomerReportInterceptor"></interceptor>
+		</interceptors>
+		
+	</package> -->
+	<!-- 主次银行转账记录表 -->
+	<package name="bankInternalTrans" extends="struts-default" namespace="/report/bankInternalTrans">
+		<interceptors>
+			<interceptor name="firmReportInterceptor" class="gnnt.MEBS.report.action.interceptor.FirmIdReportInterceptor"></interceptor>
+		</interceptors>
+		<action name="bankInternalTransReportQuary" class="bankInternalTransAction"
+			method="reportQuery">
+			<result>/report/bankInternalTransReportQuery.jsp</result>
+		</action>
+		<action name="bankInternalTransReport" class="bankInternalTransAction"
+			method="getTraderList">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="firmReportInterceptor"></interceptor-ref>
+			<result>/report/settlementTemplates/bankInternalTransReport.jsp</result>
+			<result name="xls">/report/settlementTemplates/bankInternalTransXls.jsp
+			</result>
+		</action>
+	</package>
+	<!-- 交易银行资金结算表 -->
+	<package name="settlementBankFund" extends="struts-default" namespace="/report/settlementBankFund">
+	<interceptors>
+			<interceptor name="firmReportInterceptor" class="gnnt.MEBS.report.action.interceptor.FirmIdReportInterceptor"></interceptor>
+		</interceptors>
+		<action name="settlementBankFundReportQuery" class="settlementBankFundAction"
+			method="reportQuery">
+			<result>/report/settlementBankFundReportQuery.jsp</result>
+		</action>
+		<action name="settlementBankFundReport" class="settlementBankFundAction"
+			method="getTraderList">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="firmReportInterceptor"></interceptor-ref>
+			<result>/report/settlementTemplates/settlementBankFundReport.jsp</result>
+			<result name="xls">/report/settlementTemplates/settlementBankFundXls.jsp
+			</result>
+		</action>
+	</package>
+	
+	
+		<!-- 会员报表 -->
+	<package name="member" extends="struts-default" namespace="/report/queryReport">
+		<interceptors>
+			<interceptor name="customerReportInterceptor" class="gnnt.MEBS.report.action.interceptor.CustomerReportInterceptor"></interceptor>
+		</interceptors>
+		
+		<action name="forwardReport" class="customerReportAction" method="forwardReport">
+	 		<result>/common/surface/reportIndex.jsp</result>
+	 	</action>
+		<action name="memberReportQuery" class="memberReportAction" method="getMemberList">
+	 		<result>/report/memberReportQuery.jsp</result>
+	 	</action>
+	 	<action name="memberReport" class="memberReportAction" method="getReportData">
+			<param name="reportType">会员报表</param>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="customerReportInterceptor"></interceptor-ref>
+	 		<result>/report/primaryReport.jsp</result>
+	 		<result name="xls">/report/memberReportXls.jsp</result>
+	 	</action>
+	 	
+	 	<action name="customerReportQuery" class="customerReportAction" method="reportQuery">
+	 		<result>/report/customerReportQuery.jsp</result>
+	 	</action>
+	 	<action name="customerReport" class="customerReportAction" method="getReportData">
+	 		<interceptor-ref name="defaultStack"></interceptor-ref>
+	 		<interceptor-ref name="customerReportInterceptor"></interceptor-ref>
+			<param name="reportType">客户报表</param>
+	 		<result>/report/primaryReport.jsp</result>
+	 		<result name="xls">/report/customerReportXls.jsp</result>
+	 	</action>
+	 	
+	 	
+	</package>
+</struts>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+
+	<!-- 客户商品持仓数量start -->
+	<bean id="account_customerHoldQty_add_isAllNumber" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="oneMaxOrderQty" />
+							<entry key="name" value="单笔最大下单量" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="oneMinOrderQty" />
+							<entry key="name" value="单笔最小下单量" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="maxCleanQty" />
+							<entry key="name" value="最大净持仓量" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="oneMaxOrderQty" />
+							<entry key="name" value="最大买持仓量" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="maxSellQty" />
+							<entry key="name" value="最大卖持仓量" />
+						</map>
+					</constructor-arg>
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+	<!--特别会员风险阈值end -->
+	
+	<util:map id="isAllNumberVerifyMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String"><!--
+		<entry key='/account/customerHoldQty/add' value-ref="account_customerHoldQty_add_isAllNumber" />
+		<entry key='/account/customerHoldQty/update' value-ref="account_customerHoldQty_add_isAllNumber" />
+		-->
+	</util:map>
+
+</beans>

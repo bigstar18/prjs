@@ -1,0 +1,10 @@
+div.div_drwPanel2
+{
+	width: 233px;
+	height: 26px;
+	overflow: hidden;
+	background-image: url(images1/drawer_Panel.gif);
+	background-position: bottom center;
+	background-repeat: no-repeat;
+	filter:Alpha(opacity=100);
+}

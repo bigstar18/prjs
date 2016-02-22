@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="monitor" extends="base-struts2" namespace="/monitor">
+	
+		<action name="memberhold" class="memberHoldAction" method="list">
+			<result name="list">f_memberhold.jsp</result>
+		</action>
+
+                <action name="memberclose" class="memberCloseAction" method="list">
+			<result name="list">f_memberclose.jsp</result>
+		</action>
+
+                <action name="customerhold" class="customerHoldAction" method="list">
+			<result name="list">f_customerhold.jsp</result>
+		</action>
+                <action name="customerclose" class="customerCloseAction" method="list">
+			<result name="list">f_customerclose.jsp</result>
+		</action>
+                <action name="customerfund" class="customerFundAction" method="list">
+			<result name="list">f_customerfund.jsp</result>
+		</action>
+                <action name="customerlimit" class="customerLimitdAction" method="list">
+			<result name="list">f_customerlimit.jsp</result>
+		</action>
+                <action name="smembersum" class="sMemberSumAction" method="list">
+			<result name="list">f_smemberposition.jsp</result>
+		</action>
+		
+        <action name="smemberfund" class="sMemberSumAction" method="list">
+			<result name="list">f_smemberfund.jsp</result>
+		</action>
+
+                <action name="membertoucun" class="memberToucunAction" method="list">
+			<result name="list">f_memberposition.jsp</result>
+		</action>
+		
+		<action name="memberfund" class="memberToucunAction" method="list">
+			<result name="list">f_memberfund.jsp</result>
+		</action>
+
+          <action name="useronline" class="userOnlineAction" method="list">
+			<result name="list">f_useronline.jsp</result>
+			</action>
+
+		<action name="querycondition" class="queryConditionAction" method="list">
+			<result name="list">monitor.jsp</result>
+		</action>
+
+	</package>
+</struts>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="tradeAuthAudit" extends="base-struts2" namespace="/audit/commodity_tradeAuthAudit">
+	<interceptors>
+		    <interceptor name="tradeAuthInterceptor"
+					class="gnnt.MEBS.audit.action.interceptor.LogInterceptor">
+					<param name="classFullName">
+					   gnnt.MEBS.commodity.model.TradeAuth
+					</param>
+					<param name="serrviceName">
+					   tradeAuthService
+					</param>
+			 </interceptor>
+	    </interceptors>
+		<action name="auditList" class="tradeAuthAuditAction" method="auditList">
+			<result>/applyAndAudit/audit/tradeAuthAudit/tradeAuthAuditList.jsp</result>
+		</action>
+		
+		<action name="audits" class="tradeAuthAuditAction" method="audit">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="tradeAuthInterceptor"></interceptor-ref>
+			<result>
+				/public/commonMsg.jsp
+			</result>
+		</action>
+		
+		<action name="auditDetails" class="tradeAuthAuditAction" method="auditDetails">
+			<result>/applyAndAudit/audit/tradeAuthAudit/tradeAuthDetails.jsp</result>
+		</action>
+	</package>
+</struts>

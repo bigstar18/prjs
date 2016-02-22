@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	    <package name="base-report" extends="base-struts2" abstract="true">
+       <interceptors>
+			<interceptor name="memberInfoListInterceptor"
+				class="gnnt.MEBS.account.action.interceptor.MemberInfoListInterceptor">
+			</interceptor>
+			<interceptor name="specialMemberInterceptor"
+				class="gnnt.MEBS.report.action.interceptor.SpecialMemberInterceptor">
+			</interceptor>
+			<interceptor name="commodityListInterceptor"
+				class="gnnt.MEBS.report.action.interceptor.CommodityListInterceptor">
+			</interceptor>
+			<interceptor name="beginQueryInterceptor"
+				class="gnnt.MEBS.report.action.interceptor.BeginQueryInterceptor">
+			</interceptor>
+			<interceptor name="memberConditionInterceptor"
+				class="gnnt.MEBS.packaging.action.interceptor.QueryCompositeInterceptor">
+				<param name="queryWord">original_memberIds</param>
+				<param name="queryCondition">primary.memberno in (select memberno from v_customer where memberno in(%composite%))[composite]</param>
+			</interceptor>
+			<interceptor name="smemberConditionInterceptor"
+				class="gnnt.MEBS.packaging.action.interceptor.QueryCompositeInterceptor">
+				<param name="queryWord">original_smemberIds</param>
+				<param name="queryCondition">primary.s_memberNo in (select memberNo from m_s_memberInfo where memberNo in(%composite%))[composite]</param>
+			</interceptor>
+		</interceptors>
+    </package>
+       <!-- 会员成交汇总表  -->
+	<package name="memberTrade" extends="base-report" namespace="/report/memberTrade">
+		<action name="memberTradeReportQuery" class="memberTradeAction" method="reportQuery">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+	 		<result>/report/memberTradeReportQuery.jsp</result>
+	 	</action>
+	 	<action name="memberTradeReport" class="memberTradeAction" method="getTraderList">
+	 		<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="memberConditionInterceptor"></interceptor-ref>
+	 		<result>/report/settlementTemplates/memberTradeReport.jsp</result>
+	 		<result name="xls">/report/settlementTemplates/memberTradeXls.jsp</result>
+	 	</action>
+	</package>
+
+    <!-- 会员持仓汇总表 -->
+	<package name="memberHold" extends="base-report" namespace="/report/memberHold">
+		<action name="memberHoldReportQuary" class="memberHoldReportAction" method="reportQuery">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+	 		<result>/report/memberHoldReportQuary.jsp</result>
+	 	</action>
+	 	<action name="memberHoldReport" class="memberHoldReportAction" method="getTraderList">
+	 		<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="memberConditionInterceptor"></interceptor-ref>
+	 		<result>/report/settlementTemplates/memberHoldReport.jsp</result>
+	 		<result name="xls">/report/settlementTemplates/memberHoldXls.jsp</result>
+	 	</action>
+	</package>
+    
+     <!-- 特别会员出金阈值计算表 -->
+	<package name="specialMemberFundioThreshold" extends="base-report" namespace="/report/specialMemberFundioThreshold">
+		<action name="specialMemberFundioThresholdReportQuary" class="specialMemberFundioThresholdAction" method="reportQuery">
+	 		<result>/report/specialMemberFundioThresholdReportQuery.jsp</result>
+	 	</action>
+	 	<action name="specialMemberFundioThresholdReport" class="specialMemberFundioThresholdAction" method="getTraderList">
+	 		<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="smemberConditionInterceptor"></interceptor-ref>
+	 		<result>/report/settlementTemplates/specialMemberFundioThresholdReport.jsp</result>
+	 		<result name="xls">/report/settlementTemplates/specialMemberFundioThresholdXls.jsp</result>
+	 	</action>
+	</package>
+    
+    <!-- 特别会员成交汇总表 -->
+	<package name="specialMemberTrade" extends="base-report" namespace="/report/specialMemberTrade">
+	   <interceptors>
+		<interceptor name="typeExportInterceptor"
+				class="specialMemberTradeExportInterceptor">
+			</interceptor>
+		</interceptors>
+		<action name="specialMemberTradeReportQuary" class="specialMemberTradeAction"
+			method="getReportList">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="beginQueryInterceptor"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+			<interceptor-ref name="typeExportInterceptor"></interceptor-ref>
+			<result>/report/specialMemberTradeQuery.jsp</result>
+		</action>
+	 	<action name="specialMemberTradeReport" class="specialMemberTradeAction" method="getTraderList">
+	 		<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="smemberConditionInterceptor"></interceptor-ref>
+	 		<result>/report/settlementTemplates/specialMemberTradeReport.jsp</result>
+	 		<result name="xls">/report/settlementTemplates/specialMemberTradeXls.jsp</result>
+	 	</action>
+	</package>
+    
+    	<!-- 特别会员持仓汇总表 -->
+	<package name="specialMemberHold" extends="base-report" namespace="/report/specialMemberHold">
+	<interceptors>
+		<interceptor name="typeExportInterceptor"
+				class="specialMemberHoldExportInterceptor">
+			</interceptor>
+		</interceptors>
+		<action name="specialMemberHoldReportQuary" class="specialMemberHoldAction"
+			method="getReportList">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="beginQueryInterceptor"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+			<interceptor-ref name="typeExportInterceptor"></interceptor-ref>
+			<result>/report/specialMemberHoldQuery.jsp</result>
+		</action>
+	 	<action name="specialMemberHoldReport" class="specialMemberHoldAction" method="getTraderList">
+	 		<interceptor-ref name="mydefault"></interceptor-ref>
+	 		<interceptor-ref name="specialMemberInterceptor"></interceptor-ref>
+			<interceptor-ref name="smemberConditionInterceptor"></interceptor-ref>
+	 		<result>/report/settlementTemplates/specialMemberHoldReport.jsp</result>
+	 		<result name="xls">/report/settlementTemplates/specialMemberHoldXls.jsp</result>
+	 	</action>
+	</package>
+    
+    	<!-- 特别会员资金汇总表 -->
+	<package name="specialMemberFunds" extends="base-report" namespace="/report/specialMemberFunds">
+	<interceptors>
+		<interceptor name="typeExportInterceptor"
+				class="specialMemberFundsExportInterceptor">
+			</interceptor>
+		</interceptors>
+		<action name="fundsReportQuery" class="specialMemberFundsAction"
+			method="getReportList">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="beginQueryInterceptor"></interceptor-ref>
+			<interceptor-ref name="typeExportInterceptor"></interceptor-ref>
+			<result>/report/specialMemberFundsQuery.jsp</result>
+		</action>
+	 	<action name="fundsReport" class="specialMemberFundsAction" method="getTraderList">
+	 		<interceptor-ref name="mydefault"></interceptor-ref>
+	 		<interceptor-ref name="specialMemberInterceptor"></interceptor-ref>
+			<interceptor-ref name="smemberConditionInterceptor"></interceptor-ref>
+	 		<result>/report/settlementTemplates/specialMemberFundsReport.jsp</result>
+	 		<result name="xls">/report/settlementTemplates/specialMemberFundsXls.jsp</result>
+	 	</action>
+	</package>
+	
+    
+    	<!-- 特别会员交易统计表 -->
+	<package name="specialMemberTradeStats" extends="base-report" namespace="/report/specialMemberTradeStats">
+		<action name="traderStatsReportQuery" class="specialMemberTradeStatsAction" method="reportQuery">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+	 		<result>/report/specialMemberTradeStatsReportQuery.jsp</result>
+	 	</action>
+	 	<action name="tradeStatsReport" class="specialMemberTradeStatsAction" method="getTraderList">
+	 		<interceptor-ref name="mydefault"></interceptor-ref>
+	 		<interceptor-ref name="specialMemberInterceptor"></interceptor-ref>
+			<interceptor-ref name="smemberConditionInterceptor"></interceptor-ref>
+	 		<result>/report/settlementTemplates/specialMemberTradeStatsReport.jsp</result>
+	 		<result name="xls">/report/settlementTemplates/specialMemberTradeStatsXls.jsp</result>
+	 	</action>
+	</package>
+	
+	<!-- 特别会员报表 -->
+	<package name="specialMember" extends="base-report" namespace="/report/specialMember">
+		<action name="specialMemberReportQuery" class="specialMemberReportAction" method="getSMemberList">
+	 		<result>/report/specialMemberReportQuery.jsp</result>
+	 	</action>
+	 	<action name="specialMemberReport" class="specialMemberReportAction" method="getReportData">
+	 		<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="smemberConditionInterceptor"></interceptor-ref>
+			<param name="reportType">特别会员报表</param>
+	 		<result>/report/primaryReport.jsp</result>
+	 		<result name="xls">/report/primaryReportXls.jsp</result>
+	 	</action>
+	 	<action name="specialMemberList" class="specialMemberReportAction" method="getSMemberList">
+	 		<result>/report/sMemberClickList.jsp</result>
+	 	</action>
+	</package>
+
+</struts>

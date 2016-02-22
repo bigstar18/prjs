@@ -1,0 +1,63 @@
+.top_b1 {
+	background-color: #FFFFFF;
+	border-top-width: 2px;
+	border-right-width: 1px;
+	border-bottom-width: 2px;
+	border-left-width: 1px;
+	border-top-style: dashed;
+	border-right-style: solid;
+	border-bottom-style: dashed;
+	border-left-style: solid;
+	border-top-color: #6a7ca5;
+	border-right-color: #6a7ca5;
+	border-bottom-color: #6a7ca5;
+	border-left-color: #6a7ca5;
+}
+.top_b2 {
+
+	background-color: #DDEBEB;
+	border-top-width: 2px;
+	border-right-width: 1px;
+	border-bottom-width: 2px;
+	border-left-width: 1px;
+	border-top-style: dashed;
+	border-right-style: solid;
+	border-bottom-style: dashed;
+	border-left-style: solid;
+	border-top-color: #6a7ca5;
+	border-right-color: #6a7ca5;
+	border-bottom-color: #6a7ca5;
+	border-left-color: #6a7ca5;
+}
+
+.but_t {
+	font-size: 12px;
+	font-weight: normal;
+	text-decoration: none;
+}
+.but_t:link {
+	font-size: 12px;
+	font-weight: normal;
+	color: #000000;
+	text-decoration: none;
+}
+.but_t:visited {
+	font-size: 12px;
+	font-weight: normal;
+	color: #000000;
+	text-decoration: none;
+}
+.but_t:hover {
+	font-size: 12px;
+	font-weight: normal;
+	color: #000000;
+	text-decoration: none;
+}
+.btn_anniu{
+	width: 60px;
+	height: 23px;
+	color: #333333;
+	font-size: 9pt;
+	padding-top: 1px;
+	filter: dropshadow(color='#FFFFFF',offx=1,offy=1);
+}

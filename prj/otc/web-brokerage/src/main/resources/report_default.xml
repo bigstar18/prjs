@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<context:annotation-config />
+	<context:component-scan
+		base-package="gnnt.MEBS.report.dao,gnnt.MEBS.report.service,gnnt.MEBS.report.action">
+	</context:component-scan>
+
+	<bean id="config" class="java.util.Properties">
+		<constructor-arg type="java.util.Properties">
+			<props>
+			</props>
+		</constructor-arg>
+	</bean>
+	<util:map id="whetherMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="Y" value="是" />
+		<entry key="N" value="否" />
+	</util:map>
+	<util:map id="flagMap" map-class="java.util.HashMap" key-type="java.lang.String"
+		value-type="java.lang.String">
+		<entry key="1" value="买入" />
+		<entry key="2" value="卖出" />
+	</util:map>
+	<util:map id="customerStatusMap" map-class="java.util.HashMap" key-type="java.lang.String"
+		value-type="java.lang.String">
+		<entry key="0" value="可用" />
+		<entry key="1" value="冻结" />
+		<entry key="2" value="销户" />
+	</util:map>
+	<util:map id="bankMap" map-class="java.util.HashMap" key-type="java.lang.String"
+		value-type="java.lang.String">
+		<entry key="S" value="特别会员" />
+		<entry key="M" value="会员" />
+		<entry key="C" value="交易客户" />
+	</util:map>
+			<!-- 资金流水中业务代码的类型 -->
+	<util:map id="codeMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="101" value="入金" />
+		<entry key="102" value="出金" />
+		<entry key="103" value="银转出金" />
+		<entry key="104" value="银转入金" />
+		<entry key="106" value="结转交易手续费" />
+		<entry key="107" value="内部结转" />
+		<entry key="201" value="收交易手续费" />
+		<entry key="202" value="收交易保证金" />
+		<entry key="203" value="退交易保证金" />
+		<entry key="204" value="收持仓亏损" />
+		<entry key="205" value="付持仓盈利" />
+		<entry key="206" value="收平仓亏损" />
+		<entry key="207" value="付平仓盈利" />
+		<entry key="210" value="收延期费" />
+		<entry key="211" value="付延期费" />
+		<entry key="212" value="付手续费" />
+	</util:map>
+
+
+	<!-- 居间 签订客户明细 表  start 
+	<bean id="brokerageCustomerAction" class="gnnt.MEBS.report.action.SingleReportAction"  scope="request">
+		<property name="singleReportService" ref="brokerageCustomerService"></property>
+	</bean>
+	<bean id="brokerageCustomerService" class="gnnt.MEBS.report.service.SingleReportService">
+		<property name="commonReportDao" ref="brokerageCustomerDao"></property>
+	</bean>
+	<bean id="brokerageCustomerDao" class="gnnt.MEBS.report.dao.CommonReportDao">
+		<property name="sql" value="select * from v_brokerage_customer_state primary"></property>
+		<property name="pageInfoStr" value="customerno"></property>
+	</bean>
+	居间 签订客户明细 表 end -->
+	<bean id="customerHoldSummaryAction" class="gnnt.MEBS.report.action.QueryReportAction"
+		scope="request">
+		<property name="queryReportService" ref="customerHoldSummaryService"></property>
+	</bean>
+	<bean id="customerHoldSummaryService" class="gnnt.MEBS.report.service.QueryReportService">
+		<property name="queryReportDDao" ref="customerHoldReportDao"></property>
+	</bean>
+	
+	<bean id="customerTradeAction" class="gnnt.MEBS.report.action.QueryReportAction"
+		scope="request">
+		<property name="queryReportService" ref="customerTradeService"></property>
+	</bean>
+	<bean id="customerTradeService" class="gnnt.MEBS.report.service.QueryReportService">
+		<property name="queryReportDDao" ref="customerOrdersReportDao"></property>
+	</bean>
+	
+	<bean id="customerFundsReportAction" class="gnnt.MEBS.report.action.QueryReportAction"
+		scope="request">
+		<property name="queryReportService" ref="customerFundsReportService"></property>
+	</bean>
+	<bean id="customerFundsReportService" class="gnnt.MEBS.report.service.QueryReportService">
+		<property name="queryReportDDao" ref="customerFundsReportDao"></property>
+	</bean>
+	<import resource="report_CSV.xml"/>
+</beans>

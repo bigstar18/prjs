@@ -1,0 +1,548 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="commodity" extends="base-struts2" namespace="/commodity/baseInfo">
+		<interceptors>
+			<interceptor name="marketCommodityListIntercetor"
+				class="gnnt.MEBS.commodity.action.interceptor.MarketCommodityListInterceptor">
+				<param name="status">(1)</param>
+			</interceptor>
+		</interceptors>
+		<action name="list" class="commodityAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="deleteMemberNo"></interceptor-ref>
+			<interceptor-ref name="marketCommodityListIntercetor"></interceptor-ref>
+			<result>/commodity/baseInfo/baseInfoList.jsp</result>
+		</action>
+
+		<action name="forwardUpdate" class="commodityAction" method="viewById">
+			<result>/commodity/baseInfo/baseInfoUpdate.jsp</result>
+		</action>
+
+		<action name="update" class="commodityAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+	</package>
+
+	<package name="commidityFee" extends="base-struts2" namespace="/commodity/commodityFee">
+		<interceptors>
+			<interceptor name="defaultConditionInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.MemberQueryPointInterceptor">
+				<param name="queryWord">'Def_Customer','Def_Member','Def_S_Member'</param>
+				<param name="queryCondition">primary.firmId in (%composite%)[composite]</param>
+			</interceptor>
+			<interceptor name="showCommodityListInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.ShowCommodityListInterceptor">
+				<param name="status">(1)</param>
+			</interceptor>
+			<interceptor name="orderDefaultCommodityInterceptor" class="gnnt.MEBS.commodity.action.interceptor.OrderDefaultCommodityInterceptor">
+				<param name="sortString">primary.commodityId,primary.firmId asc</param>
+			</interceptor>
+		</interceptors>
+		<action name="list" class="commodityFeeAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="deleteMemberNo"></interceptor-ref>
+			<interceptor-ref name="defaultConditionInterceptor"></interceptor-ref>
+			<interceptor-ref name="showCommodityListInterceptor"></interceptor-ref>
+			<interceptor-ref name="orderDefaultCommodityInterceptor"></interceptor-ref>
+			<result>/commodity/commodityFee/commodityFeeList.jsp</result>
+		</action>
+		<action name="forwardUpdate" class="commodityFeeAction" method="viewById">
+			<result>/commodity/commodityFee/commodityFeeUpdate.jsp</result>
+		</action>
+
+		<action name="update" class="commodityFeeAction" method="update">
+			<result>/commodity/commodityFee/commodityFeeUpdate.jsp</result>
+		</action>
+	</package>
+
+	<package name="tradeAuth" extends="base-struts2" namespace="/commodity/tradeAuth">
+		<interceptors>
+			<interceptor name="defaultConditionInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.MemberQueryPointInterceptor">
+				<param name="queryWord">'Def_Customer','Def_Member','Def_S_Member'</param>
+				<param name="queryCondition">primary.firmId in (%composite%)[composite]</param>
+			</interceptor>
+			<interceptor name="showCommodityListInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.ShowCommodityListInterceptor">
+				<param name="status">(1)</param>
+			</interceptor>
+				<interceptor name="orderDefaultCommodityInterceptor" class="gnnt.MEBS.commodity.action.interceptor.OrderDefaultCommodityInterceptor">
+				<param name="sortString">primary.commodityId,primary.firmId asc</param>
+			</interceptor>
+		</interceptors>
+		
+		<action name="list" class="tradeAuthAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="deleteMemberNo"></interceptor-ref>
+			<interceptor-ref name="defaultConditionInterceptor"></interceptor-ref>
+			<interceptor-ref name="showCommodityListInterceptor"></interceptor-ref>
+			<interceptor-ref name="orderDefaultCommodityInterceptor"></interceptor-ref>
+			<result>/commodity/tradeAuth/tradeAuthList.jsp</result>
+		</action>
+		<action name="forwardUpdate" class="tradeAuthAction" method="viewById">
+			<result>/commodity/tradeAuth/tradeAuthUpdate.jsp</result>
+		</action>
+
+		<action name="update" class="tradeAuthAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+	</package>
+
+	<package name="quotePoint" extends="base-struts2" namespace="/commodity/quotePoint">
+		
+		<interceptors>
+			<interceptor name="defaultConditionInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.MemberQueryPointInterceptor">
+				<param name="queryWord">'Def_Customer','Def_Member','Def_S_Member'</param>
+				<param name="queryCondition">primary.m_firmId in (%composite%)[composite]</param>
+			</interceptor>
+			<interceptor name="showCommodityListInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.ShowCommodityListInterceptor">
+				<param name="status">(1)</param>
+			</interceptor>
+				<interceptor name="orderDefaultCommodityInterceptor" class="gnnt.MEBS.commodity.action.interceptor.OrderDefaultCommodityInterceptor">
+				<param name="sortString">primary.commodityId,primary.m_firmId asc</param>
+			</interceptor>
+		</interceptors>
+		
+		<action name="list" class="quotePointAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="deleteMemberNo"></interceptor-ref>
+			<interceptor-ref name="defaultConditionInterceptor"></interceptor-ref>
+			<interceptor-ref name="showCommodityListInterceptor"></interceptor-ref>
+			<interceptor-ref name="orderDefaultCommodityInterceptor"></interceptor-ref>
+			<result>/commodity/quotePoint/quotePointList.jsp</result>
+		</action>
+
+		<action name="forwardUpdate" class="quotePointAction" method="viewById">
+			<interceptor-ref name="mydefault" />
+			<result>/commodity/quotePoint/quotePointUpdate.jsp</result>
+		</action>
+
+		<action name="update" class="quotePointAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+	</package>
+	<!-- 贴水 -->
+	<package name="articleParitiesAgioAction" extends="base-struts2"
+		namespace="/commodity/articleParitiesAgio">
+		<interceptors>
+			<interceptor name="showCommodityListInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.ShowCommodityListInterceptor">
+				<param name="status">(1)</param>
+			</interceptor>
+		</interceptors>
+		<action name="list" class="articleParitiesAgioAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="deleteMemberNo"></interceptor-ref>
+			<interceptor-ref name="showCommodityListInterceptor"></interceptor-ref>
+			<result>/commodity/articleParitiesAgio/articleParitiesAgioList.jsp
+			</result>
+		</action>
+
+		<action name="forwardUpdate" class="articleParitiesAgioAction"
+			method="viewById">
+			<result>/commodity/articleParitiesAgio/articleParitiesAgioUpdate.jsp
+			</result>
+		</action>
+		<action name="update" class="articleParitiesAgioAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+	</package>
+	<!-- 行情保护 -->
+	<package name="commodityPriceProtect" extends="base-struts2"
+		namespace="/commodity/commodityPriceProtect">
+		<interceptors>
+			<interceptor name="showCommodityListInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.ShowCommodityListInterceptor">
+				<param name="status">(1)</param>
+			</interceptor>
+		</interceptors>
+		<action name="list" class="commodityPriceProtectAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="deleteMemberNo"></interceptor-ref>
+			<interceptor-ref name="showCommodityListInterceptor"></interceptor-ref>
+			<result>/commodity/priceProtect/commodityPriceProtectList.jsp
+			</result>
+		</action>
+
+		<action name="forwardUpdate" class="commodityPriceProtectAction"
+			method="viewById">
+			<result>/commodity/priceProtect/commodityPriceProtectUpdate.jsp
+			</result>
+		</action>
+		<action name="update" class="commodityPriceProtectAction"
+			method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+	</package>
+
+	<!-- 委托点差 -->
+	<package name="orderPoint" extends="base-struts2" namespace="/commodity/orderPoint">
+		<interceptors>
+			<interceptor name="defaultConditionInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.MemberQueryPointInterceptor">
+				<param name="queryWord">'Def_Customer','Def_Member','Def_S_Member'</param>
+				<param name="queryCondition">primary.memberFirmId in (%composite%)[composite]</param>
+			</interceptor>
+			<interceptor name="showCommodityListInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.ShowCommodityListInterceptor">
+				<param name="status">(1)</param>
+			</interceptor>
+			<interceptor name="orderDefaultCommodityInterceptor" class="gnnt.MEBS.commodity.action.interceptor.OrderDefaultCommodityInterceptor">
+				<param name="sortString">primary.commodityId,primary.memberFirmId asc</param>
+			</interceptor>
+		</interceptors>
+		
+		<action name="list" class="orderPointAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="deleteMemberNo"></interceptor-ref>
+			<interceptor-ref name="defaultConditionInterceptor"></interceptor-ref>
+			<interceptor-ref name="showCommodityListInterceptor"></interceptor-ref>
+			<interceptor-ref name="orderDefaultCommodityInterceptor"></interceptor-ref>
+			<result>/commodity/orderPoint/orderPointList.jsp</result>
+		</action>
+
+		<action name="forwardUpdate" class="orderPointAction" method="viewById">
+			<result>/commodity/orderPoint/orderPointUpdate.jsp</result>
+		</action>
+		<action name="update" class="orderPointAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+	</package>
+
+	<package name="margin" extends="base-struts2" namespace="/commodity/margin">
+			<interceptors>
+			<interceptor name="defaultConditionInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.MemberQueryPointInterceptor">
+				<param name="queryWord">'Def_Customer','Def_Member','Def_S_Member'</param>
+				<param name="queryCondition">primary.firmId in (%composite%)[composite]</param>
+			</interceptor>
+			<interceptor name="showCommodityListInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.ShowCommodityListInterceptor">
+				<param name="status">(1)</param>
+			</interceptor>
+			<interceptor name="orderDefaultCommodityInterceptor" class="gnnt.MEBS.commodity.action.interceptor.OrderDefaultCommodityInterceptor">
+				<param name="sortString">primary.commodityId,primary.firmId asc</param>
+			</interceptor>
+		</interceptors>
+		
+		<action name="list" class="marginAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="deleteMemberNo"></interceptor-ref>
+			<interceptor-ref name="defaultConditionInterceptor"></interceptor-ref>
+			<interceptor-ref name="showCommodityListInterceptor"></interceptor-ref>
+			<interceptor-ref name="orderDefaultCommodityInterceptor"></interceptor-ref>
+			<result>/commodity/margin/marginList.jsp</result>
+		</action>
+
+		<action name="forwardUpdate" class="marginAction" method="viewById">
+			<result>/commodity/margin/marginUpdate.jsp</result>
+		</action>
+
+		<action name="update" class="marginAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+	</package>
+
+
+	<package name="holdQty" extends="base-struts2" namespace="/commodity/holdQty">
+		
+		<interceptors>
+			<interceptor name="defaultConditionInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.MemberQueryPointInterceptor">
+				<param name="queryWord">'Def_Customer','Def_Member','Def_S_Member'</param>
+				<param name="queryCondition">primary.firmId in (%composite%)[composite]</param>
+			</interceptor>
+			<interceptor name="showCommodityListInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.ShowCommodityListInterceptor">
+				<param name="status">(1)</param>
+			</interceptor>
+			<interceptor name="orderDefaultCommodityInterceptor" class="gnnt.MEBS.commodity.action.interceptor.OrderDefaultCommodityInterceptor">
+				<param name="sortString">primary.commodityId,primary.firmId asc</param>
+			</interceptor>
+		</interceptors>
+		
+		<action name="list" class="holdQtyAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="deleteMemberNo"></interceptor-ref>
+			<interceptor-ref name="defaultConditionInterceptor"></interceptor-ref>
+			<interceptor-ref name="showCommodityListInterceptor"></interceptor-ref>
+			<interceptor-ref name="orderDefaultCommodityInterceptor"></interceptor-ref>
+			<result>/commodity/holdQty/holdQtyList.jsp</result>
+		</action>
+
+		<action name="forwardUpdate" class="holdQtyAction" method="viewById">
+			<result>/commodity/holdQty/holdQtyUpdate.jsp</result>
+		</action>
+
+		<action name="update" class="holdQtyAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+	</package>
+	
+		<!-- 客户商品持仓数量开始 -->
+	<package name="customerHoldQty" extends="base-account"
+		namespace="/commodity/customerHoldQty">
+		<interceptors>
+			<interceptor name="commodityListInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.CommodityListInterceptor">
+			</interceptor>
+		</interceptors>
+		<action name="list" class="customerHoldQtyAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="customerHoldQtyInterceptor"></interceptor-ref>
+			<interceptor-ref name="dataFilterCustomerNoInterceptor"></interceptor-ref>
+			<result>/commodity/customerHoldQty/customerHoldQtyList.jsp</result>
+		</action>
+		<action name="forwardUpdate" class="customerHoldQtyAction"
+			method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+			<result>/commodity/customerHoldQty/customerHoldQtyUpdate.jsp</result>
+		</action>
+		<action name="update" class="customerHoldQtyAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+
+		<action name="forwardAdd" class="customerHoldQtyAction" method="forwardAdd">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+			<result>/commodity/customerHoldQty/customerHoldQtyAdd.jsp</result>
+		</action>
+
+		<action name="add" class="customerHoldQtyAction" method="add">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<action name="delete" class="customerHoldQtyAction" method="delete">
+			<result type="redirectAction">list</result>
+		</action>
+	</package>
+	
+	<!-- ************************************************** -->
+	
+		<!-- 会员延期费阶梯 start -->
+	<package name="stepDictionary" extends="base-step"
+		namespace="/commodity/stepDictionary">
+		<action name="list" class="stepDictionaryAction" method="list">
+			<interceptor-ref name="mydefaultCopy"></interceptor-ref>
+			<interceptor-ref name="deleteMemberNo"></interceptor-ref>
+			<result>
+				/commodity/stepDictionaryDays/stepDictionaryDaysList.jsp
+			</result>
+		</action>
+
+		<action name="forwardUpdate" class="stepDictionaryAction"
+			method="viewById">
+			<result>
+				/commodity/stepDictionaryDays/stepDictionaryDaysUpdate.jsp
+			</result>
+		</action>
+
+		<action name="update" class="stepDictionaryAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+	</package>
+	<!-- 会员延期费阶梯 close -->
+	
+	
+	
+		<!-- 默认会员延期费设置 start -->
+	<package name="tcDelayFee" extends="base-step" namespace="/commodity/tcDelayFee">
+		
+		<interceptors>
+			<interceptor name="defaultConditionInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.MemberQueryPointInterceptor">
+				<param name="queryWord">'Def_Customer','Def_Member','Def_S_Member'</param>
+				<param name="queryCondition">primary.firmId in (%composite%)[composite]</param>
+			</interceptor>
+			<interceptor name="showCommodityListInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.ShowCommodityListInterceptor">
+				<param name="status">(1)</param>
+			</interceptor>
+		</interceptors>
+		
+		<action name="list" class="tcDelayFeeAction" method="list">
+			<interceptor-ref name="mydefaultCopy"></interceptor-ref>
+			<interceptor-ref name="deleteMemberNo"></interceptor-ref>
+			<interceptor-ref name="defaultConditionInterceptor"></interceptor-ref>
+			<interceptor-ref name="showCommodityListInterceptor"></interceptor-ref>
+			<result>/commodity/tcDelayFee/tcDelayFeeList.jsp</result>
+		</action>
+
+		<action name="forwardUpdate" class="tcDelayFeeAction" method="viewById">
+			<interceptor-ref name="mydefaultCopy"></interceptor-ref>
+			<interceptor-ref name="deleteMemberNo"></interceptor-ref>
+			<result>/commodity/tcDelayFee/tcDelayFeeUpdate.jsp</result>
+		</action>
+
+		<action name="update" class="tcDelayFeeAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+	</package>
+	<!-- 会员延期费设置 close -->
+	
+	<!-- 会员延期费设置 start -->
+	<package name="memberDelayFee" extends="base-step"
+		namespace="/commodity/memberDelayFee">
+	<interceptors>
+			<interceptor name="defaultConditionInterceptor"
+				class="gnnt.MEBS.config.action.interceptor.MemberNoForSpecialInterceptor">
+				<param name="paramMemberNo">primary.firmId[=]</param>
+			</interceptor>
+		</interceptors>
+		<action name="list" class="memberDelayFeeAction" method="list">
+			<interceptor-ref name="mydefaultCopy"></interceptor-ref>
+			<interceptor-ref name="defaultConditionInterceptor"></interceptor-ref>
+			<result>/commodity/tcDelayFee/memberDelayFeeList.jsp</result>
+		</action>
+
+		<action name="forwardUpdate" class="memberDelayFeeAction"
+			method="viewById">
+			<result>/commodity/tcDelayFee/memberDelayFeeUpdate.jsp</result>
+		</action>
+		<action name="forwardAdd" class="memberDelayFeeAction" method="forwardAdd">
+			<result>/commodity/tcDelayFee/memberDelayFeeAdd.jsp</result>
+		</action>
+		<action name="add" class="memberDelayFeeAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<action name="update" class="memberDelayFeeAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<action name="delete" class="memberDelayFeeAction" method="delete">
+			<result type="chain">list</result>
+		</action>
+	</package>
+	<!-- 会员延期费设置 close -->
+	
+		<!-- 会员保证金阶梯 start -->
+	<package name="stepFundsDictionary" extends="base-step"
+		namespace="/commodity/stepFundsDictionary">
+
+		<action name="list" class="stepDictionaryAction" method="fundsList">
+			<interceptor-ref name="mydefaultCopy"></interceptor-ref>
+			<interceptor-ref name="deleteMemberNo"></interceptor-ref>
+			<result>
+				/commodity/stepDictionaryFunds/stepDictionaryFundsList.jsp
+			</result>
+		</action>
+
+		<action name="forwardUpdate" class="stepDictionaryAction"
+			method="viewById">
+			<interceptor-ref name="mydefaultCopy"></interceptor-ref>
+			<interceptor-ref name="deleteMemberNo"></interceptor-ref>
+			<result>
+				/commodity/stepDictionaryFunds/stepDictionaryFundsUpdate.jsp
+			</result>
+		</action>
+
+		<action name="update" class="stepDictionaryAction" method="update">
+			<interceptor-ref name="mydefaultCopy"></interceptor-ref>
+			<interceptor-ref name="deleteMemberNo"></interceptor-ref>
+			<result>/public/commonMsg.jsp</result>
+		</action>
+
+		<action name="forwardAdd" class="stepDictionaryAction" method="forwardAddFunds">
+			<result>
+				/commodity/stepDictionaryFunds/stepDictionaryFundsAdd.jsp
+			</result>
+		</action>
+
+		<action name="add" class="stepDictionaryAction" method="addMemberFunds">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+
+		<action name="delete" class="stepDictionaryAction" method="delete">
+			<result type="redirectAction">list</result>
+		</action>
+	</package>
+	<!-- 会员保证金阶梯 close -->
+	
+	<!-- 会员默认出金阈值阶梯 start -->
+	<package name="fundsLadder" extends="base-step" namespace="/commodity/fundsLadder">
+		<interceptors>
+			<interceptor name="defaultConditionInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.MemberQueryPointInterceptor">
+				<param name="queryWord">
+					'Def_Member','Def_S_Member'
+				</param>
+				<param name="queryCondition">
+					primary.memberNo in (%composite%)[composite]
+				</param>
+			</interceptor>
+		</interceptors>
+		<action name="list" class="fundsLadderAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="deleteMemberNo"></interceptor-ref>
+			<interceptor-ref name="defaultConditionInterceptor"></interceptor-ref>
+			<result>/commodity/fundsLadder/fundsLadderList.jsp</result>
+		</action>
+
+		<action name="forwardUpdate" class="fundsLadderAction" method="viewById">
+			<result>
+				/commodity/fundsLadder/fundsLadderUpdate.jsp
+			</result>
+		</action>
+
+		<action name="update" class="fundsLadderAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+	</package>
+	<!-- 会员默认出金阈值阶梯 close -->
+
+	<!-- 会员出金阈值阶梯操作 start -->
+	<package name="memberFundsLadder" extends="base-step"
+		namespace="/commodity/memberFundsLadder">
+		<interceptors>
+			<interceptor name="defaultConditionInterceptor"
+				class="gnnt.MEBS.config.action.interceptor.MemberNoForSpecialInterceptor">
+				<param name="paramMemberNo">primary.memberNo[=]</param>
+			</interceptor>
+				<interceptor name="memberInfoListInterceptor"
+				class="gnnt.MEBS.account.action.interceptor.MemberInfoListInterceptor">
+			</interceptor>
+		</interceptors>
+		<action name="list" class="memberFundsLadderAction" method="list">
+			<interceptor-ref name="mydefaultCopy"></interceptor-ref>
+			<interceptor-ref name="defaultConditionInterceptor"></interceptor-ref>
+			<result>
+				/commodity/fundsLadder/memberFundsLadderList.jsp
+			</result>
+		</action>
+
+		<action name="forwardUpdate" class="memberFundsLadderAction"
+			method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="memberInfoListInterceptor"></interceptor-ref>
+			<result>
+				/commodity/fundsLadder/memberFundsLadderUpdate.jsp
+			</result>
+		</action>
+
+		<action name="update" class="memberFundsLadderAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+	</package>
+	<!-- 会员出金阈值阶梯操作 close -->
+
+
+		<!-- 会员收取手续费 start -->
+	<package name="takeFee" extends="base-account" namespace="/account/takeFee">
+
+		<action name="list" class="takeFeeAction" method="list">
+			<result>/account/member/memberTakeFeeList.jsp</result>
+		</action>
+		<action name="forwardUpdate" class="takeFeeAction" method="viewById">
+			<result>/account/member/memberTakeFeeUpdate.jsp</result>
+		</action>
+		<action name="update" class="takeFeeAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+	</package>
+	<!--会员收取手续费 end -->
+</struts>

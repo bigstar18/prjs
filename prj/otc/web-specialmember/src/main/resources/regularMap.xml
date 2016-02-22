@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<util:map id="regularMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key='timeRegular' value-ref="timeRegular" />
+		<entry key='emailRegular' value-ref="emailRegular" />
+		<entry key='zipCodeRegular' value-ref="zipCodeRegular" />
+		<entry key='DateRegular' value-ref="DateRegular" />
+		<entry key='nameRegular' value-ref="nameRegular" />
+		<entry key='blankRegular' value-ref="blankRegular" />
+	</util:map>
+	<!-- 时分秒验证-->
+	<util:map id="timeRegular" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key='regular' value="^(([01]\d)|(2[0-3])):[0-5]\d:[0-5]\d" />
+		<entry key='description' value="HH:MM:SS" />
+	</util:map>
+	<!-- 邮箱验证-->
+	<util:map id="emailRegular" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key='regular' value="(\w)*@([a-zA-Z0-9]*(\.))*[a-zA-Z]*$" />
+		<entry key='description' value="XXX@XX.XX" />
+	</util:map>
+	<!-- 邮编验证-->
+	<util:map id="zipCodeRegular" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key='regular' value="^\d{6}" />
+		<entry key='description' value="6位整数" />
+	</util:map>
+	
+	<!-- 年月日验证-->
+	<util:map id="DateRegular" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key='regular' value="^([1-2]\d{3})[-](0?[1-9]|10|11|12)[-]([1-2][0-9]|0[1-9]|30|31)$" />
+		<entry key='description' value="YYYY-MM-DD" />
+	</util:map>
+	
+	<!--验证名称为数字中文下划线字母-->
+	<util:map id="nameRegular" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key='regular' value="^[a-zA-Z0-9\u4e00-\u9fa5]+$" />
+		<entry key='description' value="中文字母或是数字组成" />
+	</util:map>
+	
+	<!--验证字符串不包含空格-->
+	<util:map id="blankRegular" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key='regular' value="^\S+$" />
+		<entry key='description' value="字母数字字符，不应含有空格" />
+	</util:map>
+</beans>

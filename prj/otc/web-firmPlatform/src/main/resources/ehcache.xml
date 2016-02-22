@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache>
+<diskStore path="java.io.tmpdir" />
+<defaultCache maxElementsInMemory="10000" 
+              eternal="false" 
+              overflowToDisk="true" 
+              timeToIdleSeconds="300" 
+              timeToLiveSeconds="180" 
+              diskPersistent="false" 
+              diskExpiryThreadIntervalSeconds="120" />
+
+ <cache name="queryCache"
+        maxElementsInMemory="1000" 
+        eternal="false"
+        timeToIdleSeconds="0"
+        timeToLiveSeconds="10"
+        overflowToDisk="false"
+        />
+ <cache name = "SimplePageCachingFilter"
+           maxElementsInMemory = "10"
+           maxElementsOnDisk = "10"
+           eternal = "false"
+           overflowToDisk = "true"
+           diskSpoolBufferSizeMB = "20"
+           timeToIdleSeconds = "120"
+           timeToLiveSeconds = "120"
+           memoryStoreEvictionPolicy = "LFU"
+            />
+
+</ehcache>
+

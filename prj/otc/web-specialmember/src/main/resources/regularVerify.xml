@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<!-- 客户添加 检测begin -->
+	<bean id="account_customer_add_regular" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+			<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="papersName" />
+                			<entry key="name" value="证件号码" />
+                			<entry key="regular" value="blankRegular" />
+						</map>
+					</constructor-arg>
+			</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+	<!-- 客户添加end -->
+	
+	<!-- 管理员添加 检测begin -->
+	<bean id="account_user_add_regular" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+			<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="userId" />
+                			<entry key="name" value="用户代码" />
+                			<entry key="regular" value="blankRegular" />
+						</map>
+					</constructor-arg>
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+
+	<!-- 会员添加 检测begin -->
+	<bean id="account_member_add_regular" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="name" />
+                			<entry key="name" value="会员名称" />
+                			<entry key="regular" value="nameRegular" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="email" />
+                			<entry key="name" value="电子邮箱" />
+                			<entry key="regular" value="emailRegular" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="postCode" />
+                			<entry key="name" value="邮编" />
+                			<entry key="regular" value="zipCodeRegular" />
+						</map>
+					</constructor-arg>
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+	<!-- 会员添加end -->
+
+	<!-- 特别会员添加 检测begin -->
+	<bean id="account_specialMemberInfo_add_regularVerify" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="name" />
+                			<entry key="name" value="特别会员名称" />
+                			<entry key="regular" value="nameRegular" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+              		<constructor-arg>
+               			<map>
+                			<entry key="field" value="email" />
+                			<entry key="name" value="电子邮箱" />
+                			<entry key="regular" value="emailRegular" />
+               			</map>
+             		</constructor-arg>
+           		</bean>
+				
+			</list>
+		</constructor-arg>
+	</bean>
+	<!-- 特别会员添加end -->
+	
+	<bean id="commodity_tradingParameter_update_dateVerify" class="java.util.ArrayList">
+       <constructor-arg>
+        <list>
+           <bean class="java.util.HashMap">
+              <constructor-arg>
+               <map>
+                <entry key="field" value="startTime" />
+                <entry key="name" value="交易开始时间" />
+                <entry key="regular" value="timeRegular" />
+               </map>
+             </constructor-arg>
+           </bean>
+            <bean class="java.util.HashMap">
+              <constructor-arg>
+               <map>
+                <entry key="field" value="endTime" />
+                <entry key="name" value="交易结束时间" />
+                <entry key="regular" value="timeRegular" />
+               </map>
+             </constructor-arg>
+           </bean>
+        </list>
+       </constructor-arg>
+    </bean>
+
+		<!-- 居间添加 检测begin -->
+	<bean id="account_brokerage_add_regular" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+			<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="name" />
+                			<entry key="name" value="居间名称" />
+                			<entry key="regular" value="nameRegular" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="email" />
+                			<entry key="name" value="电子邮箱" />
+                			<entry key="regular" value="emailRegular" />
+						</map>
+					</constructor-arg>
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+	<!-- 居间添加end -->	
+			<!-- 机构添加 检测begin -->
+	<bean id="account_organization_add_regular" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+			<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="name" />
+                			<entry key="name" value="机构名称" />
+                			<entry key="regular" value="nameRegular" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="email" />
+                			<entry key="name" value="电子邮箱" />
+                			<entry key="regular" value="emailRegular" />
+						</map>
+					</constructor-arg>
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+	<!-- 机构添加end -->	
+			<!-- 经纪添加 检测begin -->
+	<bean id="account_manager_add_regular" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+			<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="name" />
+                			<entry key="name" value="经纪名称" />
+                			<entry key="regular" value="nameRegular" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="email" />
+                			<entry key="name" value="电子邮箱" />
+                			<entry key="regular" value="emailRegular" />
+						</map>
+					</constructor-arg>
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+	<!-- 经纪添加end -->	
+	<util:map id="regularVerifyMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<!-- <entry key='/account/specialMemberInfo/add' value-ref="account_specialMemberInfo_add_regularVerify" />
+		<entry key='/account/specialMemberInfo/update' value-ref="account_specialMemberInfo_add_regularVerify" />
+		<entry key='/account/memberInfo/add' value-ref="account_member_add_regular" />
+		<entry key='/account/memberInfo/update' value-ref="account_member_add_regular" />
+		 
+		<entry key='/broke/brokerage/add' value-ref="account_brokerage_add_regular" />
+		<entry key='/broke/brokerage/update' value-ref="account_brokerage_add_regular" />
+		<entry key='/broke/manager/add' value-ref="account_manager_add_regular" />
+		<entry key='/broke/manager/update' value-ref="account_manager_add_regular" />
+			<entry key='/broke/organization/add' value-ref="account_organization_add_regular" />
+		<entry key='/broke/organization/update' value-ref="account_organization_add_regular" />
+		-->
+		<entry key='/user/add' value-ref="account_user_add_regular" />
+		<entry key='/tradeManage/tradingParameter/updateTradeTime' value-ref="commodity_tradingParameter_update_dateVerify"/>
+	</util:map>
+
+</beans>

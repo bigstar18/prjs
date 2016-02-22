@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+ 
+   <import resource="dataSource.xml"/>
+
+	<bean id="config" class="java.util.Properties">
+		<constructor-arg type="java.util.Properties">
+			<props>
+				<prop key="FloatingSpace">3000</prop>	<!-- 浮亏计算时间间隔,单位:毫秒 -->
+				<prop key="UpdateRiskRateSpace">3000</prop>	<!-- 风险率计算时间间隔,单位:毫秒 -->
+				<prop key="ReceiveHQTimeOut">300000</prop>	<!-- 在设定时间内没有接收到行情则暂停交易,单位:毫秒 -->
+				<prop key="WithDrawSPOrderSpace">3000</prop>	<!-- 平仓后撤销无效的止损止盈委托单,单位:毫秒 -->
+				<prop key="RoleType">1</prop>	<!-- 角色类型，1：交易(默认)；2：模拟； -->
+				<prop key="SectionStopOrder">2</prop>	<!-- 节间休息能否接收委托，1：能；2：不能(默认)； -->
+				<prop key="EndWithdraw">2</prop>	<!-- 交易结束时是否自动撤单，1：是；2：不是(默认)； -->        
+			</props>
+		</constructor-arg>
+	</bean>	
+	
+	<!-- begin task -->
+	<bean name="quartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="cronTrigger"/>
+				<ref bean="cronTriggerAutoBalance"/>
+			</list>
+		</property>
+		<property name="configLocation" value="classpath:quartz.properties"/>
+	</bean>
+	<bean id="cronTrigger" class="gnnt.MEBS.timebargain.server.InitializingCronTrigger">
+		<property name="jobDetail" ref="autoOpenServer"/>	
+		<!--every day 08:00:00 execute once(0 0 8 * * ?), format: second minute hour date month weekday year(optional)-->
+
+	</bean>
+	<bean id="cronTriggerAutoBalance" class="gnnt.MEBS.timebargain.server.InitializingCronTrigger">
+		<property name="jobDetail" ref="autoBalance"/>	
+	</bean>	
+	<!-- call timer method -->
+	<bean id="autoOpenServer" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="server"/>
+		<property name="targetMethod" value="autoOpenServer"/>
+	</bean>	
+	<bean id="autoBalance" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="server"/>
+		<property name="targetMethod" value="autoBalance"/>
+	</bean>		
+	<!-- end task -->
+
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<bean id="dao" class="gnnt.unitrade.agency.dao.jdbc.BaseDAOJdbc">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<bean id="serverDAO"
+		class="gnnt.MEBS.timebargain.server.dao.jdbc.ServerDAOJdbc">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<bean id="tradeDAO"
+		class="gnnt.MEBS.timebargain.server.dao.jdbc.TradeDAOJdbc">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<bean id="firmDAO"
+		class="gnnt.MEBS.timebargain.server.dao.jdbc.FirmDAOJdbc">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<bean id="riskcontrolDAO"
+		class="gnnt.MEBS.timebargain.server.dao.jdbc.RiskcontrolDAOJdbc">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<bean id="server" class="gnnt.MEBS.timebargain.server.Server">
+	</bean>
+	<!-- 价格转换接口-->
+	<bean id="priceInterface" class="gnnt.MEBS.timebargain.server.quotation.PriceInterfaceImpl" autowire="byName"/>
+	<!-- 行情接口，注入价格转换接口-->
+	<bean id="quotationInterface" class="gnnt.MEBS.timebargain.server.quotation.QuotationInterfaceImpl" autowire="byName"/>
+	
+</beans>
+
+
+
+
+
+
+
+
+
+
+

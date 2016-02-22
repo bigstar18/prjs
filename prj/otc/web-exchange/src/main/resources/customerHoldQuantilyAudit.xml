@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="customerHoldQuantilyAudit" extends="base-struts2" namespace="/audit/commodity_customerHoldQuantilyAudit">
+	<interceptors>
+		    <interceptor name="customerHoldQtyInterceptor"
+					class="gnnt.MEBS.audit.action.interceptor.LogInterceptor">
+					<param name="classFullName">
+					   gnnt.MEBS.commodity.model.HoldQty
+					</param>
+					<param name="serrviceName">
+					   customerHoldQtyService
+					</param>
+			 </interceptor>
+	    </interceptors>
+		<action name="auditList" class="customerHoldQuantilyAuditAction" method="auditList">
+			<result>/applyAndAudit/audit/customerHoldQuantilyAudit/customerHoldQuantilyAuditList.jsp</result>
+		</action>
+		
+		<action name="audits" class="customerHoldQuantilyAuditAction" method="audit">
+				<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="customerHoldQtyInterceptor"></interceptor-ref>
+			<result>
+				/public/commonMsg.jsp
+			</result>
+		</action>
+		
+		<action name="auditDetails" class="customerHoldQuantilyAuditAction" method="auditDetails">
+			<result>/applyAndAudit/audit/customerHoldQuantilyAudit/customerHoldQuantilyDetails.jsp</result>
+		</action>
+	</package>
+</struts>

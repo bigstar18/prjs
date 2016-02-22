@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="gb2312"?>
+<AutoUpdater>
+  <description>Application autoUpdate</description>
+  <Updater>
+    <TelUrl>http://58.215.166.104:16981/xtys/newTradeUpdate</TelUrl>
+	<NetUrl>http://122.192.66.212:16981/xtys/newTradeUpdate</NetUrl>
+    <LastUpdateTime>2011-01-18</LastUpdateTime>
+	<CheckUpdateFile>UpdateFileList.xml</CheckUpdateFile>
+	<UpdateExe>GnntUpdate.exe</UpdateExe>
+	<VMLoadExe>..\SysFrame.exe</VMLoadExe>
+  </Updater>
+  <Application applicationId="SysFrame">
+    <EntryPoint>SysFrame.exe</EntryPoint>
+	<mainAppExeArg></mainAppExeArg>
+    <Location>.</Location>
+    <Version>1.0.0.0</Version>
+	<!--0:询问是否更新 1:强制更新-->
+	<Level>0</Level>
+  </Application>
+  <Files>
+	<File Ver="1.0.0.0" Name="Trader\SysFrame.exe"/>    
+	<File Ver="1.0.0.0" Name="Trader\GNNT.xml"/>    
+	<File Ver="1.0.0.0" Name="Trader\license.txt"/>       
+	<File Ver="1.0.0.0" Name="Trader\HttpTrade.dll"/>   
+<File Ver="1.0.0.0" Name="Trader\TradePlugin.xml"/> 
+<File Ver="1.0.0.0" Name="Trader\Report.xml"/> 
+<File Ver="1.0.0.0" Name="Trader\Message.xml"/> 
+<File Ver="1.0.0.0" Name="Trader\DeliveryReport.xml"/> 
+<File Ver="1.0.0.0" Name="Trader\BankInterface.xml"/> 
+  </Files>
+</AutoUpdater>

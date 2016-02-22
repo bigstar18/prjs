@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<!-- 保证金(数字位数)检测 begin -->
+	<bean id="commodity_margin_update_decimal" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="holidayMargin_v" />
+							<entry key="name" value="假日维持" />
+							<entry key="maxDigit" value="2" />
+							<entry key="maxInt" value="10" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="tradeMargin_v" />
+							<entry key="name" value="即市占用" />
+							<entry key="maxDigit" value="2" />
+							<entry key="maxInt" value="10" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="settleMargin_v" />
+							<entry key="name" value="结算维持" />
+							<entry key="maxDigit" value="2" />
+							<entry key="maxInt" value="10" />
+						</map>
+					</constructor-arg>
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+	<!-- 保证金(数字位数)检测 end -->
+
+	<!-- 报价点差(数字位数)检测 begin -->
+	<bean id="commodity_quotePoint_update_decimals" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="quotePointB_v" />
+							<entry key="name" value="买报价点差" />
+							<entry key="maxDigit" value="2" />
+							<entry key="maxInt" value="10" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="quotePointS_v" />
+							<entry key="name" value="卖报价点差" />
+							<entry key="maxDigit" value="2" />
+							<entry key="maxInt" value="10" />
+						</map>
+					</constructor-arg>
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+
+	<!-- 委托点差设置 (数字位数)检测 begin -->
+	<bean id="commodity_orderPoint_decimals" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="l_Open_Point" />
+							<entry key="name" value="限价建仓点差" />
+							<entry key="maxDigit" value="2" />
+							<entry key="maxInt" value="10" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="stopLossPoint" />
+							<entry key="name" value="止损下单点差" />
+							<entry key="maxDigit" value="2" />
+							<entry key="maxInt" value="10" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="stopProfitPoint" />
+							<entry key="name" value="止盈下单点差" />
+							<entry key="maxDigit" value="2" />
+							<entry key="maxInt" value="10" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="min_M_OrderPoint" />
+							<entry key="name" value="市价点差最小值" />
+							<entry key="maxDigit" value="2" />
+							<entry key="maxInt" value="10" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="max_M_OrderPoint" />
+							<entry key="name" value="市价点差最大值" />
+							<entry key="maxDigit" value="2" />
+							<entry key="maxInt" value="10" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="m_OrderPoint" />
+							<entry key="name" value="默认市价点差" />
+							<entry key="maxDigit" value="2" />
+							<entry key="maxInt" value="10" />
+						</map>
+					</constructor-arg>
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+	<!-- 委托点差设置(数字位数)检测 end -->
+
+	<!-- 商品汇率 begin -->
+	<bean id="commodity_articleParitiesAgio_decimals" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="clearExchageRate" />
+							<entry key="name" value="结算汇率" />
+							<entry key="maxDigit" value="6" />
+							<entry key="maxInt" value="15" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="quoteAgio" />
+							<entry key="name" value="报价贴水" />
+							<entry key="maxDigit" value="2" />
+							<entry key="maxInt" value="15" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="quoteRate" />
+							<entry key="name" value="报价系数" />
+							<entry key="maxDigit" value="6" />
+							<entry key="maxInt" value="15" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="quoteExchangeRate" />
+							<entry key="name" value="报价汇率" />
+							<entry key="maxDigit" value="4" />
+							<entry key="maxInt" value="15" />
+						</map>
+					</constructor-arg>
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+
+	<util:map id="decimalsMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<!--<entry key='/apply/marginApply/audits' value-ref="commodity_margin_update_decimal" />
+		 <entry key='/commodity/quotePoint/update' value-ref="commodity_quotePoint_update_decimals" />
+		<entry key='/apply/quotePointApply/audits' value-ref="commodity_quotePoint_update_decimals" />
+		 委托点差设置 
+		<entry key="/commodity/orderPoint/update" value-ref="commodity_orderPoint_decimals" />
+		<entry key="/apply/orderPointApply/audits" value-ref="commodity_orderPoint_decimals" />
+		 -->
+	</util:map>
+</beans>

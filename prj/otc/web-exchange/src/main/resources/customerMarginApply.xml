@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="customerMarginApply" extends="base-struts2" namespace="/apply/customerMarginApply">
+	    <interceptors>
+		    <interceptor name="marginLogInterceptor"
+					class="gnnt.MEBS.audit.action.interceptor.LogInterceptor">
+					<param name="classFullName">
+					   gnnt.MEBS.commodity.model.Margin
+					</param>
+					<param name="serrviceName">
+					   customerMarginService
+					</param>
+			 </interceptor>
+	    </interceptors>
+		<!-- 申请操作 -->
+		<action name="update" class="customerMarginApplyAction" method="apply">
+		    <interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="marginLogInterceptor"></interceptor-ref>
+			<result name="returnList" type="chain">
+				<param name="actionName">applyList</param>
+			</result>
+			<result>/public/commonMsg.jsp</result>
+		</action>
+	</package>
+</struts>

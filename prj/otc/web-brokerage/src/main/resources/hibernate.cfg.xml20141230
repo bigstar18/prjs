@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE 
+hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="dialect">org.hibernate.dialect.OracleDialect</property>
+    <property name="show_sql">false</property>
+    <property name="hbm2ddl.auto">none</property>
+    <property name="format_sql">true</property>
+    <property name="hibernate.cache.use_structured_entries">true</property>
+    <!--  最优化二级缓存-->
+    <property name="hibernate.cache.use_second_level_cache">true</property>
+    <!--  完全禁用二级缓存开关，对那些在类的映射定义中指定cache的类，默认开启二级缓存-->
+    <property name="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</property>
+    <property name="hibernate.cache.use_query_cache">true</property>
+    <property name="hibernate.cache.provider_configuration_file_resource_path">/ehcache.xml</property>
+    <mapping resource="gnnt/MEBS/common/model/brokerage.hbm.xml" />
+    <mapping resource="gnnt/MEBS/account/model/memberUser.hbm.xml" />
+    <mapping resource="gnnt/MEBS/account/model/organization.hbm.xml" />
+    <mapping resource="gnnt/MEBS/announcement/model/notice.hbm.xml" />
+    <mapping resource="gnnt/MEBS/announcement/model/oKNotice.hbm.xml" />
+    <mapping resource="gnnt/MEBS/announcement/model/h_Notice.hbm.xml" />
+    <mapping resource="gnnt/MEBS/announcement/model/h_OKNotice.hbm.xml" />
+  </session-factory>
+</hibernate-configuration>

@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<context:annotation-config />
+	<context:component-scan
+		base-package="gnnt.MEBS.report.dao,gnnt.MEBS.report.service,gnnt.MEBS.report.action">
+	</context:component-scan>
+
+	<bean id="config" class="java.util.Properties">
+		<constructor-arg type="java.util.Properties">
+			<props>
+			</props>
+		</constructor-arg>
+	</bean>
+
+	<!-- 客户平仓导出 -->
+	<util:list id="customerCloseReport" list-class="java.util.ArrayList"
+		value-type="java.lang.String">
+		<value>序号</value>
+		<value>结算日期</value>
+		<value>平仓时间</value>
+		<value>商品</value>
+		<value>平仓单号</value>
+		<value>平仓量</value>
+		<value>平仓价</value>
+		<value>持仓价</value>
+		<value>平仓盈亏</value>
+		<value>平仓手续费</value>
+		<value>建仓单号</value>
+		<value>建仓价</value>
+		<value>建仓时间</value>
+		<value>平仓类型</value>
+		<value>买卖方向</value>
+	</util:list>
+	<!-- 客户成交导出 -->
+	<util:list id="customerTradeReport" list-class="java.util.ArrayList"
+		value-type="java.lang.String">
+		<value>序号</value>
+		<value>结算日期</value>
+		<value>成交单号</value>
+		<value>商品</value>
+		<value>成交量</value>
+		<value>成交价</value>
+		<value>成交金额</value>
+		<value>手续费</value>
+		<value>成交时间</value>
+		<value>买卖方向</value>
+	</util:list>
+
+	<!-- 客户持仓导出 -->
+	<util:list id="customerHoldReport" list-class="java.util.ArrayList"
+		value-type="java.lang.String">
+		<value>序号</value>
+		<value>结算日期</value>
+		<value>商品</value>
+		<value>持仓单号</value>
+		<value>持仓量</value>
+		<value>持仓价</value>
+		<value>建仓价</value>
+		<value>结算价</value>
+		<value>持仓盈亏</value>
+		<value>占用保证金</value>
+		<value>延期费</value>
+		<value>建仓时间</value>
+		<value>建仓单号</value>
+		<value>买卖方向</value>
+	</util:list>
+	<!-- 客户资金流水导出 -->
+	<util:list id="customerFundFlowReport" list-class="java.util.ArrayList"
+		value-type="java.lang.String">
+		<value>序号</value>
+		<value>结算日期</value>
+		<value>流水号</value>
+		<value>变动金额</value>
+		<value>变后金额</value>
+		<value>关联单号</value>
+		<value>类型</value>
+		<value>时间</value>
+	</util:list>
+	<!-- 客户资金状况导出 -->
+	<util:list id="customerFundReport" list-class="java.util.ArrayList"
+		value-type="java.lang.String">
+		<value>序号</value>
+		<value>结算日期</value>
+		<value>期初权益</value>
+		<value>出入金</value>
+		<value>平仓盈亏</value>
+		<value>持仓盈亏</value>
+		<value>手续费</value>
+		<value>延期费</value>
+		<value>占用保证金</value>
+		<value>期末权益</value>
+		<value>风险率</value>
+	</util:list>
+	<util:map id="customerReportMap" map-class="java.util.TreeMap"
+		key-type="java.lang.String" value-type="java.util.List">
+		<entry key="/report/tableTemplates/customerClosePositionReport.jsp"
+			value-ref="customerCloseReport" />
+		<entry key="/report/tableTemplates/customerTradeDetailReport.jsp"
+			value-ref="customerTradeReport" />
+		<entry key="/report/tableTemplates/customerHoldPositionReport.jsp"
+			value-ref="customerHoldReport" />
+		<entry key="/report/tableTemplates/customerCapitalFlowingReport.jsp"
+			value-ref="customerFundFlowReport" />
+		<entry key="/report/tableTemplates/capitalAccountReport.jsp"
+			value-ref="customerFundReport" />
+	</util:map>
+
+	<!-- 会员平仓导出 -->
+	<util:list id="memberCloseReport" list-class="java.util.ArrayList"
+		value-type="java.lang.String">
+		<value>序号</value>
+		<value>结算日期</value>
+		<value>平仓时间</value>
+		<value>交易账号</value>
+		<value>平仓单号</value>
+		<value>商品</value>
+		<value>买卖方向</value>
+		<value>平仓量</value>
+		<value>平仓价</value>
+		<value>持仓价</value>
+		<value>平仓盈亏</value>
+		<value>建仓单号</value>
+		<value>建仓价</value>
+		<value>建仓时间</value>
+		<value>手续费</value>
+		<value>特别会员</value>
+		<value>平仓类型</value>
+	</util:list>
+
+	<!-- 会员成交导出 -->
+	<util:list id="memberTradeReport" list-class="java.util.ArrayList"
+		value-type="java.lang.String">
+		<value>序号</value>
+		<value>结算日期</value>
+		<value>成交时间</value>
+		<value>买卖方向</value>
+		<value>交易账号</value>
+		<value>成交单号</value>
+		<value>商品</value>
+		<value>成交量</value>
+		<value>成交价</value>
+		<value>成交金额</value>
+		<value>手续费</value>
+		<value>特别会员</value>
+	</util:list>
+	<!-- 会员持仓导出 -->
+	<util:list id="memberHoldReport" list-class="java.util.ArrayList"
+		value-type="java.lang.String">
+		<value>序号</value>
+		<value>结算日期</value>
+		<value>建仓时间</value>
+		<value>建仓价</value>
+		<value>交易账号</value>
+		<value>建仓单号</value>
+		<value>商品</value>
+		<value>买卖方向</value>
+		<value>持仓单号</value>
+		<value>持仓量</value>
+		<value>持仓价</value>
+		<value>结算价</value>
+		<value>持仓盈亏</value>
+		<value>占用保证金</value>
+		<value>交延期费</value>
+		<value>特别会员</value>
+	</util:list>
+	<!-- 会员资金流水导出 -->
+	<util:list id="memberFundFlowReport" list-class="java.util.ArrayList"
+		value-type="java.lang.String">
+		<value>序号</value>
+		<value>结算日期</value>
+		<value>流水号</value>
+		<value>变动金额</value>
+		<value>变后金额</value>
+		<value>关联单号</value>
+		<value>类型</value>
+		<value>发生时间</value>
+	</util:list>
+
+	<!-- 会员资金导出 -->
+	<util:list id="memberFundReport" list-class="java.util.ArrayList"
+		value-type="java.lang.String">
+		<value>序号</value>
+		<value>结算日期</value>
+		<value>期初权益</value>
+		<value>出入金</value>
+		<value>会员留存手续费</value>
+		<value>交易所留存手续费</value>
+		<value>收客户手续费</value>
+		<value>平仓净盈亏</value>
+		<value>持仓净盈亏</value>
+		<value>收客户延期费</value>
+		<value>交特别会员延期费</value>
+		<value>会员留存延期费</value>
+		<value>期末权益</value>
+		<value>风险率</value>
+	</util:list>
+	<util:map id="memberReportMap" map-class="java.util.TreeMap"
+		key-type="java.lang.String" value-type="java.util.List">
+		<entry key="/report/tableTemplates/memberClosePositionReport.jsp"
+			value-ref="memberCloseReport" />
+		<entry key="/report/tableTemplates/memberTradeDetailReport.jsp"
+			value-ref="memberTradeReport" />
+		<entry key="/report/tableTemplates/memberHoldPositionReport.jsp"
+			value-ref="memberHoldReport" />
+		<entry key="/report/tableTemplates/memberCapitalFlowingReport.jsp"
+			value-ref="memberFundFlowReport" />
+		<entry key="/report/tableTemplates/memberFundsReport.jsp"
+	value-ref="memberFundReport" />
+	</util:map>
+	
+	<!--客户平仓类型 -->
+	<util:map id="tradeMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="1" value="市价成交 " />
+		<entry key="2" value="市价成交" />
+		<entry key="3" value="市价成交" />
+		<entry key="4" value="自动强平" />
+		<entry key="5" value="手动强平" />
+		<entry key="6" value="指价成交 " />
+		<entry key="7" value="指价成交 " />
+	</util:map>
+	<util:map id="whetherMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="Y" value="是" />
+		<entry key="N" value="否" />
+	</util:map>
+	<util:map id="flagMap" map-class="java.util.HashMap" key-type="java.lang.String"
+		value-type="java.lang.String">
+		<entry key="1" value="买入" />
+		<entry key="2" value="卖出" />
+	</util:map>
+	<util:map id="customerStatusMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="0" value="可用" />
+		<entry key="1" value="冻结" />
+		<entry key="2" value="销户" />
+	</util:map>
+	<util:map id="bankMap" map-class="java.util.HashMap" key-type="java.lang.String"
+		value-type="java.lang.String">
+		<entry key="S" value="特别会员" />
+		<entry key="M" value="会员" />
+		<entry key="C" value="交易客户" />
+	</util:map>
+		<!-- 客户资金流水中业务代码的类型 -->
+	<util:map id="codeMap" map-class="java.util.HashMap" key-type="java.lang.String"
+		value-type="java.lang.String">
+		<entry key="101" value="入金" />
+		<entry key="102" value="出金" />
+		<entry key="201" value="扣除手续费" />
+		<entry key="204" value="持仓亏损" />
+		<entry key="205" value="持仓盈利" />
+		<entry key="206" value="平仓亏损" />
+		<entry key="207" value="平仓盈利" />
+		<entry key="210" value="扣除延期费" />
+		<entry key="310" value="客户与会员的结算盈亏" />
+	</util:map>
+	
+	<!-- 会员资金流水中业务代码的类型 -->
+	<util:map id="memberCodeMap_query" map-class="java.util.HashMap" key-type="java.lang.String"
+		value-type="java.lang.String">
+		<entry key="101" value="入金" />
+		<entry key="102" value="出金" />
+		<entry key="201" value="扣除手续费" />
+		<entry key="204" value="持仓亏损" />
+		<entry key="205" value="持仓盈利" />
+		<entry key="206" value="平仓亏损" />
+		<entry key="207" value="平仓盈利" />
+		<entry key="210" value="扣除延期费" />
+		<entry key="211" value="与客户结算延期费" />
+		<entry key="212" value="与客户结算手续费" />
+		<entry key="213" value="与客户结算平仓盈亏" />
+		<entry key="214" value="与客户结算持仓盈亏" />
+		<entry key="310" value="客户与会员的结算盈亏" />
+	</util:map>
+	<!-- 交易银行资金结算表 start -->
+	<bean id="settlementBankFundAction" class="gnnt.MEBS.report.action.SingleReportAction"
+		scope="request">
+		<property name="singleReportService" ref="settlememtBankFundReportService"></property>
+	</bean>
+	<bean id="settlememtBankFundReportService" class="gnnt.MEBS.report.service.SingleReportService">
+		<property name="commonReportDao" ref="settlementBankFundReportDao"></property>
+	</bean>
+	<bean id="settlementBankFundReportDao" class="gnnt.MEBS.report.dao.CommonReportDao">
+		<property name="sql"
+			value="select * from (select f_bank.b_date,f_bank.firmId,firm.name firmName,f_bank.bankcode,bank.bankname,f_bank.fundio,f_bank.transferfund,f_bank.tradediff,f_bank.todaybalance,f_bank.margin,f_bank.capital from f_firmbalance_bank f_bank,f_b_banks bank,M_Firm firm where f_bank.bankcode = bank.bankid and f_bank.firmId=firm.firmId order by b_date desc) primary"></property>
+	</bean>
+	<!-- 交易银行资金结算表 end -->
+
+	<!-- 主次银行转账记录 start -->
+	<bean id="bankInternalTransAction" class="gnnt.MEBS.report.action.SingleReportAction"
+		scope="request">
+		<property name="singleReportService" ref="bankInternalTransService"></property>
+	</bean>
+	<bean id="bankInternalTransService" class="gnnt.MEBS.report.service.SingleReportService">
+		<property name="commonReportDao" ref="bankInternalTransDao"></property>
+	</bean>
+	<bean id="bankInternalTransDao" class="gnnt.MEBS.report.dao.CommonReportDao">
+		<property name="sql"
+			value="select * from (select transid,m.name firmName,f.firmId,f.bankCode,f.amount, b.bankname bankName,s.bankName bankTargetName from F_Bank_Internal_Trans f,M_Firm m ,f_b_banks b,f_b_banks s where f.firmId=m.firmId and f.BankCode=b.BANKID  and s.BANKID=f.BankCode_Target order by transid desc) primary"></property>
+		<property name="pageInfoStr" value="transId"></property>
+	</bean>
+	<!-- 主次银行转账记录end -->
+
+	<!-- 客户报表 start -->
+	<bean id="customerReportAction" class="gnnt.MEBS.report.action.CustomerReportAction"
+		scope="request">
+		<property name="assembleData" ref="customerAssembleData" />
+	</bean>
+	<bean id="customerAssembleData" class="gnnt.MEBS.report.assemble.AssembleDataForCache">
+		<property name="primaryReportService" ref="customerPrimaryReportService"></property>
+		<property name="dataReportServiceMap" ref="customerMap"></property>
+		<property name="key" value="customerNo"></property>
+	</bean>
+
+	<bean id="customerPrimaryReportService" class="gnnt.MEBS.report.service.PrimaryReportService">
+		<property name="reportDao" ref="customerMappingReportDao"></property>
+		<property name="template" value="/report/primary/customerPrimary.jsp"></property>
+	</bean>
+
+	<util:map id="customerMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="service.ReportServiceImpl">
+		<entry key="capitalFlowingReport" value-ref="capitalFlowingReportService"></entry>
+		<entry key="closePositionReport" value-ref="closePositionReportService"></entry>
+		<entry key="holdPositionReport" value-ref="holePositionReportService"></entry>
+		<entry key="capitalAccountReport" value-ref="accountReportService"></entry>
+		<entry key="tradeDetailReport" value-ref="customerTradeDetailReportService"></entry>
+	</util:map>
+
+	<bean id="capitalFlowingReportService" class="gnnt.MEBS.report.service.ReportServiceImpl">
+		<property name="reportDao" ref="capitalFlowingReportDao"></property>
+		<property name="template"
+			value="/report/tableTemplates/customerCapitalFlowingReport.jsp"></property>
+	</bean>
+	<bean id="closePositionReportService" class="gnnt.MEBS.report.service.ReportServiceImpl">
+		<property name="reportDao" ref="closePositionReportDao"></property>
+		<property name="template"
+			value="/report/tableTemplates/customerClosePositionReport.jsp"></property>
+	</bean>
+	<bean id="holePositionReportService" class="gnnt.MEBS.report.service.ReportServiceImpl">
+		<property name="reportDao" ref="holdPositionReportDao"></property>
+		<property name="template"
+			value="/report/tableTemplates/customerHoldPositionReport.jsp"></property>
+	</bean>
+	<bean id="accountReportService" class="gnnt.MEBS.report.service.ReportServiceImpl">
+		<property name="reportDao" ref="accountReportDao"></property>
+		<property name="template"
+			value="/report/tableTemplates/capitalAccountReport.jsp"></property>
+	</bean>
+	<bean id="customerTradeDetailReportService" class="gnnt.MEBS.report.service.ReportServiceImpl">
+		<property name="reportDao" ref="customerTradeDetailReportDao"></property>
+		<property name="template"
+			value="/report/tableTemplates/customerTradeDetailReport.jsp"></property>
+	</bean>
+	<bean id="capitalFlowingReportDao" class="gnnt.MEBS.report.dao.CommonReportDao">
+		<property name="sql"
+			value="select * from V_CUSTOMER_FUNDS_FLOW_DETAILS primary"></property>
+		<property name="pageInfoStr" value="fundflowid desc"></property>
+	</bean>
+	<bean id="closePositionReportDao" class="gnnt.MEBS.report.dao.CommonReportDao">
+		<property name="sql"
+			value="select * from V_CUSTOMER_CLOSE_DETAILS primary"></property>
+		<property name="pageInfoStr" value="cleardate desc,tradetime desc"></property>
+	</bean>
+	<bean id="customerMappingReportDao" class="gnnt.MEBS.report.dao.CustomerMappingReportDao" />
+	<bean id="holdPositionReportDao" class="gnnt.MEBS.report.dao.CommonReportDao">
+		<property name="sql"
+			value="select * from V_CUSTOMER_HOLD_DETAILS primary"></property>
+		<property name="pageInfoStr" value="cleardate desc,holdTime desc"></property>
+	</bean>
+	<bean id="accountReportDao" class="gnnt.MEBS.report.dao.CommonReportDao">
+		<property name="sql"
+			value="select * from V_CUSTOMER_TRADE_FUNDS_STAT primary"></property>
+		<property name="pageInfoStr" value="cleardate desc"></property>
+	</bean>
+	<bean id="customerTradeDetailReportDao" class="gnnt.MEBS.report.dao.CommonReportDao">
+		<property name="sql"
+			value="select * from V_CUSTOMER_ORDERS_DETAILS primary"></property>
+		<property name="pageInfoStr" value="cleardate desc,tradetime desc"></property>
+	</bean>
+	<!-- 客户报表 end -->
+
+
+	<!-- 会员报表 start -->
+	<bean id="memberReportAction" class="gnnt.MEBS.report.action.MemberReportAction"
+		scope="request">
+		<property name="assembleData" ref="memberAssembleData" />
+	</bean>
+	<bean id="memberAssembleData" class="gnnt.MEBS.report.assemble.AssembleDataForCache">
+		<property name="primaryReportService" ref="memberPrimaryReportService"></property>
+		<property name="dataReportServiceMap" ref="memberMap"></property>
+		<property name="key" value="memberNo"></property>
+	</bean>
+	<bean id="memberPrimaryReportService" class="gnnt.MEBS.report.service.PrimaryReportService">
+		<property name="reportDao" ref="customerMappingReportDao"></property>
+		<property name="template" value="/report/primary/memberPrimary.jsp"></property>
+	</bean>
+	<util:map id="memberMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="service.ReportServiceImpl">
+		<entry key="closePositionReport" value-ref="memberClosePositionReportService"></entry>
+		<entry key="capitalFlowingReport" value-ref="memberCapitalFlowingReportService"></entry>
+		<entry key="holdPositionReport" value-ref="memberHoldPositionReportService"></entry>
+		<entry key="tradeDetailReport" value-ref="memberTradeDetailReportService"></entry>
+		<entry key="fundsReport" value-ref="memberAccountReportService"></entry>
+	</util:map>
+	<bean id="memberClosePositionReportService" class="gnnt.MEBS.report.service.ReportServiceImpl">
+		<property name="reportDao" ref="memberClosePositionReportDao"></property>
+		<property name="template"
+			value="/report/tableTemplates/memberClosePositionReport.jsp"></property>
+	</bean>
+	<bean id="memberHoldPositionReportService" class="gnnt.MEBS.report.service.ReportServiceImpl">
+		<property name="reportDao" ref="memberHoldPositionReportDao"></property>
+		<property name="template"
+			value="/report/tableTemplates/memberHoldPositionReport.jsp"></property>
+	</bean>
+	<bean id="memberCapitalFlowingReportService" class="gnnt.MEBS.report.service.ReportServiceImpl">
+		<property name="reportDao" ref="memberCapitalFlowingReportDao"></property>
+		<property name="template"
+			value="/report/tableTemplates/memberCapitalFlowingReport.jsp"></property>
+	</bean>
+	<bean id="memberTradeDetailReportService" class="gnnt.MEBS.report.service.ReportServiceImpl">
+		<property name="reportDao" ref="memberTradeDetailReportDao"></property>
+		<property name="template"
+			value="/report/tableTemplates/memberTradeDetailReport.jsp"></property>
+	</bean>
+	<bean id="memberAccountReportService" class="gnnt.MEBS.report.service.ReportServiceImpl">
+		<property name="reportDao" ref="memberAccountReportDao"></property>
+		<property name="template" value="/report/tableTemplates/memberFundsReport.jsp"></property>
+	</bean>
+	<bean id="memberAccountReportDao" class="gnnt.MEBS.report.dao.CommonReportDao">
+		<property name="sql"
+			value="select * from V_MEMBER_TRADE_FUNDS_STAT primary"></property>
+		<property name="pageInfoStr" value="cleardate desc"></property>
+	</bean>
+	<bean id="memberClosePositionReportDao" class="gnnt.MEBS.report.dao.CommonReportDao">
+		<property name="sql" value="select * from V_MEMBER_CLOSE_DETAILS primary"></property>
+		<property name="pageInfoStr" value="cleardate desc,closedate desc"></property>
+	</bean>
+	<bean id="memberHoldPositionReportDao" class="gnnt.MEBS.report.dao.CommonReportDao">
+		<property name="sql" value="select * from V_MEMBER_HOLD_DETAILS primary"></property>
+		<property name="pageInfoStr" value="cleardate desc,holdtime desc"></property>
+	</bean>
+	<bean id="memberCapitalFlowingReportDao" class="gnnt.MEBS.report.dao.CommonReportDao">
+		<property name="sql"
+			value="select * from V_MEMBER_FUNDS_FLOW_DETAILS primary"></property>
+		<property name="pageInfoStr" value="fundflowid desc"></property>
+	</bean>
+	<bean id="memberTradeDetailReportDao" class="gnnt.MEBS.report.dao.CommonReportDao">
+
+		<property name="sql"
+			value="select * from V_MEMBER_ORDERS_DETAILS primary"></property>
+		<property name="pageInfoStr" value="cleardate desc,tradetime desc"></property>
+	</bean>
+	<!-- 会员报表 end -->
+</beans>

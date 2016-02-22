@@ -1,0 +1,67 @@
+.top_b1 {
+	background-color: #FFFFFF;
+	height:25px; 
+	line-height:20px; 
+	text-align:center; 
+	font-size:13px; 
+	font-weight:bold; 
+	color:#000000; 
+	border-top-width: 2px;
+	border-right-width: 1px;
+	border-bottom-width: 2px;
+	border-left-width: 1px;
+	border-top-style: dashed;
+	border-right-style: solid;
+	border-bottom-style: dashed;
+	border-left-style: solid;
+	border-top-color: #6a7ca5;
+	border-right-color: #6a7ca5;
+	border-bottom-color: #6a7ca5;
+	border-left-color: #6a7ca5;
+}
+.top_b2 {
+
+	background-color: #DDEBEB;
+	height:25px; 
+	line-height:20px; 
+	text-align:center; 
+	font-size:13px; 
+	font-weight:bold; 
+	color:#000000; 
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 2px;
+	border-left-width: 1px;
+	border-top-style: dashed;
+	border-right-style: solid;
+	border-bottom-style: dashed;
+	border-left-style: solid;
+	border-top-color: #6a7ca5;
+	border-right-color: #6a7ca5;
+	border-bottom-color: #6a7ca5;
+	border-left-color: #6a7ca5;
+}
+
+.but_t {
+	font-size: 12px;
+	font-weight: normal;
+	text-decoration: none;
+}
+.but_t:link {
+	font-size: 12px;
+	font-weight: normal;
+	color: #000000;
+	text-decoration: none;
+}
+.but_t:visited {
+	font-size: 12px;
+	font-weight: normal;
+	color: #000000;
+	text-decoration: none;
+}
+.but_t:hover {
+	font-size: 12px;
+	font-weight: normal;
+	color: #000000;
+	text-decoration: none;
+}

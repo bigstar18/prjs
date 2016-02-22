@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	    <package name="base-report" extends="base-struts2" abstract="true">
+       <interceptors>
+
+			<interceptor name="commodityListInterceptor"
+				class="gnnt.MEBS.report.action.interceptor.CommodityListInterceptor">
+			</interceptor>
+			<interceptor name="beginQueryInterceptor"
+				class="gnnt.MEBS.report.action.interceptor.BeginQueryInterceptor">
+			</interceptor>
+			<interceptor name="queryByManager"
+				class="gnnt.MEBS.config.action.interceptor.QueryByMemberNoInterceptor">
+			</interceptor>
+			<interceptor name="queryByManager1"
+				class="gnnt.MEBS.config.action.interceptor.QueryByBrokerageNoInterceptor">
+			</interceptor>
+		</interceptors>
+    </package>
+
+<!-- 客户持仓汇总表 -->
+	<package name="customerHoldSummary" extends="base-report"
+		namespace="/report/customerHoldSummary">
+		<interceptors>
+		<interceptor name="typeExportInterceptor"
+				class="customerHoldSummaryExportInterceptor">
+			</interceptor>
+		<interceptor name="orderByReportInterceptor"
+				class="gnnt.MEBS.report.action.interceptor.OrderDefaultReportInterceptor">
+				<param name="sortString">primary.clearDate desc,primary.customerNo asc</param>
+			</interceptor>
+		</interceptors>
+		<action name="customerHoldSummaryReportQuery" class="customerHoldSummaryAction"
+			method="getReportList">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="beginQueryInterceptor"></interceptor-ref>
+			<interceptor-ref name="queryByManager1"></interceptor-ref>
+			<interceptor-ref name="orderByReportInterceptor"></interceptor-ref>
+			<interceptor-ref name="typeExportInterceptor"></interceptor-ref>
+			<result>/report/customerHoldSummaryQuery.jsp</result>
+		</action>
+		
+	</package>
+
+	<!-- 客户成交汇总表 -->
+	<package name="customerTrade" extends="base-report" namespace="/report/customerTrade">
+	   <interceptors>
+		<interceptor name="typeExportInterceptor"
+				class="customerTradeExportInterceptor">
+			</interceptor>
+		<interceptor name="orderByReportInterceptor"
+				class="gnnt.MEBS.report.action.interceptor.OrderDefaultReportInterceptor">
+				<param name="sortString">primary.clearDate desc,primary.customerNo asc</param>
+			</interceptor>
+		</interceptors>
+		<action name="customerTradeReportQuery" class="customerTradeAction"
+			method="getReportList">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="beginQueryInterceptor"></interceptor-ref>
+			<interceptor-ref name="queryByManager1"></interceptor-ref>
+			<interceptor-ref name="orderByReportInterceptor"></interceptor-ref>
+			<interceptor-ref name="typeExportInterceptor"></interceptor-ref>
+			<result>/report/customerTradeQuery.jsp</result>
+		</action>
+		
+	</package>
+	
+	<!-- 客户资金状况 -->
+	<package name="customerFunds" extends="base-report" namespace="/report/customerFunds">
+	<interceptors>
+		<interceptor name="typeExportInterceptor"
+				class="customerFundsExportInterceptor">
+			</interceptor>
+		<interceptor name="orderByReportInterceptor"
+				class="gnnt.MEBS.report.action.interceptor.OrderDefaultReportInterceptor">
+				<param name="sortString">primary.clearDate desc,primary.customerNo asc</param>
+			</interceptor>
+		</interceptors>
+		<action name="customerFundsReportQuery" class="customerFundsReportAction"
+			method="getReportList">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="beginQueryInterceptor"></interceptor-ref>
+			<interceptor-ref name="queryByManager1"></interceptor-ref>
+			<interceptor-ref name="orderByReportInterceptor"></interceptor-ref>
+			<interceptor-ref name="typeExportInterceptor"></interceptor-ref>
+			<result>/report/customerFundsQuery.jsp</result>
+		</action>
+		
+	</package>
+	
+
+</struts>

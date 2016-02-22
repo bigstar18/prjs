@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="announcement" extends="base-struts2"
+		namespace="/tradeManage/announcement">
+		<action name="show" class="announcementAction" method="getUserName">
+			<result>/trade/announcement/sendAnnouncement.jsp</result>
+		</action>
+
+		<action name="list" class="announcementAction" method="forwardAdd">
+			<result>/trade/announcement/selectSend.jsp</result>
+		</action>
+		
+		<action name="specialList" class="announcementAction" method="specialMemberTreeList">
+			<result>/trade/announcement/specialMemberInfoTree.jsp</result>
+		</action>
+		
+		<action name="memberList" class="announcementAction" method="memberTreeList">
+			<result>/trade/announcement/memberInfoTree.jsp</result>
+		</action>
+		
+		<action name="memberListForCustomer" class="announcementAction" method="memberTreeList">
+			<result>/trade/announcement/customerInfoTree.jsp</result>
+		</action>
+
+		<action name="add" class="announcementAction" method="addNotices">
+			<result type="redirectAction">show</result>
+		</action>
+
+	</package>
+
+	<package name="announcementList" extends="base-struts2" namespace="/tradeManage/announcementList">
+		<interceptors>
+			<interceptor name="sendPeopleListInterceptor"
+				class="gnnt.MEBS.announcement.action.interceptor.SendPeopleListInterceptor">
+			</interceptor>
+			<interceptor name="annoListInterceptor"
+				class="gnnt.MEBS.announcement.action.interceptor.AnnoListInterceptor">
+				<param name="source">E</param>
+			</interceptor>
+		</interceptors>
+		<action name="noticeList" class="announcementAction" method="noticesList">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="annoListInterceptor"></interceptor-ref>
+			<result>/trade/announcement/announcementList.jsp</result>
+		</action>
+		<action name="forwardUpdate" class="announcementAction" method="viewById">
+			<result>/trade/announcement/announcementShow.jsp</result>
+		</action>
+		<action name="showAnnouncement" class="lookAnnouncementAction"
+			method="getById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<result>/trade/announcement/announcementShow.jsp</result>
+		</action>
+		<action name="showSendPeople" class="lookAnnouncementAction">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="sendPeopleListInterceptor"></interceptor-ref>
+			<result>/trade/announcement/showSendPeople.jsp</result>
+		</action>
+	</package>
+	
+	<package name="memberAnnouncementList" extends="base-struts2" namespace="/tradeManage/memberAnnouncementList">
+		<interceptors>
+			<interceptor name="sendPeopleListInterceptor"
+				class="gnnt.MEBS.announcement.action.interceptor.SendPeopleListInterceptor">
+			</interceptor>
+			<interceptor name="annoListInterceptor"
+				class="gnnt.MEBS.announcement.action.interceptor.AnnoListInterceptor">
+				<param name="source">M</param>
+			</interceptor>
+		</interceptors>
+		<action name="noticeList" class="announcementAction" method="noticesList">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="annoListInterceptor"></interceptor-ref>
+			<result>/trade/announcement/memberAnnouncementList.jsp</result>
+		</action>
+		<action name="forwardUpdate" class="announcementAction" method="viewById">
+			<result>/trade/announcement/announcementShow.jsp</result>
+		</action>
+		<action name="showAnnouncement" class="lookAnnouncementAction"
+			method="getById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<result>/trade/announcement/announcementShow.jsp</result>
+		</action>
+		<action name="showSendPeople" class="lookAnnouncementAction">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="sendPeopleListInterceptor"></interceptor-ref>
+			<result>/trade/announcement/showSendPeople.jsp</result>
+		</action>
+	</package>
+
+	<package name="lookAnnouncement" extends="base-struts2"
+		namespace="/tradeManage/lookAnnouncement">
+		<interceptors>
+			<interceptor name="queryLogonIdInterceptor"
+				class="gnnt.MEBS.common.action.interceptor.QueryLogonIdInterceptor">
+				<param name="queryCondition">okNotice.recipient[=]</param>
+			</interceptor>
+			<interceptor name="queryHisAnnoInterceptor"
+				class="gnnt.MEBS.announcement.action.interceptor.QueryHisAnnoInterceptor">
+			</interceptor>
+		</interceptors>
+		<action name="list" class="lookAnnouncementAction" method="okNoticesList">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="queryLogonIdInterceptor"></interceptor-ref>
+			<interceptor-ref name="queryHisAnnoInterceptor"></interceptor-ref>
+			<result>/trade/announcement/lookAnnouncementList.jsp</result>
+		</action>
+	</package>
+
+	<package name="lookHisAnnouncement" extends="base-struts2"
+		namespace="/tradeManage/lookHisAnnouncement">
+		<interceptors>
+			<interceptor name="queryLogonIdInterceptor"
+				class="gnnt.MEBS.common.action.interceptor.QueryLogonIdInterceptor">
+				<param name="queryCondition">okNotice.recipient[=]</param>
+			</interceptor>
+			<interceptor name="queryHisAnnoInterceptor"
+				class="gnnt.MEBS.announcement.action.interceptor.QueryHisAnnoInterceptor">
+			</interceptor>
+		</interceptors>
+		<action name="list" class="lookHisAnnouncementAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="queryLogonIdInterceptor"></interceptor-ref>
+			<interceptor-ref name="queryHisAnnoInterceptor"></interceptor-ref>
+			<result>/trade/announcement/lookHisAnnouncementList.jsp</result>
+		</action>
+		<action name="forwardUpdate" class="lookHisAnnouncementAction"
+			method="viewById">
+			<result>/trade/announcement/hisAnnouncementShow.jsp</result>
+		</action>
+	</package>
+</struts>

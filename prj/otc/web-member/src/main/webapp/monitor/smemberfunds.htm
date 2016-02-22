@@ -1,0 +1,301 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<title>持仓监控</title>
+<link href="../common/skinstyle/default/common/commoncss/mainstyle.css" rel="stylesheet" type="text/css" />
+<script language="javascript" type="text/javascript" src="../js/jquery-1.5.2.min.js"></script>
+<script language="javascript" type="text/javascript" src="../js/jquery.tablesorter.min.js"></script>
+</head>
+
+<body>
+  <table width="98%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td width="2%">&nbsp;</td>
+      <td valign="top" >&nbsp;
+        <div class="div_cxtj"><img src="../common/skinstyle/default/common/commoncss/cssimg/13.gif"  />&nbsp;&nbsp;查询条件</div>
+      <div class="div_tj"><table width="100%" border="0" cellpadding="0" cellspacing="0" class="table2_style">
+  <tr>
+    <td height="60">
+    <div class="div2_top">
+      <form id="form1" name="form1" method="post" action="">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table3_style">
+          <tr>
+            <td class="table3_td" align="right">特别会员编号：</td>
+            <td class="table3_td2"><label>
+              <input name="memid" type="text" id="memid" value="" size="30" class="input_text" />
+            </label></td>
+            <td align="right" class="table3_td">&nbsp;</td>
+            <td class="table3_td" align="right">
+              <button class="btn_sec" onClick="reqTotalData()">
+                监控
+                </button>
+            </td>
+			<td class="table3_td2" align="left">
+				&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn_cz" onClick="javascript:window.location.reload()">
+				重置	
+				</button>
+			</td>
+          </tr>
+        </table>
+      </form>
+    </div>
+    </td>
+  </tr>
+</table>
+</div>
+      <div class="div_list">
+<div class="div_cxtj"><img src="../common/skinstyle/default/common/commoncss/cssimg/13.gif"  />&nbsp;&nbsp;会员资金</div>
+  <div class="div_tj"><table width="100%" border="0" cellspacing="0" cellpadding="0" class="table2_style">
+  <tr>
+    <td class="table_top">
+    <div id="total" style="display:none">
+    <table width="100%" class="tablesorter" border="0" cellpadding="0" cellspacing="0" id="res_tab">
+    <thead>
+      <tr>
+        <th height="23" nowrap class="right_05bj_td">特别会员编号</th>
+        <th height="23" nowrap class="right_05bj_td">上日余额</th>
+        <th height="23" nowrap class="right_05bj_td">特别会员持有净盈亏</th>
+        <th height="23" nowrap class="right_05bj_td">风险保证金</th>
+        <th height="23" nowrap class="right_05bj_td">冻结阈值</th>
+        <th height="23" nowrap class="right_05bj_td">差值</th>
+        <th height="23" nowrap class="right_05bj_td">风险率</th>
+        <th height="23" nowrap class="right_05bj_td">特别会员状态</th>
+        </tr>
+        </thead>
+      <tr id="template"  bgcolor="#99CC00">
+        <td height="23" id="smemberno" class="monileft_05_tdbj">&nbsp;</td>
+        <td height="23" id="lastbalance" class="moniright_05_tdbj">&nbsp;</td>
+        <td height="23" class="moniright_05_tdbj" id="netfl">&nbsp;</td>
+        <td height="23" id="balance" class="moniright_05_tdbj">&nbsp;</td>
+        <td height="23" id="frozenth" class="moniright_05_tdbj">&nbsp;</td>
+        <td height="23" class="moniright_05_tdbj" id="freebalance">&nbsp;</td>
+        <td height="23" class="moniright_05_tdbj" id="riskrate">&nbsp;</td>
+        <td height="23" class="right_05_tdbj" id="status">&nbsp;</td>
+        </tr>
+      <tr id="templateyellow"  bgcolor="#FFCC66">
+        <td height="23" id="smemberno" class="monileft_05_tdbj">&nbsp;</td>
+        <td height="23" id="lastbalance" class="moniright_05_tdbj">&nbsp;</td>
+        <td height="23" class="moniright_05_tdbj" id="netfl">&nbsp;</td>
+        <td height="23" id="balance" class="moniright_05_tdbj">&nbsp;</td>
+        <td height="23" id="frozenth" class="moniright_05_tdbj">&nbsp;</td>
+        <td height="23" class="moniright_05_tdbj" id="freebalance">&nbsp;</td>
+        <td height="23" class="moniright_05_tdbj" id="riskrate">&nbsp;</td>
+        <td height="23" class="right_05_tdbj" id="status">&nbsp;</td>
+        </tr>    
+      <tr id="templatered"   bgcolor="#FB806A"">
+        <td height="23" id="smemberno" class="monileft_05_tdbj">&nbsp;</td>
+        <td height="23" id="lastbalance" class="moniright_05_tdbj">&nbsp;</td>
+        <td height="23" class="moniright_05_tdbj" id="netfl">&nbsp;</td>
+        <td height="23" id="balance" class="moniright_05_tdbj">&nbsp;</td>
+        <td height="23" id="frozenth" class="moniright_05_tdbj">&nbsp;</td>
+        <td height="23" class="moniright_05_tdbj" id="freebalance">&nbsp;</td>
+        <td height="23" class="moniright_05_tdbj" id="riskrate">&nbsp;</td>
+        <td height="23" class="right_05_tdbj" id="status">&nbsp;</td>
+        </tr>            
+    </table>
+    </div><div id="tc"></div></tr>
+</table>
+</div>
+
+
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="table1">
+  <tr>
+    <td width="16%" height="25" bgcolor="#eeeeee" class="moniright_05_tdbj1"><table width="100%" border="0"
+
+cellspacing="0" cellpadding="0">
+      <tr>
+        <td height="25" align="center" valign="middle"><a href="javascript:firstPage();"><img src="../common/skinstyle/default/common/commoncss/cssimg/20.gif" width="10"
+
+height="12" border="0" /></a></td>
+        <td height="25" align="center" valign="middle"><a href="javascript:prevPage();"><img src="../common/skinstyle/default/common/commoncss/cssimg/21.gif" width="8"
+
+height="12" border="0" /></a></td>
+        <td height="25" align="center" valign="middle"><a href="javascript:nextPage();"><img src="../common/skinstyle/default/common/commoncss/cssimg/22.gif" width="8"
+
+height="12" border="0" /></a></td>
+        <td height="25" align="center" valign="middle"><a href="javascript:lastPage();"><img src="../common/skinstyle/default/common/commoncss/cssimg/23.gif" width="10"
+
+height="12" border="0" /></a></td>
+      </tr>
+    </table></td>
+    <td width="10%" height="25" align="center" valign="middle" bordercolor="#D4D0C8" bgcolor="#eeeeee"
+
+class="moniright_05_tdbj1">
+      <input name="page" type="text" class="from1" id="page" size="2" />
+      /<span id="totalpage"></span>页     <a href="#"> <img src="../common/skinstyle/default/common/commoncss/cssimg/24.gif" alt="" width="13" height="12" border="0" /></a></td>
+    <td width="15%" height="25" align="center" valign="middle" bordercolor="#D4D0C8" bgcolor="#eeeeee"
+
+class="moniright_05_tdbj1">每页
+      <label>
+      <select name="pagesize" id="pagesize">
+        <option value="20" selected="selected">20</option>
+        <option value="30">30</option>
+        <option value="40">40</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+        <option value="200">200</option>
+      </select>
+      条
+      </label></td>
+    <td height="25" align="center" bordercolor="#D4D0C8" bgcolor="#eeeeee" class="moniright_05_tdbj1">&nbsp;</td>
+    <td width="17%" height="25" align="right" bordercolor="#D4D0C8" bgcolor="#eeeeee" class="moniright_05_tdbj1">
+      
+      共 <span id="totalline"></span> 条记录</td>
+  </tr>
+</table>
+</div>
+</td>
+    </tr>
+  </table>
+<script language="javascript"  type="text/javascript">
+<!--
+
+function reqTotalData() {
+	 var sortLists = getSortList2(); 
+	
+	var meta =["smemberno","lastbalance","netfl","balance","frozenth","freebalance","riskrate","status"];
+
+	var memid = $.trim($('#memid').val());
+	
+	var pagesize = $("#pagesize").val();
+	var curpage = $("#page").val();
+	
+	var desc = sortLists[0][1];
+	var order = meta[sortLists[0][0]];
+	
+	var params = 'mid='+memid +'&pagesize='+pagesize+'&page='+curpage+'&order='+order+'&desc='+desc;
+	
+	$.ajax({
+		type:'POST',
+		url:"smembersum!sum.action",
+		data:params,
+	    cache: false,
+		dataType:"json",
+		timeout: 3000,
+		success: response
+	});
+}
+
+
+function response(data) {
+	var sortLists = getSortList2();
+  
+	// json数据处理    
+	var tb = $("#res_tab").clone();
+        var mtrow = tb.find("#template");
+		var mtrowred = tb.find("#templatered");
+		var mtrowyellow = tb.find("#templateyellow");
+		if(data.data!=null && data.data!="") {
+			$.each(data.data, function(i, n) {		
+			if (n.riskrate<40){
+		  			var row = mtrowred.clone();
+			} else if (n.riskrate<100){
+					var row = mtrowyellow.clone();
+			} else
+			{
+					var row = mtrow.clone();	
+			}
+		  row.find("#smemberno").text(n.smemberno);
+		  row.find("#lastbalance").text(n.lastbalance);
+		  row.find("#netfl").text(n.netfl);
+		  row.find("#balance").text(n.balance);
+		  row.find("#frozenth").text(n.frozenth);
+		  row.find("#freebalance").text(n.freebalance);
+		  row.find("#riskrate").text(n.riskrate);
+		  row.find("#status").text(n.status);
+		  row.attr("id","ready");//改变绑定好数据的行的
+		  row.appendTo(tb);
+		});
+        mtrow.remove();
+		mtrowred.remove();
+		mtrowyellow.remove();
+		}
+        tb.attr("id","tab_total");
+	$('#tc').html(tb);
+	$("#tab_total").tablesorter({sortList: sortLists });
+	
+	//分页处理
+	$("#totalline").text(''+data.pageInfo.totalRecords);
+	$("#totalpage").text(''+data.pageInfo.totalPages);
+	$("#page").val(''+data.pageInfo.pageNo);
+	
+	maxpage = data.pageInfo.totalPages;	
+}
+$(reqTotalData())
+var sitotalid = setInterval ('reqTotalData()',3000);
+
+
+function getSortList2() {
+		    //排序默认值处理
+		// see: http://tablesorter.com/docs/
+        var sortLists = new Array();
+        sortLists[0] = new Array();
+        var sth = null;
+        var sup =$("#tab_total").find(".headerSortUp")[0];
+        var sud = $("#tab_total").find(".headerSortDown")[0];
+        if(typeof(sud)!='undefined') {
+            sth = sud;
+            sortLists[0][1] = 0;
+        } else if(typeof(sup)!='undefined') {
+            sth = sup;
+            sortLists[0][1] = 1;
+        } else {
+            sortLists[0][0] = 0;
+            sortLists[0][1] = 0;
+        }
+        var tdSeq = $("#tab_total").find("th").index(sth);
+        if(tdSeq>-1) {
+           sortLists[0][0] = tdSeq;
+		}
+		return sortLists;
+}
+
+
+
+
+function nextPage() {
+	clearInterval(simemberid);
+	var pg = $("#page").val();
+	if (pg>maxpage) {
+		$("#page").val(pg+1);
+	}
+	reqTotalData();
+	simemberid = setInterval ('reqTotalData()',3000);
+}
+
+function prevPage() {
+	clearInterval(simemberid);
+	var pg = $("#page").val();
+	if (pg>1) {
+		$("#page").val(pg-1);
+	}
+	reqTotalData();
+	simemberid = setInterval ('reqTotalData()',3000);
+}
+
+function firstPage() {
+	clearInterval(simemberid);
+	$("#page").val(1);
+	reqTotalData();
+	simemberid = setInterval ('reqTotalData()',3000);
+}
+function lastPage() {
+	clearInterval(simemberid);
+	$("#page").val(maxpage);
+	reqTotalData();
+	simemberid = setInterval ('reqTotalData()',3000);
+}
+
+
+
+var maxpage = 0;
+
+//-->
+</script>
+
+</body>
+</html>

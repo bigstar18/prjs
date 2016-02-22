@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<tx:annotation-driven transaction-manager="transactionManager"
+		proxy-target-class="true" />
+
+	<!-- 总体配置管理方案 -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="configLocation" value="classpath:hibernate.cfg.xml">
+		</property>
+	</bean>
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<!-- <tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="*" read-only="false" rollback-for="java.lang.Exception"
+				propagation="REQUIRED" />
+		</tx:attributes>
+	</tx:advice> -->
+	<util:map id="returnValueMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="page" value="success" />
+		<entry key="xls" value="xls" />
+		<entry key="applyAndAudit" value="applyAndAudit" />
+	</util:map>
+
+	<util:map id="returnOperationRMIMap" map-class="java.util.HashMap"
+		key-type="java.lang.Integer" value-type="java.lang.String">
+		<!-- 结算返回值 开始-->
+		<entry key='1' value="600" />
+		<entry key='-1' value="-600" />
+		<entry key='-100' value="-601" />
+		<!-- 结算返回值 结束-->
+	</util:map>
+
+	<util:map id="returnForceCloseMap" map-class="java.util.HashMap"
+		key-type="java.lang.Integer" value-type="java.lang.Integer">
+		<!-- 强平返回值 开始-->
+		<entry key='1' value="1" />
+		<entry key='2' value="-503" />
+		<entry key='-100' value="-1" />
+		<entry key='-222' value="-222" />
+		<entry key='-1'  value="-224"/>
+		<entry key='0' value="-223" />
+		<!-- 强平返回值 结束-->
+	</util:map>
+	
+	<util:map id="returnOperationMap" map-class="java.util.HashMap"
+		key-type="java.lang.Integer" value-type="java.lang.String">
+		
+		<!-- 客户转移会员begin-->
+		<entry key='-700' value="客户当日有成交，不允许转移" />
+		<entry key='-701' value="有持仓不允许转移" />
+		<entry key='-702' value="客户被冻结，不允许转移" />
+		<entry key='-703' value="客户有资金，不允许转移" />
+		<entry key='-704' value="目标会员有与此客户相同证件类型+证件号码的客户，不允许转移" />
+		<entry key='-705' value="客户当日有委托，不允许转移" />
+		<!-- 结算处理 begin-->
+		<entry key='-600' value="交易已结算或应在闭市后结算" />
+		<entry key='-601' value="手工结算异常" />
+		<entry key='600' value="结算已执行" />
+		<entry key='-602' value="实时生效失败" />
+		<!-- 结算处理 end-->
+		<!-- 公用返回值开始 -->
+		<entry key='1' value="操作成功" />
+		<entry key='2' value="添加成功" />
+		<entry key='3' value="修改成功" />
+		<entry key='4' value="删除成功" />
+		<entry key='5' value="保存成功" />
+		<entry key='6' value="发送成功" />
+		<entry key='7' value="驳回成功" />
+		<entry key='8' value="申请成功" />
+		<entry key='9' value="撤销成功" />
+		<entry key='-1' value="操作失败" />
+		<entry key='-2' value="请选择所要操作的数据" />
+		<entry key='-10' value="管理员不可以删除自己" />
+		<entry key='-222' value="没有此客户" />
+		<entry key='-223' value="没有持仓单" />
+		<entry key='-224' value="非交易状态,不能强平" />
+		<entry key='-225' value="价格不能小于等于0" />
+		<entry key='-226' value="不是闭市状态" />
+		<entry key='-227' value="没有该商品" />
+		<!-- 公用返回值结束 -->
+
+		<!-- 申请审核返回值开始 -->
+		<entry key='-100' value="没有配置相应流程！" />
+		<entry key='-101' value="处理异常！" />
+		<entry key='-102' value="没有配置流程相应步骤！" />
+		<entry key='-103' value="步骤中没有此状态所对应的操作！" />
+		<entry key='-104' value="操作下没有具体执行行为！" />
+		<!-- 申请审核返回值结束 -->
+
+		<!-- 交易管理返回值开始 -->
+		<entry key='-500' value="商品状态不正确！" />
+		<entry key='-501' value="结算状态才能下市！" />
+		<entry key='-502' value="闭市、结算状态才能上市！" />
+		<entry key='-503' value="已处理过！" />
+		<entry key='-504' value="闭市、结算状态才能上市！" />
+		<entry key='-505' value="商品有持仓不能下市！" />
+		
+		<!-- 交易管理返回值结束 -->
+
+		<!-- 客户返回值开始 -->
+		<entry key='-200' value="此客户有持仓！" />
+		<entry key='-201' value="此客户有资金！" />
+		<entry key='-202' value="此客户未和银行解约！" />
+		<!--客户返回值结束 -->
+		<!-- 会员管理开始 -->
+		<entry key='-400' value="此会员未和银行签约！" />
+		<entry key='-401' value="此会员未与特别会员关联！" />
+		<entry key='-402' value="此会员未入金！" />
+		<entry key='-403' value="此会员有持仓！" />
+		<entry key='-404' value="此会员有客户持仓！" />
+		<entry key='-405' value="会员下有资金！" />
+		<entry key='-406' value="表示会员未与银行解约！" />
+		<!-- 会员管理结束 -->
+
+		<!-- 账号管理返回值开始 -->
+		<entry key='-300' value="未签约！" />
+		<entry key='-301' value="没有入金！" />
+		<entry key='-302' value="强平失败！" />
+		<entry key='-303' value="持仓不为0！" />
+		<entry key='-304' value="资金不为0！" />
+		<!-- 账号管理返回值结束 -->
+		<!-- 状态改变返回值 -->
+		<entry key='-900' value="客户状态不正确！" />
+		<entry key='-901' value="资金不为0！" />
+		<entry key='-902' value="持仓不为0！" />
+		<entry key='-903' value="不存在的客户！" />
+		<entry key='-904' value="会员该状态不正确!" />
+		<entry key='-905' value="资金不为0!" />
+		<entry key='-906' value="客户数不为0!" />
+		<entry key='-907' value="持仓不为0!" />
+		<entry key='-908' value="会员该状态不正确!" />
+		<entry key='-909' value="资金不为0!" />
+		<entry key='-910' value="关联会员不为0！" />
+		<entry key='-911' value="持仓不为0!" />
+		<entry key='-912' value="不存在!" />
+		<entry key='-1000' value="资金不足!" />
+		<entry key='-1001' value="未关联特别会员!" />
+		<entry key='-1002' value="机构数量不为0!" />
+	    <entry key='-1003' value="居间数量不为0!" />
+		
+		<!-- 状态改变返回值 -->
+		<!-- 交易商变化时银行接口变化情况 -->
+		<entry key='-9000' value="银行系统中未查询到交易商信息" />
+		<entry key='-9001' value="银行系统中查询到有签约状态的交易商" />
+	</util:map>
+
+	<bean id="springContext" class="gnnt.MEBS.base.util.SpringContextHelper"></bean>
+
+	<util:list id="urlWildcardCharacterList" list-class="java.util.ArrayList">
+		<value>add</value>
+		<value>update</value>
+		<value>delete</value>
+		<value>audits</value>
+		<value>active</value>
+		<value>baseCommodityAudit/audits.</value>
+		<value>marginAudit/audits.</value>
+		<value>quotePointAudit/audits.</value>
+		<value>holdQtyAudit/audits.</value>
+		<value>tradeAuthAudit/audits.</value>
+		<value>memberTradeAuth/audits.</value>
+		<value>commodityFeeAudit/audits.</value>
+		<value>orderPointAudit/audits.</value>
+		<value>articleParitiesAgioAudit/audits.</value>
+		<value>commodityPriceProtectAudit/audits.</value>
+		<value>memberQuotePointAudit/audits.</value>
+		<value>memberTakeFeeAudit/audits.</value>
+		<value>customerTakeFeeAudit/audits.</value>
+		<value>memCustomerTakeFeeAudit/audits.</value>
+		<value>specialMemberQuotePointAudit/audits.</value>
+		<value>specialMemberTakeFeeAudit/audits.</value>
+		<value>memberMarginAudit/audits.</value>
+		<value>memberHoldQuantilyAudit/audits.</value>
+		<value>customerHoldQuantilyAudit/audits.</value>
+		<value>tcDelayFeeAudit/audits.</value>
+		<value>tradeAuthForTraderAudit/audits.</value>
+		<value>tradeAuthForSMemberAudit/audits.</value>
+		<value>memberDelayFeeAudit/audits.</value>
+		<value>delayTradeAudit/audits.</value>
+		<value>memberDelayTradeAudit/audits.</value>
+		<value>memCustomerDelayTradeAudit/audits.</value>
+		<value>customerDelayTradeAudit/audits.</value>
+		<value>specialMemberDelayFeeAudit/audits.</value>
+		<value>commodity_marginAudit/audits.</value>
+		<value>commodity_baseCommodityAudit/audits.</value>
+		<value>commodity_quotePointAudit/audits.</value>
+		<value>commodity_holdQtyAudit/audits.</value>
+		<value>commodity_tradeAuthAudit/audits.</value>
+		<value>commodity_commodityFeeAudit/audits.</value>
+		<value>commodity_orderPointAudit/audits.</value>
+		<value>commodity_articleParitiesAgioAudit/audits.</value>
+		<value>commodity_commodityPriceProtectAudit/audits.</value>
+		<value>commodity_memberQuotePointAudit/audits.</value>
+		<value>commodity_memberTakeFeeAudit/audits.</value>
+		<value>commodity_customerTakeFeeAudit/audits.</value>
+		<value>commodity_memCustomerTakeFeeAudit/audits.</value>
+		<value>commodity_specialMemberQuotePointAudit/audits.</value>
+		<value>commodity_specialMemberTakeFeeAudit/audits.</value>
+		<value>commodity_memberMarginAudit/audits.</value>
+		<value>commodity_customerMarginAudit/audits.</value>
+		<value>commodity_memberHoldQuantilyAudit/audits.</value>
+		<value>commodity_customerHoldQuantilyAudit/audits.</value>
+		<value>commodity_tcDelayFeeAudit/audits.</value>
+		<value>commodity_memberTradeAuthAudit/audits.</value>
+		<value>commodity_tradeAuthForTraderAudit/audits.</value>
+		<value>commodity_tradeAuthForSMemberAudit/audits.</value>
+		<value>commodity_memberDelayFeeAudit/audits.</value>
+		<value>commodity_specialMemberDelayFeeAudit/audits.</value>
+		<value>commodity_delayTradeAudit/audits.</value>
+		<value>commodity_memberDelayTradeAudit/audits.</value>
+		<value>commodity_memCustomerDelayTradeAudit/audits.</value>
+		<value>commodity_customerDelayTradeAudit/audits.</value>
+		<value>updatePassword</value>
+		<value>related</value>
+	</util:list>
+	
+	
+	<util:list id="queryConditionKeyWord" list-class="java.util.ArrayList">
+	    <value>composite</value>
+	    <value>in</value>
+	    <value>filter</value>
+	</util:list>
+	
+	<bean id="queryConditionInterceptor" class="gnnt.MEBS.packaging.action.interceptor.QueryConditionInterceptor">
+	   <property name="keyWordList" ref="queryConditionKeyWord"></property>
+	</bean>
+
+
+	<bean id="addlog" class="gnnt.MEBS.globalLog.aop.AddLog" />
+	<aop:config>
+		<aop:aspect id="logAspect" ref="addlog">
+			<aop:pointcut id="addOperateLog"
+				expression="execution(int gnnt.MEBS.*.service..*.*(..))" />
+			<aop:around pointcut-ref="addOperateLog" method="logAround" />
+		</aop:aspect>
+	</aop:config>
+	
+	<util:map id="sessionMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.Integer">
+		<entry key="session" value="1380"/><!-- 以分钟为单位 -->
+		<entry key="au" value="1200"/><!-- 以分钟为单位 -->
+	</util:map>
+	
+	<!-- <util:list id="customerListProperty" list-class="java.util.ArrayList" 	value-type="java.lang.String">
+	        <value>_0</value>
+			<value>customerNo</value>
+			<value>name</value>
+			<value>memberName</value>
+			<value>organizationName</value>
+			<value>brokerageName</value>
+			<value>status</value>
+			<value>createTime</value>
+			<value>signTime</value>
+			<value>activateTime</value>
+			<value>freezeTime</value>
+			<value>demiseTime</value>
+			<value>useFunds</value>
+			<value>papersType</value>
+			<value>papersName</value>
+			<value>email</value>
+			<value>phone</value>
+			<value>fax</value>
+			<value>postCode</value>
+		</util:list>
+	
+	
+	<bean id="exportInterceptor" class="gnnt.MEBS.packaging.action.interceptor.ExportInterceptor">
+	   <property name="listProperty" ref="customerListProperty"></property>
+	</bean>
+	
+	
+	<util:list id="customerHoldPropertyList" list-class="java.util.ArrayList" value-type="java.lang.String">
+		<value>holdNo</value>
+		<value>customer_TradeId</value>
+		<value>traderName</value>
+		<value>commodityName</value>
+		<value>memberNo</value>
+		<value>holdQty</value>
+		<value>bs_flag</value>		
+		<value>holdTime</value>
+		<value>openPrice</value>
+		<value>holdPrice</value>
+		<value>price</value>
+		<value>floatingLoss</value>
+		<value>tradeFee</value>
+		<value>delayFee</value>
+	</util:list>
+	
+	<util:list id="customerHoldPropertyList_h" list-class="java.util.ArrayList" value-type="java.lang.String">
+	    <value>atClearDate</value>
+		<value>holdNo</value>
+		<value>customer_TradeId</value>
+		<value>traderName</value>
+		<value>commodityName</value>
+		<value>memberNo</value>
+		<value>holdQty</value>
+		<value>bs_flag</value>		
+		<value>holdTime</value>
+		<value>openPrice</value>
+		<value>holdPrice</value>
+		<value>price</value>
+		<value>floatingLoss</value>
+		<value>tradeFee</value>
+		<value>delayFee</value>
+	</util:list>
+	
+	<bean id="typeExportInterceptor" class="gnnt.MEBS.packaging.action.interceptor.TypeExportInterceptor">
+	   <property name="listProperty_d" ref="customerHoldPropertyList"></property>
+	   <property name="listProperty_h" ref="customerHoldPropertyList_h"></property>
+	</bean> -->
+	
+	
+	<!-- <util:list id="testList" list-class="java.util.ArrayList" value-type="java.lang.String">
+	    <value>_0</value>
+		<value>clearDate</value>
+	</util:list>
+	
+	<bean id="jdbcExportInterceptor" class="gnnt.MEBS.packaging.action.interceptor.JdbcExportInterceptor">
+	   <property name="listProperty" ref="testList"></property>
+	   <property name="classFullName" value="gnnt.MEBS.query.model.QutationDetailSearch"></property>
+	</bean>-->
+	
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">  
+		<tx:attributes>  
+		    <tx:method name="get*" read-only="true"/>  
+		    <tx:method name="find*" read-only="true"/>
+		    <tx:method name="intercept" read-only="true"/>   
+		    <tx:method name="*" rollback-for="Exception,DataAccessException"/>  
+		</tx:attributes>  
+	</tx:advice>
+	
+	<bean id="transactionManagerForQuery"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory">
+			<ref bean="sessionFactoryForQuery" />
+		</property>
+	</bean>
+	<tx:advice id="txAdviceForQuery" transaction-manager="transactionManagerForQuery">  
+		<tx:attributes>  
+		    <tx:method name="get*" read-only="true"/>  
+		    <tx:method name="find*" read-only="true"/>
+		    <tx:method name="intercept" read-only="true"/>   
+		    <tx:method name="*" rollback-for="Exception,DataAccessException"/>  
+		</tx:attributes>  
+	</tx:advice>
+	
+	<aop:config>
+	    <aop:advisor id="managerTxForExportForQuery" advice-ref="txAdviceForQuery" 
+		  pointcut="execution(* gnnt.MEBS.packaging.action.interceptor.*ExportInterceptor.*(..))" order="0"/>
+    </aop:config>
+</beans>

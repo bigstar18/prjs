@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!--  持仓监控  -->
+	<package name="positionMonitoring" extends="base-struts2" namespace="/tradeManage/positionMonitoring">
+		<action name="list" class="firmUpdateAction" method="list">
+			<result>/trade/operations/positionMontoringList.jsp</result>
+		</action>
+		<!-- 查看
+		<action name="update" class="firmUpdateAction" method="update">
+			<result>/trade/operations/positionMontoringList.jsp</result>
+		</action> -->
+	</package>
+</struts>

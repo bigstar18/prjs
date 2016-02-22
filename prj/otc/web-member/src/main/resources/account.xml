@@ -1,0 +1,849 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+	<package name="base-account" extends="base-member" abstract="true">
+		<interceptors>
+			<interceptor name="CustomerCloseStatusInterceptor"
+				class="gnnt.MEBS.account.action.interceptor.CustomerStatusQueryInterceptor">
+				<param name="status">
+					('C')
+				</param>
+			</interceptor>
+			<interceptor name="CustomerRecycleStatusInterceptor"
+				class="gnnt.MEBS.account.action.interceptor.CustomerStatusQueryInterceptor">
+				<param name="status">
+					('D')
+				</param>
+			</interceptor>
+			<interceptor name="CustomerActiveStatusInterceptor"
+				class="gnnt.MEBS.account.action.interceptor.CustomerStatusQueryInterceptor">
+				<param name="status">
+					('U')
+				</param>
+			</interceptor>
+			<interceptor name="CustomerFreezeStatusInterceptor"
+				class="gnnt.MEBS.account.action.interceptor.CustomerStatusQueryInterceptor">
+				<param name="status">
+					('N')
+				</param>
+			</interceptor>
+			<interceptor name="CustomerUnFreezeStatusInterceptor"
+				class="gnnt.MEBS.account.action.interceptor.CustomerStatusQueryInterceptor">
+				<param name="status">
+					('F')
+				</param>
+			</interceptor>
+			<interceptor name="customerHoldQtyInterceptor"
+				class="gnnt.MEBS.config.action.interceptor.MemberNoForSpecialInterceptor">
+				<param name="paramMemberNo">
+					customer.memberNo[=]
+				</param>
+			</interceptor>
+			<interceptor name="commodityListInterceptor"
+				class="gnnt.MEBS.account.action.interceptor.CommodityListInterceptor">
+			</interceptor>
+			<interceptor name="memberNoForMemberInfo"
+				class="gnnt.MEBS.config.action.interceptor.MemberNoForSpecialInterceptor">
+				<param name="paramMemberNo">
+					primary.memberInfo.id[=]
+				</param>
+			</interceptor>
+			<interceptor name="threadStoreCommonInterceptor"
+				class="gnnt.MEBS.account.action.interceptor.ThreadStoreCommonInterceptor">
+			</interceptor>
+
+		</interceptors>
+
+	</package>
+
+	<package name="account" extends="base-account" namespace="/account/customer">
+		<interceptors>
+			<interceptor name="queryCustomerInterceptor"
+				class="gnnt.MEBS.account.action.interceptor.QueryCustomerMemInterceptor">
+			</interceptor>
+			<interceptor name="intoMemberNoInterceptor"
+				class="gnnt.MEBS.account.action.interceptor.InToMemberNoInterceptor">
+			</interceptor>
+		</interceptors>
+		<action name="customerList" class="customerVOAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="dataFilterCustomerNoInterceptor"></interceptor-ref>
+			<interceptor-ref name="queryCustomerInterceptor"></interceptor-ref>
+			<result>/account/customer/customerList.jsp</result>
+		</action>
+
+		<action name="forwardUpdate" class="customerVOAction" method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			 <interceptor-ref name="statusUnNormalFilter"></interceptor-ref>
+			<result name="statusError">/public/statusLimitMsg.jsp</result>
+			<result>/account/customer/customerUpdate.jsp</result>
+		</action>
+
+		<action name="update" class="customerAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+
+		<action name="forwardAdd" class="customerAction" method="forwardAdd">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="intoMemberNoInterceptor"></interceptor-ref>
+			 <interceptor-ref name="statusUnNormalFilter"></interceptor-ref>
+			<result name="statusError">/public/statusLimitMsg.jsp</result>
+			<result>/account/customer/customerAdd.jsp</result>
+		</action>
+
+		<action name="add" class="customerAction" method="add">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+
+		<action name="memberList" class="customerAction" method="getMemberInfoList">
+			<result>/account/customer/memberClickList.jsp</result>
+		</action>
+
+		<action name="delete" class="customerAction" method="delete">
+		<interceptor-ref name="mydefault"></interceptor-ref>
+			 <interceptor-ref name="statusUnNormalFilter"></interceptor-ref>
+			<result name="statusError" type="redirectAction">list</result>
+			<result type="redirectAction">list</result>
+		</action>
+
+		<action name="getStatusList" class="customerAction" method="listForStatus">
+			<interceptor-ref name="dataFilterCustomerNoInterceptor"></interceptor-ref>
+			<result>account/customer/customerStatusList.jsp</result>
+		</action>
+		
+		<action name="forwardUpdatePasswardPhone" class="customerAction"
+			method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			 <interceptor-ref name="statusUnNormalFilter"></interceptor-ref>
+			<result name="statusError">/public/statusLimitMsg.jsp</result>
+			<result>/account/customer/customerPWUpdatePhone.jsp</result>
+		</action>
+
+		<action name="forwardUpdatePassward" class="customerAction"
+			method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			 <interceptor-ref name="statusUnNormalFilter"></interceptor-ref>
+			<result name="statusError">/public/statusLimitMsg.jsp</result>
+			<result>/account/customer/customerPWUpdate.jsp</result>
+		</action>
+
+		<action name="forwardUpdatePasswardTrade" class="customerPWAction"
+			method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="deleteThredStore"></interceptor-ref>
+			 <interceptor-ref name="statusUnNormalFilter"></interceptor-ref>
+			<result name="statusError">/public/statusLimitMsg.jsp</result>
+			<result>/account/customer/customerPWUpdateTrade.jsp</result>
+		</action>
+
+		<action name="updatePassword" class="customerPWAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+
+		<action name="updatePasswordTrade" class="customerPWAction"
+			method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		
+		<action name="updatePasswordPhone" class="customerPWPhoneAction"
+			method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		
+		<action name="forwardUpdatePassward" class="customerPWPhoneAction"
+			method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			 <interceptor-ref name="statusUnNormalFilter"></interceptor-ref>
+			<result name="statusError">/public/statusLimitMsg.jsp</result>
+			<result>/account/customer/customerPWUpdate.jsp</result>
+		</action>
+		
+		<action name="getOrganizationTree" class="customerVOAction"
+			method="getOrganizationTree">
+			<result>/account/customer/getOrganizationTree.jsp</result>
+		</action>
+
+	</package>
+	<!-- 客户管理模块end -->
+	<!-- 会员管理模块 start -->
+	<package name="memberInfo" extends="base-account" namespace="/account/memberInfo">
+
+		<action name="list" class="memberInfoAction" method="list">
+			<result>/account/member/memberInfoList.jsp</result>
+		</action>
+
+		<action name="forwardUpdate" class="memberInfoAction" method="viewById">
+		<interceptor-ref name="mydefault"></interceptor-ref>
+			 <interceptor-ref name="statusUnNormalFilter"></interceptor-ref>
+			<result name="statusError">/public/statusLimitMsg.jsp</result>
+			<result>/account/member/memberBasicInfoUpdate.jsp</result>
+		</action>
+
+		<action name="update" class="memberInfoAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+
+		<action name="forwardAdd" class="memberInfoAction" method="forwardAdd">
+		<interceptor-ref name="mydefault"></interceptor-ref>
+			 <interceptor-ref name="statusUnNormalFilter"></interceptor-ref>
+			<result name="statusError">/public/statusLimitMsg.jsp</result>
+			<result>/account/member/memberBasicInfoAdd.jsp</result>
+		</action>
+
+		<action name="add" class="memberInfoAction" method="add">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+
+		<action name="delete" class="memberInfoAction" method="delete">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			 <interceptor-ref name="statusUnNormalFilter"></interceptor-ref>
+			<result name="statusError" type="redirectAction">list</result>
+			<result type="redirectAction">list</result>
+		</action>
+	</package>
+	<!-- 会员管理模块 close -->
+
+
+	<!-- 客户状态 begin -->
+	<package name="customerActiveStatus" extends="base-account"
+		namespace="/account/customerActiveStatus">
+
+		<action name="list" class="customerStatusAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="CustomerActiveStatusInterceptor"></interceptor-ref>
+			<interceptor-ref name="dataFilterCustomerNoInterceptor"></interceptor-ref>
+			<result>/account/customer/customerStatusList.jsp</result>
+		</action>
+
+		<action name="forwardUpdate" class="customerStatusAction"
+			method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			 <interceptor-ref name="statusUnNormalFilter"></interceptor-ref>
+			<result name="statusError">/public/statusLimitMsg.jsp</result>
+			<result>/account/customer/customerStatusUpdate.jsp</result>
+		</action>
+
+		<action name="update" class="customerStatusAction" method="update">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="threadStoreCommonInterceptor"></interceptor-ref>
+			<result>/public/commonMsg.jsp</result>
+		</action>
+	</package>
+
+	<package name="customerFreezeStatus" extends="base-account"
+		namespace="/account/customerFreezeStatus">
+
+		<action name="list" class="customerStatusAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="CustomerFreezeStatusInterceptor"></interceptor-ref>
+			<interceptor-ref name="dataFilterCustomerNoInterceptor"></interceptor-ref>
+			<result>
+				/account/customer/customerFreezeStatusList.jsp
+			</result>
+		</action>
+
+		<action name="forwardUpdate" class="customerStatusAction"
+			method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			 <interceptor-ref name="statusUnNormalFilter"></interceptor-ref>
+			<result name="statusError">/public/statusLimitMsg.jsp</result>
+			<result>
+				/account/customer/customerFreezeStatusUpdate.jsp
+			</result>
+		</action>
+
+		<action name="update" class="customerStatusAction" method="update">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="threadStoreCommonInterceptor"></interceptor-ref>
+			<result>/public/commonMsg.jsp</result>
+		</action>
+	</package>
+
+	<package name="customerUnFreezeStatus" extends="base-account"
+		namespace="/account/customerUnFreezeStatus">
+		<action name="list" class="customerStatusAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="CustomerUnFreezeStatusInterceptor"></interceptor-ref>
+			<interceptor-ref name="dataFilterCustomerNoInterceptor"></interceptor-ref>
+			<result>
+				/account/customer/customerUnFreezeStatusList.jsp
+			</result>
+		</action>
+
+		<action name="forwardUpdate" class="customerStatusAction"
+			method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			 <interceptor-ref name="statusUnNormalFilter"></interceptor-ref>
+			<result name="statusError">/public/statusLimitMsg.jsp</result>
+			<result>
+				/account/customer/customerUnFreezeStatusUpdate.jsp
+			</result>
+		</action>
+
+		<action name="update" class="customerStatusAction" method="update">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="threadStoreCommonInterceptor"></interceptor-ref>
+			<result>/public/commonMsg.jsp</result>
+		</action>
+	</package>
+
+	<package name="customerCloseStatus" extends="base-account"
+		namespace="/account/customerCloseStatus">
+		<action name="list" class="customerStatusAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="CustomerCloseStatusInterceptor"></interceptor-ref>	
+			<interceptor-ref name="dataFilterCustomerNoInterceptor"></interceptor-ref>	
+			<result>
+				/account/customer/customerCloseStatusList.jsp
+			</result>
+		</action>
+
+		<action name="forwardUpdate" class="customerStatusAction"
+			method="viewById">
+			<result name="statusError">/public/statusLimitMsg.jsp</result>
+			<result>
+				/account/customer/customerCloseStatusUpdate.jsp
+			</result>
+		</action>
+
+		<action name="update" class="customerStatusAction" method="update">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="threadStoreCommonInterceptor"></interceptor-ref>
+			<result>/public/commonMsg.jsp</result>
+		</action>
+	</package>
+	<!-- 客户状态 end -->
+
+	<!-- 会员关联特别会员 start -->
+	<package name="memberRelation" extends="base-account"
+		namespace="/account/memberRelation">
+		<action name="forwardUpdate" class="memberRelationAction"
+			method="updateForward">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			 <interceptor-ref name="statusUnNormalFilter"></interceptor-ref>
+			<result name="statusError">/public/statusLimitMsg.jsp</result>
+			<result>
+				/account/member/memberRelationSpecialList.jsp
+			</result>
+		</action>
+		<action name="update" class="memberRelationAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+	</package>
+
+	<!-- 会员关联特别会员 end -->
+	<!-- 会员转单分配 start -->
+	<package name="memberChangeOrder" extends="base-account"
+		namespace="/account/memberChangeOrder">
+		<action name="list" class="memberInfoAction" method="list">
+			<result>/account/member/memberChangeOrderList.jsp</result>
+		</action>
+		<action name="forwardUpdate" class="memberChangeOrderAction"
+			method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			 <interceptor-ref name="statusUnNormalFilter"></interceptor-ref>
+			<result name="statusError">/public/statusLimitMsg.jsp</result>
+			<result>/account/member/memberRelationList.jsp</result>
+		</action>
+		<action name="update" class="memberChangeOrderAction" method="contactSpecialMember">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+	</package>
+
+	<!-- 会员转单分配 end -->
+
+	<!-- 特别会员管理 start -->
+	<package name="specialMemberInfo" extends="base-account"
+		namespace="/account/specialMemberInfo">
+
+		<action name="list" class="specialMemberAction" method="list">
+			<result>
+				/account/specialMember/specialMemberList.jsp
+			</result>
+		</action>
+		<action name="forwardUpdate" class="specialMemberAction"
+			method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			 <interceptor-ref name="statusUnNormalFilter"></interceptor-ref>
+			<result name="statusError">/public/statusLimitMsg.jsp</result>
+			<result>
+				/account/specialMember/specialBasicInfoUpdate.jsp
+			</result>
+		</action>
+		<action name="update" class="specialMemberAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<action name="forwardAdd" class="specialMemberAction" method="forwardAdd">
+		<interceptor-ref name="mydefault"></interceptor-ref>
+			 <interceptor-ref name="statusUnNormalFilter"></interceptor-ref>
+			<result name="statusError">/public/statusLimitMsg.jsp</result>
+			<result>
+				/account/specialMember/specialBasicInfoAdd.jsp
+			</result>
+		</action>
+		<action name="add" class="specialMemberAction" method="add">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<action name="delete" class="specialMemberAction" method="delete">
+			<result type="redirectAction">list</result>
+		</action>
+	</package>
+	<!-- 特别会员管理 end -->
+
+	<!-- 特别会员状态管理 start -->
+	<package name="specialMemberStatus" extends="base-account"
+		namespace="/account/specialMemberStatus">
+		<action name="list" class="specialMemberAction" method="list">
+			<result>
+				/account/specialMember/specialMemberStatusList.jsp
+			</result>
+		</action>
+		<action name="forwardUpdate" class="specialMemberAction"
+			method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			 <interceptor-ref name="statusUnNormalFilter"></interceptor-ref>
+			<result name="statusError">/public/statusLimitMsg.jsp</result>
+			<result>
+				/account/specialMember/specialMemberStatusUpdate.jsp
+			</result>
+		</action>
+		<action name="updateStatus" class="specialMemberAction" method="updateSpecialMemberStatus">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+	</package>
+	<!-- 特别会员状态 end -->
+
+	<!--销户回收站状态 begin -->
+	<package name="customerRecycle" extends="base-account"
+		namespace="/account/customerRecycle">
+		<action name="list" class="customerAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="CustomerRecycleStatusInterceptor"></interceptor-ref>
+			<interceptor-ref name="dataFilterCustomerNoInterceptor"></interceptor-ref>
+			<result>/account/customer/customerRecycleList.jsp</result>
+		</action>
+
+		<action name="forwardUpdate" class="customerStatusAction"
+			method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			 <interceptor-ref name="statusUnNormalFilter"></interceptor-ref>
+			<result name="statusError">/public/statusLimitMsg.jsp</result>
+			<result>
+				/account/customer/customerRecycleStatusUpdate.jsp
+			</result>
+		</action>
+
+		<action name="update" class="customerStatusAction" method="update">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="threadStoreCommonInterceptor"></interceptor-ref>
+			<result>/public/commonMsg.jsp</result>
+		</action>
+	</package>
+	<!-- 销户回收站状态 end -->
+
+	<!--默认风险阈值设置 begin -->
+	<package name="thresholdArgs" extends="base-step" namespace="/account/thresholdArgs">
+		<action name="forwardUpdate" class="thresholdArgsAction"
+			method="viewById">
+			<interceptor-ref name="mydefaultCopy"></interceptor-ref>
+			<interceptor-ref name="deleteMemberNo"></interceptor-ref>
+			<result>
+				/account/thresholdArgs/thresholdArgsUpdate.jsp
+			</result>
+		</action>
+
+		<action name="update" class="thresholdArgsAction" method="update">
+			<result type="redirectAction">forwardUpdate</result>
+		</action>
+	</package>
+	<!-- 默认风险阈值设置 end -->
+
+	<!--特别会员风险阈值设置 begin -->
+	<package name="specialThreshold" extends="base-account"
+		namespace="/account/specialThreshold">
+		<action name="forwardUpdate" class="specialThresholdAction"
+			method="viewById">
+			<result>
+				/account/thresholdArgs/specialThresholdUpdate.jsp
+			</result>
+		</action>
+
+		<action name="list" class="specialThresholdAction" method="list">
+			<result>
+				/account/thresholdArgs/specialThresholdList.jsp
+			</result>
+		</action>
+		<action name="update" class="specialThresholdAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+	</package>
+	<!-- 特别会员风险阈值设置 end -->
+	<!--会员风险阈值设置 begin -->
+	<package name="memberThreshold" extends="base-account"
+		namespace="/account/memberThreshold">
+		<action name="forwardUpdate" class="memberThresholdAction"
+			method="viewById">
+			<result>
+				/account/thresholdArgs/memberThresholdUpdate.jsp
+			</result>
+		</action>
+
+		<action name="list" class="memberThresholdAction" method="list">
+			<result>
+				/account/thresholdArgs/memberThresholdList.jsp
+			</result>
+		</action>
+		<action name="update" class="memberThresholdAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+	</package>
+	<!-- 会员风险阈值设置 end -->
+
+	<!-- 权限和角色begin -->
+	<package name="/menu" extends="base-account" namespace="/menu">
+		<action name="commonMenuList" class="commonMenuAction" method="commonMenuList">
+			<result>/common/surface/leftMenu.jsp</result>
+		</action>
+	</package>
+
+	<package name="right" extends="base-account" namespace="/right">
+		<action name="forwardUpdateUser" class="commonRightAction"
+			method="commonRightRoleList">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<!--  <interceptor-ref name="statusUnNormalFilter"></interceptor-ref> -->
+			<result name="statusError">/public/statusLimitMsg.jsp</result>
+			<result>/account/roles/assignRoleRights.jsp</result>
+		</action>
+
+		<action name="commonRightUserList" class="commonRightAction"
+			method="commonRightUserList">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<!--  <interceptor-ref name="statusUnNormalFilter"></interceptor-ref> -->
+			<result name="statusError">/public/statusLimitMsg.jsp</result>
+			<result>/account/users/assignUserRights.jsp</result>
+		</action>
+
+		<action name="commonRightSaveUserRights" class="commonRightAction"
+			method="commonRightSaveUserRights">
+			<result>/account/users/assignUserRights.jsp</result>
+		</action>
+	</package>
+
+	<package name="role" extends="base-account" namespace="/role">
+		<action name="commonRoleList" class="commonRoleAction" method="list">
+			<result>/account/roles/rolesList.jsp</result>
+		</action>
+
+		<action name="updateUserRight" class="commonRightAction"
+			method="commonRightSaveRoleRights">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+		<!--<interceptor-ref name="statusUnNormalFilter"></interceptor-ref> -->
+			<result name="statusError">/public/statusLimitMsg.jsp</result>
+			<result>/account/roles/assignRoleRights.jsp</result>
+		</action>
+
+		<action name="commonRoleAdd" class="commonRoleAction" method="forwardAdd">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<!--  <interceptor-ref name="statusUnNormalFilter"></interceptor-ref> -->
+			<result name="statusError">/public/statusLimitMsg.jsp</result>
+			<result>/account/roles/addRole.jsp</result>
+		</action>
+
+		<action name="commonRoleCopy" class="commonRoleAction" method="forwardAdd">
+			<result>/account/roles/copyRole.jsp</result>
+		</action>
+
+		<action name="addCopyCommonRoleForward" class="commonRoleAction"
+			method="copyRole">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+				<!--  <interceptor-ref name="statusUnNormalFilter"></interceptor-ref> -->
+			<result name="statusError">/public/statusLimitMsg.jsp</result>
+			<result>/account/roles/addRole.jsp</result>
+		</action>
+
+		<action name="addCommonRoleForward" class="commonRoleAction"
+			method="add">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+
+		<action name="forwardUpdate" class="commonRoleAction" method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<!--  <interceptor-ref name="statusUnNormalFilter"></interceptor-ref> -->
+			<result name="statusError">/public/statusLimitMsg.jsp</result>
+			<result>/account/roles/modRole.jsp</result>
+		</action>
+
+		<action name="deleteRule" class="commonRoleAction" method="delete">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<!-- <interceptor-ref name="statusUnNormalFilter"></interceptor-ref> -->
+			<result name="statusError" type="redirectAction">commonRoleList</result>
+			<result type="redirectAction">commonRoleList</result>
+		</action>
+
+		<action name="updateCommonRole" class="commonRoleAction"
+			method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+
+		<action name="forwardUpdateRoleUserAssociate" class="commonRoleAction"
+			method="commonRoleUserAssociate">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<!--  <interceptor-ref name="statusUnNormalFilter"></interceptor-ref> -->
+			<result name="statusError">/public/statusLimitMsg.jsp</result>
+			<result>/account/roles/roleAssociateUsers.jsp</result>
+		</action>
+
+		<action name="forwardAddAssociation" class="commonRoleAction"
+			method="commonRoleAddAssociation">
+			
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="memberNoForMemberInfo"></interceptor-ref>
+			<!--  <interceptor-ref name="statusUnNormalFilter"></interceptor-ref> -->
+			<result name="statusError">/public/statusLimitMsg.jsp</result>
+			<result>/account/roles/addAssociation.jsp</result>
+		</action>
+
+		<action name="addCommonRoleSaveAssociation" class="commonRoleAction"
+			method="commonRoleSaveAssociation">
+			<result>
+				/public/commonMsg.jsp
+			</result>
+		</action>
+
+		<action name="deleteAssociation" class="commonRoleAction"
+			method="commonRoleDeleteAssociation">
+			<result type="chain">forwardUpdateRoleUserAssociate</result>
+		</action>
+	</package>
+
+	<package name="user" extends="base-account" namespace="/user">
+		<action name="logon" class="commonUserAction" method="commonUserLogon">
+			<result type="redirect">/common/surface/index.jsp</result>
+			<result name="error" type="redirect">/logon.jsp</result>
+		</action>
+
+		<action name="updateUserRights" class="commonRightAction"
+			method="commonRightSaveUserRights">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<!--  <interceptor-ref name="statusUnNormalFilter"></interceptor-ref> -->
+			<result name="statusError">/public/statusLimitMsg.jsp</result>
+			<result>/account/users/assignUserRights.jsp</result>
+		</action>
+
+		<action name="list" class="commonUserAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="memberNoForMemberInfo"></interceptor-ref>
+			<interceptor-ref name="dataFilterOrganizationNoInterceptor1"></interceptor-ref>
+			<result>/account/users/usersList.jsp</result>
+		</action>
+
+		<action name="forwardAdd" class="commonUserAction" method="forwardAdd">
+		<interceptor-ref name="mydefault"></interceptor-ref>
+				<!--  <interceptor-ref name="statusUnNormalFilter"></interceptor-ref> -->
+			<result name="statusError">/public/statusLimitMsg.jsp</result>
+			<result>/account/users/addUser.jsp</result>
+		</action>
+
+		<action name="add" class="commonUserAction" method="add">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+
+
+		<action name="forwardUpdate" class="commonUserAction" method="viewById">
+		<interceptor-ref name="mydefault"></interceptor-ref>
+			<!--  <interceptor-ref name="statusUnNormalFilter"></interceptor-ref> -->
+			<result name="statusError">/public/statusLimitMsg.jsp</result>
+			<result>/account/users/modUser.jsp</result>
+		</action>
+
+		<action name="update" class="commonUserAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+
+		<action name="delete" class="commonUserAction" method="delete">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<!--  <interceptor-ref name="statusUnNormalFilter"></interceptor-ref> -->
+			 <result name="statusError" type="redirectAction">list</result>
+			<result type="redirectAction">list</result>
+		</action>
+
+		<action name="forwardUpdatePassword" class="commonUserForPasswordMemAction"
+			method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<!--  <interceptor-ref name="statusUnNormalFilter"></interceptor-ref> -->
+			<result name="statusError">/public/statusLimitMsg.jsp</result>
+			<result>/account/users/modPassword.jsp</result>
+		</action>
+
+		<action name="updatePassword" class="commonUserForPasswordMemAction"
+			method="commonUserModPasswordForward">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+
+		<action name="commonUserOnLineList" class="commonUserAction"
+			method="commonUserOnLineList">
+			<result>/account/users/onLineUsers.jsp</result>
+		</action>
+		<!-- 用户管理中的机构关联转向 -->
+		<action name="forRightTree" class="commonUserAction"
+			method="treeForRight">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<!--  <interceptor-ref name="statusUnNormalFilter"></interceptor-ref> -->
+			<result name="statusError">/public/statusLimitMsg.jsp</result>
+			<result>/account/users/treeForRight.jsp</result>
+		</action>
+		<!-- 用户管理中的机构关联 -->
+		<action name="organizationUpdate" class="commonUserAction"
+			method="organizationUpdate">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<!-- 转向用户关联角色 -->
+		<action name="forwardRelatedRight" class="commonUserAction"
+			method="relatedRightForward">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<!--  <interceptor-ref name="statusUnNormalFilter"></interceptor-ref> -->
+			<result name="statusError">/public/statusLimitMsg.jsp</result>
+			<result>/account/users/relatedRight.jsp</result>
+		</action>
+		<!-- 用户关联角色 -->
+		<action name="relatedRight" class="commonUserAction"
+			method="relatedRight">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+	</package>
+
+	<package name="logOut" extends="base-account" namespace="/userLogOut">
+		<action name="commonUserLogout" class="commonUserAction"
+			method="commonUserLogout">
+			<result type="redirect">/logon.jsp</result>
+		</action>
+	</package>
+
+	<package name="userOnLine" extends="base-account" namespace="/userOnLine">
+
+		<action name="commonUserOnLineList" class="commonUserAction"
+			method="commonUserOnLineList">
+			<result>/account/users/onLineUsers.jsp</result>
+		</action>
+		<action name="commonUserForcedOffline" class="commonUserAction"
+			method="commonUserForcedOffline">
+			<result type="redirectAction">commonUserOnLineList</result>
+		</action>
+	</package>
+	<!--权限和角色end -->
+
+	<!-- 会员管理员管理开始 -->
+	<package name="memberUser" extends="base-account" namespace="/account/memberUser">
+		<action name="list" class="memberUserAction" method="list">
+			<result>/account/member/user/usersList.jsp</result>
+		</action>
+		<action name="forwardUpdate" class="memberUserAction" method="viewById">
+		<interceptor-ref name="mydefault"></interceptor-ref>
+			 <interceptor-ref name="statusUnNormalFilter"></interceptor-ref>
+			<result name="statusError">/public/statusLimitMsg.jsp</result>
+			<result>/account/member/user/modUser.jsp</result>
+		</action>
+		<action name="update" class="memberUserAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<action name="forwardAdd" class="memberUserAction" method="forwardAdd">
+		<interceptor-ref name="mydefault"></interceptor-ref>
+			 <interceptor-ref name="statusUnNormalFilter"></interceptor-ref>
+			<result name="statusError">/public/statusLimitMsg.jsp</result>
+			<result>/account/member/user/addUser.jsp</result>
+		</action>
+
+		<action name="add" class="memberUserAction" method="add">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<action name="delete" class="memberUserAction" method="delete">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			 <interceptor-ref name="statusUnNormalFilter"></interceptor-ref>
+			<result name="statusError" type="redirectAction">list</result>
+			<result type="redirectAction">list</result>
+		</action>
+		<action name="forwardUpdatePassword" class="memberUserAction"
+			method="commonUserModPassword">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			 <interceptor-ref name="statusUnNormalFilter"></interceptor-ref>
+			<result name="statusError">/public/statusLimitMsg.jsp</result>
+			<result>/account/member/user/modPassword.jsp</result>
+		</action>
+
+		<action name="updatePassword" class="memberUserAction"
+			method="commonUserModPasswordForward">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+
+		<action name="commonRightUserList" class="memberRightAction"
+			method="commonRightUserList">
+			<result>/account/member/user/assignUserRights.jsp</result>
+		</action>
+	</package>
+	<!-- 会员管理员管理 结束 -->
+
+	<!-- 特别会员管理员管理开始 -->
+	<package name="specialMemberUser" extends="base-account"
+		namespace="/account/specialMemberUser">
+		<action name="list" class="specialMemberUserAction" method="list">
+			<result>/account/specialMember/user/usersList.jsp</result>
+		</action>
+		<action name="forwardUpdate" class="specialMemberUserAction"
+			method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			 <interceptor-ref name="statusUnNormalFilter"></interceptor-ref>
+			<result name="statusError">/public/statusLimitMsg.jsp</result>
+			<result>/account/specialMember/user/modUser.jsp</result>
+		</action>
+		<action name="update" class="specialMemberUserAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<action name="forwardAdd" class="specialMemberUserAction"
+			method="forwardAdd">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			 <interceptor-ref name="statusUnNormalFilter"></interceptor-ref>
+			<result name="statusError">/public/statusLimitMsg.jsp</result>
+			<result>/account/specialMember/user/addUser.jsp</result>
+		</action>
+
+		<action name="add" class="specialMemberUserAction" method="add">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<action name="delete" class="specialMemberUserAction" method="delete">
+			<result type="redirectAction">list</result>
+		</action>
+		<action name="forwardUpdatePassword" class="specialMemberUserAction"
+			method="commonUserModPassword">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			 <interceptor-ref name="statusUnNormalFilter"></interceptor-ref>
+			<result name="statusError">/public/statusLimitMsg.jsp</result>
+			<result>/account/specialMember/user/modPassword.jsp</result>
+		</action>
+
+		<action name="updatePassword" class="specialMemberUserAction"
+			method="commonUserModPasswordForward">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+
+		<action name="commonRightUserList" class="specialMemberRightAction"
+			method="commonRightUserList">
+			<result>/account/member/user/assignUserRights.jsp</result>
+		</action>
+	</package>
+	<package name="slbj" extends="base-account"
+		namespace="/slbj/self">
+		<action name="passwordSelf" class="commonUserForPasswordMemAction"
+			method="viewById">
+			<result>/account/users/modPasswordSelf.jsp</result>
+		</action>
+		<action name="selfPasswordSave" class="commonUserForPasswordMemAction"
+			method="commonUserModPasswordForwardSelf">
+			<result>/public/commonMsgSelf.jsp</result>
+		</action>
+	</package>
+
+</struts>

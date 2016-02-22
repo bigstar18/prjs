@@ -1,0 +1,580 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<title>风控试算</title>
+<link href="../common/skinstyle/default/common/commoncss/mainstyle.css" rel="stylesheet" type="text/css" />
+<script language="javascript" type="text/javascript" src="../js/jquery-1.5.2.min.js"></script>
+<script language="javascript" type="text/javascript" src="../js/jquery.metadata.js"></script>
+<script language="javascript" type="text/javascript" src="../js/jquery.tablesorter.js"></script>
+
+<script language="JavaScript" type="text/javascript">
+	function clearNoNum(obj)
+	{
+		//先把非数字的都替换掉，除了数字和.
+		obj.value = obj.value.replace(/[^\d.]/g,"");
+		//必须保证第一个为数字而不是.
+		obj.value = obj.value.replace(/^\./g,"");
+		//保证只有出现一个.而没有多个.
+		obj.value = obj.value.replace(/\.{2,}/g,".");
+		//保证.只出现一次，而不能出现两次以上
+		obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+		
+		
+		//保证输入数值在0~99999999.99，并精确到小数点后百分位，以满足数据库数字类型（10,2）的要求
+		if (obj.value.indexOf(".") < 0 && obj.value.length > 8) {
+			obj.value = obj.value.substring(0, 8);
+		}
+		if (obj.value.indexOf(".") >= 8) {
+			obj.value = obj.value.substring(0, 8) + obj.value.substring(obj.value.indexOf("."));
+		}
+		if (obj.value.indexOf(".") >= 0 && obj.value.substring(obj.value.indexOf(".")).length >= 3) {
+			obj.value = obj.value.substring(0, obj.value.indexOf(".")+3);
+		}
+		
+		
+	}
+	</script>
+	
+</head>
+
+<body>
+  <table width="98%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td width="2%">&nbsp;</td>
+      <td valign="top" >&nbsp;
+        <div class="div_cxtj"><img src="../common/skinstyle/default/common/commoncss/cssimg/13.gif"  />&nbsp;&nbsp;试算条件</div>
+      <div class="div_tj"><table width="100%" border="0" cellpadding="0" cellspacing="0" class="table2_style">
+  <tr>
+    <td height="60">
+    <div class="div_tj">
+						<form name="frm"
+								action="customerfundtry!data.action"
+								method="post">
+							<table border="0" cellpadding="0" cellspacing="0"
+								class="table2_style">
+								<tr>
+									<td class="table2_td_width">
+										<div class="div2_top">
+											<table class="table3_style" border="0" cellspacing="0"
+												cellpadding="0">
+																													
+													<td class="table3_td_1" align="left">
+														所属会员:&nbsp;
+														<label>
+															<input type="text" class="input_text"
+																id="memberno" name="memberno"
+																value="" />
+														</label>
+													</td>
+													<td class="table3_td_1" align="left">
+														交易账号:&nbsp;
+														<label>
+															<input type="text" class="input_text"
+																id="customerno"
+																name="customerno"
+																value="" />&nbsp;
+														</label>
+														<input type="hidden" name="comcount" id="comcount"  value=""/>
+														<input type="hidden" name="flag" id="flag"  value="0"/><!-- flag为0代表之前没有进行过试算，为1代表之前至少试算过一次 -->
+													</td>
+													<td class="table3_td_anniu" align="right">
+														<button  class="btn_sec" onclick="reqMemberData();return false;" >试算</button>&nbsp;&nbsp;
+														<button class="btn_cz" onClick="javascript:window.location.reload()">重置</button>
+													</td>
+												</tr>
+											</table>
+										</div>
+									</td>
+								</tr>
+							</table>
+							</form>
+    </div>
+    </td>
+  </tr>
+</table>
+</div>
+      <div class="div_list">
+  
+<div class="div_cxtj"><img src="../common/skinstyle/default/common/commoncss/cssimg/13.gif"  />试算价格</div>
+<div class="div_tj">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table2_style">
+  <tr>
+    <td class="table_top">
+    <div id="memberlist" style="display:none">
+    <table  width="100%"  class="tablesorter" border="0" cellpadding="0" cellspacing="0" id="res_tabprice">
+    <thead>
+      <tr>
+        <th height="23" nowrap="nowrap" class="right_05bj_td">序号</th>
+        <th height="23" nowrap="nowrap" class="right_05bj_td">商品代码</th>
+    	<th height="23" nowrap="nowrap" class="right_05bj_td">商品名称</th>
+    	<th height="23" nowrap="nowrap" class="right_05bj_td">当前价格</th>
+        <th height="23" nowrap="nowrap" class="right_05bj_td">试算价格</th>
+      
+      </tr>
+         </thead>
+      <tr id="templateprice">
+     
+      	<td height="23" id="num" class="monileft_05_tdbj">&nbsp;</td>
+        <td height="23" id="commodityid" class="monileft_05_tdbj">&nbsp;</td>
+        <td height="23" id="commodityname" class="monileft_05_tdbj">&nbsp;</td>
+        <td height="23" id="curprice" class="moniright_05_tdbj">&nbsp;</td>
+        <td height="23" id="price" class="right_05_tdbj">&nbsp;</td>
+    </tr>
+    </table>
+    </div><div id="tclprice"></div>
+    
+<div class="div_cxtj"><img src="../common/skinstyle/default/common/commoncss/cssimg/13.gif"  />资金及风险率</div>
+<div class="div_tj">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table2_style">
+  <tr>
+    <td class="table_top">
+    <div id="memberlist" style="display:none">
+    <table  width="100%"  class="tablesorter" border="0" cellpadding="0" cellspacing="0" id="res_tab2">
+    <thead>
+      <tr>
+        <th height="23" nowrap="nowrap" class="right_05bj_td notsortable">序号</th>
+        <th height="23" nowrap="nowrap" class="right_05bj_td">交易帐号</th>
+    	<th height="23" nowrap="nowrap" class="right_05bj_td">客户名称</th>
+        <th height="23" nowrap="nowrap" class="right_05bj_td">期初权益</th>
+        <th height="23" nowrap="nowrap" class="right_05bj_td">当前权益</th>
+        <th height="23" nowrap="nowrap" class="right_05bj_td">试算盈亏</th>
+		<th height="23" nowrap="nowrap" class="right_05bj_td">冻结保证金</th>
+        <th height="23" nowrap="nowrap" class="right_05bj_td">占用保证金</th>
+        <th height="23" nowrap="nowrap" class="right_05bj_td">可用保证金</th>
+        <th height="23" nowrap="nowrap" class="right_05bj_td">风险总阈值</th>
+        <th height="23" nowrap="nowrap" class="right_05bj_td">风险率(%)</th>
+        <th height="23" nowrap="nowrap" class="right_05bj_td">会员编号</th>
+        
+        
+      </tr>
+         </thead>
+      <tr id="template"  bgcolor="#99CC00">
+      	<td height="23" id="num" class="monileft_05_tdbj">&nbsp;</td>
+        <td height="23" id="customerno" class="monileft_05_tdbj">&nbsp;</td>
+        <td height="23" id="customname" class="monileft_05_tdbj">&nbsp;</td>
+        <td height="23" id="lastbalance" class="moniright_05_tdbj">&nbsp;</td>
+        <td height="23" id="netbalance" class="moniright_05_tdbj">&nbsp;</td>
+        <td height="23" id="floatingloss" class="moniright_05_tdbj">&nbsp;</td>
+<td height="23" id="frozenmargin" class="moniright_05_tdbj">&nbsp;</td>
+        <td height="23" id="margin" class="moniright_05_tdbj">&nbsp;</td>
+        <td height="23" id="livemargin" class="moniright_05_tdbj">&nbsp;</td>
+        <td height="23" id="riskvalue" class="moniright_05_tdbj">&nbsp;</td>
+        <td height="23" id="riskrate" class="moniright_05_tdbj">&nbsp;</td>
+        <td height="23" id="memberno" class="right_05_tdbj">&nbsp;</td>
+
+    </tr>
+      <tr id="templateyellow"  bgcolor="#FFCC66">
+      	<td height="23" id="num" class="monileft_05_tdbj">&nbsp;</td>
+        <td height="23" id="customerno" class="monileft_05_tdbj">&nbsp;</td>
+        <td height="23" id="customname" class="monileft_05_tdbj">&nbsp;</td>
+        <td height="23" id="lastbalance" class="moniright_05_tdbj">&nbsp;</td>
+        <td height="23" id="netbalance" class="moniright_05_tdbj">&nbsp;</td>
+        <td height="23" id="floatingloss" class="moniright_05_tdbj">&nbsp;</td>
+<td height="23" id="frozenmargin" class="moniright_05_tdbj">&nbsp;</td>
+        <td height="23" id="margin" class="moniright_05_tdbj">&nbsp;</td>
+        <td height="23" id="livemargin" class="moniright_05_tdbj">&nbsp;</td>
+        <td height="23" id="riskvalue" class="moniright_05_tdbj">&nbsp;</td>
+        <td height="23" id="riskrate" class="moniright_05_tdbj">&nbsp;</td>
+        <td height="23" id="memberno" class="right_05_tdbj">&nbsp;</td>
+
+    </tr>
+      <tr id="templatered"   bgcolor="#FB806A">
+      	<td height="23" id="num" class="monileft_05_tdbj">&nbsp;</td>
+        <td height="23" id="customerno" class="monileft_05_tdbj">&nbsp;</td>
+        <td height="23" id="customname" class="monileft_05_tdbj">&nbsp;</td>
+        <td height="23" id="lastbalance" class="moniright_05_tdbj">&nbsp;</td>
+        <td height="23" id="netbalance" class="moniright_05_tdbj">&nbsp;</td>
+        <td height="23" id="floatingloss" class="moniright_05_tdbj">&nbsp;</td>
+<td height="23" id="frozenmargin" class="moniright_05_tdbj">&nbsp;</td>
+        <td height="23" id="margin" class="moniright_05_tdbj">&nbsp;</td>
+        <td height="23" id="livemargin" class="moniright_05_tdbj">&nbsp;</td>
+        <td height="23" id="riskvalue" class="moniright_05_tdbj">&nbsp;</td>
+        <td height="23" id="riskrate" class="moniright_05_tdbj">&nbsp;</td>
+        <td height="23" id="memberno" class="right_05_tdbj">&nbsp;</td>
+
+    </tr>
+    
+    </table>
+    </div><div id="tcl"></div></tr>
+</table>
+</div>
+
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="table1">
+  <tr>
+    <td width="16%" height="25" bgcolor="#eeeeee" class="moniright_05_tdbj1"><table width="100%" border="0"
+
+cellspacing="0" cellpadding="0">
+      <tr>
+        <td height="25" align="center" valign="middle"><a href="javascript:firstPage();"><img src="../common/skinstyle/default/common/commoncss/cssimg/20.gif" width="10"
+
+height="12" border="0" /></a></td>
+        <td height="25" align="center" valign="middle"><a href="javascript:prevPage();"><img src="../common/skinstyle/default/common/commoncss/cssimg/21.gif" width="8"
+
+height="12" border="0" /></a></td>
+        <td height="25" align="center" valign="middle"><a href="javascript:nextPage();"><img src="../common/skinstyle/default/common/commoncss/cssimg/22.gif" width="8"
+
+height="12" border="0" /></a></td>
+        <td height="25" align="center" valign="middle"><a href="javascript:lastPage();"><img src="../common/skinstyle/default/common/commoncss/cssimg/23.gif" width="10"
+
+height="12" border="0" /></a></td>
+      </tr>
+    </table></td>
+    <td width="10%" height="25" align="center" valign="middle" bordercolor="#D4D0C8" bgcolor="#eeeeee"
+
+class="moniright_05_tdbj1">
+      <input name="page" type="text" class="from1" id="page" size="4" />
+      /<span id="totalpage"></span>页     <a href="javascript:goPage();"> <img src="../common/skinstyle/default/common/commoncss/cssimg/24.gif" alt="" width="13" height="12" border="0" /></a></td>
+    <td width="15%" height="25" align="center" valign="middle" bordercolor="#D4D0C8" bgcolor="#eeeeee"
+
+class="moniright_05_tdbj1">每页
+      <label>
+      <select name="pagesize" id="pagesize" onchange="setPageSize();">
+        <option value="20" selected="selected">20</option>
+        <option value="30">30</option>
+        <option value="40">40</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+        <option value="200">200</option>
+      </select>
+      条
+      </label></td>
+    <td height="25" align="center" bordercolor="#D4D0C8" bgcolor="#eeeeee" class="moniright_05_tdbj1">&nbsp;</td>
+    <td width="17%" height="25" align="right" bordercolor="#D4D0C8" bgcolor="#eeeeee" class="moniright_05_tdbj1">
+      
+      共 <span id="totalline"></span> 条记录</td>
+  </tr>
+</table>
+</div>
+</td>
+    </tr>
+  </table>
+<script language="javascript"  type="text/javascript">
+<!--
+var cmtry = false;
+function setPageSize(){
+	if(!cmtry)return;
+	reqMemberData();
+}
+function reqMemberData() {
+	 cmtry = true;
+	 var sortLists = getSortList2(); 
+	
+	var meta =["customerno","customername","lastbalance","netbalance","floatingloss","frozenmargin","margin","livemargin","riskvalue","riskrate","memberno"];//,"organizationno","managerno"];
+
+	var memid = $.trim($('#memberno').val());
+	var cstid = $.trim($('#customerno').val());
+	var commodityid = $.trim($('#commodityid').val());
+	var curprice=$.trim($('#price').val());
+	
+	var pagesize = $("#pagesize").val();
+	var curpage = $("#page").val();
+	var com=$("#comcount").val();
+	var flag=$("#flag").val();
+	
+	var desc = sortLists[0][1];
+	var order = meta[sortLists[0][0]-1];
+	
+	var comstr="";
+	var params = 'com='+com+'&flag='+flag+'&memberno='+memid +'&customerno='+cstid+'&pagesize='+pagesize+'&page='+curpage+'&order='+order+'&desc='+desc;;
+
+	for (var i=1;i<=com;i++){
+	  comstr=comstr+'&com'+i+'='+$("#com"+i).val()+'&iprice'+i+'='+$("#iprice"+i).val();
+	}
+
+	params=params+comstr;
+    
+	$.ajax({
+		type:'POST',
+		url:"./customerfundtry!data.action",
+		data: params,
+	    cache: false,
+		dataType:"json",
+		timeout: 3000,
+		success: response2
+	});
+	//alert(params);
+}
+
+function reqcommodity() {
+	$.ajax({
+		type:'POST',
+		url:"commoditytry!data.action",
+		data: 'pid=1',
+	    cache: false,
+		dataType:"json",
+		timeout: 3000,
+		success: responseprice
+	});
+}
+
+function reqcommodity2() {
+	$.ajax({
+		type:'POST',
+		url:"commoditytry!data.action",
+		data: 'pid=1',
+	    cache: false,
+		dataType:"json",
+		timeout: 3000,
+		success: responseprice2
+	});
+}
+function getSortList2() {
+		//排序默认值处理
+		// see: http://tablesorter.com/docs/
+        var sortLists = new Array();
+        sortLists[0] = new Array();
+        var sth = null;
+        var sup =$("#tab_total2").find(".headerSortUp")[0];
+        var sud = $("#tab_total2").find(".headerSortDown")[0];
+        if(typeof(sud)!='undefined') {
+            sth = sud;
+            sortLists[0][1] = 0;
+        } else if(typeof(sup)!='undefined') {
+            sth = sup;
+            sortLists[0][1] = 1;
+        } else {
+            sortLists[0][0] = 1;
+            sortLists[0][1] = 0;
+        }
+        var tdSeq = $("#tab_total2").find("th").index(sth);
+        if(tdSeq>0) {
+           sortLists[0][0] = tdSeq;
+		}
+		return sortLists;
+}
+function responseprice(data) {
+	
+    //System.out.print("in resp");
+	// json数据处理    
+	var tb = $("#res_tabprice").clone();
+        var mtrow = tb.find("#templateprice");
+		$.each(data, function(i, n) {
+		  var row = mtrow.clone();
+		  var count = i+1;
+		  row.find("#num").text(count);
+		  row.find("#commodityname").text(n.commodityname);
+		  row.find("#commodityid").text(n.commodityid);
+		  row.find("#curprice").text(n.curprice);
+		  row.find("#price").html('<input type="hidden" name="com'+count+'" id="com'+count+'"  value="'+n.commodityid+'"/><input type="text"  onkeyup="clearNoNum(this)" class="input_text" id="iprice'+count+'" name="iprice'+count+'" 	value="'+n.price+'" />');
+		  row.attr("id",n.commodityid);//改变绑定好数据的行的
+		   
+		  row.appendTo(tb);
+		  $('#comcount').attr("value",count);
+		});
+        mtrow.remove();
+        tb.attr("id","tab_total");
+	$('#tclprice').html(tb);
+}
+function responseprice2(data) {
+	
+    //System.out.print("in resp");
+	// json数据处理    
+	var tb = $("#tab_total");
+        
+		$.each(data, function(i, n) {
+		 var row = tb.find("#"+n.commodityid);
+		  //var row = mtrow.clone();
+		  
+		  row.find("#curprice").html(n.curprice);
+			});
+}
+function refreshnum() {
+	
+    //System.out.print("in resp");
+	// json数据处理    
+	var tb = $("#res_tab2");
+	for (i=0; i < tb.rows.length; i++)
+	{
+		tb.rows[i].cells[0].innerText=i;
+	}
+        
+}
+
+
+function response2(data) {
+
+	 var sortLists = getSortList2();
+   
+   $('#flag').attr("value",1);
+	// json数据处理    
+	var tb = $("#res_tab2").clone();
+        var mtrow = tb.find("#template");
+		var mtrowred = tb.find("#templatered");
+		var mtrowyellow = tb.find("#templateyellow");
+		
+		if(data.data!=null && data.data!="") {
+			var start = (data.pageInfo.pageNo-1)*data.pageInfo.pageSize+1;
+			$.each(data.data, function(i, n) {
+			if ((n.riskrate)<75.00){
+		  			var row = mtrowred.clone();
+			} else if (n.riskrate <100.00){
+					var row = mtrowyellow.clone();
+			} else
+			{
+					var row = mtrow.clone();	
+			}				
+			  var row = mtrow.clone();
+			 				  
+			  row.find("#num").text(start+i);
+			  row.find("#customerno").text(n.customerno);
+			  row.find("#customname").text(n.customername);
+			  row.find("#lastbalance").text(n.lastbalance);
+			  row.find("#netbalance").text(n.netbalance);
+			  row.find("#floatingloss").text(n.floatingloss);
+			  row.find("#frozenmargin").text(n.frozenmargin);
+			  row.find("#margin").text(n.margin);
+			  row.find("#livemargin").text(n.livemargin);
+			  row.find("#riskvalue").text(n.riskvalue);
+			  row.find("#riskrate").text(n.riskrate);
+			  row.find("#memberno").text(n.memberno);
+			  //row.find("#organizationno").text(n.organizationno);
+			  //row.find("#managerno").text(n.managerno);
+		  
+			  row.attr("id","ready");//改变绑定好数据的行的
+			  row.appendTo(tb);
+			});
+        mtrow.remove();
+		mtrowred.remove();
+		mtrowyellow.remove(); 
+
+		}
+		else
+		{
+			mtrowred.remove();
+			mtrowyellow.remove(); 
+		
+		}
+    
+    tb.attr("id","tab_total2");//alert(tb.html());
+	$('#tcl').html(tb);
+	$("#tab_total2").tablesorter({sortList: sortLists,sortCustom:true });
+	$("#tab_total2").bind("sortStart",function(){reqMemberData();});
+	
+	//分页处理
+	$("#totalline").text(''+data.pageInfo.totalRecords);
+	$("#totalpage").text(''+data.pageInfo.totalPages);
+	$("#page").val(''+data.pageInfo.pageNo);
+	
+	maxpage = data.pageInfo.totalPages;
+}
+
+function response3() {
+	// json数据处理    
+	var tb = $("#res_tab2").clone();
+       		 var mtrow = tb.find("#template");
+			  var row = mtrow.clone();
+		var mtrowred = tb.find("#templatered");
+		var mtrowyellow = tb.find("#templateyellow");
+
+			  row.find("#num").text('');
+			  row.find("#customerno").text('');
+			  row.find("#customname").text('');
+			  row.find("#lastbalance").text('');
+			  row.find("#netbalance").text('');
+			  row.find("#floatingloss").text('');
+			  row.find("#frozenmargin").text('');
+			  row.find("#margin").text('');
+			  row.find("#livemargin").text('');
+			  row.find("#riskvalue").text('');
+			  row.find("#riskrate").text('');
+			  row.find("#memberno").text('');
+			  //row.find("#organizationno").text('');
+			  //row.find("#managerno").text('');
+		  
+			  row.attr("id","ready");//改变绑定好数据的行的
+			  row.appendTo(tb);
+        mtrow.remove();
+		mtrowred.remove();
+		mtrowyellow.remove();
+
+        
+    tb.attr("id","tab_total2");
+	$('#tcl').html(tb);
+
+	//分页处理
+	//$("#totalline").text(''+data.pageInfo.totalRecords);
+	//$("#totalpage").text(''+data.pageInfo.totalPages);
+	//$("#page").val(''+data.pageInfo.pageNo);
+	
+	//maxpage = data.pageInfo.totalPages;	
+
+}
+
+function nextPage() {
+	if(!cmtry)return;
+	//clearInterval(simemberid);
+	var pg = parseInt($("#page").val());
+	if (pg<maxpage) {
+		$("#page").val(parseInt(pg)+1);
+	}
+	reqMemberData();
+	//simemberid = setInterval(reqcommodity2,1000);
+
+}
+function goPage() {
+	if(!cmtry)return;
+	//clearInterval(simemberid);
+	var total = parseInt($("#totalpage").text());
+	var page = parseInt($("#page").val());
+	if(!(total && page && page>0 && page<total)){
+		alert('请输入有效页码！');return;
+	}
+	reqMemberData();
+	//simemberid = setInterval(reqcommodity2,1000);
+
+}
+
+
+function prevPage() {
+	if(!cmtry)return;
+	//clearInterval(simemberid);
+	var pg = $("#page").val();
+	if (pg>1) {
+		$("#page").val(pg-1);
+	}
+	reqMemberData();
+	//simemberid = setInterval(reqcommodity2,1000);
+
+
+}
+
+function firstPage() {
+	if(!cmtry)return;
+	//clearInterval(simemberid);
+	$("#page").val(1);
+	reqMemberData();
+	//simemberid = setInterval(reqcommodity2,1000);
+
+
+}
+function lastPage() {
+	if(!cmtry)return;
+	//clearInterval(simemberid);
+	$("#page").val(maxpage);
+	reqMemberData();
+	//simemberid = setInterval(reqcommodity2,1000);
+
+
+}
+
+var simemberid;
+
+
+$(function(){
+	
+	simemberid = setInterval(reqcommodity2,1000);
+	reqcommodity();
+	response3();
+
+});
+var maxpage = 0;
+
+//-->
+</script>
+
+</body>
+</html>

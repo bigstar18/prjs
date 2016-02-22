@@ -1,0 +1,28 @@
+package gnnt.MEBS.trade.service;
+
+import gnnt.MEBS.packaging.dao.BaseDao;
+import gnnt.MEBS.packaging.service.BaseService;
+import gnnt.MEBS.trade.dao.DaysectionDao;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service("daysectionService")
+@Transactional(propagation=Propagation.REQUIRED, readOnly=false)
+public class DaysectionService
+  extends BaseService
+{
+  private final transient Log logger = LogFactory.getLog(DaysectionService.class);
+  @Autowired
+  @Qualifier("daysectionDao")
+  private DaysectionDao daysectionDao;
+  
+  public BaseDao getDao()
+  {
+    return this.daysectionDao;
+  }
+}

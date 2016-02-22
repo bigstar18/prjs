@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+        
+    <context:annotation-config />
+	<context:component-scan base-package="gnnt.MEBS.account.dao,gnnt.MEBS.account.service">
+	<context:exclude-filter type="aspectj"
+			expression="gnnt.MEBS.account.service.CustomerService"/>
+	<context:exclude-filter type="aspectj"
+			expression="gnnt.MEBS.account.service.MemberUserService"/>
+	</context:component-scan>
+		<!-- 客户证件类型页面展示 -->
+
+	<bean id="memberInfoProDao" class="gnnt.MEBS.account.dao.MemberInfoProDao" autowire="byName"></bean>
+	<bean id="customerInfoProDao" class="gnnt.MEBS.account.dao.CustomerInfoProDao" autowire="byName"></bean>
+	<bean id="specialMemberInfoProDao" class="gnnt.MEBS.account.dao.SpecialMemberInfoProDao" autowire="byName"></bean>
+	
+	<bean id="firmProDao" class="gnnt.MEBS.account.dao.FirmProDao" autowire="byName"></bean>
+</beans>

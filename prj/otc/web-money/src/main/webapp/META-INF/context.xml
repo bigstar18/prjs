@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+<Resource name="bank"
+   type="javax.sql.DataSource"
+   password="password"
+   driverClassName="oracle.jdbc.driver.OracleDriver"
+   maxIdle="2"
+   maxWait="5000"
+   username="pmes003"
+   url="jdbc:oracle:thin:@10.10.10.246:1521:oracle"
+   maxActive="4"/>
+   <ResourceParams name="bank">
+
+   <parameter>
+    <name>removeAbandoned</name>
+    <value>true</value>
+   </parameter>
+
+    <parameter>
+    <name>removeAbandonedTimeout</name>
+    <value>60</value>
+    </parameter>
+
+    <parameter>
+      <name>logAbandoned</name>
+      <value>true</value>
+    </parameter>
+   </ResourceParams>
+</Context>

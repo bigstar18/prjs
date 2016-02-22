@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<constant name="struts.i18n.encoding" value="GBK"></constant>
+	<constant name="struts.objectFactory" value="spring"></constant>
+	<constant name="struts.locale" value="zh_CN"></constant>
+	<constant name="struts.multipart.maxSize" value="102400000"></constant>
+	<constant name="struts.multipart.parser" value="jakarta"></constant>
+	<constant name="struts.ui.theme" value="simple" />
+	<constant name="struts.ui.templateDir" value="template" />
+	<constant name="struts.ui.templateSuffix" value="ftl" />
+	<constant name="struts.devMode" value="false" />
+	<package name="defaults" extends="struts-default">
+		<global-results>
+			<result name="error">/public/error.jsp</result>
+			<result name="verifyQuit">/public/commonMsg.jsp</result>
+		</global-results>
+	</package>
+	<package name="base-struts2" extends="defaults" abstract="true">
+		<interceptors>
+			<interceptor name="returnCurrentPage"
+				class="gnnt.MEBS.packaging.action.interceptor.ReturnCurrentPageInterceptor">
+			</interceptor>
+			<interceptor name="addMsgHandler"
+				class="gnnt.MEBS.packaging.action.interceptor.AddMsgHandlerInterceptor">
+			</interceptor>
+			<interceptor name="forEcsideList"
+				class="gnnt.MEBS.packaging.action.interceptor.ForEcsideListInterceptor">
+			</interceptor>
+			<interceptor name="throwsExceptionInterceptor" 
+			    class="gnnt.MEBS.packaging.action.interceptor.ThrowsExceptionInterceptor"/>
+			<interceptor name="queryConditionInterceptor" 
+			    class="queryConditionInterceptor">
+			</interceptor>
+			<interceptor name="transferOriginalValueInterceptor" 
+			    class="gnnt.MEBS.packaging.action.interceptor.TransferOriginalValueInterceptor">
+			</interceptor>
+			<!-- 全局公共加入memberNo的查询条件primary.memberNo -->
+			<interceptor name="queryByMemberNo"
+				class="gnnt.MEBS.config.action.interceptor.QueryByMemberNoInterceptor">
+			</interceptor>
+			<!-- remove查询条件primary.memberNo -->
+			<interceptor name="deleteMemberNo"
+				class="gnnt.MEBS.config.action.interceptor.DeleteMemberNoInterceptor">
+			</interceptor>
+			
+			<interceptor name="deleteThredStore"
+				class="gnnt.MEBS.account.action.interceptor.CloseThreadStoreCommonInterceptor">
+			</interceptor>
+			
+			<interceptor name="verifyInterceptor" class="verifyInterceptor">
+			</interceptor>
+			
+			<interceptor name="dataFilterCustomerNoInterceptor" class="dataFilterCustomerNoInterceptor">
+			</interceptor>
+			
+			<interceptor name="dataFilterBrokerageNoInterceptor" class="dataFilterBrokerageNoInterceptor">
+			</interceptor>
+			
+			<interceptor name="dataFilterOrganizationNoInterceptor" class="dataFilterOrganizationNoInterceptor">
+			</interceptor>
+			
+			<interceptor name="dataFilterOrganizationNoInterceptor1" class="dataFilterOrganizationNoInterceptor1">
+			</interceptor>
+			<!-- 过滤非正常状态的用户 -->
+			<interceptor name="statusUnNormalFilter" class="statusUnNormalFilter"></interceptor>
+			
+			<interceptor-stack name="mydefault">
+				<interceptor-ref name="throwsExceptionInterceptor" />
+				<interceptor-ref name="verifyInterceptor"></interceptor-ref>
+			    <interceptor-ref name="queryConditionInterceptor" />
+			    <interceptor-ref name="queryByMemberNo" />
+				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="addMsgHandler" />
+				<interceptor-ref name="transferOriginalValueInterceptor" />
+			</interceptor-stack>
+			
+		</interceptors>
+		<default-interceptor-ref name="mydefault" />
+	</package>
+	<package name="base-step" extends="base-struts2" abstract="true">
+		<interceptors>
+		
+			<interceptor name="memberNoForMemberInfo"
+				class="gnnt.MEBS.config.action.interceptor.MemberNoForSpecialInterceptor">
+				<param name="paramMemberNo">
+					primary.memberInfo.id[=]
+				</param>
+			</interceptor>
+			<interceptor-stack name="mydefaultCopy">
+				<interceptor-ref name="mydefault" />
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="mydefaultCopy" />
+			
+	</package>
+	
+	<package name="base-member" extends="base-struts2" abstract="true">
+		<interceptors>
+			<interceptor name="check"
+				class="gnnt.MEBS.account.action.interceptor.CheckInterceptor"></interceptor>
+				
+			
+			<interceptor-stack name="mydefault">
+				<interceptor-ref name="mydefault" />
+				<interceptor-ref name="check" /> 
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="mydefault" />
+			
+	</package>
+
+
+
+	<!-- <include file="student.xml"></include>
+	<include file="teacher.xml"></include>
+	<include file="teacherAddAudit.xml"></include>
+	<include file="teacherAddApply.xml"></include> -->
+	<include file="commodity.xml"></include>
+	<include file="trade.xml"></include>
+	<include file="account.xml"></include>
+	<include file="announcement.xml"></include>
+	<include file="query.xml"></include>
+	<include file="report.xml"></include>
+    <include file="monitor.xml"></include>
+    <include file="broke.xml"></include>
+    <include file="settlement.xml"></include>
+    <include file="MemberInfor.xml"></include>
+    <include file="mBrokerOrganization.xml"></include>
+</struts>

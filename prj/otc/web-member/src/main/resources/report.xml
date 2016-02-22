@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	    <package name="base-report" extends="base-struts2" abstract="true">
+       <interceptors>
+			<interceptor name="memberInfoListInterceptor"
+				class="gnnt.MEBS.account.action.interceptor.MemberInfoListInterceptor">
+			</interceptor>
+			<interceptor name="memberInfoInterceptor"
+				class="gnnt.MEBS.report.action.interceptor.MemberInfoInterceptor">
+			</interceptor>
+			<interceptor name="commodityListInterceptor"
+				class="gnnt.MEBS.report.action.interceptor.CommodityListInterceptor">
+			</interceptor>
+			<interceptor name="beginQueryInterceptor"
+				class="gnnt.MEBS.report.action.interceptor.BeginQueryInterceptor">
+			</interceptor>
+			<interceptor name="memberConditionInterceptor"
+				class="gnnt.MEBS.packaging.action.interceptor.QueryCompositeInterceptor">
+				<param name="queryWord">original_memberIds</param>
+				<param name="queryCondition">primary.memberno in (select memberno from v_customer where memberno in(%composite%))[composite]</param>
+			</interceptor>
+			<interceptor name="smemberConditionInterceptor"
+				class="gnnt.MEBS.packaging.action.interceptor.QueryCompositeInterceptor">
+				<param name="queryWord">original_smemberIds</param>
+				<param name="queryCondition">primary.s_memberNo in (select memberNo from m_s_memberInfo where memberNo in(%composite%))[composite]</param>
+			</interceptor>
+			<interceptor name="dataFilterOrganizationNoJDBCInterceptor" class="dataFilterOrganizationNoJDBCInterceptor">
+			</interceptor>
+			<interceptor name="brokerageQueryInterceptor"
+				class="gnnt.MEBS.report.action.interceptor.BrokerageQueryInterceptor">
+			</interceptor>
+			<interceptor name="customerQueryInterceptor"
+				class="gnnt.MEBS.account.action.interceptor.QueryCustomerMemInterceptor">
+			</interceptor>
+			<interceptor name="bankListInterceptor"
+				class="gnnt.MEBS.report.action.interceptor.BankListInterceptor">
+			</interceptor>
+		</interceptors>
+    </package>
+       <!-- 会员成交汇总表  -->
+	<package name="memberTrade" extends="base-report" namespace="/report/memberTrade">
+	   <interceptors>
+		<interceptor name="typeExportInterceptor"
+				class="memberTradeExportInterceptor">
+			</interceptor>
+		<interceptor name="orderByReportInterceptor"
+				class="gnnt.MEBS.report.action.interceptor.OrderDefaultReportInterceptor">
+				<param name="sortString">primary.clearDate desc,primary.commodityId asc</param>
+			</interceptor>
+		</interceptors>
+		<action name="memberTradeReportQuery" class="memberTradeAction"
+			method="getReportList">
+			<param name="orderName">cleardate,memberno</param>
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="orderByReportInterceptor"></interceptor-ref>
+			<interceptor-ref name="beginQueryInterceptor"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+			<interceptor-ref name="typeExportInterceptor"></interceptor-ref>
+			<result>/report/memberTradeQuery.jsp</result>
+		</action>
+	 	<action name="memberTradeReport" class="memberTradeAction" method="getTraderList">
+	 		<interceptor-ref name="mydefault"></interceptor-ref>
+	 		<interceptor-ref name="memberInfoInterceptor"></interceptor-ref>
+			<interceptor-ref name="memberConditionInterceptor"></interceptor-ref>
+	 		<result>/report/settlementTemplates/memberTradeReport.jsp</result>
+	 		<result name="xls">/report/settlementTemplates/memberTradeXls.jsp</result>
+	 	</action>
+	</package>
+		<!-- 会员客户开户签约表 start-->
+	<package name="memberCustomerSign" extends="base-report"
+		namespace="/report/memberCustomerSign">
+		  <interceptors>
+		<interceptor name="typeExportInterceptor"
+				class="memberCustomerSignExportInterceptor">
+			</interceptor>
+		</interceptors>
+		<action name="memberCustomerSignReportQuary" class="memberCustomerSignAction"
+			method="getReportList">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="beginQueryInterceptor"></interceptor-ref>
+			<interceptor-ref name="memberConditionInterceptor"></interceptor-ref>
+			<interceptor-ref name="typeExportInterceptor"></interceptor-ref>
+			<result>/report/memberCustomerSignQuery.jsp</result>
+		</action>
+	</package>
+	<!--  会员客户开户签约表 end -->
+	
+<!-- 会员客户开户统计情况表 -->
+	<package name="memberCustomerAccount" extends="base-report"
+		namespace="/report/memberCustomerAccount">
+		  <interceptors>
+		<interceptor name="typeExportInterceptor"
+				class="memberCustomerAccountExportInterceptor">
+			</interceptor>
+		</interceptors>
+		<action name="memberCustomerAccountReportQuary" class="memberCustomerCountAction"
+			method="getReportList">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="beginQueryInterceptor"></interceptor-ref>
+			<interceptor-ref name="memberConditionInterceptor"></interceptor-ref>
+			<interceptor-ref name="typeExportInterceptor"></interceptor-ref>
+			<result>/report/memberCustomerAccountQuery.jsp</result>
+		</action>
+		<action name="memberCustomerAccountReport" class="memberCustomerAcountAction"
+			method="memberCustomerDistinctList">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="memberConditionInterceptor"></interceptor-ref>
+			<result>/report/settlementTemplates/memberCustomerAccountReport.jsp
+			</result>
+			<result name="xls">/report/settlementTemplates/memberCustomerAccountXls.jsp
+			</result>
+		</action>
+	</package>
+
+	<!-- 居间 签订客户明细 表 -->
+	<package name="brokerageCustomer" extends="base-report"
+		namespace="/report/brokerageCustomer">
+		<action name="brokerageCustomerReportQuary" class="brokerageCustomerAction"
+			method="reportQuery">
+			<result>/report/brokerageCustomerReportQuery.jsp</result>
+		</action>
+		<action name="brokerageCustomerReport" class="brokerageCustomerAction"
+			method="getTraderList">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="brokerageQueryInterceptor"></interceptor-ref>
+			<result>/report/tableTemplates/brokerageCustomerReport.jsp</result>
+			<result name="xls">/report/tableTemplates/brokerageCustomerXls.jsp
+			</result>
+		</action>
+	</package>
+	
+		<!-- 机构报表 -->
+	<package name="organization1" extends="base-report" namespace="/report/organization">
+		<action name="organizationReportQuery" class="memberReportAction"
+			method="getMemberList">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+			<result>/report/organizationReportQuery.jsp</result>
+		</action>
+		<action name="organizationReport" class="organizationReportAction"
+			method="getReportData">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+	 		<interceptor-ref name="dataFilterOrganizationNoJDBCInterceptor"></interceptor-ref>
+			<interceptor-ref name="memberConditionInterceptor"></interceptor-ref>
+			<param name="reportType">机构报表</param>
+			<result>/report/primaryReport.jsp</result>
+			<result name="xls">/report/primaryReportXls.jsp</result>
+		</action>
+	</package>
+	
+     <!-- 客户持仓汇总表  -->
+	<package name="customerHoldSummary" extends="base-report" namespace="/report/customerHoldSummary">
+		 <interceptors>
+		<interceptor name="typeExportInterceptor"
+				class="customerHoldSummaryExportInterceptor">
+			</interceptor>
+			<interceptor name="orderByReportInterceptor"
+				class="gnnt.MEBS.report.action.interceptor.OrderDefaultReportInterceptor">
+				<param name="sortString">cleardate desc,memberno asc,customerno asc</param>
+			</interceptor>
+		</interceptors>
+		<action name="customerHoldSummaryReportQuery" class="customerHoldSummaryAction"
+			method="getReportList">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="orderByReportInterceptor"></interceptor-ref>
+			<interceptor-ref name="beginQueryInterceptor"></interceptor-ref>
+			<interceptor-ref name="customerQueryInterceptor"></interceptor-ref>
+			<interceptor-ref name="dataFilterCustomerNoInterceptor"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+			<interceptor-ref name="typeExportInterceptor"></interceptor-ref>
+			<result>/report/customerHoldSummaryQuery.jsp</result>
+		</action>
+	 	<action name="customerHoldSummaryReport" class="customerHoldSummaryAction" method="getTraderList">
+	 		<interceptor-ref name="mydefault"></interceptor-ref>
+	 		<interceptor-ref name="dataFilterOrganizationNoJDBCInterceptor"></interceptor-ref>
+			<interceptor-ref name="memberConditionInterceptor"></interceptor-ref>
+	 		<result>/report/settlementTemplates/customerHoldSummaryReport.jsp</result>
+	 		<result name="xls">/report/settlementTemplates/customerHoldSummaryXls.jsp</result>
+	 	</action>
+	</package>
+	
+	<!-- 客户成交汇总表  -->
+	<package name="customerTrade" extends="base-report" namespace="/report/customerTrade">
+		<interceptors>
+		<interceptor name="typeExportInterceptor"
+				class="customerTradeExportInterceptor">
+			</interceptor>
+		<interceptor name="orderByReportInterceptor"
+				class="gnnt.MEBS.report.action.interceptor.OrderDefaultReportInterceptor">
+				<param name="sortString">cleardate desc,memberno asc,customerno asc</param>
+			</interceptor>
+		</interceptors>
+		<action name="customerTradeReportQuery" class="customerTradeAction"
+			method="getReportList">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="orderByReportInterceptor"></interceptor-ref>
+			<interceptor-ref name="beginQueryInterceptor"></interceptor-ref>
+			<interceptor-ref name="dataFilterCustomerNoInterceptor"></interceptor-ref>
+			<interceptor-ref name="customerQueryInterceptor"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+			<interceptor-ref name="typeExportInterceptor"></interceptor-ref>
+			<result>/report/customerTradeQuery.jsp</result>
+		</action>
+	 	<action name="customerTradeReport" class="customerTradeAction" method="getTraderList">
+	 		<interceptor-ref name="mydefault"></interceptor-ref>
+	 		<interceptor-ref name="dataFilterOrganizationNoJDBCInterceptor"></interceptor-ref>
+			<interceptor-ref name="memberConditionInterceptor"></interceptor-ref>
+	 		<result>/report/settlementTemplates/customerTradeReport.jsp</result>
+	 		<result name="xls">/report/settlementTemplates/customerTradeXls.jsp</result>
+	 	</action>
+	</package>
+	
+	 <!-- 会员交易统计表 -->
+	<package name="memberTransactionReport" extends="base-report" namespace="/report/memberTrans">
+		<action name="memberTransactionQuery" class="memberTransactionReportAction" method="reportQuery">
+	 		<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+	 		<result>/report/memberTransactionReportQuery.jsp</result>
+	 	</action>
+	 	<action name="memberTransactionReport" class="memberTransactionReportAction" method="getTraderList">
+	 		<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="memberConditionInterceptor"></interceptor-ref>
+	 		<result>/report/settlementTemplates/memberTransactionReport.jsp</result>
+	 		<result name="xls">/report/settlementTemplates/memberTransactionXls.jsp</result>
+	 	</action>
+	</package>
+
+    
+    <!-- 会员持仓汇总表 -->
+	<package name="memberHold" extends="base-report" namespace="/report/memberHold">
+		<interceptors>
+		<interceptor name="typeExportInterceptor"
+				class="memberHoldExportInterceptor">
+			</interceptor>
+		<interceptor name="orderByReportInterceptor"
+				class="gnnt.MEBS.report.action.interceptor.OrderDefaultReportInterceptor">
+				<param name="sortString">primary.clearDate desc,primary.commodityId asc</param>
+			</interceptor>
+		</interceptors>
+		<action name="memberHoldReportQuary" class="memberHoldReportAction"
+			method="getReportList">
+			<param name="orderName">cleardate,memberno</param>
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="orderByReportInterceptor"></interceptor-ref>
+			<interceptor-ref name="beginQueryInterceptor"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+			<interceptor-ref name="typeExportInterceptor"></interceptor-ref>
+			<result>/report/memberHoldQuary.jsp</result>
+		</action>
+	 	<action name="memberHoldReport" class="memberHoldReportAction" method="getTraderList">
+	 		<interceptor-ref name="mydefault"></interceptor-ref>
+	 		<interceptor-ref name="memberInfoInterceptor"></interceptor-ref>
+			<interceptor-ref name="memberConditionInterceptor"></interceptor-ref>
+	 		<result>/report/settlementTemplates/memberHoldReport.jsp</result>
+	 		<result name="xls">/report/settlementTemplates/memberHoldXls.jsp</result>
+	 	</action>
+	</package>
+
+	<!-- 客户资金状况-->
+	<package name="customerFunds" extends="base-report" namespace="/report/customerFunds">
+	   <interceptors>
+		<interceptor name="typeExportInterceptor"
+				class="customerFundsExportInterceptor">
+			</interceptor>
+		<interceptor name="orderByReportInterceptor"
+				class="gnnt.MEBS.report.action.interceptor.OrderDefaultReportInterceptor">
+				<param name="sortString">cleardate desc,memberno asc,customerno asc</param>
+			</interceptor>
+		</interceptors>
+		<action name="customerFundsReportQuery" class="customerFundsReportAction"
+			method="getReportList">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="orderByReportInterceptor"></interceptor-ref>
+			<interceptor-ref name="beginQueryInterceptor"></interceptor-ref>
+			<interceptor-ref name="customerQueryInterceptor"></interceptor-ref>
+			<interceptor-ref name="dataFilterCustomerNoInterceptor"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+			<interceptor-ref name="typeExportInterceptor"></interceptor-ref>
+			<result>/report/customerFundsQuery.jsp</result>
+		</action>
+	 	<action name="fundsReport" class="customerFundsReportAction" method="getTraderList">
+	 		<interceptor-ref name="mydefault"></interceptor-ref>
+	 		<interceptor-ref name="dataFilterOrganizationNoJDBCInterceptor"></interceptor-ref>
+			<interceptor-ref name="memberConditionInterceptor"></interceptor-ref>
+	 		<result>/report/settlementTemplates/customerFundsReport.jsp</result>
+	 		<result name="xls">/report/settlementTemplates/customerFundsXls.jsp</result>
+	 	</action>
+	</package>
+	
+	<!-- 会员出入金明细-->
+	<package name="memberFundio" extends="base-report" namespace="/report/memberFundio">
+		<action name="memberFundioReportQuery" class="memberFundioReportAction" method="reportQuery">
+	 		<result>/report/memberFundioReportQuery.jsp</result>
+	 	</action>
+	 	<action name="memberFundioReport" class="memberFundioReportAction" method="getTraderList">
+	 		<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="memberConditionInterceptor"></interceptor-ref>
+	 		<result>/report/settlementTemplates/memberFundioReport.jsp</result>
+	 		<result name="xls">/report/settlementTemplates/memberFundioXls.jsp</result>
+	 	</action>
+	</package>
+	
+	<!-- 会员出金阈值计算表-->
+	<package name="memberFundioThreshold" extends="base-report" namespace="/report/memberFundioThreshold">
+		<action name="memberFundioThresholdReportQuery" class="memberFundioThresholdReportAction" method="reportQuery">
+	 		<result>/report/memberFundioThresholdReportQuery.jsp</result>
+	 	</action>
+	 	<action name="memberFundioThresholdReport" class="memberFundioThresholdReportAction" method="getTraderList">
+	 		<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="memberConditionInterceptor"></interceptor-ref>
+	 		<result>/report/settlementTemplates/memberFundioThresholdReport.jsp</result>
+	 		<result name="xls">/report/settlementTemplates/memberFundioThresholdXls.jsp</result>
+	 	</action>
+	</package>
+
+	
+	<!-- 会员资金状况-->
+	<package name="memberFunds" extends="base-report" namespace="/report/memberFunds">
+	<interceptors>
+		<interceptor name="typeExportInterceptor"
+				class="memberFundsExportInterceptor">
+			</interceptor>
+		</interceptors>
+		<action name="memberFundsReportQuery" class="memberFundsReportAction"
+			method="getReportList">
+			<param name="orderName">cleardate,memberno</param>
+			<interceptor-ref name="mydefault"></interceptor-ref>
+	 		<interceptor-ref name="beginQueryInterceptor"></interceptor-ref>
+	 		<interceptor-ref name="typeExportInterceptor"></interceptor-ref>
+			<result>/report/memberFundsQuery.jsp</result>
+		</action>
+	 	<action name="memberfundsReport" class="memberFundsReportAction" method="getTraderList">
+	 		<interceptor-ref name="mydefault"></interceptor-ref>
+	 		<interceptor-ref name="beginQueryInterceptor"></interceptor-ref>
+	 		<interceptor-ref name="memberInfoInterceptor"></interceptor-ref>
+			<interceptor-ref name="memberConditionInterceptor"></interceptor-ref>
+	 		<result>/report/settlementTemplates/memberFundsReport.jsp</result>
+	 		<result name="xls">/report/settlementTemplates/memberFundsXls.jsp</result>
+	 	</action>
+	</package>
+
+	<!-- 客户报表 -->
+	<package name="customer" extends="base-report" namespace="/report/customer">
+		<action name="customerReportQuery" class="customerReportAction" method="reportQuery">
+		<interceptor-ref name="mydefault"></interceptor-ref>
+		<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+	 		<result>/report/customerReportQuery.jsp</result>
+	 	</action>
+	 	<action name="customerReport" class="customerReportAction" method="getReportData">
+			<param name="reportType">客户报表</param>
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="dataFilterOrganizationNoJDBCInterceptor"></interceptor-ref>
+			<interceptor-ref name="memberConditionInterceptor"></interceptor-ref>
+	 		<result>/report/primaryReport.jsp</result>
+	 		<result name="xls">/report/primaryReportXls.jsp</result>
+	 	</action>
+	 	<action name="memberInfoList" class="memberReportAction" method="getMemberList">
+	 		<result>/report/memberReportList.jsp</result>
+	 	</action>
+	</package>
+	
+	<!-- 会员报表 -->
+	<package name="member" extends="base-report" namespace="/report/member">
+		<action name="memberReportQuery" class="memberReportAction" method="getMemberList">
+	 		<result>/report/memberReportQuery.jsp</result>
+	 	</action>
+	 	<action name="memberReport" class="memberReportAction" method="getReportData">
+			<param name="reportType">会员报表</param>
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="memberConditionInterceptor"></interceptor-ref>
+	 		<result>/report/primaryReport.jsp</result>
+	 		<result name="xls">/report/primaryReportXls.jsp</result>
+	 	</action>
+	</package>
+
+</struts>

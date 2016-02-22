@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+	<package name="bankFunds" extends="base-trade" namespace="/bankFunds/poundageChange">
+		<interceptors>
+			<interceptor name="queryBankInterceptor"
+				class="gnnt.MEBS.bankadded.action.interceptor.QueryBankInterceptor">
+			</interceptor>
+		</interceptors>
+		<action name="list" class="bankFundsAction" method="list">
+			<result>/bankAdded/bankFundsList.jsp</result>
+		</action>
+		<action name="transList" class="bankFundTransAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="queryBankInterceptor"></interceptor-ref>
+			<result>/bankAdded/bankFundTransList.jsp</result>
+		</action>
+		<action name="forwardUpdate" class="bankFundsAction" method="viewById">
+			<result>/bankAdded/bankFundTransUpdate.jsp</result>
+		</action>
+		<action name="update" class="bankFundsAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+	</package>
+
+	<!-- 手动出入虚拟资金 -->
+	<package name="moneyInto" extends="base-trade" namespace="/bankFunds/moneyInto">
+		<action name="forwardUpdate" class="moneyIntoAction" method="viewById">
+	        <interceptor-ref name="mydefault"></interceptor-ref>
+			<result>/bankInterface/IntoMoney/IntoMoney.jsp</result>
+		</action>
+		<action name="add" class="moneyIntoAction" method="add">
+			<result type="chain">forwardUpdate</result>
+		</action>
+	</package>
+	
+	<!-- 手动出入金 -->
+	<package name="moneyIntoByManual" extends="base-trade" namespace="/bankFunds/moneyIntoByManual">
+		<action name="forwardUpdateByManual" class="moneyIntoAction" method="viewById">
+	        <interceptor-ref name="mydefault"></interceptor-ref>
+			<result>/bankInterface/IntoMoney/IntoMoneyByManual.jsp</result>
+		</action>
+		<action name="add" class="moneyIntoAction" method="addByManual">
+			<result type="chain">forwardUpdateByManual</result>
+		</action>
+	</package>
+</struts>

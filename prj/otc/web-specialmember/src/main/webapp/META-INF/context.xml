@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+  <Resource driverClassName="oracle.jdbc.driver.OracleDriver" maxActive="4" maxIdle="2" maxWait="5000" name="mgr" password="password" type="javax.sql.DataSource" url="jdbc:oracle:thin:@172.16.3.3:1521:gnnt" username="deploy54"/>
+  <ResourceParams name="mgr">
+    <parameter>
+      <name>removeAbandoned</name>
+      <value>true</value>
+    </parameter>
+    <parameter>
+      <name>removeAbandonedTimeout</name>
+      <value>60</value>
+    </parameter>
+    <parameter>
+      <name>logAbandoned</name>
+      <value>true</value>
+    </parameter>
+  </ResourceParams>
+
+   <Resource driverClassName="oracle.jdbc.driver.OracleDriver" maxActive="4" maxIdle="2" maxWait="5000" name="mgrForQuery" password="password" type="javax.sql.DataSource" url="jdbc:oracle:thin:@172.16.3.3:1521:gnnt" username="deploy54"/>
+  <ResourceParams name="mgrForQuery">
+    <parameter>
+      <name>removeAbandoned</name>
+      <value>true</value>
+    </parameter>
+    <parameter>
+      <name>removeAbandonedTimeout</name>
+      <value>60</value>
+    </parameter>
+    <parameter>
+      <name>logAbandoned</name>
+      <value>true</value>
+    </parameter>
+  </ResourceParams>
+
+   <Resource driverClassName="oracle.jdbc.driver.OracleDriver" maxActive="4" maxIdle="2" maxWait="5000" name="mgrForMonitor" password="password" type="javax.sql.DataSource" url="jdbc:oracle:thin:@172.16.3.3:1521:gnnt" username="deploy54"/>
+  <ResourceParams name="mgrForMonitor">
+    <parameter>
+      <name>removeAbandoned</name>
+      <value>true</value>
+    </parameter>
+    <parameter>
+      <name>removeAbandonedTimeout</name>
+      <value>60</value>
+    </parameter>
+    <parameter>
+      <name>logAbandoned</name>
+      <value>true</value>
+    </parameter>
+  </ResourceParams>
+</Context>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="gb2312"?>
+<CONFIG>
+  <COMPONENT NAME="Systems">
+    <RunMode>1</RunMode>
+    <!--当前使用的服务器类型 0是电信-->
+    <CurServer>1</CurServer>
+    <!--交易环境列表-->
+    <Envrionment>:DefaultEnvironment|:SimulateEnviroment</Envrionment>
+    <!--是否自动更新-->
+    <AutoUpdate>true</AutoUpdate>
+    <!--客户端标题-->
+    <Title>长三角商品交易所现货电子交易系统(模拟)</Title>
+    <!--客户端版本号-->
+    <Version></Version>
+    <CompanyName>
+    </CompanyName>
+    <UsernameMaxLength>10</UsernameMaxLength>
+    <!--是否隐藏主界面-->
+    <Hide>false</Hide>
+    <!--是否强制修改密码-->
+    <ForceChangePassword>true</ForceChangePassword>
+    <!--是否显示交易商承诺-->
+    <IsDisplayCommit>true</IsDisplayCommit>
+     <!--今日是否显示交易商承诺-->
+    <IsDisplayCommitday>true</IsDisplayCommitday>
+
+    <!--是否显示交易商承诺里的 chbCommit以后不再提示可选框-->
+    <IsDisplayChbCommit>true</IsDisplayChbCommit>
+    <!--是否显示结算窗口-->
+    <IsDisplayBalance>false</IsDisplayBalance>
+    <!--资金结算表地址-->
+    <ReportUrl>/tradeweb/report/report.do?d1=lastdate&amp;reportname=zjjsb</ReportUrl>
+    <!--交易商承诺地址 不配置则从 license.txt中读取-->
+    <AddressLicense>
+    </AddressLicense>
+    <!--是否显示IP地址和端口-->
+    <DisplayIP>true</DisplayIP>
+    <!--先弹出登录框还是先弹出交易商承诺-->
+    <FirstLogon>false</FirstLogon>
+    <!-- 市场ID 使用key盘的时候使用-->
+    <MarketID>6</MarketID>
+    <!-- 登录模式 0:普通登录 1:key盘与普通并存登录模式 2:强制使用key盘登录模式-->
+    <LoadMode>1</LoadMode>
+    <MarketInfo>
+    </MarketInfo>
+	<!--配置客户端左侧菜单栏颜色-->
+    <ColorR>54</ColorR>
+    <ColorG>117</ColorG>
+    <ColorB>171</ColorB>
+  </COMPONENT>
+  <COMPONENT NAME="HQSystems">
+    <bDebug>false</bDebug>
+    <!--在分时k线界面双击商品名称是否将商品代码带入.默认为true-->
+    <QuoteMouseDoubleClick>true</QuoteMouseDoubleClick>
+    <addMarketName>false</addMarketName>
+    <!--优先排序的商品种类-->
+    <SortRules00>
+    </SortRules00>
+    <!--F10-->
+    <CommodityInfoAddress>
+    </CommodityInfoAddress>
+    <Market00>所有商品</Market00>
+  </COMPONENT>
+  <COMPONENT NAME="Trade">
+    <Title>点此恢复交易界面</Title>
+    <IsWriteLog>false</IsWriteLog>
+    <!--0:默认 1:卖仓单 2:抵顶转让 3:卖仓单和抵顶转让 -->
+    <BillType>0</BillType>
+    <!--条件下单-->
+    <ConditionOrder>
+    </ConditionOrder>
+    <!--心跳刷新时间-->
+    <MaxIdleRefreshButton>3</MaxIdleRefreshButton>
+    <!--会员刷新时间-->
+    <Refreshtime>3</Refreshtime>
+    <!--?-->
+    <AddressTransfer>
+    </AddressTransfer>
+    <!--是否主动弹出广播消息-->
+    <DisplayBroadcast>true</DisplayBroadcast>
+    <!--是否显示买卖量-->
+    <DispalyBSV>true</DispalyBSV>
+    <!--是否自动显示分时图-->
+    <AutoDisplayMinLine>true</AutoDisplayMinLine>
+    <!--?-->
+    <MaxIdleOnMoudel >1</MaxIdleOnMoudel>
+    <!--自动刷新时间以秒为单位-->
+    <HqRefreshTime>1</HqRefreshTime>
+    <!--会员刷新时间-->
+    <MemberRefreshtime>4</MemberRefreshtime>
+    <OrderItemName>OrderNo:;Time:;CommodityID:;B_S:;O_L:;Price:;Qty:;Balance:;Status:;</OrderItemName>
+    <OrderItems>OrderNo;Time;TransactionsCode;CommodityID;B_S;O_L;Price;Qty;Balance;Status;</OrderItems>
+    <TradeOrderItemName>TradeNo:;OrderNo:;Time:;CommodityID:;B_S:;O_L:;Price:;Qty:;LPrice:;Comm:;</TradeOrderItemName>
+    <TradeOrderItems>TradeNo;OrderNo;Time;TransactionsCode;CommodityID;B_S;O_L;Price;Qty;LPrice;Comm;</TradeOrderItems>
+    <AllOrderItemName>SelectFlagF2:;OrderNo:;Time:;CommodityID:;B_S:;O_L:;Price:;Qty:;Balance:;Status:;</AllOrderItemName>
+    <AllOrderItems>SelectFlagF2;OrderNo;Time;TransactionsCode;CommodityID;B_S;O_L;Price;Qty;Balance;Status;</AllOrderItems>
+    <TradeItemName>TradeNo:;Time:;CommodityID:;B_S:;O_L:;Price:;Qty:;Liqpl:;LPrice:;Comm:;</TradeItemName>
+    <TradeItems>TradeNo;Time;TransactionsCode;CommodityID;B_S;O_L;Price;Qty;Liqpl;LPrice;Comm;</TradeItems>
+    <CommodityName>CommodityID:;CommodityName:;SpreadUp:;SpreadDown:;BMargin:;SMargin:;LSettledate:;TmpTradecomm:;TmpSettlecomm:;CtrtSize:;</CommodityName>
+    <CommodityItems>CommodityID;CommodityName;SpreadUp;SpreadDown;BMargin;SMargin;|LSettledate;TmpTradecomm;TmpSettlecomm;</CommodityItems>
+    <HoldingName>CommodityID:;TransactionsCode:;BuyHolding:;BuyAvg:;SellHolding:;SellAvg:;Margin:;Floatpl:;GoodsQty:抵顶数量;</HoldingName>
+    <HoldingItems>CommodityID;TransactionsCode;BuyHolding;BuyAvg;SellHolding;SellAvg;Margin;Floatpl;BuyVHolding;SellVHolding;GoodsQty;</HoldingItems>
+    <FundsName>FirmID:;Jysqy:期初余额;HoldGain:       +上日保证金;DynRight:       +上日浮亏;Ioamt:       +出入金;TransLiqpl:       +当日转让盈亏;ChkFund:       +其它变化;RealFunds:当日可用资金;MarginAmt:订货盈亏;Margin:       -当日保证金;Lfpl:       -当日浮亏;FreezFund:       -委托冻结资金;FreezComm:       -其他冻结资金;Comm:       -当日手续费;AddFund:当前权益;TTlMargin:质押资金;Code:;</FundsName>
+    <FundsItems>FirmID;Jysqy;HoldGain;DynRight;Ioamt;TransLiqpl;ChkFund;RealFunds;MarginAmt;AddFund;|null;null;Margin;Lfpl;FreezFund;FreezComm;Comm;null;TTlMargin;</FundsItems>
+    <PreOrderItemName>SelectFlag:;ID:;TransactionsCode:;CommodityCode:;B_S:;O_L:;Price:;Qty:;LPrice:;TodayPosition:;</PreOrderItemName>
+    <PreOrderItems>SelectFlag;ID;TransactionsCode;CommodityCode;B_S;O_L;Price;Qty;LPrice;TodayPosition;</PreOrderItems>
+  </COMPONENT>
+</CONFIG>

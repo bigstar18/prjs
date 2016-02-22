@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+	<package name="base-query" extends="base-struts2" abstract="true">
+		<interceptors>
+
+			<interceptor name="commodityListInterceptor"
+				class="gnnt.MEBS.query.action.interceptor.CommodityListInterceptor">
+			</interceptor>
+			<interceptor name="customerQueryInterceptor"
+				class="gnnt.MEBS.account.action.interceptor.QueryCustomerMemInterceptor">
+			</interceptor>
+			<interceptor name="queryByManager"
+				class="gnnt.MEBS.config.action.interceptor.QueryByMemberNoInterceptor">
+			</interceptor>
+			<interceptor name="queryByManager1"
+				class="gnnt.MEBS.config.action.interceptor.QueryByBrokerageInterceptor">
+			</interceptor>
+		</interceptors>
+	</package>
+	
+
+	<!-- 客户持仓单查询 begin -->
+	<package name="queryCustomerHoldSearch" extends="base-query"
+		namespace="/query/queryCustomerHoldSearch">
+		<interceptors>
+		<interceptor name="typeExportInterceptor"
+				class="customerHoldExportInterceptor">
+			</interceptor>
+		<interceptor name="orderByQueryInterceptor"
+				class="gnnt.MEBS.query.action.interceptor.OrderDefaultQueryInterceptor">
+				<param name="sortString">primary.customerNo asc,primary.holdNo desc</param>
+				<param name="sortHString">primary.clearDate desc,primary.customerNo asc,primary.holdNo desc</param>
+			</interceptor>
+		</interceptors>
+		<action name="list" class="queryCustomerHoldSearchAction"
+			method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="queryByManager"></interceptor-ref>
+			<interceptor-ref name="orderByQueryInterceptor"></interceptor-ref>
+			<interceptor-ref name="typeExportInterceptor"></interceptor-ref>
+			<result>/query/customerHoldList.jsp</result>
+		</action>
+	</package>
+	<!-- 客户持仓单查询 end -->
+
+	<!-- 客户成交明细查询 begin -->
+	<package name="queryCustomerTransactionSearch" extends="base-query"
+		namespace="/query/queryCustomerTransactionSearch">
+		<interceptors>
+		<interceptor name="typeExportInterceptor"
+				class="customerTransactionExportInterceptor">
+			</interceptor>
+		<interceptor name="orderByQueryInterceptor"
+				class="gnnt.MEBS.query.action.interceptor.OrderDefaultQueryInterceptor">
+				<param name="sortString">primary.customerNo asc,primary.tradeNo desc</param>
+				<param name="sortHString">primary.clearDate desc,primary.customerNo asc,primary.tradeNo desc</param>
+			</interceptor>
+		</interceptors>
+		<action name="list" class="queryCustomerTransactionAction"
+			method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="queryByManager"></interceptor-ref>
+			<interceptor-ref name="orderByQueryInterceptor"></interceptor-ref>
+			<interceptor-ref name="typeExportInterceptor"></interceptor-ref>
+			<result>/query/customerTransactionList.jsp</result>
+		</action>
+	</package>
+	<!-- 客户成交明细查询 end -->
+	
+
+	<!-- 客户限价单查询 begin -->
+	<package name="queryCustomerLimitPriceSearch" extends="base-query"
+		namespace="/query/queryCustomerLimitPriceSearch">
+		<interceptors>
+		<interceptor name="typeExportInterceptor"
+				class="customerLimitExportInterceptor">
+			</interceptor>
+		<interceptor name="orderByQueryInterceptor"
+				class="gnnt.MEBS.query.action.interceptor.OrderDefaultQueryInterceptor">
+				<param name="sortString">primary.customerNo asc,primary.orderTime desc</param>
+				<param name="sortHString">primary.clearDate desc,primary.customerNo asc,primary.orderTime desc</param>
+			</interceptor>
+		</interceptors>
+		<action name="list" class="queryCustomerLimitPriceSearchAction"
+			method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="queryByManager1"></interceptor-ref>
+			<interceptor-ref name="orderByQueryInterceptor"></interceptor-ref>
+			<interceptor-ref name="typeExportInterceptor"></interceptor-ref>
+			<result>/query/customerLimitPriceList.jsp</result>
+		</action>
+	</package>
+	<!-- 客户限价单查询 end -->
+
+
+	
+	<!-- 客户资金流水查询 begin -->
+	<package name="queryCustomerFundFlowSearch" extends="base-query"
+		namespace="/query/queryCustomerFundFlowSearch">
+		<interceptors>
+		<interceptor name="typeExportInterceptor"
+				class="customerFundFlowExportInterceptor">
+			</interceptor>
+		<interceptor name="orderByQueryInterceptor"
+				class="gnnt.MEBS.query.action.interceptor.OrderDefaultQueryInterceptor">
+				<param name="sortString">primary.customerNo asc,primary.fundFlowId desc</param>
+				<param name="sortHString">primary.clearDate desc,primary.customerNo asc,primary.fundFlowId desc</param>
+			</interceptor>
+		</interceptors>
+		<action name="list" class="queryCustomerFundFlowAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="queryByManager"></interceptor-ref>
+			<interceptor-ref name="orderByQueryInterceptor"></interceptor-ref>
+			<interceptor-ref name="typeExportInterceptor"></interceptor-ref>
+			<result>/query/customerFundFlowList.jsp</result>
+		</action>
+	</package>
+	<!-- 客户资金流水查询 end -->
+	<!-- 客户资金查询 begin -->
+	<package name="queryCustomerFundSearch" extends="base-query"
+		namespace="/query/queryCustomerFundSearch">
+		<interceptors>
+		<interceptor name="typeExportInterceptor"
+				class="customerFundExportInterceptor">
+			</interceptor>
+		<interceptor name="orderByQueryInterceptor"
+				class="gnnt.MEBS.query.action.interceptor.OrderDefaultQueryInterceptor">
+				<param name="sortString">primary.customerNo asc</param>
+				<param name="sortHString">primary.clearDate desc,primary.customerNo asc</param>
+			</interceptor>
+		</interceptors>
+		<action name="list" class="queryCustomerFundAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="queryByManager1"></interceptor-ref>
+			<interceptor-ref name="orderByQueryInterceptor"></interceptor-ref>
+			<interceptor-ref name="typeExportInterceptor"></interceptor-ref>
+			<result>/query/customerFundList.jsp</result>
+		</action>
+	</package>
+	<!-- 客户资金查询 end -->
+
+
+</struts>

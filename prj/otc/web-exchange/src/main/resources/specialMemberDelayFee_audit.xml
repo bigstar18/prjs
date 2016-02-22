@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+
+
+
+	<!-- 特别会员延期费设置流程配置begin -->
+	<bean id="specialMemberDelayFeeUpdateProcessContext" class="gnnt.MEBS.audit.flowService.common.ProcessContextImpl">
+		<property name="finalStatus" value="2" />
+		<property name="steps">
+			<list>
+				<ref bean="specialMemberDelayFeeUdateApplyStep" />
+				<ref bean="specialMemberDelayFeeUpdateAuditStep" />
+			</list>
+		</property>
+		<property name="statusOperate" ref="statusOperate" />
+	</bean>
+
+	<bean id="specialMemberDelayFeeUdateApplyStep" class="gnnt.MEBS.audit.flowService.common.StepImpl">
+		<property name="handleList">
+			<list>
+				<ref bean="specialMemberDelayFeeUpdateApplyHandle" />
+			</list>
+		</property>
+		<property name="currentStatus">
+			<value>0</value>
+		</property>
+	</bean>
+
+	<bean id="specialMemberDelayFeeUpdateAuditStep" class="gnnt.MEBS.audit.flowService.common.StepImpl">
+		<property name="handleList">
+			<list>
+				<ref bean="specialMemberDelayFeeUpdateAuditHandle" />
+				<ref bean="specialMemberDelayFeeRejectAuditHandle" />
+			</list>
+		</property>
+		<property name="currentStatus">
+			<value>1</value>
+		</property>
+	</bean>
+
+	<bean id="specialMemberDelayFeeUpdateApplyHandle" class="gnnt.MEBS.audit.flowService.common.HandleImpl">
+		<property name="finalStatus" value="1" />
+		<property name="beanName" value="申请修改" />
+		<property name="key" value="apply" />
+		<property name="behaviour" ref="specialMemberDelayFeeUpdateApplyBehaviour" />
+	</bean>
+	<bean id="specialMemberDelayFeeUpdateAuditHandle" class="gnnt.MEBS.audit.flowService.common.HandleImpl">
+		<property name="finalStatus" value="2" />
+		<property name="beanName" value="审核修改" />
+		<property name="key" value="audit" />
+		<property name="behaviour" ref="specialMemberDelayFeeUpdateAuditBehaviour" />
+	</bean>
+	<bean id="specialMemberDelayFeeRejectAuditHandle" class="gnnt.MEBS.audit.flowService.common.HandleImpl">
+		<property name="finalStatus" value="-2" />
+		<property name="beanName" value="驳回修改" />
+		<property name="key" value="reject" />
+	</bean>
+
+	<bean id="specialMemberDelayFeeUpdateBusinessService" class="gnnt.MEBS.audit.businessService.DelayBusinessService">
+		<property name="serrviceName" value="specialMemberDelayFeeService" />
+		<property name="methodName" value="audit" />
+		<property name="classFullName" value="gnnt.MEBS.commodity.model.TCDelayFee" />
+	</bean>
+
+	<bean id="specialMemberDelayFeeUpdateApplyBehaviour" class="gnnt.MEBS.audit.flowService.behaviour.AddAuditObject">
+	</bean>
+
+	<bean id="specialMemberDelayFeeUpdateAuditBehaviour" class="gnnt.MEBS.audit.flowService.behaviour.BusinessDeal">
+		<property name="businessService" ref="specialMemberDelayFeeUpdateBusinessService" />
+	</bean>
+	<!-- 特别会员延期费设置流程配置end -->
+
+	<!-- 特别会员延期费设置申请与审核 start -->
+	<bean id="specialMemberDelayFeeJDBCDao" class="gnnt.MEBS.audit.dao.memberDelayFeeJDBCDao"
+		autowire="byName"></bean>
+
+	<bean id="specialMemberDelayFeeApplyAction" class="gnnt.MEBS.audit.action.DelayApplyAction"
+		scope="request">
+		<property name="applyType" value="commodity_specialMemberDelayFee" />
+		<property name="operateStatus" value="0" />
+		<property name="action" ref="specialMemberDelayFeeAction" />
+		<property name="applyJDBCDao" ref="specialMemberDelayFeeJDBCDao" />
+	</bean>
+	<bean id="specialMemberDelayFeeAuditAction" class="gnnt.MEBS.audit.action.DelayAuditAction"
+		scope="request">
+		<property name="applyType" value="commodity_specialMemberDelayFee" />
+		<property name="operateStatus" value="1" />
+		<property name="action" ref="specialMemberDelayFeeAction" />
+		<property name="applyJDBCDao" ref="specialMemberDelayFeeJDBCDao" />
+	</bean>
+	<!-- 特别会员延期费设置申请与审核 end -->
+</beans>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+<Resource name="mgr"
+   type="javax.sql.DataSource"
+   password="password"
+   driverClassName="oracle.jdbc.driver.OracleDriver"
+   maxIdle="2"
+   maxWait="5000"
+   username="tjgjs"
+   url="jdbc:oracle:thin:@172.16.2.11:1521:gnnt"
+   maxActive="4"/>
+   <ResourceParams name="mgr">
+
+   <parameter>
+    <name>removeAbandoned</name>
+    <value>true</value>
+   </parameter>
+
+    <parameter>
+    <name>removeAbandonedTimeout</name>
+    <value>60</value>
+    </parameter>
+
+    <parameter>
+      <name>logAbandoned</name>
+      <value>true</value>
+    </parameter>
+   </ResourceParams>
+</Context>

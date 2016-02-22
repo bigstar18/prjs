@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<context:annotation-config />
+	<context:component-scan
+		base-package="gnnt.MEBS.report.dao,gnnt.MEBS.report.service,gnnt.MEBS.report.action">
+	</context:component-scan>
+
+	<bean id="config" class="java.util.Properties">
+		<constructor-arg type="java.util.Properties">
+			<props>
+			</props>
+		</constructor-arg>
+	</bean>
+	<util:map id="whetherMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="Y" value="是" />
+		<entry key="N" value="否" />
+	</util:map>
+	<util:map id="flagMap" map-class="java.util.HashMap" key-type="java.lang.String"
+		value-type="java.lang.String">
+		<entry key="1" value="买入" />
+		<entry key="2" value="卖出" />
+	</util:map>
+	<util:map id="customerStatusMap" map-class="java.util.HashMap" key-type="java.lang.String"
+		value-type="java.lang.String">
+		<entry key="0" value="可用" />
+		<entry key="1" value="冻结" />
+		<entry key="2" value="销户" />
+	</util:map>
+	<util:map id="bankMap" map-class="java.util.HashMap" key-type="java.lang.String"
+		value-type="java.lang.String">
+		<entry key="S" value="特别会员" />
+		<entry key="M" value="会员" />
+		<entry key="C" value="交易客户" />
+	</util:map>
+			<!-- 资金流水中业务代码的类型 -->
+	<util:map id="codeMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="101" value="入金" />
+		<entry key="102" value="出金" />
+		<entry key="103" value="银转出金" />
+		<entry key="104" value="银转入金" />
+		<entry key="106" value="结转交易手续费" />
+		<entry key="107" value="内部结转" />
+		<entry key="201" value="收交易手续费" />
+		<entry key="202" value="收交易保证金" />
+		<entry key="203" value="退交易保证金" />
+		<entry key="204" value="收持仓亏损" />
+		<entry key="205" value="付持仓盈利" />
+		<entry key="206" value="收平仓亏损" />
+		<entry key="207" value="付平仓盈利" />
+		<entry key="210" value="收延期费" />
+		<entry key="211" value="付延期费" />
+		<entry key="212" value="付手续费" />
+	</util:map>
+	<util:map id="moldMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="O" value="建仓" />
+		<entry key="C" value="平仓" />
+	</util:map>
+	<!-- 会员成交汇总表 start -->
+	<bean id="memberTradeAction" class="gnnt.MEBS.report.action.SingleReportAction"  scope="request">
+		<property name="singleReportService" ref="memberTradeService"></property>
+	</bean>
+	<bean id="memberTradeService" class="gnnt.MEBS.report.service.SingleReportService">
+		<property name="commonReportDao" ref="memberTradeDao"></property>
+	</bean>
+	<bean id="memberTradeDao" class="gnnt.MEBS.report.dao.CommonReportDao">
+		<property name="sql" value="select * from v_member_orders_stat primary"></property>
+		<property name="pageInfoStr" value="cleardate,memberno,commodityName"></property>
+	</bean>
+	<!-- 会员成交汇总表 end -->
+	
+	<!-- 会员持仓汇总表 start -->
+	<bean id="memberHoldReportAction" class="gnnt.MEBS.report.action.SingleReportAction"  scope="request">
+		<property name="singleReportService" ref="memberHoldService"></property>
+	</bean>
+	<bean id="memberHoldService" class="gnnt.MEBS.report.service.SingleReportService">
+		<property name="commonReportDao" ref="memberHoldDao"></property>
+	</bean>
+	<bean id="memberHoldDao" class="gnnt.MEBS.report.dao.CommonReportDao">
+		<property name="sql" value="select * from v_member_hold_stat primary"></property>
+		<property name="pageInfoStr" value="clearDate,memberno,commodityname"></property>
+	</bean>
+	<!-- 会员持仓汇总表 end -->
+
+<!-- 特别会员成交汇总表 start 
+	<bean id="specialMemberTradeAction" class="gnnt.MEBS.report.action.SingleReportAction"  scope="request">
+		<property name="singleReportService" ref="specialMemberTradeService"></property>
+	</bean>
+	<bean id="specialMemberTradeService" class="gnnt.MEBS.report.service.SingleReportService">
+		<property name="commonReportDao" ref="specialMemberTradeDao"></property>
+	</bean>
+	<bean id="specialMemberTradeDao" class="gnnt.MEBS.report.dao.CommonReportDao">
+		<property name="sql" value="select * from v_sm_orders_stat primary"></property>
+		<property name="pageInfoStr" value="clearDate,s_memberno,commodityname"></property>
+	</bean>
+	-->
+	<bean id="specialMemberTradeAction" class="gnnt.MEBS.report.action.QueryReportAction"  scope="request">
+		<property name="queryReportService" ref="specialMemberTradeService"></property>
+	</bean>
+	<bean id="specialMemberTradeService" class="gnnt.MEBS.report.service.QueryReportService">
+		<property name="queryReportDDao" ref="specialMemberOrdersReportDao"></property>
+	</bean>
+	<!-- 特别会员成交汇总表 end -->
+
+<!-- 特别会员出金阈值计算表 start -->
+	<bean id="specialMemberFundioThresholdAction" class="gnnt.MEBS.report.action.SingleReportAction"  scope="request">
+		<property name="singleReportService" ref="specialMemberFundioThresholdService"></property>
+	</bean>
+	<bean id="specialMemberFundioThresholdService" class="gnnt.MEBS.report.service.SingleReportService">
+		<property name="commonReportDao" ref="specialMemberFundioThresholdDao"></property>
+	</bean>
+	<bean id="specialMemberFundioThresholdDao" class="gnnt.MEBS.report.dao.CommonReportDao">
+		<property name="sql" value="select * from v_sm_fundio_threshold primary"></property>
+		<property name="pageInfoStr" value="clearDate,memberno"></property>
+	</bean>
+	<!-- 特别会员出金阈值计算表 end -->
+
+
+	<!-- 特别会员交易统计表 start -->
+	<bean id="specialMemberTradeStatsAction" class="gnnt.MEBS.report.action.SingleReportAction"  scope="request">
+		<property name="singleReportService" ref="specialMemberTradeStatsService"></property>
+	</bean>
+	<bean id="specialMemberTradeStatsService" class="gnnt.MEBS.report.service.SingleReportService">
+		<property name="commonReportDao" ref="specialMemberTradeStatsDao"></property>
+	</bean>
+	<bean id="specialMemberTradeStatsDao" class="gnnt.MEBS.report.dao.CommonReportDao">
+		<property name="sql" value="select * from v_sm_trade_stat primary"></property>
+		<property name="pageInfoStr" value="cleardate,s_memberno,commodityName"></property>
+	</bean>
+	<!-- 特别会员交易统计表 end -->
+
+<!-- 特别会员资金汇总表 start 
+	<bean id="specialMemberFundsAction" class="gnnt.MEBS.report.action.SingleReportAction"  scope="request">
+		<property name="singleReportService" ref="specialMemberFundsService"></property>
+	</bean>
+	<bean id="specialMemberFundsService" class="gnnt.MEBS.report.service.SingleReportService">
+		<property name="commonReportDao" ref="specialMemberFundsDao"></property>
+	</bean>
+	<bean id="specialMemberFundsDao" class="gnnt.MEBS.report.dao.CommonReportDao">
+		<property name="sql" value="select * from v_sm_funds_stat primary"></property>
+		<property name="pageInfoStr" value="cleardate,s_memberNo"></property>
+	</bean>-->
+	<bean id="specialMemberFundsAction" class="gnnt.MEBS.report.action.QueryReportAction"  scope="request">
+		<property name="queryReportService" ref="specialMemberFundsService"></property>
+	</bean>
+	<bean id="specialMemberFundsService" class="gnnt.MEBS.report.service.QueryReportService">
+		<property name="queryReportDDao" ref="specialMemberFundsReportDao"></property>
+	</bean>
+	<!-- 特别会员资金汇总表 end -->
+
+	<!-- 特别会员持仓汇总表 start
+	<bean id="specialMemberHoldAction" class="gnnt.MEBS.report.action.SingleReportAction"  scope="request">
+		<property name="singleReportService" ref="specialMemberHoldService"></property>
+	</bean>
+	<bean id="specialMemberHoldService" class="gnnt.MEBS.report.service.SingleReportService">
+		<property name="commonReportDao" ref="specialMemberHoldDao"></property>
+	</bean>
+	<bean id="specialMemberHoldDao" class="gnnt.MEBS.report.dao.CommonReportDao">
+		<property name="sql" value="select * from V_SM_HOLD_STAT primary"></property>
+		<property name="pageInfoStr" value="clearDate,s_memberno,commodityname"></property>
+	</bean> -->
+	
+	<bean id="specialMemberHoldAction" class="gnnt.MEBS.report.action.QueryReportAction"  scope="request">
+		<property name="queryReportService" ref="specialMemberHoldService"></property>
+	</bean>
+	<bean id="specialMemberHoldService" class="gnnt.MEBS.report.service.QueryReportService">
+		<property name="queryReportDDao" ref="specialMemberHoldReportDao"></property>
+	</bean>
+	<!-- 特别会员持仓汇总表 end -->
+
+
+
+	<!-- 特别会员报表 start -->
+	<bean id="specialMemberReportAction" class="gnnt.MEBS.report.action.SpecialMemberReportAction"
+		scope="request">
+		<property name="assembleData" ref="specialMemberAssembleData" />
+	</bean>
+
+	<bean id="specialMemberAssembleData" class="gnnt.MEBS.report.assemble.AssembleDataForCache">
+		<property name="primaryReportService" ref="specialMemberPrimaryReportService"></property>
+		<property name="dataReportServiceMap" ref="sMemberMap"></property>
+		<property name="key" value="s_memberNo"></property>
+	</bean>
+
+	<bean id="specialMemberPrimaryReportService" class="gnnt.MEBS.report.service.PrimaryReportService">
+		<property name="reportDao" ref="specialMemberReportDao"></property>
+		<property name="template" value="/report/primary/specialMemberPrimary.jsp"></property>
+	</bean>
+	<bean id="specialMemberReportDao" class="gnnt.MEBS.report.dao.SpecialMemberReportDao" />
+
+	
+	<util:map id="sMemberMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="service.ReportServiceImpl">
+		<entry key="closePositionReport" value-ref="sMemberClosePositionReportService"></entry>
+		<entry key="capitalFlowingReport" value-ref="sMemberCapitalFlowingReportService"></entry>
+		<entry key="holdPositionReport" value-ref="sMemberHoldPositionReportService"></entry>
+		<entry key="tradeDetailReport" value-ref="sMemberTradeDetailReportService"></entry>
+		<entry key="fundsReport" value-ref="sMemberAccountReportService"></entry>
+	</util:map>
+	<bean id="sMemberClosePositionReportService" class="gnnt.MEBS.report.service.ReportServiceImpl">
+		<property name="reportDao" ref="sMemberClosePositionReportDao"></property>
+		<property name="template"
+			value="/report/tableTemplates/specialMemberClosePositionReport.jsp"></property>
+	</bean>
+	<bean id="sMemberHoldPositionReportService" class="gnnt.MEBS.report.service.ReportServiceImpl">
+		<property name="reportDao" ref="sMemberHoldPositionReportDao"></property>
+		<property name="template"
+			value="/report/tableTemplates/specialMemberHoldPositionReport.jsp"></property>
+	</bean>
+	<bean id="sMemberCapitalFlowingReportService" class="gnnt.MEBS.report.service.ReportServiceImpl">
+		<property name="reportDao" ref="sMemberCapitalFlowingReportDao"></property>
+		<property name="template"
+			value="/report/tableTemplates/specialMemberCapitalFlowingReport.jsp"></property>
+	</bean>
+	<bean id="sMemberTradeDetailReportService" class="gnnt.MEBS.report.service.ReportServiceImpl">
+		<property name="reportDao" ref="sMemberTradeDetailReportDao"></property>
+		<property name="template"
+			value="/report/tableTemplates/specialMemberTradeDetailReport.jsp"></property>
+	</bean>
+	<bean id="sMemberAccountReportService" class="gnnt.MEBS.report.service.ReportServiceImpl">
+		<property name="reportDao" ref="sMemberAccountReportDao"></property>
+		<property name="template"
+			value="/report/tableTemplates/specialMemberFundsReport.jsp"></property>
+	</bean>
+		<bean id="sMemberAccountReportDao" class="gnnt.MEBS.report.dao.CommonReportDao">
+		<property name="sql"
+			value="select * from V_SM_TRADE_FUNDS_STAT primary"></property>
+		<property name="pageInfoStr" value="lastbalance"></property>
+	</bean>
+	<bean id="sMemberClosePositionReportDao" class="gnnt.MEBS.report.dao.CommonReportDao">
+		<property name="sql"
+			value="select * from V_SM_CLOSE_DETAILS primary"></property>
+		<property name="pageInfoStr" value="closetime"></property>
+	</bean>
+	<bean id="sMemberHoldPositionReportDao" class="gnnt.MEBS.report.dao.CommonReportDao">
+		<property name="sql"
+			value="select * from V_SM_HOLD_DETAILS primary"></property>
+		<property name="pageInfoStr" value="cleardate"></property>
+	</bean>
+	<bean id="sMemberCapitalFlowingReportDao" class="gnnt.MEBS.report.dao.CommonReportDao">
+		<property name="sql"
+			value="select * from V_SM_FUNDS_FLOW_DETAILS primary"></property>
+		<property name="pageInfoStr" value="createtime"></property>
+	</bean>
+	<bean id="sMemberTradeDetailReportDao" class="gnnt.MEBS.report.dao.CommonReportDao">
+		<property name="sql" value="select * from V_SM_ORDERS_DETAILS primary"></property>
+		<property name="pageInfoStr" value="tradetime"></property>
+	</bean>
+	
+	<!-- 特别会员报表 end -->
+	<import resource="report_CSV.xml"/>
+
+</beans>

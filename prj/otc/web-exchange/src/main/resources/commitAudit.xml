@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+    <struts>
+    <package name="commitAudit/commodity_baseCommodityAudit" extends="base-struts2" namespace="/audit/commitAudit/commodity_baseCommodityAudit">
+		<action name="auditDetails" class="commodityAuditAction" method="auditDetails">
+			<result>/applyAndAudit/audit/commodityAudit/commodityDetails.jsp</result>
+		</action>
+	</package>
+    <package name="commitAudit/commodity_marginAudit" extends="base-struts2" namespace="/audit/commitAudit/commodity_marginAudit">
+		<action name="auditDetails" class="marginAuditAction" method="auditDetails">
+			<result>/applyAndAudit/audit/marginAudit/marginDetails.jsp</result>
+		</action>
+	</package>
+	<package name="commitAudit/commodity_articleParitiesAgioAudit" extends="base-struts2" namespace="/audit/commitAudit/commodity_articleParitiesAgioAudit">
+		<action name="auditDetails" class="articleParitiesAgioAuditAction" method="auditDetails">
+			<result>/applyAndAudit/audit/articleParitiesAgioAudit/articleParitiesAgioDetails.jsp</result>
+		</action>
+	</package>
+	<package name="commitAudit/commodity_commodityAudit" extends="base-struts2" namespace="/audit/commitAudit/commodity_commodityAudit">
+		<action name="auditDetails" class="commodityAuditAction" method="auditDetails">
+			<result>/applyAndAudit/audit/commodityAudit/commodityDetails.jsp</result>
+		</action>
+	</package>
+	<package name="commitAudit/commodity_commodityFeeAudit" extends="base-struts2" namespace="/audit/commitAudit/commodity_commodityFeeAudit">
+		<action name="auditDetails" class="commodityFeeAuditAction" method="auditDetails">
+			<result>/applyAndAudit/audit/commodityFeeAudit/commodityFeeDetails.jsp</result>
+		</action>
+	</package>
+	<package name="commitAudit/commodity_commodityPriceProtectAudit" extends="base-struts2" namespace="/audit/commitAudit/commodity_commodityPriceProtectAudit">
+		<action name="auditDetails" class="commodityPriceProtectAuditAction" method="auditDetails">
+			<result>/applyAndAudit/audit/commodityPriceProtectAudit/commodityPriceProtectDetails.jsp</result>
+		</action>
+	</package>
+	<package name="commitAudit/commodity_holdQtyAudit" extends="base-struts2" namespace="/audit/commitAudit/commodity_holdQtyAudit">
+		<action name="auditDetails" class="holdQtyAuditAction" method="auditDetails">
+			<result>/applyAndAudit/audit/holdQtyAudit/holdQtyDetails.jsp</result>
+		</action>
+	</package>
+	<package name="commitAudit/commodity_tcDelayFeeAudit" extends="base-struts2" namespace="/audit/commitAudit/commodity_tcDelayFeeAudit">
+		<action name="auditDetails" class="tcDelayFeeAuditAction" method="auditDetails">
+			<result>/applyAndAudit/audit/tcDelayFeeAudit/tcDelayFeeDetails.jsp</result>
+		</action>
+	</package>
+	<package name="commitAudit/commodity_memberDelayFeeAudit" extends="base-struts2" namespace="/audit/commitAudit/commodity_memberDelayFeeAudit">
+		<action name="auditDetails" class="memberDelayFeeAuditAction" method="auditDetails">
+			<result>/applyAndAudit/audit/tcDelayFeeAudit/memberDelayFeeDetails.jsp</result>
+		</action>
+	</package>
+	<package name="commitAudit/commodity_memberHoldQuantilyAudit" extends="base-struts2" namespace="/audit/commitAudit/commodity_memberHoldQuantilyAudit">
+		<action name="auditDetails" class="memberHoldQuantilyAuditAction" method="auditDetails">
+			<result>/applyAndAudit/audit/holdQuantilyAudit/memberHoldQuantilyDetails.jsp</result>
+		</action>
+	</package>
+	<package name="commitAudit/commodity_customerHoldQuantilyAudit" extends="base-struts2" namespace="/audit/commitAudit/commodity_customerHoldQuantilyAudit">
+		<action name="auditDetails" class="customerHoldQuantilyAuditAction" method="auditDetails">
+			<result>/applyAndAudit/audit/customerHoldQuantilyAudit/customerHoldQuantilyDetails.jsp</result>
+		</action>
+	</package>
+	<package name="commitAudit/commodity_memberMarginAudit" extends="base-struts2" namespace="/audit/commitAudit/commodity_memberMarginAudit">
+		<action name="auditDetails" class="memberMarginAuditAction"	method="auditDetails">
+			<result>/applyAndAudit/audit/marginAudit/memberMarginDetails.jsp</result>
+		</action>
+	</package>
+	<package name="commitAudit/commodity_customerMarginAudit" extends="base-struts2" namespace="/audit/commitAudit/commodity_customerMarginAudit">
+		<action name="auditDetails" class="customerMarginAuditAction"	method="auditDetails">
+			<result>/applyAndAudit/audit/marginAudit/customerMarginDetails.jsp</result>
+		</action>
+	</package>
+	<package name="commitAudit/commodity_memberQuotePointAudit" extends="base-struts2" namespace="/audit/commitAudit/commodity_memberQuotePointAudit">
+		<action name="auditDetails" class="memberQuotePointAuditAction" method="auditDetails">
+			<result>/applyAndAudit/audit/quotePointAudit/memberQuotePointDetails.jsp</result>
+		</action>
+	</package>
+	<package name="commitAudit/commodity_memberTakeFeeAudit" extends="base-struts2" namespace="/audit/commitAudit/commodity_memberTakeFeeAudit">
+		<action name="auditDetails" class="memberTakeFeeAuditAction" method="auditDetails">
+			<result>/applyAndAudit/audit/memberTakeFeeAudit/memberTakeFeeDetails.jsp</result>
+		</action>
+	</package>
+	<package name="commitAudit/commodity_memberTradeAuthAudit" extends="base-struts2" namespace="/audit/commitAudit/commodity_memberTradeAuthAudit">
+		<action name="auditDetails" class="memberTradeAuthAuditAction" method="auditDetails">
+			<result>/applyAndAudit/audit/tradeAuthAudit/memberTradeAuthDetails.jsp</result>
+		</action>
+	</package>
+	<package name="commitAudit/commodity_orderPointAudit" extends="base-struts2" namespace="/audit/commitAudit/commodity_orderPointAudit">
+		<action name="auditDetails" class="orderPointAuditAction" method="auditDetails">
+			<result>/applyAndAudit/audit/orderPointAudit/orderPointDetails.jsp</result>
+		</action>
+	</package>
+	<package name="commitAudit/commodity_quotePointAudit" extends="base-struts2" namespace="/audit/commitAudit/commodity_quotePointAudit">
+		<action name="auditDetails" class="quotePointAuditAction" method="auditDetails">
+			<result>/applyAndAudit/audit/quotePointAudit/quotePointDetails.jsp</result>
+		</action>
+	</package>
+	<package name="commitAudit/commodity_specialMemberDelayFeeAudit" extends="base-struts2" namespace="/audit/commitAudit/commodity_specialMemberDelayFeeAudit">
+		<action name="auditDetails" class="specialMemberDelayFeeAuditAction" method="auditDetails">
+			<result>/applyAndAudit/audit/tcDelayFeeAudit/specialMemberDelayFeeDetails.jsp</result>
+		</action>
+	</package>
+	<package name="commitAudit/commodity_specialMemberQuotePointAudit" extends="base-struts2" namespace="/audit/commitAudit/commodity_specialMemberQuotePointAudit">
+		<action name="auditDetails" class="specialMemberQuotePointAuditAction" method="auditDetails">
+			<result>/applyAndAudit/audit/quotePointAudit/specialMemberQuotePointDetails.jsp</result>
+		</action>
+	</package>
+	<package name="commitAudit/commodity_specialMemberTakeFeeAudit" extends="base-struts2" namespace="/audit/commitAudit/commodity_specialMemberTakeFeeAudit">
+		<action name="auditDetails" class="specialMemberTakeFeeAuditAction" method="auditDetails">
+			<result>/applyAndAudit/audit/specialMemberTakeFeeAudit/specialMemberTakeFeeDetails.jsp</result>
+		</action>
+	</package>
+	<package name="commitAudit/commodity_tradeAuthForSMemberAudit" extends="base-struts2" namespace="/audit/commitAudit/commodity_tradeAuthForSMemberAudit">
+		<action name="auditDetails" class="tradeAuthForSMemberAuditAction" method="auditDetails">
+			<result>/applyAndAudit/audit/tradeAuthAudit/tradeAuthForSMemberDetails.jsp</result>
+		</action>
+	</package>
+	<package name="commitAudit/commodity_tradeAuthAudit" extends="base-struts2" namespace="/audit/commitAudit/commodity_tradeAuthAudit">
+		<action name="auditDetails" class="tradeAuthAuditAction" method="auditDetails">
+			<result>/applyAndAudit/audit/tradeAuthAudit/tradeAuthDetails.jsp</result>
+		</action>
+	</package>
+	<package name="commitAudit/commodity_tradeAuthForTraderAudit" extends="base-struts2" namespace="/audit/commitAudit/commodity_tradeAuthForTraderAudit">
+		<action name="auditDetails" class="tradeAuthForTraderAuditAction" method="auditDetails">
+			<result>/applyAndAudit/audit/tradeAuthAudit/traderTradeAuthDetails.jsp</result>
+		</action>
+	</package>
+		<package name="commitAudit/commodity_customerTakeFeeAudit" extends="base-struts2" namespace="/audit/commitAudit/commodity_customerTakeFeeAudit">
+		<action name="auditDetails" class="customerTakeFeeAuditAction" method="auditDetails">
+			<result>/applyAndAudit/audit/customerTakeFeeAudit/customerTakeFeeDetails.jsp</result>
+		</action>
+	</package>
+	<package name="commitAudit/commodity_memCustomerTakeFeeAudit" extends="base-struts2" namespace="/audit/commitAudit/commodity_memCustomerTakeFeeAudit">
+		<action name="auditDetails" class="memCustomerTakeFeeAuditAction" method="auditDetails">
+			<result>/applyAndAudit/audit/memCustomerTakeFeeAudit/memCustomerTakeFeeDetails.jsp</result>
+		</action>
+	</package>
+	<package name="commitAudit/commodity_delayTradeAudit" extends="base-struts2" namespace="/audit/commitAudit/commodity_delayTradeAudit">
+		<action name="auditDetails" class="commodityDelayTradeAuditAction" method="auditDetails">
+			<result>/applyAndAudit/audit/commodityDelayTradeAudit/commodityDelayTradeDetails.jsp</result>
+		</action>
+	</package>
+	<package name="commitAudit/commodity_memberDelayTradeAudit" extends="base-struts2" namespace="/audit/commitAudit/commodity_memberDelayTradeAudit">
+		<action name="auditDetails" class="memberDelayTradeAuditAction" method="auditDetails">
+			<result>/applyAndAudit/audit/memberDelayTradeAudit/memberDelayTradeDetails.jsp</result>
+		</action>
+	</package>
+	<package name="commitAudit/commodity_memCustomerDelayTradeAudit" extends="base-struts2" namespace="/audit/commitAudit/commodity_memCustomerDelayTradeAudit">
+		<action name="auditDetails" class="memCustomerDelayTradeAuditAction" method="auditDetails">
+			<result>/applyAndAudit/audit/memCustomerDelayTradeAudit/memCustomerDelayTradeDetails.jsp</result>
+		</action>
+	</package>
+	<package name="commitAudit/commodity_customerDelayTradeAudit" extends="base-struts2" namespace="/audit/commitAudit/commodity_customerDelayTradeAudit">
+		<action name="auditDetails" class="customerDelayTradeAuditAction" method="auditDetails">
+			<result>/applyAndAudit/audit/customerDelayTradeAudit/customerDelayTradeDetails.jsp</result>
+		</action>
+	</package>
+	</struts>

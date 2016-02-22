@@ -1,0 +1,497 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="baseAudit" extends="base-struts2" namespace="/audit/baseAudit">
+		<interceptors>
+			<interceptor name="applyStatusInterceptor"
+				class="gnnt.MEBS.audit.action.interceptor.FilterStatusInterceptor">
+				<param name="queryCondition">primary.status[=][int]</param>
+				<param name="queryWord">1</param>
+			</interceptor>
+		</interceptors>
+		<action name="baseAuditList" class="commonAuditAction" method="auditList">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="applyStatusInterceptor"></interceptor-ref>
+			<result>/applyAndAudit/public/commonAuditList.jsp</result>
+		</action>
+	</package>
+	<package name="commitAudit" extends="base-struts2" namespace="/audit/commitAudit">
+		<interceptors>
+			<interceptor name="applyStatusInterceptor"
+				class="gnnt.MEBS.audit.action.interceptor.FilterStatusInterceptor">
+				<param name="queryCondition">primary.status[=][int]</param>
+				<param name="queryWord">1</param>
+			</interceptor>
+			<interceptor name="filterLogonIdInterceptor"
+				class="gnnt.MEBS.audit.action.interceptor.FilterLogonIdInterceptor">
+			</interceptor>
+			 <interceptor name="commodityLogInterceptor"
+					class="gnnt.MEBS.audit.action.interceptor.LogInterceptor">
+					<param name="classFullName">
+					   gnnt.MEBS.commodity.model.Commodity
+					</param>
+					<param name="serrviceName">
+					   commodityService
+					</param>
+			 </interceptor>
+			 <interceptor name="marginLogInterceptor"
+				class="gnnt.MEBS.audit.action.interceptor.LogInterceptor">
+				<param name="classFullName">
+				   gnnt.MEBS.commodity.model.Margin
+				</param>
+				<param name="serrviceName">
+				   marginService
+				</param>
+		 	</interceptor>
+		 	  <interceptor name="articleParitiesAgioLogInterceptor"
+					class="gnnt.MEBS.audit.action.interceptor.LogInterceptor">
+					<param name="classFullName">
+					   gnnt.MEBS.commodity.model.ArticleParitiesAgio
+					</param>
+					<param name="serrviceName">
+					   articleParitiesAgioService
+					</param>
+			 </interceptor>
+			  <interceptor name="commodityLogInterceptor"
+					class="gnnt.MEBS.audit.action.interceptor.LogInterceptor">
+					<param name="classFullName">
+					   gnnt.MEBS.commodity.model.Commodity
+					</param>
+					<param name="serrviceName">
+					   commodityService
+					</param>
+			 </interceptor>
+			  <interceptor name="commodityFeeLogInterceptor"
+					class="gnnt.MEBS.audit.action.interceptor.LogInterceptor">
+					<param name="classFullName">
+					   gnnt.MEBS.commodity.model.CommodityFee
+					</param>
+					<param name="serrviceName">
+					   commodityFeeService
+					</param>
+			 </interceptor>
+			  <interceptor name="commodityPriceProtectLogInterceptor"
+					class="gnnt.MEBS.audit.action.interceptor.LogInterceptor">
+					<param name="classFullName">
+					   gnnt.MEBS.commodity.model.CommodityPriceProtect
+					</param>
+					<param name="serrviceName">
+					   commodityPriceProtectService
+					</param>
+			 </interceptor>
+			 <interceptor name="holdQtyInterceptor"
+					class="gnnt.MEBS.audit.action.interceptor.LogInterceptor">
+					<param name="classFullName">
+					   gnnt.MEBS.commodity.model.HoldQty
+					</param>
+					<param name="serrviceName">
+					   holdQtyService
+					</param>
+			 </interceptor>
+			 <interceptor name="memberDelayLogInterceptor"
+				class="gnnt.MEBS.audit.action.interceptor.LogDelayInterceptor">
+				<param name="classFullName">
+					   gnnt.MEBS.commodity.model.TCDelayFee
+				</param>
+				<param name="serrviceName">
+				   memberDelayFeeService
+				</param>
+			 </interceptor>
+		 	<interceptor name="memberHoldQtyInterceptor"
+					class="gnnt.MEBS.audit.action.interceptor.LogInterceptor">
+					<param name="classFullName">
+					   gnnt.MEBS.commodity.model.HoldQty
+					</param>
+					<param name="serrviceName">
+					   memberHoldQtyService
+					</param>
+			 </interceptor>
+			 <interceptor name="customerHoldQtyInterceptor"
+					class="gnnt.MEBS.audit.action.interceptor.LogInterceptor">
+					<param name="classFullName">
+					   gnnt.MEBS.commodity.model.HoldQty
+					</param>
+					<param name="serrviceName">
+					   customerHoldQtyService
+					</param>
+			 </interceptor>
+			 <interceptor name="marginLogInterceptor"
+					class="gnnt.MEBS.audit.action.interceptor.LogInterceptor">
+					<param name="classFullName">
+					   gnnt.MEBS.commodity.model.Margin
+					</param>
+					<param name="serrviceName">
+					   memberMarginService
+					</param>
+			 </interceptor>
+			  <interceptor name="memberQuotePointInterceptor"
+					class="gnnt.MEBS.audit.action.interceptor.LogInterceptor">
+					<param name="classFullName">
+					   gnnt.MEBS.commodity.model.QuotePoint
+					</param>
+					<param name="serrviceName">
+					   memberQuotePointService
+					</param>
+			 </interceptor>
+			  <interceptor name="memberTakeFeeLogInterceptor"
+					class="gnnt.MEBS.audit.action.interceptor.LogInterceptor">
+					<param name="classFullName">
+					   gnnt.MEBS.commodity.model.TakeFee
+					</param>
+					<param name="serrviceName">
+					   takeFeeService
+					</param>
+			 </interceptor>
+			 <interceptor name="customerTakeFeeLogInterceptor"
+                   class="gnnt.MEBS.audit.action.interceptor.LogInterceptor">                   
+			        <param name="classFullName">
+			        	gnnt.MEBS.commodity.model.TakeFee</param>
+			        <param name="serrviceName">customerTakeFeeService</param>
+		     </interceptor>
+		     <interceptor name="memCustomerTakeFeeLogInterceptor"
+					class="gnnt.MEBS.audit.action.interceptor.LogInterceptor">
+					<param name="classFullName">
+					   gnnt.MEBS.commodity.model.MemCustomerTakeFee
+					</param>
+					<param name="serrviceName">
+					   memCustomerTakeFeeService
+					</param>
+			 </interceptor>
+			 <interceptor name="memberTradeAuthInterceptor"
+					class="gnnt.MEBS.audit.action.interceptor.LogInterceptor">
+					<param name="classFullName">
+					   gnnt.MEBS.commodity.model.TradeAuth
+					</param>
+					<param name="serrviceName">
+					   memberTradeAuthService
+					</param>
+			 </interceptor>
+			  <interceptor name="orderPointInterceptor"
+					class="gnnt.MEBS.audit.action.interceptor.LogInterceptor">
+					<param name="classFullName">
+					   gnnt.MEBS.commodity.model.OrderPoint
+					</param>
+					<param name="serrviceName">
+					   orderPointService
+					</param>
+			 </interceptor>
+			 <interceptor name="quotePointInterceptor"
+					class="gnnt.MEBS.audit.action.interceptor.LogInterceptor">
+					<param name="classFullName">
+					   gnnt.MEBS.commodity.model.QuotePoint
+					</param>
+					<param name="serrviceName">
+					   quotePointService
+					</param>
+			 </interceptor>
+			 <interceptor name="specialMemberDelayFeeInterceptor"
+				class="gnnt.MEBS.audit.action.interceptor.LogDelayInterceptor">
+				<param name="classFullName">
+					   gnnt.MEBS.commodity.model.TCDelayFee
+				</param>
+				<param name="serrviceName">
+				   specialMemberDelayFeeService
+				</param>
+		 	</interceptor>
+		 	<interceptor name="specialMemberQuotePointInterceptor"
+					class="gnnt.MEBS.audit.action.interceptor.LogInterceptor">
+					<param name="classFullName">
+					   gnnt.MEBS.commodity.model.QuotePoint
+					</param>
+					<param name="serrviceName">
+					   specialMemberQuotePointService
+					</param>
+			 </interceptor>
+			 <interceptor name="specialTakeFeeLogInterceptor"
+					class="gnnt.MEBS.audit.action.interceptor.LogInterceptor">
+					<param name="classFullName">
+					   gnnt.MEBS.commodity.model.TakeFee
+					</param>
+					<param name="serrviceName">
+					   specialTakeFeeService
+					</param>
+			 </interceptor>
+			  <interceptor name="specialMemberTradeInterceptor"
+					class="gnnt.MEBS.audit.action.interceptor.LogInterceptor">
+					<param name="classFullName">
+					   gnnt.MEBS.commodity.model.TradeAuth
+					</param>
+					<param name="serrviceName">
+					   specialMemberTradeAuthService
+					</param>
+			 </interceptor>
+			 <interceptor name="tcDelayLogInterceptor"
+				class="gnnt.MEBS.audit.action.interceptor.LogDelayInterceptor">
+				<param name="classFullName">
+					   gnnt.MEBS.commodity.model.TCDelayFee
+				</param>
+				<param name="serrviceName">
+				   tcDelayFeeService
+				</param>
+			 </interceptor>
+			 <interceptor name="tradeAuthInterceptor"
+					class="gnnt.MEBS.audit.action.interceptor.LogInterceptor">
+					<param name="classFullName">
+					   gnnt.MEBS.commodity.model.TradeAuth
+					</param>
+					<param name="serrviceName">
+					   tradeAuthService
+					</param>
+			 </interceptor>
+			  <interceptor name="traderTradeAuthInterceptor"
+					class="gnnt.MEBS.audit.action.interceptor.LogInterceptor">
+					<param name="classFullName">
+					   gnnt.MEBS.commodity.model.TradeAuth
+					</param>
+					<param name="serrviceName">
+					   traderTradeAuthService
+					</param>
+			 </interceptor>
+			 <interceptor name="delayTradeLogInterceptor"
+					class="gnnt.MEBS.audit.action.interceptor.LogInterceptor">
+					<param name="classFullName">
+					   gnnt.MEBS.commodity.model.CommodityDelayTrade
+					</param>
+					<param name="serrviceName">
+					   commodityDelayTradeService
+					</param>
+			 </interceptor>
+			 <interceptor name="memberDelayTradeLogInterceptor"
+					class="gnnt.MEBS.audit.action.interceptor.LogInterceptor">
+					<param name="classFullName">
+					   gnnt.MEBS.commodity.model.DelayTrade
+					</param>
+					<param name="serrviceName">
+					   delayTradeService
+					</param>
+			 </interceptor>
+			 <interceptor name="memCustomerDelayTradeLogInterceptor"
+					class="gnnt.MEBS.audit.action.interceptor.LogInterceptor">
+					<param name="classFullName">
+					   gnnt.MEBS.commodity.model.MemCustomerDelayTrade
+					</param>
+					<param name="serrviceName">
+					   memCustomerDelayTradeService
+					</param>
+			 </interceptor>
+			 <interceptor name="customerDelayTradeLogInterceptor"
+					class="gnnt.MEBS.audit.action.interceptor.LogInterceptor">
+					<param name="classFullName">
+					   gnnt.MEBS.commodity.model.DelayTrade
+					</param>
+					<param name="serrviceName">
+					   customerDelayTradeService
+					</param>
+			 </interceptor>
+		</interceptors>
+		<action name="commitAuditList" class="commonAuditAction" method="auditList">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="filterLogonIdInterceptor"></interceptor-ref>
+			<interceptor-ref name="applyStatusInterceptor"></interceptor-ref>
+			<result>/applyAndAudit/public/commitAuditList.jsp</result>
+		</action>
+		<action name="update_commodity_baseCommodityAudit" class="commonAuditAction" method="destroy">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="commodityLogInterceptor"></interceptor-ref>
+			<result >/public/commonMsg.jsp</result>
+		</action>
+		<action name="update_commodity_margin" class="commonAuditAction" method="destroy">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="marginLogInterceptor"></interceptor-ref>
+			<result >/public/commonMsg.jsp</result>
+		</action>
+		<action name="update_commodity_margin" class="commonAuditAction" method="destroy">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="marginLogInterceptor"></interceptor-ref>
+			<result >/public/commonMsg.jsp</result>
+		</action>
+		<action name="update_commodity_articleParitiesAgio" class="commonAuditAction" method="destroy">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="articleParitiesAgioLogInterceptor"></interceptor-ref>
+			<result >/public/commonMsg.jsp</result>
+		</action>
+		<action name="update_commodity_baseCommodity" class="commonAuditAction" method="destroy">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="commodityLogInterceptor"></interceptor-ref>
+			<result >/public/commonMsg.jsp</result>
+		</action>
+		<action name="update_commodity_commodityFee" class="commonAuditAction" method="destroy">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="commodityFeeLogInterceptor"></interceptor-ref>
+			<result >/public/commonMsg.jsp</result>
+		</action>
+		<action name="update_commodity_commodityPriceProtect" class="commonAuditAction" method="destroy">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="commodityPriceProtectLogInterceptor"></interceptor-ref>
+			<result >/public/commonMsg.jsp</result>
+		</action>
+		<action name="update_commodity_holdQty" class="commonAuditAction" method="destroy">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="holdQtyInterceptor"></interceptor-ref>
+			<result >/public/commonMsg.jsp</result>
+		</action>
+		<action name="update_commodity_memberDelayFee" class="commonAuditAction" method="destroy">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="memberDelayLogInterceptor"></interceptor-ref>
+			<result >/public/commonMsg.jsp</result>
+		</action>
+		<action name="update_commodity_memberHoldQuantily" class="commonAuditAction" method="destroy">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="memberHoldQtyInterceptor"></interceptor-ref>
+			<result >/public/commonMsg.jsp</result>
+		</action>
+		<action name="update_commodity_customerHoldQuantily" class="commonAuditAction" method="destroy">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="customerHoldQtyInterceptor"></interceptor-ref>
+			<result >/public/commonMsg.jsp</result>
+		</action>
+		<action name="update_commodity_memberMargin" class="commonAuditAction" method="destroy">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="marginLogInterceptor"></interceptor-ref>
+			<result >/public/commonMsg.jsp</result>
+		</action>
+		<action name="update_commodity_customerMargin" class="commonAuditAction" method="destroy">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="marginLogInterceptor"></interceptor-ref>
+			<result >/public/commonMsg.jsp</result>
+		</action>
+		<action name="update_commodity_memberQuotePoint" class="commonAuditAction" method="destroy">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="memberQuotePointInterceptor"></interceptor-ref>
+			<result >/public/commonMsg.jsp</result>
+		</action>
+		<action name="update_commodity_memberTakeFee" class="commonAuditAction" method="destroy">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="memberTakeFeeLogInterceptor"></interceptor-ref>
+			<result >/public/commonMsg.jsp</result>
+		</action>
+		<action name="update_commodity_customerTakeFee" class="commonAuditAction" method="destroy">
+	      <interceptor-ref name="mydefault"></interceptor-ref>
+	      <interceptor-ref name="customerTakeFeeLogInterceptor">
+	      </interceptor-ref>
+	      <result>/public/commonMsg.jsp</result>
+	    </action>
+	    <action name="update_commodity_memCustomerTakeFee" class="commonAuditAction" method="destroy">
+	      <interceptor-ref name="mydefault"></interceptor-ref>
+	      <interceptor-ref name="memCustomerTakeFeeLogInterceptor">
+	      </interceptor-ref>
+	      <result>/public/commonMsg.jsp</result>
+	    </action>
+		<action name="update_commodity_memberTradeAuth" class="commonAuditAction" method="destroy">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="memberTradeAuthInterceptor"></interceptor-ref>
+			<result >/public/commonMsg.jsp</result>
+		</action>
+		<action name="update_commodity_orderPoint" class="commonAuditAction" method="destroy">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="orderPointInterceptor"></interceptor-ref>
+			<result >/public/commonMsg.jsp</result>
+		</action>
+		<action name="update_commodity_quotePoint" class="commonAuditAction" method="destroy">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="quotePointInterceptor"></interceptor-ref>
+			<result >/public/commonMsg.jsp</result>
+		</action>
+		<action name="update_commodity_specialMemberDelayFee" class="commonAuditAction" method="destroy">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="specialMemberDelayFeeInterceptor"></interceptor-ref>
+			<result >/public/commonMsg.jsp</result>
+		</action>
+		<action name="update_commodity_specialMemberQuotePoint" class="commonAuditAction" method="destroy">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="specialMemberQuotePointInterceptor"></interceptor-ref>
+			<result >/public/commonMsg.jsp</result>
+		</action>
+		<action name="update_commodity_specialMemberTakeFee" class="commonAuditAction" method="destroy">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="specialTakeFeeLogInterceptor"></interceptor-ref>
+			<result >/public/commonMsg.jsp</result>
+		</action>
+		<action name="update_commodity_tradeAuthForSMember" class="commonAuditAction" method="destroy">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="specialMemberTradeInterceptor"></interceptor-ref>
+			<result >/public/commonMsg.jsp</result>
+		</action>
+		<action name="update_commodity_tcDelayFee" class="commonAuditAction" method="destroy">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="tcDelayLogInterceptor"></interceptor-ref>
+			<result >/public/commonMsg.jsp</result>
+		</action>
+		<action name="update_commodity_tradeAuth" class="commonAuditAction" method="destroy">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="tradeAuthInterceptor"></interceptor-ref>
+			<result >/public/commonMsg.jsp</result>
+		</action>
+		<action name="update_commodity_tradeAuthForTrader" class="commonAuditAction" method="destroy">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="traderTradeAuthInterceptor"></interceptor-ref>
+			<result >/public/commonMsg.jsp</result>
+		</action>
+		<action name="update_commodity_delayTrade" class="commonAuditAction" method="destroy">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="delayTradeLogInterceptor"></interceptor-ref>
+			<result >/public/commonMsg.jsp</result>
+		</action>
+		<action name="update_commodity_memberDelayTrade" class="commonAuditAction" method="destroy">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="memberDelayTradeLogInterceptor"></interceptor-ref>
+			<result >/public/commonMsg.jsp</result>
+		</action>
+		<action name="update_commodity_memCustomerDelayTrade" class="commonAuditAction" method="destroy">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="memCustomerDelayTradeLogInterceptor"></interceptor-ref>
+			<result >/public/commonMsg.jsp</result>
+		</action>
+		<action name="update_commodity_customerDelayTrade" class="commonAuditAction" method="destroy">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="customerDelayTradeLogInterceptor"></interceptor-ref>
+			<result >/public/commonMsg.jsp</result>
+		</action>
+	</package>
+	
+	<!-- 审核通过列表 -->
+	<package name="baseSelfPassAudit" extends="base-struts2" namespace="/audit/baseSelfPassAudit">
+		<interceptors>
+			<interceptor name="applyStatusInterceptor"
+				class="gnnt.MEBS.audit.action.interceptor.FilterStatusInterceptor">
+				<param name="queryCondition">primary.status[=][int]</param>
+				<param name="queryWord">2</param>
+			</interceptor>
+			<interceptor name="applicantsInterceptor"
+				class="gnnt.MEBS.audit.action.interceptor.ApplicantsInterceptor">
+			</interceptor>
+		</interceptors>
+		<action name="baseAuditList" class="commonAuditAction" method="auditList">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="applyStatusInterceptor"></interceptor-ref>
+			<!--<interceptor-ref name="applicantsInterceptor"></interceptor-ref>
+			--><result>/applyAndAudit/public/commonAuditSelfPassList.jsp</result>
+		</action>
+	</package>
+
+<!-- 审核未通过列表 -->
+	<package name="baseSelfNoPassAudit" extends="base-struts2" namespace="/audit/baseSelfNoPassAudit">
+		<interceptors>
+			<interceptor name="applyStatusInterceptor"
+				class="gnnt.MEBS.audit.action.interceptor.FilterStatusInterceptor">
+				<param name="queryCondition">primary.status[=][int]</param>
+				<param name="queryWord">-2</param>
+			</interceptor>
+			<interceptor name="applicantsInterceptor"
+				class="gnnt.MEBS.audit.action.interceptor.ApplicantsInterceptor">
+			</interceptor>
+		</interceptors>
+		<action name="baseAuditList" class="commonAuditAction" method="auditList">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="applyStatusInterceptor"></interceptor-ref>
+			<!--<interceptor-ref name="applicantsInterceptor"></interceptor-ref>
+			--><result>/applyAndAudit/public/commonAuditSelfNotPassList.jsp</result>
+		</action>
+	</package>
+
+
+<include file="commitAudit.xml" />
+</struts>

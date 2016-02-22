@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="GBK" ?>
+
+<root>
+	<range type="member">
+		<group isNotAllMember="Y / N">
+			<member>会员号1，会员号2</member>
+		</group>
+		<relation>Y/N</relation>
+	</range>
+	<range type="specialMemeber">
+		<group isNotAllSpecialMemeber="Y / N">
+			<specialMemeber>特别会员1，特别会员2</specialMemeber>
+		</group>
+	</range>
+	<range type="trader">
+		<group isNotAllCustomers="Y / N">
+			<member>会员号1，会员号2</member>
+		</group>
+	</range>
+</root>

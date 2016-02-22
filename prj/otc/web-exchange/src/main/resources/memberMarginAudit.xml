@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="memberMarginAudit" extends="baseAudit"
+		namespace="/audit/commodity_memberMarginAudit">
+		
+		<interceptors>
+		    <interceptor name="marginLogInterceptor"
+					class="gnnt.MEBS.audit.action.interceptor.LogInterceptor">
+					<param name="classFullName">
+					   gnnt.MEBS.commodity.model.Margin
+					</param>
+					<param name="serrviceName">
+					   memberMarginService
+					</param>
+			 </interceptor>
+	    </interceptors>
+		<action name="auditList" class="memberMarginAuditAction"
+			method="auditList">
+			<result>/applyAndAudit/audit/marginAudit/memberMarginAuditList.jsp
+			</result>
+		</action>
+
+		<action name="audits" class="memberMarginAuditAction" method="audit">
+		     <interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="marginLogInterceptor"></interceptor-ref>
+			<result> /public/commonMsg.jsp </result>
+		</action>
+
+		<action name="auditDetails" class="memberMarginAuditAction"
+			method="auditDetails">
+			<result>/applyAndAudit/audit/marginAudit/memberMarginDetails.jsp
+			</result>
+		</action>
+	</package>
+</struts>

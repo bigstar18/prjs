@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context reloadable="true" crossContext="true">
+ <!-- Default set of monitored resources -->
+ <WatchedResource>WEB-INF/web.xml</WatchedResource>
+ <!-- Uncomment this to disable session persistence across Tomcat restarts -->
+ <!--
+  <Manager pathname="" />
+ -->
+ <Resource 
+ name="mgr" 
+ auth="Container"
+ type="javax.sql.DataSource"
+ driverClassName="oracle.jdbc.driver.OracleDriver"
+ url="jdbc:oracle:thin:@10.10.10.246:1521:oracle"
+ username="pmes"
+ password="password"
+ maxActive="1500"
+ maxIdle="10"
+ maxWait="-1"/>
+ 
+</Context>

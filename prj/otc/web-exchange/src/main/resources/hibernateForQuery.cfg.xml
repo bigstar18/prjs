@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+          "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+        <property name="dialect">org.hibernate.dialect.OracleDialect</property>
+		<property name="show_sql">false</property>
+		<property name="hbm2ddl.auto">none</property>
+		<property name="format_sql">true</property>
+		<property name="hibernate.cache.use_structured_entries">
+			false
+		</property><!--  最优化二级缓存-->
+		<property name="hibernate.cache.use_second_level_cache">
+			false
+		</property><!--  完全禁用二级缓存开关，对那些在类的映射定义中指定cache的类，默认开启二级缓存-->
+		<property name="hibernate.cache.provider_class">
+			org.hibernate.cache.EhCacheProvider
+		</property>
+		<property name="hibernate.cache.use_query_cache">false</property>
+		<property name="hibernate.jdbc.fetch_size">20</property>
+		
+		
+		<!-- 统计查询开始 -->
+		<mapping resource="gnnt/MEBS/query/model/memberHoldSearch.hbm.xml" />
+		<mapping resource="gnnt/MEBS/query/model/memberHoldSearchHis.hbm.xml" />
+		<mapping resource="gnnt/MEBS/query/model/customerTradeSearch.hbm.xml" />
+		<mapping resource="gnnt/MEBS/query/model/customerTradeSearchHis.hbm.xml" />
+		<mapping resource="gnnt/MEBS/query/model/customerHisHoldSearch.hbm.xml" />
+		<mapping resource="gnnt/MEBS/query/model/customerHoldSearch.hbm.xml" />
+		<mapping resource="gnnt/MEBS/query/model/memberTradeSearch.hbm.xml" />
+		<mapping resource="gnnt/MEBS/query/model/memberTradeSearchHis.hbm.xml" />
+		<mapping resource="gnnt/MEBS/query/model/customerLimitPrice.hbm.xml" />
+		<mapping resource="gnnt/MEBS/query/model/customerLimitPriceHis.hbm.xml" />
+		<mapping resource="gnnt/MEBS/query/model/memberThSearchHis.hbm.xml" />
+		<mapping resource="gnnt/MEBS/query/model/memberThSearch.hbm.xml" />
+		<mapping resource="gnnt/MEBS/query/model/customerFundFlowSearch.hbm.xml" />
+		<mapping resource="gnnt/MEBS/query/model/customerFundFlowSearchHis.hbm.xml" />
+		<mapping resource="gnnt/MEBS/query/model/customerFundSearch.hbm.xml" />
+		<mapping resource="gnnt/MEBS/query/model/customerFundSearchHis.hbm.xml" />
+		<mapping resource="gnnt/MEBS/query/model/memberFreezeSearch.hbm.xml" />
+		<mapping resource="gnnt/MEBS/query/model/memberFreezeSearchHis.hbm.xml" />
+		<mapping resource="gnnt/MEBS/query/model/specialMemberSearch.hbm.xml" />
+		<mapping resource="gnnt/MEBS/query/model/specialMemberHisSearch.hbm.xml" />
+		<mapping resource="gnnt/MEBS/query/model/specialMemberTradeSearch.hbm.xml" />
+		<mapping resource="gnnt/MEBS/query/model/specialMemberTradeHisSearch.hbm.xml" />
+		<mapping resource="gnnt/MEBS/globalLog/model/operateLog.hbm.xml" />
+		<mapping resource="gnnt/MEBS/query/model/sysLogSearch.hbm.xml" />
+		<mapping resource="gnnt/MEBS/query/model/logCataLogSearch.hbm.xml" />
+		<mapping resource="gnnt/MEBS/query/model/specialMemberHoldSearch.hbm.xml" />
+		<mapping resource="gnnt/MEBS/query/model/specialMemberHoldHisSearch.hbm.xml" />
+		<mapping resource="gnnt/MEBS/query/model/specialMemberOrderSearch.hbm.xml" />
+		<mapping resource="gnnt/MEBS/query/model/specialMemberOrderHisSearch.hbm.xml" />
+		<mapping resource="gnnt/MEBS/query/model/specialMemberFundFlowSearch.hbm.xml" />
+		<mapping resource="gnnt/MEBS/query/model/specialMemberFundFlowHisSearch.hbm.xml" />
+		<mapping resource="gnnt/MEBS/query/model/bankInternalTransSearch.hbm.xml" /> 
+		<mapping resource="gnnt/MEBS/query/model/settlementBankFundSearch.hbm.xml" />
+		<mapping resource="gnnt/MEBS/query/model/customerBankFundSearch.hbm.xml" />
+		<mapping resource="gnnt/MEBS/query/model/qutationDetailSearch.hbm.xml" />
+		<mapping resource="gnnt/MEBS/query/model/customerTransactionSearch.hbm.xml" />
+		<mapping resource="gnnt/MEBS/query/model/customerTransactionSearchHis.hbm.xml" />
+		<mapping resource="gnnt/MEBS/query/model/memberOrdersSearch.hbm.xml" />
+		<mapping resource="gnnt/MEBS/query/model/memberOrdersSearchHis.hbm.xml" />
+		<mapping resource="gnnt/MEBS/query/model/memberFundFlowSearch.hbm.xml" />
+		<mapping resource="gnnt/MEBS/query/model/memberFundFlowSearchHis.hbm.xml" />
+		<mapping resource="gnnt/MEBS/bankadded/model/banks.hbm.xml" />
+		<mapping resource="gnnt/MEBS/settlement/model/firm.hbm.xml" />
+		<mapping resource="gnnt/MEBS/query/model/memberFundSearch.hbm.xml" />
+		<mapping resource="gnnt/MEBS/query/model/specialMemberFundSearch.hbm.xml" />
+		<mapping resource="gnnt/MEBS/query/model/fundOutInSearch.hbm.xml" />
+		<mapping resource="gnnt/MEBS/query/model/customerApplySettleSearch.hbm.xml" />
+		<!-- 统计查询结束 -->
+		<!-- 报表 开始 -->
+		  <mapping resource="gnnt/MEBS/report/model/customerFundsReport.hbm.xml" />
+		  <mapping resource="gnnt/MEBS/report/model/customerOrdersReport.hbm.xml" />
+		  <mapping resource="gnnt/MEBS/report/model/customerHoldReport.hbm.xml" />
+		  <mapping resource="gnnt/MEBS/report/model/memberFundsReport.hbm.xml" />
+		  <mapping resource="gnnt/MEBS/report/model/memberHoldReport.hbm.xml" />
+		  <mapping resource="gnnt/MEBS/report/model/memberOrdersReport.hbm.xml" />
+		  <mapping resource="gnnt/MEBS/report/model/specialMemberFundsReport.hbm.xml" />
+		  <mapping resource="gnnt/MEBS/report/model/specialMemberHoldReport.hbm.xml" />
+		  <mapping resource="gnnt/MEBS/report/model/specialMemberOrdersReport.hbm.xml" />
+		  <mapping resource="gnnt/MEBS/report/model/quotationHisReport.hbm.xml" />
+		  <mapping resource="gnnt/MEBS/report/model/firmBankReport.hbm.xml" />
+		  <mapping resource="gnnt/MEBS/report/model/martketFundsReport.hbm.xml" />
+		  <mapping resource="gnnt/MEBS/report/model/memberFundioThReport.hbm.xml" />
+		  <mapping resource="gnnt/MEBS/report/model/specialMemberFundioThReport.hbm.xml" />
+		  <mapping resource="gnnt/MEBS/report/model/bankTransferNettingReport.hbm.xml" />
+		  <mapping resource="gnnt/MEBS/report/model/marketFeeReport.hbm.xml" />
+		   <mapping resource="gnnt/MEBS/report/model/memberCustomerCount.hbm.xml" />
+		   <mapping resource="gnnt/MEBS/report/model/memberCustomerSign.hbm.xml" />
+		   <mapping resource="gnnt/MEBS/report/model/collectDelimit.hbm.xml" />
+		   <mapping resource="gnnt/MEBS/report/model/collectDelimitDetail.hbm.xml" />
+		<!-- 报表  结束 -->
+		<mapping resource="gnnt/MEBS/account/model/compMember.hbm.xml" />
+		<mapping resource="gnnt/MEBS/commodity/model/commodity.hbm.xml" />
+		<mapping resource="gnnt/MEBS/account/model/MemberInfo.hbm.xml" />
+		<mapping resource="gnnt/MEBS/account/model/specialMember.hbm.xml" />
+		<mapping resource="gnnt/MEBS/account/model/specialMemberStatus.hbm.xml" />
+		<mapping resource="gnnt/MEBS/account/model/CustomerVO.hbm.xml" />
+		<mapping resource="gnnt/MEBS/broke/model/customerMappingBroker.hbm.xml" />
+		<mapping resource="gnnt/MEBS/account/model/customerStatus.hbm.xml" />
+		
+		<!-- 大字报价牌 -->
+		<!--<mapping resource="gnnt/MEBS/commodity/model/commodity.hbm.xml" /> -->
+		<mapping resource="gnnt/MEBS/settlement/model/quotation.hbm.xml" />
+		<mapping resource="gnnt/MEBS/settlement/model/quotationRunTime.hbm.xml" />
+	</session-factory>
+
+</hibernate-configuration>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "spring-beans.dtd" >
+<beans>
+
+
+	<!-- 配置触发器 -->
+	<!-- <bean id="analyzingXML" class="gnnt.MEBS.announcement.scheduling.AnalyzingXML">
+		<property name="xmlDeal" ref="xmlDeal"></property>
+	</bean> -->
+
+	<!-- jobDetail封装了需要调度的方法 -->
+	<bean id="methodInvokingAnalyzingXMLDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="analyzingXML" />
+		</property>
+		<property name="targetMethod">
+			<value>analyzingXML</value>
+		</property>
+		<property name="concurrent">
+			<value>false</value>
+		</property>
+	</bean>
+
+	<!-- Trigger封装了jobDetail-->
+	<bean id="metholdAnalyzingXMLTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="methodInvokingAnalyzingXMLDetail" />
+		</property>
+		<property name="cronExpression">
+			<value>0/10 * * * * ?</value><!-- 每十秒钟触发一次 -->
+		</property>
+	</bean>
+
+	<bean lazy-init="false" name="quartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<!-- 添加触发器 -->
+		<property name="triggers">
+			<list>
+				<ref bean="metholdAnalyzingXMLTrigger" />
+			</list>
+		</property>
+	</bean>
+
+
+</beans>

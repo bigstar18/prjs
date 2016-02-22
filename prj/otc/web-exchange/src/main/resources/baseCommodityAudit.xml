@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="baseCommodityAudit" extends="baseAudit" namespace="/audit/commodity_baseCommodityAudit">
+	 <interceptors>
+		    <interceptor name="commodityLogInterceptor"
+					class="gnnt.MEBS.audit.action.interceptor.LogInterceptor">
+					<param name="classFullName">
+					   gnnt.MEBS.commodity.model.Commodity
+					</param>
+					<param name="serrviceName">
+					   commodityService
+					</param>
+			 </interceptor>
+	    </interceptors>
+	
+		<action name="auditList" class="commodityAuditAction" method="auditList">
+			<result>/applyAndAudit/audit/commodityAudit/commodityAuditList.jsp</result>
+		</action>
+		
+		<action name="audits" class="commodityAuditAction" method="audit">
+			 <interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="commodityLogInterceptor"></interceptor-ref>
+			<result>
+				/public/commonMsg.jsp
+			</result>
+		</action>
+			<action name="auditDetails" class="commodityAuditAction" method="auditDetails">
+			<result>/applyAndAudit/audit/commodityAudit/commodityDetails.jsp</result>
+		</action>
+	</package>
+</struts>

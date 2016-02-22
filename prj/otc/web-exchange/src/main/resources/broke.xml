@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="base-broke" extends="base-struts2" abstract="true">
+	<interceptors>
+		<interceptor name="organizationListInterceptor"
+				class="gnnt.MEBS.broke.action.interceptor.OrganizationListInterceptor">
+		</interceptor>	
+	</interceptors>
+	</package>
+	<!-- 经纪人 start -->
+	<package name="manager" extends="base-broke"
+		namespace="/broke/manager">
+		<action name="list" class="managerAction" method="list">
+			<result>/broke/manager/managerList.jsp</result>
+		</action>
+		<action name="forwardAdd" class="managerAction"
+			method="forwardAdd">
+			<result>/broke/manager/managerAdd.jsp</result>
+		</action>
+		<action name="add" class="managerAction" method="add">
+			<result>
+				/public/commonMsg.jsp
+			</result>
+		</action>
+		<action name="forwardUpdate" class="managerAction"
+			method="viewById">
+			<result>/broke/manager/managerUpdate.jsp</result>
+		</action>
+		<action name="update" class="managerAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<action name="forwardUpdatePassward" class="managerAction"
+			method="viewById">
+			<result>/broke/manager/managerPWUpdate.jsp</result>
+		</action>
+		<action name="updatePassword" class="managerAction"
+			method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<action name="delete" class="managerAction" method="delete">
+			<result type="redirectAction">list</result>
+		</action>
+	</package>
+	<!-- 经纪人 end -->
+
+	<!-- 经济人转移 start -->
+	<package name="managerChange" extends="base-broke"
+		namespace="/broke/managerChange">
+		<action name="list" class="managerChangeAction" method="list">
+			<result>/broke/manager/managerChangeList.jsp</result>
+		</action>
+		<action name="forwardUpdate" class="managerChangeAction"
+			method="viewById">
+			<result>/broke/manager/managerChange.jsp</result>
+		</action>
+		<action name="update" class="managerChangeAction"
+			method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+	</package>
+	<!-- 经济人转移 end -->
+
+	<!-- 机构管理 start -->
+	<package name="organization" extends="base-broke"
+		namespace="/broke/organization">
+		<action name="list" class="organizationAction" method="list">
+			<result>/broke/organization/organizationList.jsp</result>
+		</action>
+		<action name="forwardAdd" class="organizationAction"
+			method="forwardAdd">
+			<result>/broke/organization/organizationAdd.jsp</result>
+		</action>
+		<action name="add" class="organizationAction" method="add">
+			<result>
+				/public/commonMsg.jsp
+			</result>
+		</action>
+		<action name="forwardUpdate" class="organizationAction"
+			method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="organizationListInterceptor"></interceptor-ref>
+			<result>
+				/broke/organization/organizationUpdate.jsp
+			</result>
+		</action>
+		<action name="update" class="organizationAction"
+			method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<action name="forwardUpdatePassward" class="organizationAction"
+			method="viewById">
+			<result>
+				/broke/organization/organizationPWUpdate.jsp
+			</result>
+		</action>
+		<action name="updatePassword" class="organizationAction"
+			method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<action name="delete" class="organizationAction"
+			method="delete">
+			<result type="redirectAction">list</result>
+		</action>
+		<action name="forwardUpdateCotactBroke"
+			class="organizationAction" method="getBrokerageList">
+			<result>/broke/organization/contactBrokerage.jsp</result>
+		</action>
+		<action name="updateCotactBroke" class="organizationAction"
+			method="updateCotactBroke">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+	</package>
+	<!-- 机构管理 end -->
+
+
+	<!-- 机构转移 start -->
+	<package name="organizationChange" extends="base-broke"
+		namespace="/broke/organizationChange">
+		<action name="list" class="organizationChangeAction"
+			method="list">
+			<result>
+				/broke/organization/organizationChangeList.jsp
+			</result>
+		</action>
+		<action name="forwardUpdate" class="organizationChangeAction"
+			method="viewById">
+			<result>
+				/broke/organization/organizationChange.jsp
+			</result>
+		</action>
+		<action name="update" class="organizationChangeAction"
+			method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+	</package>
+	<!-- 机构管理转移 end -->
+
+
+
+	<!-- 居间管理 start -->
+	<package name="brokerage" extends="base-broke"
+		namespace="/broke/brokerage">
+		<action name="list" class="brokerageAction" method="list">
+			<result>/broke/brokerage/brokerageList.jsp</result>
+		</action>
+		<action name="forwardAdd" class="brokerageAction"
+			method="forwardAdd">
+			<result>/broke/brokerage/brokerageAdd.jsp</result>
+		</action>
+		<action name="add" class="brokerageAction" method="add">
+			<result>
+				/public/commonMsg.jsp
+			</result>
+		</action>
+		<action name="forwardUpdate" class="brokerageAction"
+			method="viewById">
+			<result>/broke/brokerage/brokerageUpdate.jsp</result>
+		</action>
+		<action name="update" class="brokerageAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<action name="forwardUpdatePassward" class="brokerageAction"
+			method="viewById">
+			<result>/broke/brokerage/brokeragePWUpdate.jsp</result>
+		</action>
+		<action name="updatePassword" class="brokerageAction"
+			method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<action name="delete" class="brokerageAction" method="delete">
+			<result type="redirectAction">list</result>
+		</action>
+	</package>
+	<!-- 居间管理 end -->
+	
+    <!-- 居间转移会员 start -->
+	<package name="brokerageDivert" extends="base-account"
+		namespace="/broke/brokerageDivert">
+		<action name="list" class="brokerageDivertAction"
+			method="list">
+			<result>/broke/brokerage/brokerageDivertList.jsp</result>
+		</action>
+		<action name="forwardUpdate" class="brokerageDivertAction"
+			method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="memberInfoListInterceptor"></interceptor-ref>
+			<result>/broke/brokerage/brokerageDivert.jsp</result>
+		</action>
+		<action name="update" class="brokerageDivertAction"
+			method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+	</package>
+	<!-- 居间转移会员 close -->
+	
+	<!-- 居间转移 start -->
+	<package name="brokerageChange" extends="base-broke"
+		namespace="/broke/brokerageChange">
+		<action name="list" class="brokerageChangeAction"
+			method="list">
+			<result>/broke/brokerage/brokerageChangeList.jsp</result>
+		</action>
+		<action name="forwardUpdate" class="brokerageChangeAction"
+			method="viewById">
+			<result>/broke/brokerage/brokerageChange.jsp</result>
+		</action>
+		<action name="update" class="brokerageChangeAction"
+			method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+	</package>
+	<!-- 居间转移 end -->
+
+	<!-- 客户管理模块begin -->
+	<package name="customerTransfer" extends="base-broke"
+		namespace="/broke/customerTransfer">
+
+		<action name="customerTransferList" class="customerAction"
+			method="list">
+			<result>/account/customer/customerTransferList.jsp</result>
+		</action>
+		<action name="forwardCustomerTransfer"
+			class="customerMappingAction" method="list">
+			<result>
+				/account/customer/customerTransferOrganization.jsp
+			</result>
+		</action>
+		<action name="addCustomerTransfer" class="customerMappingAction"
+			method="update">
+			<result>
+				/public/commonMsg.jsp
+			</result>
+		</action>
+	</package>
+
+
+	<!-- 会员查询树 -->
+	<package name="memberInfoTree" extends="base-broke"
+		namespace="/broke/memberInfoTree">
+
+		<action name="forTree" class="zTreeAction"
+			method="zTreeString">
+			<result>/account/customer/memberInfoZTree.jsp</result>
+		</action>
+	</package>
+	
+</struts>

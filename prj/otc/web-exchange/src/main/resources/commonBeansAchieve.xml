@@ -1,0 +1,94 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+        
+	<bean id="commonConfig" class="java.util.Properties">
+		<constructor-arg type="java.util.Properties">
+	      <props>
+	      </props>
+	    </constructor-arg>
+	</bean>
+		<!-- 风格Map begin-->
+	<bean id="styleNameMap" class="java.util.HashMap"> 
+	   	<constructor-arg> 
+		    <map> 
+			     <entry key="default" value="淡  蓝" /> 
+			     <entry key="gray" value="银  白" />
+		    </map> 
+	   	</constructor-arg> 
+    </bean>
+  	<!-- 风格Map  end -->  
+	
+	<!-- 添加一个类路径配置，让Spring 容器知道需要扫描该类路径下所有可以加载到容器中的类。  -->
+	<context:component-scan base-package="gnnt.MEBS.common.dao,gnnt.MEBS.common.service"/>
+
+
+    
+
+   <bean id="verify" class="gnnt.MEBS.common.security.strategy.VerifyImpl"/> 
+
+    <bean id="securityHandler" class="gnnt.MEBS.common.security.handler.SpecialHandle" autowire="byName"><!-- 判断是不是特殊权限 -->
+    </bean>
+    
+    <bean id="secondSecurityHandler" class="gnnt.MEBS.common.security.handler.SessionHandle" autowire="byName"><!-- 检查session -->
+    </bean>
+    
+    <bean id="thirdSecurityHandler" class="gnnt.MEBS.common.security.handler.AuHandle" autowire="byName"><!-- 检查au -->
+    </bean>
+    
+    
+    <!-- <bean id="thirdSecurityHandler" class="gnnt.MEBS.common.security.handler.NoWildcardHandler" autowire="byName"> 判断不带通配符的是否有权限 
+    </bean>
+    
+    <bean id="fourthSecurityHandler" class="gnnt.MEBS.common.security.handler.WildcardHandler" autowire="byName">判断带通配符的是否有权限
+    </bean> -->
+    
+    <bean id="seventhSecurityHandler" class="gnnt.MEBS.common.security.handler.PathHandle" autowire="byName"> <!-- 判断不带通配符的是否有权限和有通配符的是否有权限 --> 
+    </bean>
+    
+    <bean id="traderProDao" class="gnnt.MEBS.common.dao.TraderProDao" autowire="byName"></bean>
+    
+    
+    <!-- 设置公用的特殊权限，以解决赋予新建角色时部分访问权限缺失问题   -->
+    <!-- Start -->
+	<util:map id="commonAndSpecialRightMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="gnnt.MEBS.common.model.Right">
+		<entry key="/report/customer/memberInfoList.action" value-ref="reportMemberInfo" />
+		<entry key="/report/specialMember/specialMemberList.action" value-ref="reportSpecialMemberInfo" />
+	</util:map>
+	<bean id="reportMemberInfo" class="gnnt.MEBS.common.model.Right">
+		<property name="id">
+			<value>10010001</value>
+		</property>
+		<property name="url">
+			<value>/report/customer/memberInfoList.action</value>
+		</property>
+	</bean>
+	<bean id="reportSpecialMemberInfo" class="gnnt.MEBS.common.model.Right">
+		<property name="id">
+			<value>10010001</value>
+		</property>
+		<property name="url">
+			<value>/report/specialMember/specialMemberList.action</value>
+		</property>
+	</bean>
+    <!-- End -->
+    
+    
+    
+
+
+</beans> 

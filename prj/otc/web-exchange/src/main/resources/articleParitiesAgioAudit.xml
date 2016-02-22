@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="articleParitiesAgioAudit" extends="base-struts2" namespace="/audit/commodity_articleParitiesAgioAudit">
+	 <interceptors>
+		    <interceptor name="articleParitiesAgioLogInterceptor"
+					class="gnnt.MEBS.audit.action.interceptor.LogInterceptor">
+					<param name="classFullName">
+					   gnnt.MEBS.commodity.model.ArticleParitiesAgio
+					</param>
+					<param name="serrviceName">
+					   articleParitiesAgioService
+					</param>
+			 </interceptor>
+	    </interceptors>
+		<action name="auditList" class="articleParitiesAgioAuditAction" method="auditList">
+			<result>/applyAndAudit/audit/articleParitiesAgioAudit/articleParitiesAgioAuditList.jsp</result>
+		</action>
+		
+		<action name="audits" class="articleParitiesAgioAuditAction" method="audit">
+			 <interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="articleParitiesAgioLogInterceptor"></interceptor-ref>
+			<result>
+				/public/commonMsg.jsp
+			</result>
+		</action>
+		
+		<action name="auditDetails" class="articleParitiesAgioAuditAction" method="auditDetails">
+			<result>/applyAndAudit/audit/articleParitiesAgioAudit/articleParitiesAgioDetails.jsp</result>
+		</action>
+	</package>
+</struts>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<!-- 正则配置Map -->
+	<import resource="regularMap.xml" />
+
+	<!-- 正则判断Xml -->
+	<import resource="regularVerify.xml" />
+
+	<import resource="isNotEmptyNullVerify.xml" />
+
+	<import resource="isNumberVerify.xml" />
+
+	<import resource="stringDigitVerify.xml" />
+
+	<import resource="numPercentageVerify.xml" />
+
+	<import resource="specialCharactersVerify.xml" />
+
+	<import resource="dateVerify.xml" />
+
+	<import resource="isAllNumberVerify.xml" />
+
+	<import resource="decimalsDigitVerify.xml" />
+     
+     
+    <!-- 1检测是否为空 -->
+		<bean id="isNotEmptyNullVerifyHandle" class="gnnt.MEBS.verify.handler.IsNotEmptyNullVerifyHandle">
+			<property name="verifyMap" ref="isNotEmptyNullVerifyMap"></property>
+			<property name="verifyHandler" ref="regularVerifyHandle"></property>
+		</bean>
+		<!-- 2检测正则 -->
+		<bean id="regularVerifyHandle" class="gnnt.MEBS.verify.handler.RegularVerifyHandle">
+			<property name="verifyMap" ref="regularVerifyMap"></property>
+			<property name="verifyHandler" ref="isNumberVerifyHandle"></property>
+		</bean>
+		<!-- 3检测是否是数字 -->
+		<bean id="isNumberVerifyHandle" class="gnnt.MEBS.verify.handler.IsNumberVerifyHandle">
+			<property name="verifyMap" ref="isNumberVerifyMap"></property>
+			<property name="verifyHandler" ref="stringDigitVerifyHandle"></property>
+		</bean>
+		<!-- 4.检测字符长度 -->
+		<bean id="stringDigitVerifyHandle" class="gnnt.MEBS.verify.handler.StringDigitVerifyHandle">
+			<property name="verifyMap" ref="stringDigitVerifyMap"></property>
+			<property name="verifyHandler" ref="numPercentageVerifyHandle"></property>
+		</bean>
+		<!-- 5.检测数字比例限制 -->
+		<bean id="numPercentageVerifyHandle" class="gnnt.MEBS.verify.handler.NumPercentageVerifyHandle">
+			<property name="verifyMap" ref="numPercentageVerify"></property>
+			<property name="verifyHandler" ref="specialCharactersVerifyHandle"></property>
+		</bean>
+		<!-- 6.特殊字符检测 -->
+		<bean id="specialCharactersVerifyHandle" class="gnnt.MEBS.verify.handler.SpecialCharactersVerifyHandle">
+			<property name="verifyMap" ref="specialCharactersVerifyMap"></property>
+			<property name="verifyHandler" ref="isAllNumberVerifyHandle"></property>
+		</bean>
+
+		<!-- 7.整数检查 -->
+		<bean id="isAllNumberVerifyHandle" class="gnnt.MEBS.verify.handler.IsAllNumberVerifyHandle">
+			<property name="verifyMap" ref="isAllNumberVerifyMap"></property>
+			<property name="verifyHandler" ref="dateVerifyHandle"></property>
+		</bean>
+
+		<!-- 8.日期格式检查 -->
+		<bean id="dateVerifyHandle" class="gnnt.MEBS.verify.handler.DateVerifyHandle">
+			<property name="verifyMap" ref="dateVerifyMap"></property>
+			<property name="verifyHandler" ref="decimalsDigitVerifyHandle"></property>
+		</bean>
+
+		<!-- 9.数字位数检查 -->
+		<bean id="decimalsDigitVerifyHandle" class="gnnt.MEBS.verify.handler.DecimalsDigitVerifyHandle">
+			<property name="verifyMap" ref="decimalsMap"></property>
+		</bean>
+		<bean id="verifyInterceptor" class="gnnt.MEBS.verify.action.interceptor.VerifyInterceptor">
+			<property name="verifyHandler" ref="isNotEmptyNullVerifyHandle"></property>
+		</bean>
+</beans>

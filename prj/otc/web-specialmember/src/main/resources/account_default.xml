@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+        
+    <context:annotation-config />
+	<context:component-scan base-package="gnnt.MEBS.account.dao,gnnt.MEBS.account.service,gnnt.MEBS.account.action">
+        <context:exclude-filter type="aspectj" expression="gnnt.MEBS.account.action.CommonUserAction,gnnt.MEBS.account.action.CheckIdAction"/>
+	</context:component-scan>
+		<!-- 客户证件类型页面展示 -->
+	<util:map id="papersTypeMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="1" value="机构代码" />
+		<entry key="2" value="身份证" />
+		<entry key="3" value="护照" />
+		<entry key="4" value="营业执照" />
+	</util:map>
+	
+	<!-- 用户是否禁止页面展示 -->
+	<util:map id="isForbidMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="Y" value="禁用" />
+		<entry key="N" value="不禁用" />
+	</util:map>
+	
+		<!-- 会员类型页面展示 -->
+	<util:map id="accountMemberTypeMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="B" value="经纪会员" />
+		<entry key="C" value="综合会员" />
+	</util:map>
+			<!-- 会员证件类型页面展示 -->
+	<util:map id="accountPapersTypeMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="1" value="身份证" />
+		<entry key="2" value="护照" />
+		<entry key="3" value="营业执照" />
+	</util:map>
+			<!-- 客户状态页面展示 -->
+	<util:map id="firmStatusMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="N" value="正常" />
+		<entry key="F" value="冻结" />
+		<entry key="D" value="终止" />
+		<entry key="U" value="未激活" />
+	</util:map>
+				<!-- 会员状态页面展示 -->
+	<util:map id="memberStatusMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="N" value="正常" />
+		<entry key="F" value="冻结" />
+		<entry key="D" value="终止" />
+		<entry key="U" value="未激活" />
+	</util:map>
+	
+	<!-- 会员状态修改页面展示 -->
+	<util:map id="memberStatusUpdateMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="N" value="正常" />
+		<entry key="F" value="冻结" />
+		<entry key="D" value="终止" />
+	</util:map>
+				<!-- 会员收取手续费页面收取方式展示 -->
+	<util:map id="takeFeeMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="1" value="单边建仓" />
+		<entry key="2" value="单边平仓" />
+		<entry key="3" value="双边建仓" />
+	</util:map>
+	<!-- 会员收取手续费页面手续费算法展示 -->
+	<util:map id="feeAlgrMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="1" value="比例" />
+		<entry key="2" value="固定值" />
+	</util:map>
+	<!-- 会员延期费阶梯的阶梯阶号展示 -->
+	<util:map id="stepNoMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="1" value="1" />
+		<entry key="2" value="2" />
+		<entry key="3" value="3" />
+		<entry key="4" value="4" />
+		<entry key="5" value="5" />
+		<entry key="6" value="6" />
+		<entry key="7" value="7" />
+		<entry key="8" value="8" />
+		<entry key="9" value="9" />
+	</util:map>
+	<bean id="memberInfoProDao" class="gnnt.MEBS.account.dao.MemberInfoProDao" autowire="byName"></bean>
+	<bean id="customerInfoProDao" class="gnnt.MEBS.account.dao.CustomerInfoProDao" autowire="byName"></bean>
+	<bean id="specialMemberInfoProDao" class="gnnt.MEBS.account.dao.SpecialMemberInfoProDao" autowire="byName"></bean>
+	<bean id="firmProDao" class="gnnt.MEBS.account.dao.FirmProDao" autowire="byName"></bean>
+</beans>

@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<!-- 客户添加 检测begin -->
+	<bean id="account_customer_add_isAllNumber" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="postCode" />
+							<entry key="name" value="邮政编码" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="fax" />
+							<entry key="name" value="传真机号" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="phone" />
+							<entry key="name" value="联系电话" />
+						</map>
+					</constructor-arg>
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+	<!-- 客户添加end -->
+		<!-- 会员添加 检测begin -->
+	<bean id="account_member_add_isAllNumber" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="postCode" />
+							<entry key="name" value="邮政编码" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="fax" />
+							<entry key="name" value="传真机号" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="phone" />
+							<entry key="name" value="联系电话" />
+						</map>
+					</constructor-arg>
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+	<!-- 会员添加end -->
+
+	<!-- 特别会员风险阈值start -->
+	<bean id="account_specialThreshold_add_isAllNumber" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="holdWarnTh" />
+							<entry key="name" value="特别会员头寸预警阈值" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="postCode" />
+							<entry key="name" value="邮政编码" />
+						</map>
+					</constructor-arg>
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+	<!--特别会员风险阈值end -->
+
+	<!-- 会员风险阈值start -->
+	<bean id="account_memberThreshold_add_isAllNumber" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="netHoldWarnTh" />
+							<entry key="name" value="净头寸预警阈值" />
+						</map>
+					</constructor-arg>
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+	<!--会员风险阈值end -->
+	<!-- 委托点差设置 检测 begin -->
+	<bean id="commodity_orderPoint_isAllNumber" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="l_Open_Point" />
+							<entry key="name" value="限价建仓点差" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="stopLossPoint" />
+							<entry key="name" value="止损下单点差" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="stopProfitPoint" />
+							<entry key="name" value="止盈下单点差" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="min_M_OrderPoint" />
+							<entry key="name" value="市价点差最小值" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="max_M_OrderPoint" />
+							<entry key="name" value="市价点差最大值" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="m_OrderPoint" />
+							<entry key="name" value="默认市价点差" />
+						</map>
+					</constructor-arg>
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+	<!-- 委托点差设置检测 end -->
+	
+		<!-- 会员持仓数量设置 检测 start -->
+	<bean id="commodity_holdQuantily_isAllNumber" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="oneMaxOrderQty" />
+							<entry key="name" value="单笔最大下单量" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="oneMinOrderQty" />
+							<entry key="name" value="单笔最小下单量" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="maxCleanQty" />
+							<entry key="name" value="最大净持仓量" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="maxHoldQty" />
+							<entry key="name" value="最大持仓量" />
+						</map>
+					</constructor-arg>
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+	<!-- 会员持仓数量设置 检测 end -->
+
+	<util:map id="isAllNumberVerifyMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<!--  <entry key='/account/customer/add' value-ref="account_customer_add_isAllNumber" />
+		<entry key='/account/customer/update' value-ref="account_customer_add_isAllNumber" />
+		<entry key='/account/memberInfo/add' value-ref="account_member_add_isAllNumber" />
+		<entry key='/account/memberInfo/update' value-ref="account_member_add_isAllNumber" />
+		<entry key='/account/specialMemberInfo/add' value-ref="account_member_add_isAllNumber" />
+		<entry key='/account/specialMemberInfo/update' value-ref="account_member_add_isAllNumber" />
+		--><!--
+		<entry key='/account/specialThreshold/update' value-ref="account_specialThreshold_add_isAllNumber" />
+		<entry key='/account/memberThreshold/update' value-ref="account_memberThreshold_add_isAllNumber" />
+		 委托点差设置 
+		<entry key="/commodity/orderPoint/update" value-ref="commodity_orderPoint_isAllNumber" />
+		<entry key="/apply/orderPointApply/audits" value-ref="commodity_orderPoint_isAllNumber" />
+		
+		<entry key="/apply/holdQtyApply/audits" value-ref="commodity_holdQuantily_isAllNumber" />
+		<entry key="/apply/memberHoldQuantilyApply/audits" value-ref="commodity_holdQuantily_isAllNumber" />
+	--></util:map>
+
+</beans>

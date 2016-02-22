@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+	<!-- 客户开户统计导出 -->
+	<util:list id="memberCustomerAccountPropertyList" list-class="java.util.ArrayList"
+		value-type="java.lang.String">
+		<value>_0</value>
+		<value>clearDate</value>
+		<value>memberNo</value>
+		<value>memberName</value>
+		<value>contact</value>
+		<value>createcount</value>
+		<value>totalcreatecount</value>
+		<value>demisecount</value>
+		<value>totaldemisecount</value>
+		<value>dealcount</value>
+	</util:list>
+
+	<bean id="memberCustomerAccountExportInterceptor"
+		class="gnnt.MEBS.packaging.action.interceptor.TypeExportInterceptor">
+		<property name="listProperty_d" ref="memberCustomerAccountPropertyList"></property>
+	</bean>
+	<!-- 客户开户签约导出 -->
+	<util:list id="memberCustomerSignPropertyList" list-class="java.util.ArrayList"
+		value-type="java.lang.String">
+		<value>_0</value>
+		<value>clearDate</value>
+		<value>memberNo</value>
+		<value>memberName</value>
+		<value>contact</value>
+		<value>bankName</value>
+		<value>signcount</value>
+		<value>totalsigncount</value>
+		<value>designcount</value>
+		<value>totaldesigncount</value>
+	</util:list>
+
+	<bean id="memberCustomerSignExportInterceptor"
+		class="gnnt.MEBS.packaging.action.interceptor.TypeExportInterceptor">
+		<property name="listProperty_d" ref="memberCustomerSignPropertyList"></property>
+	</bean>
+
+	<!-- 客户资金状况导出 -->
+		<util:list id="customerFundsPropertyList" list-class="java.util.ArrayList" value-type="java.lang.String">
+		<value>_0</value>
+		<value>clearDate</value>
+		<value>organizationName</value>
+		<value>brokerName</value>
+		<value>customerNo</value>
+		<value>customerName</value>
+		<value>begincapital</value>
+		<value>fundio</value>
+		<value>closepl</value>
+		<value>holdpl</value>
+		<value>plsum</value>
+		<value>mktfee</value>
+		<value>memberfee</value>
+		<value>customerfee</value>
+		<value>delayfee</value>
+		<value>mktdelayfee</value>
+		<value>memberdelayfee</value>
+		<value>margin</value>
+		<value>endcapital</value>
+		<value>risk_log</value>
+	</util:list>
+	
+	<bean id="customerFundsExportInterceptor" class="gnnt.MEBS.packaging.action.interceptor.TypeExportInterceptor">
+	   <property name="listProperty_d" ref="customerFundsPropertyList"></property>
+	</bean>
+	
+	
+	<!-- 客户持仓汇总表导出 -->
+		<util:list id="customerHoldSummaryPropertyList" list-class="java.util.ArrayList" value-type="java.lang.String">
+		<value>_0</value>
+		<value>clearDate</value>
+		<value>organizationName</value>
+		<value>brokerName</value>
+		<value>customerNo</value>
+		<value>customerName</value>
+		<value>commodityName</value>
+		<value>buyqty</value>
+		<value>sellqty</value>
+		<value>qtysum</value>
+		<value>floatingloss</value>
+		<value>delayfee</value>
+		<value>mktdelayfee</value>
+		<value>memberdelayfee</value>
+		<value>margin</value>
+	</util:list>
+
+	<bean id="customerHoldSummaryExportInterceptor" class="gnnt.MEBS.packaging.action.interceptor.TypeExportInterceptor">
+	   <property name="listProperty_d" ref="customerHoldSummaryPropertyList"></property>
+	</bean>
+	
+		<!-- 客户成交汇总表导出 -->
+		<util:list id="customerTradePropertyList" list-class="java.util.ArrayList" value-type="java.lang.String">
+		<value>_0</value>
+		<value>clearDate</value>
+		<value>organizationName</value>
+		<value>brokerName</value>
+		<value>customerNo</value>
+		<value>customerName</value>
+		<value>commodityName</value>
+		<value>customerqtysum</value>
+		<value>customerfundsum</value>
+		<value>customercloseplsum</value>
+		<!-- 
+		<value>customerholdpl</value>
+		<value>customerplsum</value> -->
+		<value>mktfee</value>
+		<value>memberfee</value>
+		<value>customerfee</value>
+	</util:list>
+
+	<bean id="customerTradeExportInterceptor" class="gnnt.MEBS.packaging.action.interceptor.TypeExportInterceptor">
+	   <property name="listProperty_d" ref="customerTradePropertyList"></property>
+	</bean>
+	
+	<!-- 综合会员资金状况导出 -->
+		<util:list id="memberFundsPropertyList" list-class="java.util.ArrayList" value-type="java.lang.String">
+		<value>_0</value>
+		<value>clearDate</value>
+		<value>total_begincapital</value>
+		<value>begincapital</value>
+		<value>total_fundio</value>
+		<value>fundio</value>
+		<value>customercloseplsum</value>
+		<value>memberclosepl</value>
+		<value>closeplsum</value>
+		<value>customerholdpl</value>
+		<value>memberholdpl</value>
+		<value>holdplsum</value>
+		<value>mktfee</value>
+		<value>memberfee</value>
+		<value>customerfee</value>
+		<value>smemberdelayfee</value>
+		<value>mktdelayfee</value>
+		<value>customerdelayfee</value>
+		<value>delayfeesum</value>
+		<value>total_endcapital</value>
+		<value>endcapital</value>
+		<value>total_margin</value>
+		<value>total_livemargin</value>
+		<value>risk_log</value>
+	</util:list>
+
+	<bean id="memberFundsExportInterceptor" class="gnnt.MEBS.packaging.action.interceptor.TypeExportInterceptor">
+	   <property name="listProperty_d" ref="memberFundsPropertyList"></property>
+	</bean>
+	
+    <!-- 综合会员持仓汇总表导出 -->
+		<util:list id="memberHoldPropertyList" list-class="java.util.ArrayList" value-type="java.lang.String">
+		<value>_0</value>
+		<value>clearDate</value>
+		<value>commodityName</value>
+		<value>customerbuyqty</value>
+		<value>customersellqty</value>
+		<value>customernetqty</value>
+		<value>memberbuyqty</value>
+		<value>membersellqty</value>
+		<value>membernetqty</value>
+		<value>netqty</value>
+		<value>memberdelayfee</value>
+		<value>mktdelayfee</value>
+		<value>customerdelayfee</value>
+		<value>delayfee</value>
+	</util:list>
+
+	<bean id="memberHoldExportInterceptor" class="gnnt.MEBS.packaging.action.interceptor.TypeExportInterceptor">
+	   <property name="listProperty_d" ref="memberHoldPropertyList"></property>
+	</bean>
+	
+    <!-- 综合会员成交汇总表导出 -->
+	<util:list id="memberTradePropertyList" list-class="java.util.ArrayList" value-type="java.lang.String">
+		<value>_0</value>
+		<value>clearDate</value>
+		<value>commodityName</value>
+		<value>customerqtysum</value>
+		<value>memberqtysum</value>
+		<value>qtysum</value>
+		<value>customerfundsum</value>
+		<value>memberfundsum</value>
+		<value>fundsum</value>
+		<value>customercloseplsum</value>
+		<value>memberclosepl</value>
+		<value>closeplsum</value><!-- 
+		<value>customerholdpl</value>
+		<value>memberholdpl</value>
+		<value>holdplsum</value>
+		<value>netplsum</value> -->
+		<value>mktfee</value>
+		<value>memberfee</value>
+		<value>customerfee</value>
+	</util:list>
+
+	<bean id="memberTradeExportInterceptor" class="gnnt.MEBS.packaging.action.interceptor.TypeExportInterceptor">
+	   <property name="listProperty_d" ref="memberTradePropertyList"></property>
+	</bean>
+	
+</beans>

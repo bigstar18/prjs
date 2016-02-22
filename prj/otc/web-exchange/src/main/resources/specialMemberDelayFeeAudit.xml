@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="specialMemberDelayFeeAudit" extends="baseAudit" namespace="/audit/commodity_specialMemberDelayFeeAudit">
+	
+	    <interceptors>
+	    <interceptor name="delayLogInterceptor"
+				class="gnnt.MEBS.audit.action.interceptor.LogDelayInterceptor">
+				<param name="classFullName">
+					   gnnt.MEBS.commodity.model.TCDelayFee
+				</param>
+				<param name="serrviceName">
+				   specialMemberDelayFeeService
+				</param>
+		 </interceptor>
+		 </interceptors>
+		<action name="auditList" class="specialMemberDelayFeeAuditAction" method="auditList">
+			<result>/applyAndAudit/audit/tcDelayFeeAudit/specialMemberDelayFeeAuditList.jsp</result>
+		</action>
+		
+		<action name="audits" class="specialMemberDelayFeeAuditAction" method="audit">
+		    <interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="delayLogInterceptor"></interceptor-ref>
+			<result>
+				/public/commonMsg.jsp
+			</result>
+		</action>
+		
+		<action name="auditDetails" class="specialMemberDelayFeeAuditAction" method="auditDetails">
+			<result>/applyAndAudit/audit/tcDelayFeeAudit/specialMemberDelayFeeDetails.jsp</result>
+		</action>
+	</package>
+</struts>

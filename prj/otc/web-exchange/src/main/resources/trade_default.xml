@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<context:annotation-config />
+	<context:component-scan base-package="gnnt.MEBS.trade.dao,gnnt.MEBS.trade.service,gnnt.MEBS.trade.action,gnnt.MEBS.trade.rmi">
+	<context:exclude-filter type="aspectj"
+			expression="gnnt.MEBS.settlement.dao.QuotationDao"/>
+	</context:component-scan>
+	<bean id="quotationDao" class="gnnt.MEBS.settlement.dao.QuotationDao">
+		  <property name="sessionFactory" ref="sessionFactoryForQuery"></property>
+	</bean>
+
+	<!-- 交易服务器状态 -->
+	<util:map id="trStatusMap" map-class="java.util.HashMap"
+		key-type="java.lang.Integer" value-type="java.lang.String">
+		<entry key='0' value="初始化完成" />
+		<entry key='2' value="结算中" />
+		<entry key='3' value="资金结算完成" />
+		<entry key='4' value="暂停交易" />
+		<entry key='5' value="交易中" />
+		<entry key='6' value="节间休息" />
+		<entry key='7' value="交易结束" />
+	</util:map>
+	
+	<!-- 商品交易状态值页面展示 -->
+	<util:map id="tradeStatusMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="0" value="无效" />
+		<entry key="1" value="正常" />
+	</util:map>
+	
+	<!-- 交易状态管理页面展示 -->
+	<util:map id="tradeRunModeMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="0" value="手动" />
+		<entry key="1" value="自动" />
+	</util:map>
+	
+	<!-- 交易状态管理日志记录 -->
+	<util:map id="tradeLogMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="6" value="恢复交易" />
+		<entry key="9" value="交易结束" />
+		<entry key="5" value="暂停交易" />
+		<entry key="8" value="开市准备" />
+		<entry key="7" value="闭市操作" />
+		<entry key="99" value="设定恢复时间" />
+	</util:map>
+</beans>

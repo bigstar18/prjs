@@ -1,0 +1,55 @@
+@charset "utf-8";
+/* CSS Document */
+/*body{ margin:0px;}*/
+body {
+	background-color: #FFF6F4;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+}
+
+.clear{ clear:both;}
+/**** index ****/
+.index_bg{background:url(cssimg/main_bg.jpg) repeat-x; width:100%; height:768px; background-color:#ba2020; margin:0px; }
+.index_logo{ margin:173px auto 0px auto; width:628px; height:77px; background:url(images/index_logo.jpg) no-repeat; }
+.index_mid{ margin:0px auto 0px auto; width:626px; border:1px solid #dad8d8; height:321px;}
+.index_midleft{ background:url(cssimg/index_pic.jpg) no-repeat; width:299px; height:321px; float:left;}
+.index_midright{ background:url(cssimg/index_pic2.jpg) no-repeat; width:327px; height:321px; float:left;}
+.index_bgfoot{ width:628px; height:26px; background:url(cssimg/index_bg2.gif) no-repeat; color:#333; font-size:12px; text-align:center; padding-top:15px;}
+.index_bgfoot2{ width:628px; height:66px; background:url(cssimg/index_bg3.gif) no-repeat; margin:0px auto 0px auto; }
+.index_w12{ color:#333; font-size:14px; height:35px; line-height:35px;}
+
+
+/**** st ****/
+.st_body{ background-color:fff6f4; margin:0px; color:#333; height:35px; line-height:35px; font-size:12px;}
+.st_title{ width:100%; height:30px; font-size:16px; line-height:30px; color:#105fa4; padding:20px 5px 10px 5px; font-weight:bold;}
+.st_title2{ height:24px; line-height:24px; color:#fff; font-size:14px; font-weight:bold; background:url(cssimg/st_bg01.gif) no-repeat; background-position:left; padding-left:20px; text-align:left; vertical-align:middle;}
+.st_bor{ border:1px solid #bfbfbf; }
+/*.st_an{ margin:auto; width:72px; height:29px; color:#333333 }*/
+.st_an:link,.st_an:visited,.st_an:active,.st_an:hover{font-size:14px; color: #fff; text-decoration:none; height:29px; line-height:29px; display:block; background:url(cssimg/st_bg02.gif) no-repeat; width:72px; font-weight:bold; text-align:center;}
+.st_anbor{ margin:20px auto 0px auto; width:72px; height:29px;}
+.welcome{ background:url(cssimg/welcome.gif) no-repeat; border:1px solid #bfbfbf; height:615px;}
+
+/*login*/
+.login_body{ margin:0px; background:#f3f3f3;}
+.login_w14{ font-size:14px; color:#a6a5a5; height:25px; line-height:25px;}
+.login_left{ width:427px; float:left; height:auto;}
+.login_logo{ width:427px; height:63px; background:url(cssimg/login_logo.gif) no-repeat center top;}
+.login_pic{ width:427px; margin:10px 0px 10px 0px; height:200px; background:url(cssimg/login_bg01.gif) no-repeat center;}
+
+.login_topbg{ background:url(cssimg/login_bg03.jpg) no-repeat top left; height:14px;}
+.login_dowbg{ background:url(cssimg/login_bg04.jpg) no-repeat top left; height:14px;}
+.logo_midbgl{ font-size:14px; height:40px; line-height:40px; background-color:#fff; border-left:1px solid #cfcfcf;}
+.logo_midbgr{ font-size:14px; height:40px; line-height:40px; background-color:#fff; border-right:1px solid #cfcfcf;}
+.logo_midbgr1{ font-size:14px; height:40px; line-height:40px; background-color:#fff;}
+
+.login_pw:link,.login_pw:visited,.login_pw:active,.login_pw:hover{ color:#a6a5a5; font-size:14px; font-weight:bold; text-decoration:underline;}
+/*
+.login_down{ width:776px; height:140px; background:url(images/login_bg04.gif) no-repeat center; margin:0px auto 0px auto;}
+.loginbg{ width:776px; height:221px; margin:0px auto 0px auto;}
+.login_bg01{ width:176px; height:221px; margin:0px auto 0px auto; float:left; background:url(images/login_bg01.gif) no-repeat;}
+.login_bg02{ width:287px; height:221px; margin:0px auto 0px auto; float:left; background:url(images/login_bg02.gif) no-repeat;}
+.login_bg03{ width:313px; height:221px; margin:0px auto 0px auto; float:left; background:url(images/login_bg03.gif) no-repeat;}
+*/
+

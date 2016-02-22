@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<tx:annotation-driven transaction-manager="transactionManager"
+		proxy-target-class="true" />
+
+	<!-- 总体配置管理方案 -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="configLocation" value="classpath:hibernate.cfg.xml">
+		</property>
+	</bean>
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="*" read-only="false" rollback-for="java.lang.Exception"
+				propagation="REQUIRED" />
+		</tx:attributes>
+	</tx:advice>
+
+	<util:map id="returnValueMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="page" value="success" />
+		<entry key="xls" value="xls" />
+	</util:map>
+
+	<util:map id="consignerLimitOrderRMIMap" map-class="java.util.HashMap"
+		key-type="java.lang.Integer" value-type="java.lang.String">
+		<!-- 结算返回值 开始-->
+		<entry key='0' value="1" />
+		<entry key='1' value="-800" />
+		<entry key='3' value="-801" />
+		<entry key='4' value="-802" />
+		<entry key='5' value="-803" />
+		<entry key='10' value="-804" />
+		<entry key='11' value="-805" />
+		<entry key='12' value="-806" />
+		<entry key='13' value="-807" />
+		<entry key='14' value="-808" />
+		<entry key='34' value="-809" />
+		<entry key='35' value="-810" />
+		<entry key='37' value="-811" />
+		<entry key='38' value="-812" />
+		<entry key='40' value="-813" />
+		<entry key='41' value="-814" />
+		<entry key='50' value="-815" />
+		<entry key='51' value="-816" />
+		<entry key='200' value="-817" />
+		<entry key='-1' value="-818" />
+		<entry key='-2' value="-819" />
+		<entry key='-99' value="-820" />
+		<entry key='-100' value="-823" />
+		<entry key='-204' value="-821" />
+		<entry key='-206' value="-822" />
+		<!-- 结算返回值 结束-->
+	</util:map>
+
+	<util:map id="consignerMarketOrderRMIMap" map-class="java.util.HashMap"
+		key-type="java.lang.Integer" value-type="java.lang.String">
+		<!-- 结算返回值 开始-->
+		<!-- 结算返回值 结束-->
+	</util:map>
+
+	<util:map id="returnOperationMap" map-class="java.util.HashMap"
+		key-type="java.lang.Integer" value-type="java.lang.String">
+		<!-- 公用返回值开始 -->
+		<entry key='1' value="操作成功" />
+		<entry key='2' value="添加成功" />
+		<entry key='3' value="修改成功" />
+		<entry key='4' value="删除成功" />
+		<entry key='5' value="保存成功" />
+		<entry key='6' value="发送成功" />
+		<entry key='-1' value="操作失败" />
+		<entry key='-2' value="请选择所要操作的数据" />
+		<entry key='-3' value="登录失败！" />
+		<entry key='-5' value="注销成功！" />
+		<entry key='-6' value="客户代码不存在或不在此会员下" />
+		<entry key='-7' value="此会员下无客户" />
+		<entry key='-8' value="密码错误，请重新登录" />
+		<entry key='-10' value="管理员不可以删除自己" />
+		<entry key='-12' value="原密码错误" />
+		<!-- 公用返回值结束 -->
+
+		<!-- 申请审核返回值开始 -->
+		<entry key='-100' value="没有配置相应流程！" />
+		<entry key='-101' value="处理异常！" />
+		<entry key='-102' value="没有配置流程相应步骤！" />
+		<entry key='-103' value="步骤中没有此状态所对应的操作！" />
+		<entry key='-104' value="操作下没有具体执行行为！" />
+		<!-- 申请审核返回值结束 -->
+
+		<!-- 交易管理返回值开始 -->
+		<entry key='-200' value="执行存储失败！" />
+		<entry key='-204' value="下单服务器已关闭！" />
+		<entry key='-207' value="交易系统不是暂停状态，不能调整！" />
+		<!-- 交易管理返回值结束 -->
+
+		<!-- 客户返回值开始 -->
+		<entry key='-200' value="此客户有持仓！" />
+		<entry key='-201' value="此客户有资金！" />
+		<entry key='-202' value="此客户未和银行解约！" />
+		<!--客户返回值结束 -->
+		<!-- 会员管理开始 -->
+		<entry key='-400' value="此会员未和银行签约！" />
+		<entry key='-401' value="此会员未与特别会员关联！" />
+		<entry key='-402' value="此会员未入金！" />
+		<entry key='-403' value="此会员有持仓！" />
+		<entry key='-404' value="此会员有客户持仓！" />
+		<entry key='-405' value="会员下有资金！" />
+		<entry key='-406' value="表示会员未与银行解约！" />
+		<!-- 会员管理结束 -->
+
+		<!-- 账号管理返回值开始 -->
+		<entry key='-300' value="未签约！" />
+		<entry key='-301' value="没有入金！" />
+		<entry key='-302' value="强平失败！" />
+		<entry key='-303' value="持仓不为0！" />
+		<entry key='-304' value="资金不为0！" />
+		<!-- 账号管理返回值结束 -->
+		<!-- 机构管理开始 -->
+		<entry key='-500' value="客户关联机构！" />
+		<entry key='-501' value="经纪有关联！" />
+		<entry key='-502' value="下属机构有关联！" />
+		<!-- 机构管理结束 -->
+		<!-- 添加客户判断会员状态-->
+		<entry key='-600' value="会员终止或未激活不能添加客户" />
+		<!-- 机构管理结束 -->
+		<entry key='-700' value="此居间有客户关联" />
+		<entry key='-701' value="此经纪有客户关联" />
+		
+			<!-- 状态改变返回值 -->
+		<entry key='-900' value="客户状态不正确！" />
+		<entry key='-901' value="资金不为0！" />
+		<entry key='-902' value="持仓不为0！" />
+		<entry key='-903' value="不存在的客户！" />
+		<entry key='-904' value="会员该状态不正确!" />
+		<entry key='-905' value="资金不为0!" />
+		<entry key='-906' value="客户数不为0!" />
+		<entry key='-907' value="持仓不为0!" />
+		<entry key='-908' value="会员该状态不正确!" />
+		<entry key='-909' value="资金不为0!" />
+		<entry key='-910' value="关联会员不为0！" />
+		<entry key='-911' value="持仓不为0!" />
+		<entry key='-912' value="不存在!" />
+		<entry key='-1000' value="资金不足!" />
+		<entry key='-1001' value="未与特别会员关联!" />
+		<entry key='-1002' value="机构数量不为0!" />
+	    <entry key='-1003' value="居间数量不为0!" />
+		<!-- 状态改变返回值 -->
+		
+		<!-- 交易商变化时银行接口变化情况 -->
+		<entry key='-9000' value="银行系统中未查询到交易商信息" />
+		<entry key='-9001' value="银行系统中查询到有签约状态的交易商" />
+	</util:map>
+	<util:map id="returnForceCloseMap" map-class="java.util.HashMap"
+		key-type="java.lang.Integer" value-type="java.lang.Integer">
+		<!-- 强平返回值 开始-->
+		<entry key='1' value="1" />
+		<entry key='2' value="-503" />
+		<entry key='-100' value="-1" />
+		<!-- 强平返回值 结束-->
+	</util:map>
+	<bean id="springContext" class="gnnt.MEBS.base.util.SpringContextHelper"></bean>
+
+	<util:list id="urlWildcardCharacterList" list-class="java.util.ArrayList">
+		<value>add</value>
+		<value>update</value>
+		<value>delete</value>
+		<value>related</value>
+	</util:list>
+
+
+
+	<util:list id="queryConditionKeyWord" list-class="java.util.ArrayList">
+	    <value>composite</value>
+	    <value>in</value>
+	</util:list>
+	
+	<bean id="queryConditionInterceptor" class="gnnt.MEBS.packaging.action.interceptor.QueryConditionInterceptor">
+	   <property name="keyWordList" ref="queryConditionKeyWord"></property>
+	</bean>
+	<bean id="addlog" class="gnnt.MEBS.globalLog.aop.AddLog" />
+
+	<!-- 数据权限的过滤 -->
+	<bean id="dataFilterCustomerNoInterceptor" class="gnnt.MEBS.config.action.interceptor.DataFilterForCustomerInterceptor">
+		<property name="queryParam">
+			<value>primary.customerNo[in]</value>
+		</property>
+	</bean>
+	<bean id="dataFilterOrganizationNoInterceptor" class="gnnt.MEBS.config.action.interceptor.DataFilterForOrganizationInterceptor">
+		<property name="queryParam">
+			<value>primary.organizationNO[in]</value>
+		</property>
+	</bean>
+		<bean id="dataFilterOrganizationNoJDBCInterceptor" class="gnnt.MEBS.config.action.interceptor.DataFilterForOrganizationJDBCInterceptor">
+		<property name="queryParam">
+			<value>primary.organizationno[in]</value>
+		</property>
+	</bean>
+	<bean id="dataFilterBrokerageNoInterceptor" class="gnnt.MEBS.config.action.interceptor.DataFilterForBrokerageInterceptor">
+		<property name="queryParam">
+			<value>primary.brokerageNo[in]</value>
+		</property>
+	</bean>
+	<bean id="dataFilterOrganizationNoInterceptor1" class="gnnt.MEBS.config.action.interceptor.DataFilterForOrganizationInterceptor">
+		<property name="queryParam">
+			<value>primary.organization.organizationNO[in]</value>
+		</property>
+	</bean>
+	<!-- 数据权限设置end -->
+
+
+	<!--过滤系统用户状态 begin-->
+	<!-- 过滤非正常状态的用户 -->
+	<bean id="statusUnNormalFilter" class="gnnt.MEBS.config.action.interceptor.StatusFilterInterceptor">
+		<property name="statusIn">
+			<value>C,U,F,D</value>
+		</property>
+	</bean>
+	<!--过滤系统用户状态end -->
+
+	<aop:config>
+		<aop:aspect id="logAspect" ref="addlog">
+			<aop:pointcut id="addOperateLog"
+				expression="execution(int gnnt.MEBS.*.service..*.*(..))" />
+			<aop:around pointcut-ref="addOperateLog" method="logAround" />
+		</aop:aspect>
+	</aop:config>
+	
+	
+	<util:map id="sessionMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.Integer">
+		<entry key="session" value="1380"/><!-- 以分钟为单位 -->
+		<entry key="au" value="1200"/><!-- 以分钟为单位 -->
+	</util:map>
+	
+	<bean id="transactionManagerForQuery"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory">
+			<ref bean="sessionFactoryForQuery" />
+		</property>
+	</bean>
+	
+	<tx:advice id="txAdviceForQuery" transaction-manager="transactionManagerForQuery">  
+		<tx:attributes>  
+		    <tx:method name="get*" read-only="true"/>  
+		    <tx:method name="find*" read-only="true"/>
+		    <tx:method name="intercept" read-only="true"/>   
+		    <tx:method name="*" rollback-for="Exception,DataAccessException"/>  
+		</tx:attributes>  
+	</tx:advice>
+	
+	<aop:config>
+	    <aop:advisor id="managerTxForExport" advice-ref="txAdviceForQuery" 
+		  pointcut="execution(* gnnt.MEBS.packaging.action.interceptor.*ExportInterceptor.*(..))" order="0"/>
+    </aop:config>
+	
+</beans>

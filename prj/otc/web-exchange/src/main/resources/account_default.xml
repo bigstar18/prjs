@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+        
+    <context:annotation-config />
+	<context:component-scan base-package="gnnt.MEBS.account.dao,gnnt.MEBS.account.service,gnnt.MEBS.account.action,gnnt.MEBS.account.dwr">
+	</context:component-scan>
+		<!-- 客户证件类型页面展示 -->
+	<util:map id="papersTypeMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="1" value="机构代码" />
+		<entry key="2" value="身份证" />
+		<entry key="3" value="护照" />
+		<entry key="4" value="营业执照" />
+	</util:map>
+	
+		<!-- 客户证件类型用于添加修改 -->
+	<util:map id="papersTypeUpdateMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="1" value="机构代码" />
+		<entry key="2" value="身份证" />
+		<entry key="4" value="营业执照" />
+	</util:map>
+	
+	<!-- 签约状态页面展示 -->
+	<util:map id="openstatusMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="0" value="未签约" />
+		<entry key="1" value="已经签约" />
+		<entry key="2" value="已经解约" />
+	</util:map>
+	
+	<!-- 用户是否禁止页面展示 -->
+	<util:map id="isForbidMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="Y" value="禁用" />
+		<entry key="N" value="不禁用" />
+	</util:map>
+	
+		<!-- 会员类型页面展示 -->
+	<util:map id="accountMemberTypeMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="B" value="经纪会员" />
+		<entry key="C" value="综合会员" />
+	</util:map>
+			<!-- 会员证件类型页面展示 -->
+	<util:map id="accountPapersTypeMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="1" value="机构代码" />
+		<entry key="4" value="营业执照" />
+	</util:map>
+			<!-- 客户状态页面展示 -->
+	<util:map id="firmStatusMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="N" value="正常" />
+		<entry key="F" value="已冻结" />
+		<entry key="D" value="已销户" />
+		<entry key="U" value="已签约"/>
+		<entry key="C" value="已开户"/>
+	</util:map>
+				<!-- 会员状态页面展示 -->
+	<util:map id="memberStatusMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="N" value="正常" />
+		<entry key="F" value="已冻结" />
+		<entry key="D" value="已终止" />
+		<entry key="U" value="已签约" />
+		<entry key="C" value="已入会"/>
+	</util:map>
+	
+	<!-- 会员收取手续费页面收取方式展示 -->
+	<util:map id="takeFeeMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="1" value="单边建仓" />
+		<entry key="2" value="单边平仓" />
+		<entry key="3" value="双边建平" />
+	</util:map>
+	<!-- 会员收取手续费页面手续费算法展示 -->
+	<util:map id="feeAlgrMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="1" value="比例" />
+		<entry key="2" value="固定值" />
+	</util:map>
+	<bean id="customerPWPhoneAction" class="gnnt.MEBS.account.action.CustomerPWAction"  scope="prototype">
+		<property name="inService" ref="customerPWPhoneService"></property>
+	</bean>
+	<bean id="customerPWAction" class="gnnt.MEBS.account.action.CustomerPWAction"  scope="prototype">
+		<property name="inService" ref="traderPWService"></property>
+	</bean>
+	<bean id="memberInfoAction" class="gnnt.MEBS.account.action.MemberInfoAction"  scope="prototype">
+		<property name="inService" ref="memberInfoService"></property>
+	</bean>
+	<bean id="memberInfoPWAction" class="gnnt.MEBS.account.action.MemberInfoAction" scope="prototype">
+		<property name="inService" ref="traderPWService"></property>
+	</bean>
+	<bean id="memberInfoProDao" class="gnnt.MEBS.account.dao.MemberInfoProDao" autowire="byName"></bean>
+	<bean id="customerInfoProDao" class="gnnt.MEBS.account.dao.CustomerInfoProDao" autowire="byName"></bean>
+	<bean id="specialMemberInfoProDao" class="gnnt.MEBS.account.dao.SpecialMemberInfoProDao" autowire="byName"></bean>
+	<bean id="firmProDao" class="gnnt.MEBS.account.dao.FirmProDao" autowire="byName"></bean>
+	<bean id="errorLoginDao" class="gnnt.MEBS.account.dao.ErrorLoginDao" autowire="byName"></bean>
+	<bean id="netCustomerDao" class="gnnt.MEBS.account.dao.NetCustomerDao" autowire="byName"></bean>
+	<bean id="wxCustomerDao" class="gnnt.MEBS.account.dao.WxCustomerDao" autowire="byName"></bean>
+	<bean id="wxAgreementDao" class="gnnt.MEBS.account.dao.WxAgreementDao" autowire="byName"></bean>
+</beans>

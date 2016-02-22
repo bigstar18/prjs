@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+
+	<!-- 客户资金状况导出 -->
+	<util:list id="customerFundsPropertyList" list-class="java.util.ArrayList"
+		value-type="java.lang.String">
+		<value>_0</value>
+		<value>clearDate</value>
+		<value>customerNo</value>
+		<value>customerName</value>
+		<value>begincapital</value>
+		<value>fundio</value>
+		<value>closepl</value>
+		<value>holdpl</value>
+		<value>plsum</value>
+		<value>mktfee</value>
+		<value>memberfee</value>
+		<value>customerfee</value>
+		<value>delayfee</value>
+		<value>mktdelayfee</value>
+		<value>memberdelayfee</value>
+		<value>margin</value>
+		<value>endcapital</value>
+		<value>risk_log</value>
+	</util:list>
+
+	<bean id="customerFundsExportInterceptor"
+		class="gnnt.MEBS.packaging.action.interceptor.TypeExportInterceptor">
+		<property name="listProperty_d" ref="customerFundsPropertyList"></property>
+	</bean>
+
+
+	<!-- 客户持仓汇总表导出 -->
+	<util:list id="customerHoldSummaryPropertyList" list-class="java.util.ArrayList"
+		value-type="java.lang.String">
+		<value>_0</value>
+		<value>clearDate</value>
+		<value>customerNo</value>
+		<value>customerName</value>
+		<value>commodityName</value>
+		<value>buyqty</value>
+		<value>sellqty</value>
+		<value>qtysum</value>
+		<value>floatingloss</value>
+		<value>delayfee</value>
+		<value>mktdelayfee</value>
+		<value>memberdelayfee</value>
+		<value>margin</value>
+	</util:list>
+
+	<bean id="customerHoldSummaryExportInterceptor"
+		class="gnnt.MEBS.packaging.action.interceptor.TypeExportInterceptor">
+		<property name="listProperty_d" ref="customerHoldSummaryPropertyList"></property>
+	</bean>
+
+	<!-- 客户成交汇总表导出 -->
+	<util:list id="customerTradePropertyList" list-class="java.util.ArrayList"
+		value-type="java.lang.String">
+		<value>_0</value>
+		<value>clearDate</value>
+		<value>customerNo</value>
+		<value>customerName</value>
+		<value>commodityName</value>
+		<value>customerqtysum</value>
+		<value>customerfundsum</value>
+		<value>customercloseplsum</value>
+		<!-- 
+		<value>customerholdpl</value>
+		<value>customerplsum</value> -->
+		<value>mktfee</value>
+		<value>memberfee</value>
+		<value>customerfee</value>
+	</util:list>
+
+	<bean id="customerTradeExportInterceptor"
+		class="gnnt.MEBS.packaging.action.interceptor.TypeExportInterceptor">
+		<property name="listProperty_d" ref="customerTradePropertyList"></property>
+	</bean>
+	
+</beans>

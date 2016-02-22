@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="commodityPriceProtectApply" extends="base-struts2" namespace="/apply/commodityPriceProtectApply">
+	<interceptors>
+		    <interceptor name="commodityPriceProtectLogInterceptor"
+					class="gnnt.MEBS.audit.action.interceptor.LogInterceptor">
+					<param name="classFullName">
+					   gnnt.MEBS.commodity.model.CommodityPriceProtect
+					</param>
+					<param name="serrviceName">
+					   commodityPriceProtectService
+					</param>
+			 </interceptor>
+	    </interceptors>
+		<!-- 申请操作 -->
+		<action name="update" class="commodityPriceProtectApplyAction" method="apply">
+		<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="commodityPriceProtectLogInterceptor"></interceptor-ref>
+			<result name="returnList" type="chain">
+				<param name="actionName">applyList</param>
+			</result>
+			<result>/applyAndAudit/apply/commodityPriceProtectApply/commodityPriceProtectApply.jsp</result>
+		</action>
+	</package>
+</struts>

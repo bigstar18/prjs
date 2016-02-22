@@ -1,0 +1,199 @@
+.common
+{
+	font-size: 12px;
+	line-height: 25px;
+	color:#26548B
+}
+.common4
+{
+	font-size: 12px;
+	line-height: 25px;
+	color:#26548B
+}
+.common1
+{
+	font-size: 12px;
+	line-height: 25px;
+	color:black
+}
+.common2
+{
+	font-size: 12px;
+	line-height: 25px;
+	color:red
+}
+.commonTest
+{
+	font-size: 12px;
+	line-height: 14px;
+	color:#26548B
+}
+A:link
+{
+	COLOR: #26548B;
+	TEXT-DECORATION: none;
+}
+A:visited
+{
+	COLOR: #26548B;
+	TEXT-DECORATION: none
+}
+A:active
+{
+	COLOR: #FF9933;
+	TEXT-DECORATION: none;
+}
+A:hover
+{
+	COLOR: #FF9933;
+	TEXT-DECORATION: underline
+}
+.ReadOnlyNumber
+{
+	background-color: #C0C0C0;
+	border-style:solid;
+	border-width:1px;
+	text-align: right;
+}
+.NormalNumber
+{
+	border-style:solid;
+	border-width:1px;
+	text-align: right;
+}
+.ReadOnlyString
+{
+	background-color: #C0C0C0;
+	border-style:solid;
+	border-width:1px;
+	border-color:Black
+}
+.NormalString
+{
+	border-style:solid;
+	border-width:1px;
+	border-color:Black
+}
+.Number
+{
+	border-style:solid;
+	border-width:1px;
+	text-align: right;
+}
+input
+{
+	border-style:solid;
+	border-width:1px;
+	border-color:Black;
+}
+.NormalInput
+{
+	border-style:none;
+}
+.LineInput {
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-top-color: #000000;
+	border-right-color: #000000;
+	border-bottom-color: #000000;
+	border-left-color: #000000;
+	background-color: #F0F5F9;
+	width:170px;
+	height:18px;
+}
+.NoneInput{
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+	border-top-color: #000000;
+	border-right-color: #000000;
+	border-bottom-color: #000000;
+	border-left-color: #000000;
+	background-color: #F0F5F9;
+	width:170px;
+	height:18px;
+}
+.button
+{
+	cursor:hand;
+	filter:	progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=#ffffff, EndColorStr=#cecfde);
+	background-color:#ffffff;
+	font-size: 12px;
+	padding-left: 5px;
+	padding-right: 5px;
+	border:	1px solid #7b9ebd;
+	height:	19px;
+	behavior: url("../scripts/ButtonStyleFlat.htc")
+}
+fieldset.pickList {
+    margin-top: 5px;
+    padding: 5px;
+    background: transparent;
+    /* border-color: #f3f3f3; */
+}
+fieldset.pickList1 {
+    margin-top: 200px;
+    padding: 200px;
+    background: transparent;
+    /* border-color: #f3f3f3; */
+}
+.SectionFoot{
+	table-layout:fixed;
+	background-color:#e5e3e4;
+}
+
+FIELDSET.FieldSection{
+	text-align:center;
+	/*padding:2;*/
+	width:100%;
+	height:100%;
+	background-color:#ffffff;
+}
+
+form input.focus, form textarea.focus {
+    border-color: orange;
+    /*color: #000;*/
+}
+
+.hand
+{
+  cursor:hand;
+}
+
+body
+{
+	background-color: #F5F5F5;
+	SCROLLBAR-FACE-COLOR: rgb(234,242,255);
+	SCROLLBAR-HIGHLIGHT-COLOR: rgb(120,172,255);
+	SCROLLBAR-SHADOW-COLOR: rgb(120,172,255);
+	SCROLLBAR-3DLIGHT-COLOR: rgb(120,172,255);
+	SCROLLBAR-ARROW-COLOR: rgb(120,172,255);
+	SCROLLBAR-TRACK-COLOR: white;
+	SCROLLBAR-DARKSHADOW-COLOR: rgb(120,172,255);
+	SCROLLBAR-BASE-COLOR: rgb(234,242,255)
+}
+.left
+{
+  background-color : #f3f3f3;
+  width:15%;
+}	
+.right
+{
+  bgcolor : #ffffff;
+  width:25%;
+}
+.req {
+	color: red;
+	vertical-align: middle;
+}

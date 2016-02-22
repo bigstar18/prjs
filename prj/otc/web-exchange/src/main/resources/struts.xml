@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<constant name="struts.i18n.encoding" value="GBK"></constant>
+	<constant name="struts.objectFactory" value="spring"></constant>
+	<constant name="struts.locale" value="zh_CN"></constant>
+	<constant name="struts.multipart.maxSize" value="102400000"></constant>
+	<constant name="struts.multipart.parser" value="jakarta"></constant>
+	<constant name="struts.ui.theme" value="simple" />
+	<constant name="struts.ui.templateDir" value="template" />
+	<constant name="struts.ui.templateSuffix" value="ftl" />
+	<constant name="struts.devMode" value="false" />
+	<package name="defaults" extends="struts-default">
+		<global-results>
+			<result name="error">/public/error.jsp</result>
+			<result name="verifyQuit">/public/commonMsg.jsp</result>
+		</global-results>
+	</package>
+
+	<package name="base-struts2" extends="defaults" abstract="true">
+		<interceptors>
+			<interceptor name="returnCurrentPage"
+				class="gnnt.MEBS.packaging.action.interceptor.ReturnCurrentPageInterceptor">
+			</interceptor>
+			<interceptor name="addMsgHandler"
+				class="gnnt.MEBS.packaging.action.interceptor.AddMsgHandlerInterceptor">
+			</interceptor>
+			<interceptor name="forEcsideList"
+				class="gnnt.MEBS.packaging.action.interceptor.ForEcsideListInterceptor">
+			</interceptor>
+			<interceptor name="changeResultInterceptor"
+				class="gnnt.MEBS.audit.action.interceptor.ChangeResultInterceptor">
+			</interceptor>
+			<interceptor name="throwsExceptionInterceptor"
+				class="gnnt.MEBS.packaging.action.interceptor.ThrowsExceptionInterceptor">
+			</interceptor>
+			<interceptor name="queryConditionInterceptor" class="queryConditionInterceptor">
+			</interceptor>
+			<interceptor name="transferOriginalValueInterceptor"
+				class="gnnt.MEBS.packaging.action.interceptor.TransferOriginalValueInterceptor">
+			</interceptor>
+			<interceptor name="verifyInterceptor" class="verifyInterceptor">
+			</interceptor>
+
+
+			<interceptor-stack name="mydefault">
+				<interceptor-ref name="throwsExceptionInterceptor" />
+				<interceptor-ref name="queryConditionInterceptor" />
+				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="addMsgHandler" />
+				<interceptor-ref name="verifyInterceptor" />
+				<interceptor-ref name="transferOriginalValueInterceptor" />
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="mydefault" />
+	</package>
+
+
+
+	<!-- <include file="student.xml"></include> <include file="teacher.xml"></include> 
+		<include file="teacherAddAudit.xml"></include> <include file="teacherAddApply.xml"></include> -->
+	<include file="commodity.xml"></include>
+	<include file="trade.xml"></include>
+	<include file="account.xml"></include>
+	<include file="announcement.xml"></include>
+	<include file="query.xml"></include>
+	<include file="report.xml"></include>
+	<include file="baseCommodityApply.xml"></include>
+	<include file="baseCommodityAudit.xml"></include>
+	<include file="marginApply.xml"></include>
+	<include file="marginAudit.xml"></include>
+	<include file="monitor.xml"></include>
+	<include file="settlement.xml"></include>
+	<include file="broke.xml"></include>
+	<include file="bankAdded.xml"></include>
+	<include file="quotePointApply.xml"></include>
+	<include file="quotePointAudit.xml"></include>
+	<include file="holdQtyApply.xml"></include>
+	<include file="holdQtyAudit.xml"></include>
+	<include file="tradeAuthApply.xml"></include>
+	<include file="tradeAuthAudit.xml"></include>
+	<include file="commodityFeeApply.xml" />
+	<include file="commodityFeeAudit.xml" />
+	<include file="orderPointApply.xml" />
+	<include file="orderPointAudit.xml" />
+	<include file="articleParitiesAgioApply.xml" />
+	<include file="articleParitiesAgioAudit.xml" />
+	<include file="commodityPriceProtectApply.xml" />
+	<include file="commodityPriceProtectAudit.xml" />
+	<include file="memberQuotePointAudit.xml" />
+	<include file="memberQuotePointApply.xml" />
+	<include file="baseAudit.xml" />
+	<include file="specialMemberQuotePointApply.xml" />
+	<include file="specialMemberQuotePointAudit.xml" />
+	<include file="memberTakeFeeApply.xml" />
+	<include file="memberTakeFeeAudit.xml" />
+	<include file="specialMemberTakeFeeApply.xml" />
+	<include file="specialMemberTakeFeeAudit.xml" />
+	<include file="memberMarginApply.xml" />
+	<include file="memberMarginAudit.xml" />
+	<include file="customerMarginApply.xml" />
+	<include file="customerMarginAudit.xml" />
+	<include file="memberHoldQuantilyApply.xml" />
+	<include file="memberHoldQuantilyAudit.xml" />
+	<include file="customerHoldQuantilyApply.xml" />
+	<include file="customerHoldQuantilyAudit.xml" />	
+	<include file="tcDelayFeeApply.xml" />
+	<include file="tcDelayFeeAudit.xml" />
+	<include file="memberTradeAuthApply.xml" />
+	<include file="memberTradeAuthAudit.xml" />
+	<include file="tradeAuthforTraderApply.xml" />
+	<include file="tradeAuthforTraderAudit.xml" />
+	<include file="specialTradeAuthApply.xml" />
+	<include file="specialTradeAuthAudit.xml" />
+	<include file="memberDelayFeeApply.xml" />
+	<include file="memberDelayFeeAudit.xml" />
+	<include file="specialMemberDelayFeeApply.xml" />
+	<include file="specialMemberDelayFeeAudit.xml" />
+	<include file="customerTakeFeeApply.xml" />
+	<include file="customerTakeFeeAudit.xml" />
+	<include file="memCustomerTakeFeeApply.xml" />
+	<include file="memCustomerTakeFeeAudit.xml" />
+	<include file="commodityDelayTradeApply.xml" />
+	<include file="commodityDelayTradeAudit.xml" />
+	<include file="memberDelayTradeApply.xml" />
+	<include file="memberDelayTradeAudit.xml" />
+	<include file="customerDelayTradeApply.xml" />
+	<include file="customerDelayTradeAudit.xml" />
+	<include file="memCustomerDelayTradeApply.xml" />
+	<include file="memCustomerDelayTradeAudit.xml" />
+	
+	<!--  持仓监控	-->
+	<include file="positionMonitoring.xml" />
+
+</struts>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+<!-- 结算处理开始 -->
+	<package name="settlement" extends="base-struts2" namespace="/settlement/quotation">
+
+		<action name="list" class="quotationAction" method="list">
+			<result>/settlement/quotation/quotationList.jsp</result>
+		</action>
+		<action name="settlement" class="quotationAction" method="settlement">
+			<result type="chain">list</result>
+		</action>
+	</package>
+	
+	<package name="quotePointRunTime" extends="base-struts2" namespace="/settlement/quotePointRunTime">
+
+		<action name="list" class="quotePointRunTimeAction" method="list">
+			<result>/settlement/quotePointRunTime/quotePointRunTimeList.jsp</result>
+		</action>
+		<action name="forwardUpdate" class="quotePointRunTimeAction" method="viewById">
+			<result>/settlement/quotePointRunTime/quotePointRunTimeUpdate.jsp</result>
+		</action>
+		<action name="update" class="quotePointRunTimeAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+	</package>
+	
+		<package name="marketParameters" extends="base-struts2" namespace="/settlement/marketParameters">
+
+		<action name="list" class="marketParametersAction" method="list">
+			<result>/settlement/marketParameters/marketParametersList.jsp</result>
+		</action>
+		<action name="forwardUpdate" class="marketParametersAction" method="viewById">
+			<result>/settlement/marketParameters/marketParametersUpdate.jsp</result>
+		</action>
+		<action name="update" class="marketParametersAction" method="update">
+			<result type="redirectAction">forwardUpdate</result>
+		</action>
+	</package>
+</struts>

@@ -1,0 +1,89 @@
+@charset "gb2312";
+body {
+	margin: 0px;
+}
+#haeder {
+	float: left;
+	height: 88px;
+	width: 100%;
+}
+.common {
+	font-size: 12px;
+	line-height: 25px;
+	color:#26548B
+}
+.logo {
+	background-repeat: no-repeat;
+	float: left;
+	height: 88px;
+	width: 100%;
+	background-image: url(cssimg/01.gif);
+	background-color: #A71918;
+}
+.anniu_01 {
+	float: right;
+	height: 25px;
+	width: 91px;
+	margin-right: 20px;
+	font-size: 12px;
+	line-height: 25px;
+	color: #FFFFFF;
+}
+.anniu_kuang {
+	float: left;
+	height: 30px;
+	width: 100%;
+}
+.anniu_01 a:link {
+	color: #FFFFFF;
+	text-decoration: none;
+}
+.anniu_01 a:visited {
+	color: #FFFFFF;
+	text-decoration: none;
+}
+.anniu_01 a:hover {
+	color: #FFFFFF;
+	text-decoration: none;
+}
+.anniu_01 a:active {
+	color: #FFFFFF;
+	text-decoration: none;
+}
+
+.anniu_01Copy {
+	float: right;
+	height: 25px;
+	width: 91px;
+	margin-right: 10px;
+	font-size: 12px;
+	line-height: 25px;
+	color: #FFFFFF;
+}
+.anniu_kuangCopy {
+	float: right;
+	height: 30px;
+	width: 100%;
+	text-align: right;
+}
+.user_name {
+	font-size: 12px;
+	line-height: 25px;
+	color: #FFFFFF;
+	float: right;
+	height: 25px;
+	width: auto;
+	padding-right: 30px;
+}
+.left {
+	background-color: #fff6f4;
+	height: auto;
+	width: 185px;
+	border: 1px solid #716f64;
+	float: left;
+}
+#left_box {
+	float: left;
+	width: 196px;
+	margin-left: 1px;
+}

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<context:annotation-config />
+	<context:component-scan base-package="gnnt.MEBS.commodity.dao,gnnt.MEBS.commodity.service,gnnt.MEBS.commodity.action">
+	</context:component-scan>
+
+	<!-- 商品状态值页面展示 -->
+	<util:map id="commodityStatusMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="0" value="未上市" />
+		<entry key="1" value="上市" />
+		<entry key="2" value="退市" />
+	</util:map>
+	<!-- 商品交易模式页面展示 -->
+	<util:map id="commodityTradeModeMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="N" value="正常交易" />
+		<entry key="P" value="停止交易" />
+	</util:map>
+	<!-- 商品涨跌幅算法页面展示 -->
+	<util:map id="commoditySpreadAlgrMap" map-class="java.util.HashMap"
+		key-type="java.lang.Integer" value-type="java.lang.String">
+		<entry key="1" value="按百分比" />
+		<entry key="2" value="按绝对值" />
+		<entry key="4" value="不限制" />
+	</util:map>
+	
+		<!-- 商品保证金算法页面展示 -->
+	<util:map id="commodityMarginAlgrMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="1" value="比例" />
+		<entry key="2" value="固定值" />
+	</util:map>
+	
+		<!-- 保证金取价算法页面展示 -->
+	<util:map id="commodityMarginPriceMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="0" value="实时和闭市都按持仓价" />
+		<entry key="1" value="实时按昨结算价，闭市按当日结算价" />
+		<entry key="2" value="盘中按订立价，闭市结算时按当日结算价" />
+	</util:map>
+	
+		<!-- 商品延期费算法页面展示 -->
+	<util:map id="delayFeeAlgrMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="1" value="比例" />
+		<entry key="2" value="固定值" />
+	</util:map>
+	
+		<!-- 默认交易商设置展示 -->
+	<util:map id="firmDisMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="Def_Customer" value="客户默认" />
+		<entry key="Def_Member" value="会员默认" />
+		<entry key="Def_S_Member" value="特别会员默认" />
+	</util:map>
+			<!-- 默认延期费展示 -->
+	<util:map id="firmDisMap_v" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="Def_Member" value="会员收取" />
+		<entry key="Def_S_Member" value="特别会员收取" />
+	</util:map>
+		<!-- 交易商权限展示 -->
+	<util:map id="authorityMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="0" value="无" />
+		<entry key="1" value="有" />
+	</util:map>
+		<!-- 商品手续费算法页面展示 -->
+	<util:map id="commodityFeeAlgrMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="1" value="比例" />
+		<entry key="2" value="固定值" />
+	</util:map>
+			<!-- 商品收取方式页面展示 -->
+	<util:map id="commodityFeeModeMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="1" value="单边建仓" />
+		<entry key="2" value="单边平仓" />
+		<entry key="3" value="双边建平" />
+	</util:map>
+			<!-- 商品卖报价点差页面展示 -->
+	<util:map id="quotePointBMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="1" value="比例" />
+		<entry key="2" value="固定值" />
+	</util:map>
+			<!-- 商品暂停类型展示 -->
+	<util:map id="pauseTypeMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="M" value="手动暂停" />
+		<entry key="S" value="系统暂停" />
+	</util:map>
+			<!-- 商品暂停类型展示 -->
+	<util:map id="contractUnitMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="t" value="吨" />
+		<entry key="kg" value="千克" />
+		<entry key="g" value="克" />
+	</util:map>
+	<!--  延迟成交默认交易商	-->
+	<util:map id="firmDelayTradeMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="Def_Customer" value="客户默认" />
+		<entry key="Def_Member" value="会员默认" />
+	</util:map>
+	<!--  延迟成交类型	-->
+	<util:map id="delayTradeMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="0" value="都不延迟" />
+		<entry key="1" value="仅开仓时延迟" />
+		<entry key="2" value="仅平仓时延迟" />
+		<entry key="3" value="双边建平" />
+	</util:map>
+	<!--  延迟成交是否滑点	-->
+	<util:map id="isslipPointMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="N" value="否" />
+		<entry key="Y" value="是" />
+		<entry key="T" value="不能成交" />
+	</util:map>
+	<bean id="delayTradeProDao" class="gnnt.MEBS.commodity.dao.DelayTradeProDao" autowire="byName"></bean>
+	<bean id="stepDictionaryProDao" class="gnnt.MEBS.commodity.dao.StepDictionaryProDao" autowire="byName"></bean>
+	<bean id="commodityProDao" class="gnnt.MEBS.commodity.dao.CommodityProDao" autowire="byName"></bean>
+</beans>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+        
+    
+        
+    
+    
+	<!-- 特别会员添加 检测begin-->
+	<bean id="account_specialMemberInfo_add_specialCharacters" class="java.util.ArrayList"> 
+       <constructor-arg> 
+        <list> 
+            <bean class="java.util.HashMap"> 
+              <constructor-arg> 
+               <map> 
+                <entry key="field" value="id" />
+                <entry key="name" value="特别会员编号" /> 
+               </map> 
+             </constructor-arg> 
+           </bean>
+        </list> 
+       </constructor-arg> 
+    </bean>
+    <!-- 特别会员添加end -->
+
+	<!-- 会员添加(特殊字符)检测 begin -->
+	<bean id="account_memberInfo_add_specialCharacters" class="java.util.ArrayList"> 
+       <constructor-arg> 
+        <list> 
+            <bean class="java.util.HashMap"> 
+              <constructor-arg> 
+               <map> 
+                <entry key="field" value="id" />
+                <entry key="name" value="会员编号" /> 
+               </map> 
+             </constructor-arg> 
+           </bean>
+        </list> 
+       </constructor-arg> 
+    </bean>
+    <!-- 会员添加(特殊字符)检测 end -->
+     <!-- 客户添加 检测begin-->
+	<bean id="account_customerInfo_add_specialCharacters" class="java.util.ArrayList"> 
+       <constructor-arg> 
+        <list> 
+           <bean class="java.util.HashMap"> 
+              <constructor-arg> 
+               <map> 
+                <entry key="field" value="customerNo" />
+                <entry key="name" value="交易账号" /> 
+               </map> 
+             </constructor-arg> 
+           </bean>
+        </list> 
+       </constructor-arg> 
+    </bean>
+    <!-- 客户添加end -->
+    <util:map id="specialCharactersVerifyMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<!--  <entry key='/account/specialMemberInfo/add' value-ref="account_specialMemberInfo_add_specialCharacters"/>
+		<entry key='/account/specialMemberInfo/update' value-ref="account_specialMemberInfo_add_specialCharacters"/>
+		<entry key='/account/customer/update' value-ref="account_customerInfo_add_specialCharacters"/>
+		<entry key='/account/customer/add' value-ref="account_customerInfo_add_specialCharacters"/>
+		<entry key='/account/memberInfo/add' value-ref="account_memberInfo_add_specialCharacters"/>
+		<entry key='/account/memberInfo/update' value-ref="account_memberInfo_add_specialCharacters"/>
+		-->
+	</util:map>
+    
+</beans>

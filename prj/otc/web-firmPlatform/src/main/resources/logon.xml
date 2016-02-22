@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+    <package name="logon" extends="struts-default" namespace="/logon">
+    	<action name="logon" class="commonUserAction"
+			method="commonUserLogon">
+			<result type="redirect">/common/surface/noticeIndex.jsp</result><!-- 前端分开登录，报表用reportIndex.jsp，公告用noticeIndex.jsp -->
+			<result name="error">/logon.jsp</result>
+		</action>
+	</package>
+</struts>

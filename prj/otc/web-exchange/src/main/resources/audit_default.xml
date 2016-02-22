@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<context:annotation-config />
+	<context:component-scan
+		base-package="gnnt.MEBS.audit.dao,gnnt.MEBS.audit.service,gnnt.MEBS.audit.action">
+	</context:component-scan>
+
+	<bean id="statusOperate" class="gnnt.MEBS.audit.flowService.common.StatusOperateImpl">
+	</bean>
+
+	<util:map id="auditOperateMap" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="commodity_margin" value="商品保证金" />
+		<entry key="commodity_baseCommodity" value="商品基本信息" />
+		<entry key="commodity_quotePoint" value="报价点差" />
+		<entry key="commodity_holdQty" value="持仓数量" />
+		<entry key="commodity_tradeAuth" value="交易权限" />
+		<entry key="commodity_commodityFee" value="商品手续费" />
+		<entry key="commodity_orderPoint" value="委托点差" />
+		<entry key="commodity_articleParitiesAgio" value="汇率贴水" />
+		<entry key="commodity_commodityPriceProtect" value="商品行情保护"/>
+		<entry key="commodity_memberQuotePoint" value="会员报价点差"/>
+		<entry key="commodity_memberTakeFee" value="会员收取手续费"/>
+		<entry key="commodity_specialMemberQuotePoint" value="特别会员报价点差"/>
+		<entry key="commodity_specialMemberTakeFee" value="特别会员收取手续费"/>
+		<entry key="commodity_memberMargin" value="会员保证金"/>
+		<entry key="commodity_customerMargin" value="客户保证金"/>
+		<entry key="commodity_memberHoldQuantily" value="会员持仓数量"/>
+		<entry key="commodity_customerHoldQuantily" value="客户持仓数量"/>
+		<entry key="commodity_tcDelayFee" value="默认延期费"/>
+		<entry key="commodity_memberTradeAuth" value="会员交易权限" />
+		<entry key="commodity_tradeAuthForTrader" value="客户交易权限" />
+		<entry key="commodity_tradeAuthForSMember" value="特别会员交易权限" />
+		<entry key="commodity_memberDelayFee" value="会员延期费" />
+		<entry key="commodity_specialMemberDelayFee" value="特别会员延期费" />
+		<entry key="commodity_customerTakeFee" value="客户手续费"/>
+		<entry key="commodity_memCustomerTakeFee" value="会员管辖客户手续费"/>
+		<entry key="commodity_delayTrade" value="默认延迟成交"/>
+		<entry key="commodity_memberDelayTrade" value="会员延迟成交"/>
+		<entry key="commodity_memCustomerDelayTrade" value="会员管辖客户延迟成交"/>
+		<entry key="commodity_customerDelayTrade" value="客户延迟成交"/>
+	</util:map>
+ 
+	<!--将上下文放入map，key代表申请类型 -->
+	<bean id="workflowMap" class="java.util.HashMap">
+		<constructor-arg>
+			<map>
+				<entry key="commodity_baseCommodity" value-ref="commodityUpdateProcessContext" />
+				<entry key="commodity_margin" value-ref="marginUpdateProcessContext" />
+				<entry key="commodity_quotePoint" value-ref="quotePointUpdateProcessContext" />
+				<entry key="commodity_holdQty" value-ref="holdQtyUpdateProcessContext" />
+				<entry key="commodity_tradeAuth" value-ref="tradeAuthUpdateProcessContext" />
+				<entry key="commodity_commodityFee" value-ref="commodityFeeUpdateProcessContext"></entry>
+				<entry key="commodity_orderPoint" value-ref="orderPointUpdateProcessContext"></entry>
+				<entry key="commodity_articleParitiesAgio" value-ref="articleParitiesAgioUpdateProcessContext"></entry>
+				<entry key="commodity_commodityPriceProtect" value-ref="commodityPriceProtectUpdateProcessContext" />
+				<entry key="commodity_memberQuotePoint" value-ref="memberQuotePointUpdateProcessContext"></entry>
+				<entry key="commodity_specialMemberQuotePoint" value-ref="specialMemberQuotePointUpdateProcessContext" />
+				<entry key="commodity_memberTakeFee" value-ref="memberTakeFeeUpdateProcessContext" />
+				<entry key="commodity_specialMemberTakeFee" value-ref="specialMemberTakeFeeUpdateProcessContext" />
+				<entry key="commodity_memberMargin" value-ref="memberMarginUpdateProcessContext" />
+				<entry key="commodity_customerMargin" value-ref="customerMarginUpdateProcessContext" />
+				<entry key="commodity_memberHoldQuantily" value-ref="memberHoldQuantilyUpdateProcessContext" />
+				<entry key="commodity_customerHoldQuantily" value-ref="customerHoldQuantilyUpdateProcessContext" />
+				<entry key="commodity_tcDelayFee" value-ref="tcDelayFeeUpdateProcessContext"/>
+				<entry key="commodity_memberTradeAuth" value-ref="memberTradeAuthUpdateProcessContext"/>
+				<entry key="commodity_tradeAuthForTrader" value-ref="tradeAuthForTraderUpdateProcessContext"/>
+				<entry key="commodity_tradeAuthForSMember" value-ref="tradeAuthForSMemberUpdateProcessContext"/>
+				<entry key="commodity_memberDelayFee" value-ref="memberDelayFeeUpdateProcessContext"/>
+				<entry key="commodity_specialMemberDelayFee" value-ref="specialMemberDelayFeeUpdateProcessContext"/>
+				<entry key="commodity_customerTakeFee" value-ref="customerTakeFeeUpdateProcessContext" />
+				<entry key="commodity_memCustomerTakeFee" value-ref="memCustomerTakeFeeUpdateProcessContext" />
+				<entry key="commodity_delayTrade" value-ref="commodityDelayTradeUpdateProcessContext" />
+				<entry key="commodity_memberDelayTrade" value-ref="memberDelayTradeUpdateProcessContext" />
+				<entry key="commodity_memCustomerDelayTrade" value-ref="memCustomerDelayTradeUpdateProcessContext" />
+				<entry key="commodity_customerDelayTrade" value-ref="customerDelayTradeUpdateProcessContext" />
+			</map>         
+		</constructor-arg>
+	</bean>
+	
+	<!--状态类型 -->
+	<util:map id="statusMapAudit" map-class="java.util.HashMap"
+		key-type="java.lang.Integer" value-type="java.lang.String">
+			<entry key="1" value="申请修改" />
+			<entry key="2" value="审核修改" />
+			<entry key="-2" value="驳回修改" />
+	</util:map>
+	<bean id="workflowFacade" class="gnnt.MEBS.audit.flowService.common.WorkflowFacadeImpl">
+		<property name="workflowMap">
+			<ref bean="workflowMap" />
+		</property>
+	</bean>
+
+	<aop:config>
+		<aop:advisor id="managerTx" advice-ref="txAdvice"
+			pointcut="execution(* gnnt.MEBS.audit.flowService.ProcessContext.*(..))"
+			order="0" />
+	</aop:config>
+
+	<!-- 审核 -->
+	<bean id="commonAuditAction" class="gnnt.MEBS.audit.action.CommonAuditAction">
+	</bean>
+	<!-- 审核 end -->
+
+
+
+
+	<import resource="margin_audit.xml" />
+	<import resource="baseCommodity_audit.xml" />
+	<import resource="quotePoint_audit.xml" />
+	<import resource="holdQty_audit.xml" />
+	<import resource="tradeAuth_audit.xml" />
+	<import resource="commodityFee_audit.xml" />
+	<import resource="orderPoint_audit.xml" />
+	<import resource="articleParitiesAgio_audit.xml" />
+	<import resource="commodityPriceProtect_audit.xml" />
+	<import resource="memberQuotePoint_audit.xml" />
+	<import resource="specialMemberQuotePoint_audit.xml" />
+	<import resource="memberTakeFee_audit.xml" />
+	<import resource="specialMemberTakeFee_audit.xml" />
+	<import resource="memberMargin_audit.xml"/>
+	<import resource="customerMargin_audit.xml"/>
+	<import resource="memberHoldQuantily_audit.xml"/>
+	<import resource="customerHoldQuantily_audit.xml"/>
+	<import resource="tcDelayFee_audit.xml"/>
+	<import resource="memberTradeAuth_audit.xml"/>
+	<import resource="tradeAuthForTrader_audit.xml"/>
+	<import resource="specialTradeAuth_audit.xml"/>
+	<import resource="memberDelayFee_audit.xml"/>
+	<import resource="specialMemberDelayFee_audit.xml"/>
+	<import resource="customerTakeFee_audit.xml"/>
+	<import resource="memCustomerTakeFee_audit.xml"/>
+	<import resource="commodityDelayTrade_audit.xml"/>
+	<import resource="memberDelayTrade_audit.xml"/>
+	<import resource="memCustomerDelayTrade_audit.xml"/>
+	<import resource="customerDelayTrade_audit.xml"/>
+</beans>

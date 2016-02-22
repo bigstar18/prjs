@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<context:annotation-config />
+	<context:component-scan base-package="gnnt.MEBS.announcement.dao,gnnt.MEBS.announcement.service,gnnt.MEBS.announcement.action,gnnt.MEBS.announcement.dwr,gnnt.MEBS.announcement.promptHandler">
+	<context:exclude-filter type="aspectj"
+			expression="gnnt.MEBS.announcement.dao.HisNoticeDao"/>
+	<context:exclude-filter type="aspectj"
+			expression="gnnt.MEBS.announcement.dao.HisOKNoticeDao"/>
+	</context:component-scan>
+	<bean id="hisOkNoticeDao" class="gnnt.MEBS.announcement.dao.HisOKNoticeDao">
+		  <property name="sessionFactory" ref="sessionFactoryForQuery"></property>
+	</bean>
+	<bean id="hisNoticeDao" class="gnnt.MEBS.announcement.dao.HisNoticeDao">
+		  <property name="sessionFactory" ref="sessionFactoryForQuery"></property>
+	</bean>
+	
+	<!-- 弹出框责任链 begin -->
+	<bean id="abstractType" class="gnnt.MEBS.announcement.promptHandler.AbstractTypeHandler" abstract="true" />
+	<bean id="systemStatusHandler" class="gnnt.MEBS.announcement.promptHandler.SystemStatusHandler" parent="abstractType">
+	   <property name="nextHandle" ref="tradeHandler"></property>
+	</bean>
+	<bean id="tradeHandler" class="gnnt.MEBS.announcement.promptHandler.TradeHandler" parent="abstractType">
+	   <property name="nextHandle" ref="noticeHandler"></property>
+	</bean>
+	<bean id="noticeHandler" class="gnnt.MEBS.announcement.promptHandler.NoticeHandler" parent="abstractType" />
+	<!-- 弹出框责任链 end -->
+</beans>

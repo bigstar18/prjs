@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dwr PUBLIC "-//GetAhead Limited//DTD Direct Web Remoting 3.0//EN" "http://getahead.org/dwr/dwr30.dtd"> 
+
+<dwr>
+
+  <allow>
+
+    <!-- 仅向前台开放部分方法 -->
+    <create creator="new" javascript="FirmManager">
+      <param name="class" value="gnnt.MEBS.firm.action.FirmManager"/>
+      <include method="checkAccountNum"/>
+      <include method="checkedCardNumber"/>
+      <include method="checkzscheckedCardNumber"/>
+      <include method="getMemberIdAndName"/>
+      <include method="getAllBanks"/>
+       <include method="checkMemberForBrokerage"/>
+       <include method="sendSMS"/>
+       <include method="getMemberInfor"/>
+       <include method="getOrgBroker"/>
+       <include method="getBroker"/>
+       <include method="checkedContacterPhoneNo"/>
+       <include method="PersonCode"/>
+    </create>
+	
+    <!-- this is a bad idea for live, but can be useful in testing -->
+    <convert converter="exception" match="java.lang.Exception"/>
+    <convert converter="bean" match="java.lang.StackTraceElement"/>
+    <convert converter="bean" match="gnnt.MEBS.firm.model.CustomerInfoAudit"/>
+
+  </allow>
+
+</dwr>

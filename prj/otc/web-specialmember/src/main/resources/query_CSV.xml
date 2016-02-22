@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<!-- 特别会员亏损导出 -->
+		<util:list id="specialMemberPropertyList" list-class="java.util.ArrayList" value-type="java.lang.String">
+		<value>_0</value>
+		<value>riskMargin</value>
+		<value>specialLossPeak</value>
+		<value>specialLossPeakPro</value>
+	</util:list>
+	
+	<util:list id="specialMemberPropertyList_h" list-class="java.util.ArrayList" value-type="java.lang.String">
+		<value>_0</value>
+	    <value>tradeDate</value>
+		<value>riskMargin</value>
+		<value>specialLossPeak</value>
+		<value>specialLossPeakPro</value>
+	</util:list>
+	<bean id="specialMemberExportInterceptor" class="gnnt.MEBS.packaging.action.interceptor.TypeExportInterceptor">
+	   <property name="listProperty_d" ref="specialMemberPropertyList"></property>
+	   <property name="listProperty_h" ref="specialMemberPropertyList_h"></property>
+	</bean>
+	<!-- 特别会员成交导出 -->
+		<util:list id="specialMemberTransactionPropertyList" list-class="java.util.ArrayList" value-type="java.lang.String">
+		<value>_0</value>
+		<value>s_signNo</value>
+		<value>oc_flag</value>
+		<value>tradeNo</value>
+		<value>holdNo</value>
+		<value>tradeTime</value>
+		<value>commodityName</value>
+		<value>quantity</value>
+		<value>tradefunds</value>
+		<value>bs_flag</value>
+		<value>openprice</value>
+		<value>closeprice</value>
+		<value>holdprice</value>
+		<value>close_pl</value>
+		<value>actualpl</value>
+		<value>traderId</value>
+		<value>memberNo</value>
+		<value>memberName</value>
+		<value>tradetype</value>
+		<value>operatetype</value>
+	</util:list>
+	
+	<util:list id="specialMemberTransactionPropertyList_h" list-class="java.util.ArrayList" value-type="java.lang.String">
+		<value>_0</value>
+	    <value>clearDate</value>
+		<value>s_signNo</value>
+		<value>oc_flag</value>
+		<value>tradeNo</value>
+		<value>holdNo</value>
+		<value>tradeTime</value>
+		<value>commodityName</value>
+		<value>quantity</value>
+		<value>tradefunds</value>
+		<value>bs_flag</value>
+		<value>openprice</value>
+		<value>closeprice</value>
+		<value>holdprice</value>
+		<value>close_pl</value>
+		<value>actualpl</value>
+		<value>traderId</value>
+		<value>memberNo</value>
+		<value>memberName</value>
+		<value>tradetype</value>
+		<value>operatetype</value>
+	</util:list>
+	<bean id="specialMemberTransactionExportInterceptor" class="gnnt.MEBS.packaging.action.interceptor.TypeExportInterceptor">
+	   <property name="listProperty_d" ref="specialMemberTransactionPropertyList"></property>
+	   <property name="listProperty_h" ref="specialMemberTransactionPropertyList_h"></property>
+	</bean>
+	<!-- 特别会员持仓导出 -->
+		<util:list id="specialMemberHoldPropertyList_query" list-class="java.util.ArrayList" value-type="java.lang.String">
+		<value>_0</value>
+		<value>openTradeNo</value>
+		<value>s_memberNo</value>
+		<value>s_name</value>
+		<value>s_signNo</value>
+		<value>memberNo</value>
+		<value>memberName</value>
+		<value>traderId</value>
+		<value>commodityName</value>
+		<value>bs_flag</value>
+		<value>holdQty</value>
+		<value>holdPrice</value>
+		<value>openPrice</value>
+		<value>holdTime</value>
+		<value>price</value>
+		<value>holdPl</value>
+		<value>delayFee</value>
+	</util:list>
+	
+	<util:list id="specialMemberHoldPropertyList_h_query" list-class="java.util.ArrayList" value-type="java.lang.String">
+		<value>_0</value>
+	    <value>clearDate</value>
+        <value>openTradeNo</value>
+		<value>s_memberNo</value>
+		<value>s_name</value>
+		<value>s_signNo</value>
+		<value>memberNo</value>
+		<value>memberName</value>
+		<value>traderId</value>
+		<value>commodityName</value>
+		<value>bs_flag</value>
+		<value>holdQty</value>
+		<value>holdPrice</value>
+		<value>openPrice</value>
+		<value>holdTime</value>
+		<value>price</value>
+		<value>holdPl</value>
+		<value>delayFee</value>
+	</util:list>
+	<bean id="specialMemberHoldExportInterceptor_query" class="gnnt.MEBS.packaging.action.interceptor.TypeExportInterceptor">
+	   <property name="listProperty_d" ref="specialMemberHoldPropertyList_query"></property>
+	   <property name="listProperty_h" ref="specialMemberHoldPropertyList_h_query"></property>
+	</bean>
+	<!-- 特别会员资金流水导出 -->
+		<util:list id="specialMemberFundFlowPropertyList" list-class="java.util.ArrayList" value-type="java.lang.String">
+		<value>_0</value>
+		<value>fundFlowId</value>
+		<value>oprcode</value>
+		<value>createTime</value>
+		<value>amount</value>
+		<value>balance</value>
+		<value>voucherno</value>
+	</util:list>
+	
+	<util:list id="specialMemberFundFlowPropertyList_h" list-class="java.util.ArrayList" value-type="java.lang.String">
+		<value>_0</value>
+	    <value>clearDate</value>
+	    <value>fundFlowId</value>
+		<value>oprcode</value>
+		<value>createTime</value>
+		<value>amount</value>
+		<value>balance</value>
+		<value>voucherno</value>
+	</util:list>
+	<bean id="specialMemberFundFlowExportInterceptor" class="gnnt.MEBS.packaging.action.interceptor.TypeExportInterceptor">
+	   <property name="listProperty_d" ref="specialMemberFundFlowPropertyList"></property>
+	   <property name="listProperty_h" ref="specialMemberFundFlowPropertyList_h"></property>
+	</bean>
+	<!-- 特别会员资金导出 -->
+		<util:list id="specialMemberFundPropertyList" list-class="java.util.ArrayList" value-type="java.lang.String">
+		<value>_0</value>
+		<value>beginningCaptical</value>
+		<value>runtimeFundio</value>
+		<value>runtimeClosepl</value>
+		<value>floatingLoss</value>
+		<value>presentCaptical</value>
+		<value>riskRate_log</value>
+	</util:list>
+	<bean id="specialMemberFundExportInterceptor" class="gnnt.MEBS.packaging.action.interceptor.TypeExportInterceptor">
+	   <property name="listProperty_d" ref="specialMemberFundPropertyList"></property>
+	</bean>
+	<!-- 后台管理日志导出 -->
+	<util:list id="operateLogPropertyList" list-class="java.util.ArrayList" value-type="java.lang.String">
+		<value>_0</value>
+		<value>operator</value>
+		<value>operateIp</value>	
+		<value>operateTime</value>
+		<value>operateName</value>
+		<value>operateContent</value>
+	</util:list>
+	<bean id="operateLogExportInterceptor" class="gnnt.MEBS.packaging.action.interceptor.ExportInterceptor">
+	   <property name="listProperty" ref="operateLogPropertyList"></property>
+	</bean>
+</beans>

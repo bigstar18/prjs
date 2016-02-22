@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+        
+    <context:annotation-config />
+	<context:component-scan base-package="gnnt.MEBS.broke.dao,gnnt.MEBS.broke.service,gnnt.MEBS.broke.action,gnnt.MEBS.broke.dwr">
+	</context:component-scan>
+	
+	<bean id="brokerageAction" class="gnnt.MEBS.broke.action.BrokerageAction"  scope="prototype">
+		<property name="inService" ref="brokerageService"></property>
+	</bean>
+	<bean id="brokeragePWAction" class="gnnt.MEBS.broke.action.BrokerageAction"  scope="prototype">
+		<property name="inService" ref="brokeragePWService"></property>
+	</bean>
+		
+	<bean id="managerAction" class="gnnt.MEBS.broke.action.ManagerAction"  scope="prototype">
+		<property name="inService" ref="managerService"></property>
+	</bean>
+	<bean id="managerPWAction" class="gnnt.MEBS.broke.action.ManagerAction"  scope="prototype">
+		<property name="inService" ref="managerPWService"></property>
+	</bean>
+	<bean id="organizationProDao" class="gnnt.MEBS.broke.dao.OrganizationProDao" autowire="byName"></bean>
+	<bean id="managerProDao" class="gnnt.MEBS.broke.dao.ManagerProDao" autowire="byName"></bean>
+	<bean id="brokerageProDao" class="gnnt.MEBS.broke.dao.BrokerageProDao" autowire="byName"></bean>
+	<bean id="organizationSeqDao" class="gnnt.MEBS.broke.dao.OrganizationSeqDao" autowire="byName"></bean>
+	<bean id="brokerageSeqDao" class="gnnt.MEBS.broke.dao.BrokerageSeqDao" autowire="byName"></bean>
+</beans>

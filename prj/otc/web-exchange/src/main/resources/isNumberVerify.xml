@@ -1,0 +1,632 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+
+	<!-- 客户添加 检测begin -->
+	<bean id="account_customer_add_isNumber" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="customerNo" />
+							<entry key="name" value="交易账号" />
+						</map>
+					</constructor-arg>
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+	<!-- 客户添加end -->
+	<!-- 特别会员添加 检测begin -->
+	<bean id="account_specialMemberInfo_add_isNumber" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="id" />
+							<entry key="name" value="特别会员编号" />
+						</map>
+					</constructor-arg>
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+	<!-- 特别会员添加end -->
+
+	<!-- 会员添加(数字)检测 begin -->
+	<bean id="account_memberInfo_add_isNumber" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="id" />
+							<entry key="name" value="会员编号" />
+						</map>
+					</constructor-arg>
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+	<!-- 会员添加(数字)检测 end -->
+
+	<!-- 商品基本信息修改 检测begin -->
+	<bean id="commodity_baseInfo_update_isNumber" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="contractFactor" />
+							<entry key="name" value="合约单位" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="minHQMove" />
+							<entry key="name" value="最小行情" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="minPriceMove" />
+							<entry key="name" value="最小变动单位" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="stepMove" />
+							<entry key="name" value="步进值" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="spreadUpLmt" />
+							<entry key="name" value="涨幅上限" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="spreadDownLmt" />
+							<entry key="name" value="跌幅下限" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="lastPrice" />
+							<entry key="name" value="结算价" />
+						</map>
+					</constructor-arg>
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+	<!-- 商品基本信息修改 end -->
+
+	<!-- 商品持仓数量限制修改 检测begin -->
+	<bean id="commodity_holdQty_update_isNumber" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="oneMaxOrderQty" />
+							<entry key="name" value="单笔最大下单量" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="oneMinOrderQty" />
+							<entry key="name" value="单笔最小下单量" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="maxCleanQty" />
+							<entry key="name" value="最大净持仓量" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="maxHoldQty" />
+							<entry key="name" value="最大持仓量" />
+						</map>
+					</constructor-arg>
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+	<!-- 商品持仓数量限制修改 end -->
+
+	<!-- 保证金修改(数字)检测 begin -->
+	<bean id="commodity_margin_update_isNumber" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="holidayMargin_v" />
+							<entry key="name" value="假日维持" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="tradeMargin_v" />
+							<entry key="name" value="即市占用" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="settleMargin_v" />
+							<entry key="name" value="结算维持" />
+						</map>
+					</constructor-arg>
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+	<!-- 保证金修改(数字)检测 end -->
+
+	<!-- 报价点差修改(数字)检测 begin -->
+	<bean id="commodity_quotePoint_update_isNumber" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="quotePointB_v" />
+							<entry key="name" value="买报价点差" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="quotePointS_v" />
+							<entry key="name" value="卖报价点差" />
+						</map>
+					</constructor-arg>
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+	<!-- 报价点差修改(数字)检测 end -->
+	<!-- 手续费设置修改(数字)检测 begin -->
+	<bean id="commodity_commodityFee_update_isNumber" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="feeRate_v" />
+							<entry key="name" value="手续费系数" />
+						</map>
+					</constructor-arg>
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+	<!-- 手续费设置修改(数字)检测 end -->
+	<!-- 委托点差设置 (不允许为空)检测 begin -->
+	<bean id="commodity_orderPoint_isNumber" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="l_Open_Point" />
+							<entry key="name" value="限价建仓点差" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="stopLossPoint" />
+							<entry key="name" value="止损下单点差" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="stopProfitPoint" />
+							<entry key="name" value="止盈下单点差" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="min_M_OrderPoint" />
+							<entry key="name" value="市价点差最小值" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="max_M_OrderPoint" />
+							<entry key="name" value="市价点差最大值" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="m_OrderPoint" />
+							<entry key="name" value="默认市价点差" />
+						</map>
+					</constructor-arg>
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+	<!-- 委托点差设置(不允许为空)检测 end -->
+	<!-- 商品汇率贴水 begin -->
+	<bean id="commodity_articleParitiesAgio_isNumber" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="clearExchageRate" />
+							<entry key="name" value="结算汇率" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="quoteAgio" />
+							<entry key="name" value="报价贴水" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="quoteRate" />
+							<entry key="name" value="报价系数" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="quoteExchangeRate" />
+							<entry key="name" value="报价汇率" />
+						</map>
+					</constructor-arg>
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+	<!-- 商品汇率贴水 end -->
+	<!-- 商品行情保护检测 start -->
+	<bean id="commodity_commodityPriceProtect_isNumber" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="timeoutInterval" />
+							<entry key="name" value="超时间隔" />
+						</map>
+					</constructor-arg>
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+	<!-- 商品行情保护检测 end -->
+	<!-- 延期天数阶梯检测 start -->
+	<bean id="account_stepDictionary_isNumber" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="stepValue" />
+							<entry key="name" value="阶梯值" />
+						</map>
+					</constructor-arg>
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+	<!-- 延期天数阶梯检测 end -->
+	<!-- 会员客户资金阶梯 start -->
+	<bean id="account_stepFundsDictionary_isNumber" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="stepValue" />
+							<entry key="name" value="阶梯值" />
+						</map>
+					</constructor-arg>
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+	<!--会员客户资金阶梯 end -->
+	<!-- 会员报价点差设置 start -->
+	<bean id="commodity_memberQuotePoint_isNumber" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="quotePointB_v" />
+							<entry key="name" value="买报价点差" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="quotePointS_v" />
+							<entry key="name" value="卖报价点差" />
+						</map>
+					</constructor-arg>
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+	<!-- 会员报价点差设置 end -->
+	<!-- 会员收取手续费start -->
+	<bean id="account_takeFee_isNumber" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="mkt_FeeRate_v" />
+							<entry key="name" value="交易所收取手续费" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="feeRate_v" />
+							<entry key="name" value="手续费系数" />
+						</map>
+					</constructor-arg>
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+		<!-- 会员收取手续费 end -->
+	<!-- 特别会员风险阈值设置检测 start -->
+	<bean id="account_specialThreshold_isNumber" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="minRiskFund" />
+							<entry key="name" value="特别会员出金阈值" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="warnTh" />
+							<entry key="name" value="特别会员预警阈值" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="holdWarnTh" />
+							<entry key="name" value="特别会员头寸预警阈值" />
+						</map>
+					</constructor-arg>
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+	<!-- 特别会员风险阈值设置检测 end -->
+
+	<!-- 会员风险阈值设置检测 start -->
+	<bean id="account_memberThreshold_isNumber" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="minRiskFund" />
+							<entry key="name" value="会员出金阈值" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="warnTh" />
+							<entry key="name" value="会员风险率预警阈值" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="frozenTh" />
+							<entry key="name" value="会员风险率冻结阈值" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="netHoldWarnTh" />
+							<entry key="name" value="净头寸预警阈值" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="cu_F_WarnTh" />
+							<entry key="name" value="客户资金预警阈值" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="m_SelfTradeRate" />
+							<entry key="name" value="会员非客户头寸交易比例" />
+						</map>
+					</constructor-arg>
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+	<!-- 会员风险阈值设置检测 end -->
+
+	<!-- 会员持仓数量设置 检测 start -->
+	<bean id="commodity_holdQuantily_isNumber" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="oneMaxOrderQty" />
+							<entry key="name" value="单笔最大下单量" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="oneMinOrderQty" />
+							<entry key="name" value="单笔最小下单量" />
+						</map>
+					</constructor-arg>
+				</bean><bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="maxCleanQty" />
+							<entry key="name" value="最大净持仓量" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="maxBuyQty" />
+							<entry key="name" value="最大买持仓量" />
+						</map>
+					</constructor-arg>
+				</bean><bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="maxSellQty" />
+							<entry key="name" value="最大卖持仓量" />
+						</map>
+					</constructor-arg>
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+	<!--  会员持仓数量设置检测 end-->
+	
+		<!-- 报价点差运行时检测 start -->
+	<bean id="account_quotePointRunTime_isNumber" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="quotePointB" />
+							<entry key="name" value="买报价点差" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="quotePoint_S" />
+							<entry key="name" value="卖报价点差" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="quotePoint_B_RMB" />
+							<entry key="name" value="买报价点差金额" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="quotePoint_S_RMB" />
+							<entry key="name" value="卖报价点差金额" />
+						</map>
+					</constructor-arg>
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+	<!-- 报价点差运行时检测 end -->
+
+	<util:map id="isNumberVerifyMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key='/account/customer/add' value-ref="account_customer_add_isNumber" />
+		<entry key='/account/customer/update' value-ref="account_customer_add_isNumber" />
+		<entry key='/account/specialMemberInfo/add' value-ref="account_specialMemberInfo_add_isNumber" />
+		<!-- <entry key='/account/specialMemberInfo/update' value-ref="account_specialMemberInfo_add_isNumber" /> -->
+		<!-- 持仓数量 -->
+		<entry key='/apply/holdQtyApply/update' value-ref="commodity_holdQty_update_isNumber" />
+		<entry key='/apply/memberHoldQuantilyApply/update' value-ref="commodity_holdQuantily_isNumber" />
+		<!-- 委托点差设置--> 
+		<entry key='/apply/orderPointApply/update' value-ref="commodity_orderPoint_isNumber" />
+		<!-- 商品行情保护--> 
+		<entry key='/apply/commodityPriceProtectApply/update' value-ref="commodity_commodityPriceProtect_isNumber" />
+	</util:map>
+
+</beans>

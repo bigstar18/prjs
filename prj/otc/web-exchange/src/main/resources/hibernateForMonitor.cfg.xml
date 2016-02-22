@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+          "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+        <property name="dialect">org.hibernate.dialect.OracleDialect</property>
+		<property name="show_sql">false</property>
+		<property name="hbm2ddl.auto">none</property>
+		<property name="format_sql">true</property>
+		<property name="hibernate.cache.use_structured_entries">
+			false
+		</property><!--  最优化二级缓存-->
+		<property name="hibernate.cache.use_second_level_cache">
+			false
+		</property><!--  完全禁用二级缓存开关，对那些在类的映射定义中指定cache的类，默认开启二级缓存-->
+		<property name="hibernate.cache.provider_class">
+			org.hibernate.cache.EhCacheProvider
+		</property>
+		<property name="hibernate.cache.use_query_cache">false</property>
+		
+       <!-- 实时监控模块 开始  -->
+        <mapping resource="gnnt/MEBS/monitor/model/MemberHoldView.hbm.xml" />
+        <mapping resource="gnnt/MEBS/monitor/model/MemberHoldSumView.hbm.xml" />
+
+        <mapping resource="gnnt/MEBS/monitor/model/VMemberclose.hbm.xml" />
+        <mapping resource="gnnt/MEBS/monitor/model/VMemberclosesum.hbm.xml" />
+        
+        <mapping resource="gnnt/MEBS/monitor/model/VCustomerhodsum.hbm.xml" />
+        <mapping resource="gnnt/MEBS/monitor/model/VCustomerhold.hbm.xml" />
+
+        <mapping resource="gnnt/MEBS/monitor/model/VCustomerclose.hbm.xml" />
+        <mapping resource="gnnt/MEBS/monitor/model/VCustomercloseSimple.hbm.xml" />
+        <mapping resource="gnnt/MEBS/monitor/model/VCustomercloseTip.hbm.xml" />
+        <mapping resource="gnnt/MEBS/monitor/model/VCustomerclosesum.hbm.xml" />
+        <mapping resource="gnnt/MEBS/monitor/model/VCustomerclosesumSimple.hbm.xml" />
+        <mapping resource="gnnt/MEBS/monitor/model/VCustomerclosesumTip.hbm.xml" />
+
+        <mapping resource="gnnt/MEBS/monitor/model/VCustomerfund.hbm.xml" />
+        <mapping resource="gnnt/MEBS/monitor/model/VCustomerfundSimple.hbm.xml" />
+        <mapping resource="gnnt/MEBS/monitor/model/VCustomerfundTip.hbm.xml" />
+        <mapping resource="gnnt/MEBS/monitor/model/VCustomerlimitprice.hbm.xml" />
+
+        <mapping resource="gnnt/MEBS/monitor/model/VSmembersum.hbm.xml" />
+        <mapping resource="gnnt/MEBS/monitor/model/VMemberdetail.hbm.xml" />
+
+        <mapping resource="gnnt/MEBS/monitor/model/VMemberfund.hbm.xml" />
+        <mapping resource="gnnt/MEBS/monitor/model/VMemberholddetail.hbm.xml" />
+        
+        <mapping resource="gnnt/MEBS/monitor/model/VSmemberfund.hbm.xml" />
+        <mapping resource="gnnt/MEBS/monitor/model/VSmemberholddetail.hbm.xml" />  
+        
+        <mapping resource="gnnt/MEBS/monitor/model/QMembervo.hbm.xml" />       
+        <mapping resource="gnnt/MEBS/monitor/model/QOrganizationvo.hbm.xml" />  
+        <mapping resource="gnnt/MEBS/monitor/model/VOnlineMonitor.hbm.xml" />  
+        <mapping resource="gnnt/MEBS/monitor/model/VCommoditytry.hbm.xml" /> 
+        <mapping resource="gnnt/MEBS/monitor/model/VCustomerfundtry.hbm.xml" />  
+        <mapping resource="gnnt/MEBS/monitor/model/MemberHoldSumGroup.hbm.xml"/> 
+        <mapping resource="gnnt/MEBS/monitor/model/PerformanceMonitor.hbm.xml"/>
+        <!-- 实时监控模块 结束-->	
+	</session-factory>
+
+</hibernate-configuration>

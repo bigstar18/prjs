@@ -1,0 +1,1605 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="commodity" extends="base-struts2" namespace="/commodity/baseInfo">
+
+         <interceptors>
+			<interceptor name="commodityNormalInterceptor" 	class="gnnt.MEBS.trade.action.interceptor.CommodityStatusQueryInterceptor">
+				<param name="status"> (1,2) </param>
+			</interceptor>
+		</interceptors>
+
+		<action name="list" class="commodityAction" method="list">
+		    <interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="commodityNormalInterceptor"></interceptor-ref>
+			<result>/commodity/baseInfo/baseInfoList.jsp</result>
+		</action>
+
+		<action name="forwardUpdate" class="commodityAction" method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="changeResultInterceptor"></interceptor-ref>
+			<result name="applyAndAudit" type="chain">
+				auditDetails
+			</result>
+			<result>/commodity/baseInfo/baseInfoUpdate.jsp</result>
+
+		</action>
+
+		<action name="updateNO" class="commodityAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+
+		<action name="updateRMI" class="commodityAction" method="updateRMI">
+			<result type="redirectAction">list</result>
+		</action>
+
+
+		<!-- 商品申请审核 -->
+		<action name="auditDetails" class="commodityApplyAction"
+			method="applyDetails">
+			<result>
+				/applyAndAudit/apply/commodityApply/baseCommodityApply.jsp
+			</result>
+		</action>
+	</package>
+
+	<!-- 手续费开始 -->
+	<package name="commodityFee" extends="base-struts2" namespace="/commodity/commodityFee">
+
+		<interceptors>
+			<interceptor name="defaultConditionInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.MemberQueryPointInterceptor">
+				<param name="queryWord">'Def_Customer','Def_Member','Def_S_Member'</param>
+				<param name="queryCondition">primary.firmId in (%composite%)[composite]</param>
+			</interceptor>
+			<interceptor name="orderDefaultCommodityInterceptor" class="gnnt.MEBS.commodity.action.interceptor.OrderDefaultCommodityInterceptor">
+				<param name="sortString">primary.commodityId,primary.firmId asc</param>
+			</interceptor>
+		</interceptors>
+
+		<action name="list" class="commodityFeeAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="defaultConditionInterceptor"></interceptor-ref>
+			<interceptor-ref name="orderDefaultCommodityInterceptor"></interceptor-ref>
+			<result>/commodity/commodityFee/commodityFeeList.jsp</result>
+		</action>
+		<action name="forwardUpdate" class="commodityFeeAction" method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="changeResultInterceptor"></interceptor-ref>
+			<result name="applyAndAudit" type="chain">
+				auditDetails
+			</result>
+			<result>
+				/commodity/commodityFee/commodityFeeUpdate.jsp
+			</result>
+		</action>
+
+		<action name="update" class="commodityFeeAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<!-- 手续费权限申请审核 -->
+		<action name="auditDetails" class="commodityFeeApplyAction"
+			method="applyDetails">
+			<result>
+				/applyAndAudit/apply/commodityFeeApply/commodityFeeApply.jsp
+			</result>
+		</action>
+	</package>
+	<!-- 手续费end -->
+	
+	<!-- 交易权限开始 -->
+	<package name="tradeAuth" extends="base-struts2" namespace="/commodity/tradeAuth">
+		<interceptors>
+			<interceptor name="defaultConditionInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.MemberQueryPointInterceptor">
+				<param name="queryWord">'Def_Customer','Def_Member','Def_S_Member'</param>
+				<param name="queryCondition">primary.firmId in (%composite%)[composite]</param>
+			</interceptor>
+			<interceptor name="orderDefaultCommodityInterceptor" class="gnnt.MEBS.commodity.action.interceptor.OrderDefaultCommodityInterceptor">
+				<param name="sortString">primary.commodityId,primary.firmId asc</param>
+			</interceptor>
+		</interceptors>
+		<action name="list" class="tradeAuthAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="defaultConditionInterceptor"></interceptor-ref>
+			<interceptor-ref name="orderDefaultCommodityInterceptor"></interceptor-ref>
+			<result>/commodity/tradeAuth/tradeAuthList.jsp</result>
+		</action>
+		<action name="forwardUpdate" class="tradeAuthAction" method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="changeResultInterceptor"></interceptor-ref>
+			<result name="applyAndAudit" type="chain">
+				auditDetails
+			</result>
+			<result>/commodity/tradeAuth/tradeAuthUpdate.jsp</result>
+		</action>
+		<action name="update" class="tradeAuthAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<!-- 交易权限申请审核 -->
+		<action name="auditDetails" class="tradeAuthApplyAction"
+			method="applyDetails">
+			<result>
+				/applyAndAudit/apply/tradeAuthApply/tradeAuthApply.jsp
+			</result>
+		</action>
+	</package>
+	<!-- 交易权限 end -->
+	
+	<!-- 会员交易权限开始 -->
+	<package name="memberTradeAuth" extends="base-struts2" namespace="/commodity/memberTradeAuth">
+		<interceptors>
+			<interceptor name="memberConditionInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.MemberQueryPointInterceptor">
+				<param name="queryWord">(select id from gnnt.MEBS.account.model.MemberInfo as memberInfo)</param>
+				<param name="queryCondition">primary.firmId[in]</param>
+			</interceptor>
+			<interceptor name="memberInfoListInterceptor"
+				class="gnnt.MEBS.account.action.interceptor.MemberInfoListInterceptor">
+			</interceptor>
+			<interceptor name="commodityListInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.CommodityListInterceptor">
+			</interceptor>
+		</interceptors>
+		<action name="list" class="memberTradeAuthAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="memberConditionInterceptor"></interceptor-ref>
+			<result>/commodity/tradeAuth/memberTradeAuthList.jsp</result>
+		</action>
+		<action name="forwardAdd" class="memberTradeAuthAction"
+			method="forwardAdd">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="changeResultInterceptor"></interceptor-ref>
+			<interceptor-ref name="memberInfoListInterceptor"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+			<result name="applyAndAudit" type="chain">
+				auditDetailsAdd
+			</result>
+			<result>/commodity/tradeAuth/memberTradeAuthAdd.jsp</result>
+		</action>
+		<action name="forwardUpdate" class="memberTradeAuthAction" method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="changeResultInterceptor"></interceptor-ref>
+			<interceptor-ref name="memberInfoListInterceptor"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+			<result name="applyAndAudit" type="chain">
+				auditDetailsUpdate
+			</result>
+			<result>/commodity/tradeAuth/memberTradeAuthUpdate.jsp</result>
+		</action>
+		<action name="update" class="memberTradeAuthAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		
+		<!-- 会员交易权限申请审核 -->
+		<action name="auditDetailsAdd" class="memberTradeAuthApplyAction"
+			method="applyDetails">
+			<result>/applyAndAudit/apply/tradeAuthApply/memberTradeAuthAddApply.jsp
+			</result>
+		</action>
+		<action name="auditDetailsUpdate" class="memberTradeAuthApplyAction"
+			method="applyDetails">
+			<result>
+				/applyAndAudit/apply/tradeAuthApply/memberTradeAuthUpdateApply.jsp
+			</result>
+		</action>
+	</package>
+	<!-- 会员交易权限 end -->
+	
+	<!-- 客户交易权限开始 -->
+	<package name="tradeAuthForTrader" extends="base-struts2" namespace="/commodity/tradeAuthForTrader">
+		<interceptors>
+			<interceptor name="memberConditionInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.MemberQueryPointInterceptor">
+				<param name="queryWord">(select id from gnnt.MEBS.account.model.Customer as customer)</param>
+				<param name="queryCondition">primary.firmId[in]</param>
+			</interceptor>
+			<interceptor name="commodityListInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.CommodityListInterceptor">
+			</interceptor>
+		</interceptors>
+		<action name="list" class="traderTradeAuthAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="memberConditionInterceptor"></interceptor-ref>
+			<result>/commodity/tradeAuth/traderTradeAuthList.jsp</result>
+		</action>
+		<action name="forwardAdd" class="traderTradeAuthAction"
+			method="forwardAdd">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="changeResultInterceptor"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+			<result name="applyAndAudit" type="chain">
+				auditDetailsAdd
+			</result>
+			<result>/commodity/tradeAuth/traderTradeAuthAddApply.jsp</result>
+		</action>
+		<action name="forwardUpdate" class="traderTradeAuthAction" method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="changeResultInterceptor"></interceptor-ref>
+			<result name="applyAndAudit" type="chain">
+				auditDetailsUpdate
+			</result>
+			<result>/commodity/tradeAuth/traderTradeAuthUpdateApply.jsp</result>
+		</action>
+		<action name="update" class="traderTradeAuthAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<!-- 交易权限申请审核 -->
+		<action name="auditDetailsAdd" class="tradeAuthForTraderApplyAction"
+			method="applyDetails">
+			<result>
+				/applyAndAudit/apply/tradeAuthApply/traderTradeAuthAddApply.jsp
+			</result>
+		</action>
+		<action name="auditDetailsUpdate" class="tradeAuthForTraderApplyAction"
+			method="applyDetails">
+			<result>
+				/applyAndAudit/apply/tradeAuthApply/traderTradeAuthUpdateApply.jsp
+			</result>
+		</action>
+	</package>
+	<!-- 客户交易权限 end -->
+	
+	<!-- 特别会员交易权限开始 -->
+	<package name="tradeAuthForSMember" extends="base-struts2" namespace="/commodity/tradeAuthForSMember">
+		<interceptors>
+			<interceptor name="specialMemberConditionInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.MemberQueryPointInterceptor">
+				<param name="queryWord">(select s_memberNo from	gnnt.MEBS.account.model.SpecialMember as specialMember)</param>
+				<param name="queryCondition">primary.firmId[in]</param>
+			</interceptor>
+			<interceptor name="commodityListInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.CommodityListInterceptor">
+			</interceptor>
+			<interceptor name="sMemberInfoListInterceptor"
+				class="gnnt.MEBS.account.action.interceptor.SMemberInfoListInterceptor">
+			</interceptor>
+			<interceptor name="SMemberInfoListInterceptorIsStatus"
+				class="gnnt.MEBS.account.action.interceptor.SMemberInfoListInterceptorIsStatus">
+			</interceptor>
+		</interceptors>
+		<action name="list" class="specialMemberTradeAuthAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="specialMemberConditionInterceptor"></interceptor-ref>
+			<result>/commodity/tradeAuth/specialTradeAuthList.jsp</result>
+		</action>
+		<action name="forwardAdd" class="specialMemberTradeAuthAction"
+			method="forwardAdd">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="changeResultInterceptor"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+			<interceptor-ref name="SMemberInfoListInterceptorIsStatus"></interceptor-ref>
+			<result name="applyAndAudit" type="chain">
+				auditDetailsAdd
+			</result>
+			<result>/commodity/tradeAuth/specialTradeAuthAddApply.jsp</result>
+		</action>
+		<action name="forwardUpdate" class="specialMemberTradeAuthAction" method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="changeResultInterceptor"></interceptor-ref>
+			<result name="applyAndAudit" type="chain">
+				auditDetailsUpdate
+			</result>
+			<result>/commodity/tradeAuth/specialTradeAuthUpdateApply.jsp</result>
+		</action>
+		<action name="update" class="specialMemberTradeAuthAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<!-- 交易权限申请审核 -->
+		<action name="auditDetailsAdd" class="tradeAuthForSMemberApplyAction"
+			method="applyDetails">
+			<result>
+				/applyAndAudit/apply/tradeAuthApply/specialTradeAuthAddApply.jsp
+			</result>
+		</action>
+		<action name="auditDetailsUpdate" class="tradeAuthForSMemberApplyAction"
+			method="applyDetails">
+			<result>
+				/applyAndAudit/apply/tradeAuthApply/specialTradeAuthUpdateApply.jsp
+			</result>
+		</action>
+	</package>
+	<!-- 特别会员交易权限 end -->
+	
+	<!-- 贴水开始 -->
+	<package name="articleParitiesAgioAction" extends="base-struts2"
+		namespace="/commodity/articleParitiesAgio">
+		<interceptors>
+			<interceptor name="commodityListInterceptor" class="gnnt.MEBS.commodity.action.interceptor.CommodityListInterceptor">
+			</interceptor>
+		</interceptors>
+		<action name="list" class="articleParitiesAgioAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+			<result>/commodity/articleParitiesAgio/articleParitiesAgioList.jsp</result>
+		</action>
+
+		<action name="updateRMI" class="articleParitiesAgioAction" method="updateRMI">
+			<result type="redirectAction">list</result>
+		</action>
+		
+		<action name="forwardUpdate" class="articleParitiesAgioAction"
+			method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="changeResultInterceptor"></interceptor-ref>
+			<result name="applyAndAudit" type="chain">
+				auditDetails
+			</result>
+			<result>
+				/commodity/articleParitiesAgio/articleParitiesAgioUpdate.jsp
+			</result>
+		</action>
+		<action name="update" class="articleParitiesAgioAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<!-- 贴水 申请审核 -->
+		<action name="auditDetails" class="articleParitiesAgioApplyAction"
+			method="applyDetails">
+			<result>
+				/applyAndAudit/apply/articleParitiesAgioApply/articleParitiesAgioApply.jsp
+			</result>
+		</action>
+	</package>
+	<!-- 贴水end -->
+	<!-- 行情保护 开始 -->
+	<package name="commodityPriceProtect" extends="base-struts2"
+		namespace="/commodity/commodityPriceProtect">
+		<action name="list" class="commodityPriceProtectAction" method="list">
+			<result>/commodity/priceProtect/commodityPriceProtectList.jsp</result>
+		</action>
+
+		<action name="forwardUpdate" class="commodityPriceProtectAction"
+			method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="changeResultInterceptor"></interceptor-ref>
+			<result name="applyAndAudit" type="chain">auditDetails</result>
+			<result>/commodity/commodityPriceProtect/commodityPriceProtectUpdate.jsp
+			</result>
+		</action>
+		<action name="update" class="commodityPriceProtectAction"
+			method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<!--行情保护 申请审核 -->
+		<action name="auditDetails" class="commodityPriceProtectApplyAction"
+			method="applyDetails">
+			<result>/applyAndAudit/apply/commodityPriceProtectApply/commodityPriceProtectApply.jsp
+			</result>
+		</action>
+	</package>
+	<!-- 行情保护 end -->
+	<!-- 委托点差 开始 -->
+	<package name="orderPoint" extends="base-struts2" namespace="/commodity/orderPoint">
+
+		<interceptors>
+			<interceptor name="defaultConditionInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.MemberQueryPointInterceptor">
+				<param name="queryWord">'Def_Customer','Def_Member','Def_S_Member'</param>
+				<param name="queryCondition">primary.memberFirmId in (%composite%)[composite]</param>
+			</interceptor>
+			<interceptor name="orderDefaultCommodityInterceptor" class="gnnt.MEBS.commodity.action.interceptor.OrderDefaultCommodityInterceptor">
+				<param name="sortString">primary.commodityId,primary.memberFirmId asc</param>
+			</interceptor>
+		</interceptors>
+
+		<action name="list" class="orderPointAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="defaultConditionInterceptor"></interceptor-ref>
+			<interceptor-ref name="orderDefaultCommodityInterceptor"></interceptor-ref>
+			<result>/commodity/orderPoint/orderPointList.jsp</result>
+		</action>
+
+		<action name="forwardUpdate" class="orderPointAction" method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="changeResultInterceptor"></interceptor-ref>
+			<result name="applyAndAudit" type="chain">
+				auditDetails
+			</result>
+			<result>/commodity/orderPoint/orderPointUpdate.jsp</result>
+		</action>
+		<action name="update" class="orderPointAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<!-- 委托点差申请审核 -->
+		<action name="auditDetails" class="orderPointApplyAction"
+			method="applyDetails">
+			<result>
+				/applyAndAudit/apply/orderPointApply/orderPointApply.jsp
+			</result>
+		</action>
+	</package>
+	<!-- 委托点差end -->
+	<!--商品参数设置,保证金 -->
+	<package name="margin" extends="base-struts2" namespace="/commodity/margin">
+
+		<interceptors>
+			<interceptor name="defaultConditionInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.MemberQueryPointInterceptor">
+				<param name="queryWord">'Def_Customer','Def_Member','Def_S_Member'</param>
+				<param name="queryCondition">primary.firmId in (%composite%)[composite]</param>
+			</interceptor>
+			<interceptor name="orderDefaultCommodityInterceptor" class="gnnt.MEBS.commodity.action.interceptor.OrderDefaultCommodityInterceptor">
+				<param name="sortString">primary.commodityId,primary.firmId asc</param>
+			</interceptor>
+		</interceptors>
+		<action name="list" class="marginAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="defaultConditionInterceptor"></interceptor-ref>
+			<interceptor-ref name="orderDefaultCommodityInterceptor"></interceptor-ref>
+			<result>/commodity/margin/marginList.jsp</result>
+		</action>
+
+		<action name="forwardUpdate" class="marginAction" method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="changeResultInterceptor"></interceptor-ref>
+			<result name="applyAndAudit" type="chain">
+				auditDetails
+			</result>
+			<result>/commodity/margin/marginUpdate.jsp</result>
+		</action>
+
+		<action name="update" class="marginAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<!-- 保证金申请审核 -->
+		<action name="auditDetails" class="marginApplyAction" method="applyDetails">
+			<result>
+				/applyAndAudit/apply/marginApply/marginApply.jsp
+			</result>
+		</action>
+	</package>
+
+	<!-- 持仓数量开始 -->
+	<package name="holdQty" extends="base-struts2" namespace="/commodity/holdQty">
+
+		<interceptors>
+			<interceptor name="defaultConditionInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.MemberQueryPointInterceptor">
+				<param name="queryWord">'Def_Customer','Def_Member','Def_S_Member'</param>
+				<param name="queryCondition">primary.firmId in (%composite%)[composite]</param>
+			</interceptor>
+			<interceptor name="orderDefaultCommodityInterceptor" class="gnnt.MEBS.commodity.action.interceptor.OrderDefaultCommodityInterceptor">
+				<param name="sortString">primary.commodityId,primary.firmId asc</param>
+			</interceptor>
+		</interceptors>
+		<action name="list" class="holdQtyAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="defaultConditionInterceptor"></interceptor-ref>
+			<interceptor-ref name="orderDefaultCommodityInterceptor"></interceptor-ref>
+			<result>/commodity/holdQty/holdQtyList.jsp</result>
+		</action>
+
+		<action name="forwardUpdate" class="holdQtyAction" method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="changeResultInterceptor"></interceptor-ref>
+			<result name="applyAndAudit" type="chain">
+				auditDetails
+			</result>
+			<result>/commodity/holdQty/holdQtyUpdate.jsp</result>
+		</action>
+
+		<action name="update" class="holdQtyAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<!-- 持仓数量申请审核 -->
+		<action name="auditDetails" class="holdQtyApplyAction" method="applyDetails">
+			<result>
+				/applyAndAudit/apply/holdQtyApply/holdQtyApply.jsp
+			</result>
+		</action>
+
+	</package>
+	<!-- 持仓数量end -->
+
+	<!-- 默认报价点差开始 -->
+	<package name="quotePoint" extends="base-struts2" namespace="/commodity/quotePoint">
+		<interceptors>
+			<interceptor name="defaultConditionInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.MemberQueryPointInterceptor">
+				<param name="queryWord">'Def_Customer','Def_Member','Def_S_Member'</param>
+				<param name="queryCondition">primary.m_firmId in (%composite%)[composite]</param>
+			</interceptor>
+			<interceptor name="orderDefaultCommodityInterceptor" class="gnnt.MEBS.commodity.action.interceptor.OrderDefaultCommodityInterceptor">
+				<param name="sortString">primary.commodityId,primary.m_firmId asc</param>
+			</interceptor>
+		</interceptors>
+		<action name="list" class="quotePointAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="defaultConditionInterceptor"></interceptor-ref>
+			<interceptor-ref name="orderDefaultCommodityInterceptor"></interceptor-ref>
+			<result>/commodity/quotePoint/quotePointList.jsp</result>
+		</action>
+
+		<action name="forwardUpdate" class="quotePointAction" method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="changeResultInterceptor"></interceptor-ref>
+			<result name="applyAndAudit" type="chain">
+				auditDetails
+			</result>
+			<result>/commodity/quotePoint/quotePointUpdate.jsp</result>
+		</action>
+		<action name="update" class="quotePointAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<!-- 默认报价点差申请审核 -->
+		<action name="auditDetails" class="quotePointApplyAction"
+			method="applyDetails">
+			<result>
+				/applyAndAudit/apply/quotePointApply/quotePointApply.jsp
+			</result>
+		</action>
+	</package>
+	<!-- 默认报价点差结束 -->
+
+	<!-- 会员报价点差开始 -->
+	<package name="memberQuotePoint" extends="base-struts2"
+		namespace="/commodity/memberQuotePoint">
+		<interceptors>
+			<interceptor name="memberConditionInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.MemberQueryPointInterceptor">
+				<param name="queryWord">(select id from gnnt.MEBS.account.model.MemberInfo as memberInfo)</param>
+				<param name="queryCondition">primary.m_firmId[in]</param>
+			</interceptor>
+			<interceptor name="MemberStatusListInterceptor"
+				class="gnnt.MEBS.account.action.interceptor.CustomerConMemberInterceptor">
+				<param name="status">('F','N')</param>
+			</interceptor>
+			<interceptor name="commodityListInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.CommodityListInterceptor">
+			</interceptor>
+		</interceptors>
+
+		<action name="list" class="memberQuotePointAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="memberConditionInterceptor"></interceptor-ref>
+			<result>/commodity/quotePoint/memberQuotePointList.jsp</result>
+		</action>
+
+		<action name="forwardUpdate" class="memberQuotePointAction"
+			method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="changeResultInterceptor"></interceptor-ref>
+			<result name="applyAndAudit" type="chain">auditDetailsUpdate</result>
+			<result>/commodity/quotePoint/memberQuotePointUpdate.jsp</result>
+		</action>
+
+		<action name="update" class="memberQuotePointAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+
+
+		<action name="forwardAdd" class="memberQuotePointAction"
+			method="forwardAdd">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="MemberStatusListInterceptor"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+			<interceptor-ref name="changeResultInterceptor"></interceptor-ref> 
+			<result name="applyAndAudit" type="chain">auditDetailsAdd</result>
+			<result>/commodity/quotePoint/memberQuotePointAdd.jsp</result>
+
+		</action>
+		<!-- 会员报价点差添加申请 -->
+		<action name="auditDetailsAdd" class="memberQuotePointApplyAction"
+			method="applyDetails">
+			<result>/applyAndAudit/apply/quotePointApply/memberQPAddApply.jsp
+			</result>
+		</action>
+		<!-- 会员报价点差修改申请 -->
+		<action name="auditDetailsUpdate" class="memberQuotePointApplyAction"
+			method="applyDetails">
+			<result>/applyAndAudit/apply/quotePointApply/memberQPUpdateApply.jsp
+			</result>
+		</action>
+	</package>
+	<!-- 会员报价点差结束 -->
+
+
+	<!-- 特别会员报价点差开始 -->
+	<package name="specialMemberQuotePoint" extends="base-struts2"
+		namespace="/commodity/specialMemberQuotePoint">
+		<interceptors>
+			<interceptor name="specialMemberConditionInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.MemberQueryPointInterceptor">
+				<param name="queryWord">(select s_memberNo from	gnnt.MEBS.account.model.SpecialMember as memberInfo)</param>
+				<param name="queryCondition">primary.m_firmId[in]</param>
+			</interceptor>
+			<interceptor name="commodityListInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.CommodityListInterceptor">
+			</interceptor>
+			<interceptor name="SMemberInfoListInterceptor"
+				class="gnnt.MEBS.account.action.interceptor.SMemberInfoListInterceptor">
+				<param name="status">('F','N')</param>
+			</interceptor>
+			<interceptor name="SMemberInfoListInterceptorIsStatus"
+				class="gnnt.MEBS.account.action.interceptor.SMemberInfoListInterceptorIsStatus">
+			</interceptor>
+		</interceptors>
+		<action name="list" class="specialMemberQuotePointAction"
+			method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="specialMemberConditionInterceptor"></interceptor-ref>
+			<result>
+				/commodity/quotePoint/specialMemberQuotePointList.jsp
+			</result>
+		</action>
+
+		<action name="forwardUpdate" class="specialMemberQuotePointAction"
+			method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="changeResultInterceptor"></interceptor-ref>
+			<result name="applyAndAudit" type="chain">auditDetailsUpdate</result>
+			<result>/commodity/quotePoint/specialMemberQuotePointUpdate.jsp
+			</result>
+		</action>
+
+		<action name="update" class="quotePointAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+
+		<action name="forwardAdd" class="specialMemberQuotePointAction"
+			method="forwardAdd">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="SMemberInfoListInterceptorIsStatus"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+			<interceptor-ref name="changeResultInterceptor"></interceptor-ref> 
+			<result name="applyAndAudit" type="chain">auditDetailsAdd</result>
+			<result>/commodity/quotePoint/specialMemberQuotePointAdd.jsp</result>
+		</action>
+		<!-- 特别会员报价点差添加申请 -->
+		<action name="auditDetailsAdd" class="specialMemberQuotePointApplyAction"	method="applyDetails">
+			<result>/applyAndAudit/apply/quotePointApply/specialMemberQuotePointAddApply.jsp</result>
+
+		</action>
+		<!-- 特别会员报价点差修改申请 -->
+		<action name="auditDetailsUpdate" class="specialMemberQuotePointApplyAction"
+			method="applyDetails">
+			<result>/applyAndAudit/apply/quotePointApply/specialMemberQPUpdateApply.jsp
+			</result>
+		</action>
+	</package>
+	<!-- 特别会员报价点差结束 -->
+
+	<!-- 会员持仓数量设置开始 -->
+	<package name="holdQuantily" extends="base-struts2" namespace="/commodity/memberHoldQuantily">
+		<interceptors>
+			<interceptor name="memberConditionInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.MemberQueryPointInterceptor">
+				<param name="queryWord">(select id from gnnt.MEBS.account.model.MemberInfo as memberInfo)</param>
+				<param name="queryCondition">primary.firmId[in]</param>
+			</interceptor>
+			<interceptor name="MemberStatusListInterceptor"
+				class="gnnt.MEBS.account.action.interceptor.CustomerConMemberInterceptor">
+				<param name="status">('F','N')</param>
+			</interceptor>
+			<interceptor name="commodityListInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.CommodityListInterceptor">
+			</interceptor>
+		</interceptors>
+		<action name="list" class="memberHoldQtyAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="memberConditionInterceptor"></interceptor-ref>
+			<result>/commodity/holdQuantily/holdQuantilyList.jsp</result>
+		</action>
+		<action name="forwardAdd" class="memberHoldQtyAction" method="forwardAdd">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="MemberStatusListInterceptor"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+			<interceptor-ref name="changeResultInterceptor"></interceptor-ref> 
+			<result name="applyAndAudit" type="chain">auditDetailsAdd</result>
+			<result>/commodity/holdQuantily/holdQuantilyAdd.jsp</result>
+		</action>
+		<action name="forwardUpdate" class="memberHoldQtyAction" method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="changeResultInterceptor"></interceptor-ref>
+			<result name="applyAndAudit" type="chain">auditDetailsUpdate</result>
+			<result>/commodity/holdQuantily/holdQuantilyUpdate.jsp</result>
+		</action>
+		<action name="update" class="memberHoldQtyAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		
+		<action name="delete" class="memberHoldQtyAction" method="delete">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		
+		<!-- 会员持仓数量添加申请 -->
+		<action name="auditDetailsAdd" class="memberHoldQuantilyApplyAction"	method="applyDetails">
+			<result>/applyAndAudit/apply/holdQuantilyApply/memberHoldQuantilyAddApply.jsp
+			</result>
+		</action>
+		<!-- 会员持仓数量修改申请 -->
+		<action name="auditDetailsUpdate" class="memberHoldQuantilyApplyAction"	method="applyDetails">
+			<result>/applyAndAudit/apply/holdQuantilyApply/memberHoldQuantilyUpdateApply.jsp
+			</result>
+		</action>
+	</package>
+	<!-- 会员持仓数量设置end -->
+
+	<!-- 客户持仓数量设置开始 -->
+	<package name="customerHoldQuantily" extends="base-struts2" namespace="/commodity/customerHoldQuantily">
+		<interceptors>			
+			<interceptor name="CustomerStatusListInterceptor"
+				class="gnnt.MEBS.account.action.interceptor.CustomerConMemberInterceptor">
+				<param name="status">('F','N')</param>
+			</interceptor>
+			<interceptor name="commodityListInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.CommodityListInterceptor">
+			</interceptor>
+		</interceptors>
+		<action name="list" class="customerHoldQtyAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<result>/commodity/holdQuantily/customerHoldQuantilyList.jsp</result>
+		</action>
+		<action name="forwardAdd" class="customerHoldQtyAction" method="forwardAdd">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="CustomerStatusListInterceptor"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+			<interceptor-ref name="changeResultInterceptor"></interceptor-ref> 
+			<result name="applyAndAudit" type="chain">auditDetailsAdd</result>
+			<result>/commodity/holdQuantily/customerHoldQuantilyAdd.jsp</result>
+		</action>
+		<action name="forwardUpdate" class="customerHoldQtyAction" method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="changeResultInterceptor"></interceptor-ref>
+			<result name="applyAndAudit" type="chain">auditDetailsUpdate</result>
+			<result>/commodity/holdQuantily/customerHoldQuantilyUpdate.jsp</result>
+		</action>
+		<action name="update" class="customerHoldQtyAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		
+		<action name="delete" class="customerHoldQtyAction" method="delete">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		
+		<!-- 客户持仓数量添加申请 -->
+		<action name="auditDetailsAdd" class="customerHoldQuantilyApplyAction"	method="applyDetails">
+			<result>/applyAndAudit/apply/customerHoldQuantilyApply/customerHoldQuantilyAddApply.jsp
+			</result>
+		</action>
+		<!-- 客户持仓数量修改申请 -->
+		<action name="auditDetailsUpdate" class="customerHoldQuantilyApplyAction"	method="applyDetails">
+			<result>/applyAndAudit/apply/customerHoldQuantilyApply/customerHoldQuantilyUpdateApply.jsp
+			</result>
+		</action>
+	</package>
+	<!-- 客户持仓数量设置end -->
+
+	<!-- 会员保证金开始 -->
+	<package name="memberMargin" extends="base-struts2" namespace="/commodity/memberMargin">
+		<interceptors>
+			<interceptor name="memberConditionInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.MemberQueryPointInterceptor">
+				<param name="queryWord">(select id from gnnt.MEBS.account.model.MemberInfo as memberInfo)</param>
+				<param name="queryCondition">primary.firmId[in]</param>
+			</interceptor>
+			<interceptor name="memberInfoListInterceptor"
+				class="gnnt.MEBS.account.action.interceptor.MemberInfoListInterceptor">
+			</interceptor>
+			<interceptor name="MemberStatusListInterceptor"
+				class="gnnt.MEBS.account.action.interceptor.CustomerConMemberInterceptor">
+				<param name="status">('F','N')</param>
+			</interceptor>
+			<interceptor name="commodityListInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.CommodityListInterceptor">
+			</interceptor>
+		</interceptors>
+
+		<action name="list" class="memberMarginAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="memberConditionInterceptor"></interceptor-ref>
+			<result>/commodity/margin/memberMarginList.jsp</result>
+		</action>
+		<action name="forwardUpdate" class="memberMarginAction" method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="memberInfoListInterceptor"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+			<interceptor-ref name="changeResultInterceptor"></interceptor-ref>
+			<result name="applyAndAudit" type="chain">auditDetailsUpdate</result>
+			<result>/commodity/margin/memberMarginUpdate.jsp</result>
+		</action>
+		<action name="update" class="memberMarginAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<action name="forwardAdd" class="memberMarginAction" method="forwardAdd">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="MemberStatusListInterceptor"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+			<interceptor-ref name="changeResultInterceptor"></interceptor-ref> 
+			<result name="applyAndAudit" type="chain">auditDetailsAdd</result>
+			<result>/commodity/margin/memberMarginAdd.jsp</result>
+		</action>
+		<!-- 会员保证金添加申请 -->
+		<action name="auditDetailsAdd" class="memberMarginApplyAction"
+			method="applyDetails">
+			<result>/applyAndAudit/apply/marginApply/memberMarginAddApply.jsp
+			</result>
+		</action>
+		<!-- 会员保证金修改申请 -->
+		<action name="auditDetailsUpdate" class="memberMarginApplyAction"
+			method="applyDetails">
+			<result>/applyAndAudit/apply/marginApply/memberMarginUpdateApply.jsp
+			</result>
+		</action>
+	</package>
+	<!-- 会员保证金结束 -->
+	
+	<!-- 客户保证金开始 -->
+	<package name="customerMargin" extends="base-struts2" namespace="/commodity/customerMargin">
+		<interceptors>
+			<interceptor name="commodityListInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.CommodityListInterceptor">
+			</interceptor>
+		</interceptors>
+
+		<action name="list" class="customerMarginAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<result>/commodity/margin/customerMarginList.jsp</result>
+		</action>
+		<action name="forwardUpdate" class="customerMarginAction" method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+			<interceptor-ref name="changeResultInterceptor"></interceptor-ref> 
+			<result name="applyAndAudit" type="chain">auditDetailsUpdate</result>
+			<result>/commodity/margin/customerMarginUpdate.jsp</result>
+		</action>
+		<action name="update" class="customerMarginAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<action name="forwardAdd" class="customerMarginAction" method="forwardAdd">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+			<interceptor-ref name="changeResultInterceptor"></interceptor-ref> 
+			<result name="applyAndAudit" type="chain">auditDetailsAdd</result> 
+			<result>/commodity/margin/customerMarginAdd.jsp</result>
+		</action>
+		<!-- 客户保证金添加申请 -->
+		<action name="auditDetailsAdd" class="customerMarginApplyAction"
+			method="applyDetails">
+			<result>/applyAndAudit/apply/marginApply/customerMarginAddApply.jsp
+			</result>
+		</action>
+		<!-- 客户保证金修改申请 -->
+		<action name="auditDetailsUpdate" class="customerMarginApplyAction"
+			method="applyDetails">
+			<result>/applyAndAudit/apply/marginApply/customerMarginUpdateApply.jsp
+			</result>
+		</action>
+	</package>
+	<!-- 客户保证金结束 -->
+	<!-- ************************************************************** -->
+	<!-- 会员延期费阶梯 start -->
+	<package name="stepDictionary" extends="base-account"
+		namespace="/commodity/stepDictionary">
+
+		<action name="list" class="stepDictionaryAction" method="list">
+			<result>
+				/commodity/stepDictionaryDays/stepDictionaryDaysList.jsp
+			</result>
+		</action>
+
+		<action name="forwardUpdate" class="stepDictionaryAction"
+			method="viewById">
+			<result>
+				/commodity/stepDictionaryDays/stepDictionaryDaysUpdate.jsp
+			</result>
+		</action>
+
+		<action name="update" class="stepDictionaryAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+
+		<!-- <action name="forwardAdd" class="stepDictionaryAction" method="forwardAdd"> 
+			<result> /account/thresholdArgs/stepDictionaryDaysAdd.jsp </result> </action> 
+			<action name="add" class="stepDictionaryAction" method="addDelayDays"> <result> 
+			/account/thresholdArgs/stepDictionaryDaysAdd.jsp </result> </action> <action 
+			name="delete" class="stepDictionaryAction" method="delete"> <result type="redirectAction">list</result> 
+			</action> -->
+	</package>
+	<!-- 会员延期费阶梯 close -->
+
+
+	<!-- 会员保证金阶梯 start -->
+	<package name="stepFundsDictionary" extends="base-account"
+		namespace="/commodity/stepFundsDictionary">
+
+		<action name="list" class="stepDictionaryAction" method="fundsList">
+			<result>
+				/commodity/stepDictionaryFunds/stepDictionaryFundsList.jsp
+			</result>
+		</action>
+
+		<action name="forwardUpdate" class="stepDictionaryAction"
+			method="viewById">
+			<result>
+				/commodity/stepDictionaryFunds/stepDictionaryFundsUpdate.jsp
+			</result>
+		</action>
+
+		<action name="update" class="stepDictionaryAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+
+		<action name="forwardAdd" class="stepDictionaryAction" method="forwardAddFunds">
+			<result>
+				/commodity/stepDictionaryFunds/stepDictionaryFundsAdd.jsp
+			</result>
+		</action>
+
+		<action name="add" class="stepDictionaryAction" method="addMemberFunds">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+
+		<action name="delete" class="stepDictionaryAction" method="delete">
+			<result type="redirectAction">list</result>
+		</action>
+	</package>
+	<!-- 会员保证金阶梯 close -->
+
+
+	<!-- 会员默认出金阈值阶梯 start -->
+	<package name="fundsLadder" extends="base-account" namespace="/commodity/fundsLadder">
+		<interceptors>
+			<interceptor name="defaultConditionInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.MemberQueryPointInterceptor">
+				<param name="queryWord">'Def_Member','Def_S_Member'</param>
+				<param name="queryCondition">primary.memberNo in (%composite%)[composite]</param>
+			</interceptor>
+		</interceptors>
+		<action name="list" class="fundsLadderAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="defaultConditionInterceptor"></interceptor-ref>
+			<result>/commodity/fundsLadder/fundsLadderList.jsp</result>
+		</action>
+
+		<action name="forwardUpdate" class="fundsLadderAction" method="viewById">
+			<result>
+				/commodity/fundsLadder/fundsLadderUpdate.jsp
+			</result>
+		</action>
+
+		<action name="update" class="fundsLadderAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+	</package>
+	<!-- 会员默认出金阈值阶梯 close -->
+
+	<!-- 会员出金阈值阶梯操作 start -->
+	<package name="memberFundsLadder" extends="base-account"
+		namespace="/commodity/memberFundsLadder">
+		<interceptors>
+			<interceptor name="memberConditionInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.MemberQueryPointInterceptor">
+				<param name="queryWord">(select id from gnnt.MEBS.account.model.MemberInfo 	as memberInfo)</param>
+				<param name="queryCondition">primary.memberNo[in]</param>
+			</interceptor>
+		</interceptors>
+		<action name="list" class="memberFundsLadderAction" method="list">
+			<result>
+				/commodity/fundsLadder/memberFundsLadderList.jsp
+			</result>
+		</action>
+
+		<action name="forwardUpdate" class="memberFundsLadderAction"
+			method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="memberInfoListInterceptor"></interceptor-ref>
+			<result>
+				/commodity/fundsLadder/memberFundsLadderUpdate.jsp
+			</result>
+		</action>
+
+		<action name="update" class="memberFundsLadderAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+
+		<action name="forwardAdd" class="memberFundsLadderAction"
+			method="forwardAdd">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="CustomerConMemberInterceptor"></interceptor-ref>
+			<result>
+				/commodity/fundsLadder/memberFundsLadderAdd.jsp
+			</result>
+		</action>
+
+		<action name="add" class="memberFundsLadderAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<action name="delete" class="memberFundsLadderAction" method="delete">
+			<result type="chain">list</result>
+		</action>
+	</package>
+	<!-- 会员出金阈值阶梯操作 close -->
+
+
+
+	<!-- 默认延期费设置 start -->
+	<package name="tcDelayFee" extends="base-account" namespace="/commodity/tcDelayFee">
+		<interceptors>
+			<interceptor name="defaultConditionInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.MemberQueryPointInterceptor">
+				<param name="queryWord">'Def_Customer','Def_Member','Def_S_Member'</param>
+				<param name="queryCondition">primary.firmId in (%composite%)[composite]</param>
+			</interceptor>
+		</interceptors>
+		<action name="list" class="tcDelayFeeAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="defaultConditionInterceptor"></interceptor-ref>
+			<result>/commodity/tcDelayFee/tcDelayFeeList.jsp</result>
+		</action>
+
+		<action name="forwardUpdate" class="tcDelayFeeAction" method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="changeResultInterceptor"></interceptor-ref>
+			<result name="applyAndAudit" type="chain">auditDetailsUpdate</result>
+			<result>/commodity/tcDelayFee/tcDelayFeeUpdate.jsp</result>
+		</action>
+
+		<action name="update" class="tcDelayFeeAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<!-- 默认延期费设置申请 -->
+		<action name="auditDetailsUpdate" class="tcDelayFeeApplyAction"	method="applyDetails">
+			<result>/applyAndAudit/apply/tcDelayFeeApply/tcDelayFeeApply.jsp</result>
+		</action>
+	</package>
+	<!-- 默认延期费设置 close -->
+	<!-- 会员收取手续费 start -->
+	<package name="takeFee" extends="base-account" namespace="/commodity/takeFee">
+		<interceptors>
+			<interceptor name="memberConditionInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.MemberQueryPointInterceptor">
+				<param name="queryWord">(select id from gnnt.MEBS.account.model.MemberInfo 	as memberInfo)</param>
+				<param name="queryCondition">primary.m_FirmId[in]</param>
+			</interceptor>
+			<interceptor name="MemberStatusListInterceptor"
+				class="gnnt.MEBS.account.action.interceptor.CustomerConMemberInterceptor">
+				<param name="status">('F','N')</param>
+			</interceptor>
+			<interceptor name="commodityListInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.CommodityListInterceptor">
+			</interceptor>
+		</interceptors>
+		<action name="list" class="takeFeeAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="memberConditionInterceptor"></interceptor-ref>
+			<result>/commodity/commodityFee/memberTakeFeeList.jsp</result>
+		</action>
+		<action name="forwardUpdate" class="takeFeeAction" method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="changeResultInterceptor"></interceptor-ref>
+			<result name="applyAndAudit" type="chain">auditDetailsUpdate</result>
+			<result>/commodity/commodityFee/memberTakeFeeUpdate.jsp</result>
+		</action>
+		<action name="forwardAdd" class="takeFeeAction" method="forwardAdd">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+			<interceptor-ref name="MemberStatusListInterceptor"></interceptor-ref>
+			<interceptor-ref name="changeResultInterceptor"></interceptor-ref> 
+			<result name="applyAndAudit" type="chain">auditDetailsAdd</result>
+			<result>/commodity/commodityFee/memberTakeFeeAdd.jsp</result>
+		</action>
+		<action name="update" class="takeFeeAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<!-- 会员收取手续费添加申请 -->
+		<action name="auditDetailsAdd" class="memberTakeFeeApplyAction"	method="applyDetails">
+			<result>/applyAndAudit/apply/memberTakeFeeApply/memberTakeFeeAddApply.jsp</result>
+		</action>
+		<!-- 会员收取手续费修改申请 -->
+		<action name="auditDetailsUpdate" class="memberTakeFeeApplyAction"	method="applyDetails">
+			<result>/applyAndAudit/apply/memberTakeFeeApply/memberTakeFeeUpdateApply.jsp</result>
+		</action>
+	</package>
+	<!--会员收取手续费 end -->
+	<!-- 特别会员收取手续费 start -->
+	<package name="specialTakeFee" extends="base-account" namespace="/commodity/specialTakeFee">
+	<interceptors>
+			<interceptor name="memberConditionInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.MemberQueryPointInterceptor">
+				<param name="queryWord">(select id from gnnt.MEBS.account.model.SpecialMember as specialMember)</param>
+				<param name="queryCondition">primary.m_FirmId[in]</param>
+			</interceptor>
+			<interceptor name="SMemberInfoListInterceptor"
+				class="gnnt.MEBS.account.action.interceptor.SMemberInfoListInterceptor">
+				<param name="status">('F','N')</param>
+			</interceptor>
+			<interceptor name="SMemberInfoListInterceptorIsStatus"
+				class="gnnt.MEBS.account.action.interceptor.SMemberInfoListInterceptorIsStatus">
+			</interceptor>
+			<interceptor name="commodityListInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.CommodityListInterceptor">
+			</interceptor>
+		</interceptors>
+		<action name="list" class="specialTakeFeeAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="memberConditionInterceptor"></interceptor-ref>
+			<result>/commodity/commodityFee/specialMemberTakeFeeList.jsp</result>
+		</action>
+		<action name="forwardUpdate" class="specialTakeFeeAction"	method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="changeResultInterceptor"></interceptor-ref>
+			<result name="applyAndAudit" type="chain">auditDetailsUpdate</result>
+			<result>/commodity/commodityFee/specialMemberTakeFeeUpdate.jsp
+			</result>
+		</action>
+		<action name="forwardAdd" class="specialTakeFeeAction" method="forwardAdd">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+			<interceptor-ref name="SMemberInfoListInterceptorIsStatus"></interceptor-ref>
+			<interceptor-ref name="changeResultInterceptor"></interceptor-ref> 
+			<result name="applyAndAudit" type="chain">auditDetailsAdd</result>
+			<result>/commodity/commodityFee/specialMemberTakeFeeAdd.jsp</result>
+		</action>
+		<action name="update" class="specialTakeFeeAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<!-- 特别会员收取手续费添加申请 -->
+		<action name="auditDetailsAdd" class="specialMemberTakeFeeApplyAction"	method="applyDetails">
+			<result>/applyAndAudit/apply/specialMemberTakeFeeApply/specialMemberTakeFeeAddApply.jsp</result>
+		</action>
+		<!-- 特别会员收取手续费修改申请 -->
+		<action name="auditDetailsUpdate" class="specialMemberTakeFeeApplyAction"	method="applyDetails">
+			<result>/applyAndAudit/apply/specialMemberTakeFeeApply/specialMemberTakeFeeUpdateApply.jsp</result>
+		</action>
+	</package>
+	<!--特别会员收取手续费 end -->
+	
+	<!--  设置会员下所属客户手续费start	-->
+	<package name="memCustomerTakeFee" extends="base-account" namespace="/commodity/memCustomerTakeFee">
+		<interceptors>
+			<interceptor name="memberConditionInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.MemberQueryPointInterceptor">
+				<param name="queryWord">(select id from gnnt.MEBS.account.model.MemberInfo 	as memberInfo)</param>
+				<param name="queryCondition">primary.m_FirmId[in]</param>
+			</interceptor>
+			<interceptor name="MemberStatusListInterceptor"
+				class="gnnt.MEBS.account.action.interceptor.CustomerConMemberInterceptor">
+				<param name="status">('F','N')</param>
+			</interceptor>
+			<interceptor name="commodityListInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.CommodityListInterceptor">
+			</interceptor>
+		</interceptors>
+		<action name="list" class="memCustomerTakeFeeAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="memberConditionInterceptor"></interceptor-ref>
+			<result>/commodity/commodityFee/memCustomerTakeFeeList.jsp</result>
+		</action>
+		<action name="forwardUpdate" class="memCustomerTakeFeeAction" method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="changeResultInterceptor"></interceptor-ref>
+			<result name="applyAndAudit" type="chain">auditDetailsUpdate</result>
+			<result>/commodity/commodityFee/memCustomerTakeFeeUpdate.jsp</result>
+		</action>
+		<action name="forwardAdd" class="memCustomerTakeFeeAction" method="forwardAdd">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+			<interceptor-ref name="MemberStatusListInterceptor"></interceptor-ref>
+			<interceptor-ref name="changeResultInterceptor"></interceptor-ref> 
+			<result name="applyAndAudit" type="chain">auditDetailsAdd</result>
+			<result>/commodity/commodityFee/memCustomerTakeFeeAdd.jsp</result>
+		</action>
+		<action name="update" class="memCustomerTakeFeeAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<!-- 收取客户手续费添加申请 -->
+		<action name="auditDetailsAdd" class="memCustomerTakeFeeApplyAction"	method="applyDetails">
+			<result>/applyAndAudit/apply/memCustomerTakeFeeApply/memCustomerTakeFeeAddApply.jsp</result>
+		</action>
+		<!-- 收取客户手续费修改申请 -->
+		<action name="auditDetailsUpdate" class="memCustomerTakeFeeApplyAction"	method="applyDetails">
+			<result>/applyAndAudit/apply/memCustomerTakeFeeApply/memCustomerTakeFeeUpdateApply.jsp</result>
+		</action>
+	</package>
+	<!--设置会员下所属客户手续费end-->
+	
+	<!--收取客户手续费start	-->
+	<package name="customerTakeFee" extends="base-account" namespace="/commodity/customerTakeFee">
+		<interceptors>
+			<interceptor name="MemberStatusListInterceptor"
+				class="gnnt.MEBS.account.action.interceptor.CustomerConMemberInterceptor">
+				<param name="status">('F','N')</param>
+			</interceptor>
+			<interceptor name="commodityListInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.CommodityListInterceptor">
+			</interceptor>
+		</interceptors>
+		<action name="list" class="customerTakeFeeAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<result>/commodity/commodityFee/customerTakeFeeList.jsp</result>
+		</action>
+		<action name="forwardUpdate" class="customerTakeFeeAction" method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="changeResultInterceptor"></interceptor-ref>
+			<result name="applyAndAudit" type="chain">auditDetailsUpdate</result>
+			<result>/commodity/commodityFee/customerTakeFeeUpdate.jsp</result>
+		</action>
+		<action name="forwardAdd" class="customerTakeFeeAction" method="forwardAdd">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+			<interceptor-ref name="MemberStatusListInterceptor"></interceptor-ref>
+			<interceptor-ref name="changeResultInterceptor"></interceptor-ref> 
+			<result name="applyAndAudit" type="chain">auditDetailsAdd</result>
+			<result>/commodity/commodityFee/customerTakeFeeAdd.jsp</result>
+		</action>
+		<action name="update" class="customerTakeFeeAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<!-- 收取客户手续费添加申请 -->
+		<action name="auditDetailsAdd" class="customerTakeFeeApplyAction"	method="applyDetails">
+			<result>/applyAndAudit/apply/customerTakeFeeApply/customerTakeFeeAddApply.jsp</result>
+		</action>
+		<!-- 收取客户手续费修改申请 -->
+		<action name="auditDetailsUpdate" class="customerTakeFeeApplyAction"	method="applyDetails">
+			<result>/applyAndAudit/apply/customerTakeFeeApply/customerTakeFeeUpdateApply.jsp</result>
+		</action>
+	</package>
+	<!--收取客户手续费end-->
+
+	<!-- 会员延期费设置 start -->
+	<package name="memberDelayFee" extends="base-account" 	namespace="/commodity/memberDelayFee">
+		<interceptors>
+			<interceptor name="defaultConditionInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.MemberQueryPointInterceptor">
+				<param name="queryWord">
+					'Def_Customer','Def_Member','Def_S_Member'
+				</param>
+				<param name="queryCondition">
+					primary.firmId in (%composite%)[composite]
+				</param>
+			</interceptor>
+			<interceptor name="MemberStatusListInterceptor"
+				class="gnnt.MEBS.account.action.interceptor.CustomerConMemberInterceptor">
+				<param name="status">('F','N')</param>
+			</interceptor>
+			<interceptor name="commodityListInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.CommodityListInterceptor">
+			</interceptor>
+		</interceptors>
+		<action name="list" class="memberDelayFeeAction" method="list">
+			<result>/commodity/tcDelayFee/memberDelayFeeList.jsp</result>
+		</action>
+
+		<action name="forwardUpdate" class="memberDelayFeeAction"	method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="changeResultInterceptor"></interceptor-ref>
+			<result name="applyAndAudit" type="chain">auditDetailsUpdate</result>
+			<result>/commodity/tcDelayFee/memberDelayFeeUpdate.jsp</result>
+		</action>
+		<action name="forwardAdd" class="memberDelayFeeAction" method="forwardAdd">
+		<interceptor-ref name="mydefault"></interceptor-ref>
+		<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+			<interceptor-ref name="MemberStatusListInterceptor"></interceptor-ref>
+			<interceptor-ref name="changeResultInterceptor"></interceptor-ref> 
+			<result name="applyAndAudit" type="chain">auditDetailsAdd</result>
+			<result>/commodity/tcDelayFee/memberDelayFeeAdd.jsp</result>
+		</action>
+		<action name="add" class="memberDelayFeeAction" method="updateForAudit">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<action name="update" class="memberDelayFeeAction" method="updateForAudit">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<action name="delete" class="memberDelayFeeAction" method="delete">
+			<result type="chain">list</result>
+		</action>
+		<!-- 会员延期费设置申请 -->
+		<action name="auditDetailsUpdate" class="memberDelayFeeApplyAction"	method="applyDetails">
+			<result>/applyAndAudit/apply/tcDelayFeeApply/memberDelayFeeUpdateApply.jsp</result>
+		</action>
+		<!-- 会员延期费添加申请 -->
+		<action name="auditDetailsAdd" class="memberDelayFeeApplyAction" method="applyDetails">
+			<result>/applyAndAudit/apply/tcDelayFeeApply/memberDelayFeeAddApply.jsp</result>
+		</action>
+	</package>
+	<!-- 会员延期费设置 close -->
+
+	<!-- 特别会员延期费设置 start -->
+	<package name="specialMemberDelayFee" extends="base-account" namespace="/commodity/specialMemberDelayFee">
+		<interceptors>
+			<interceptor name="SMemberInfoListInterceptor"
+				class="gnnt.MEBS.account.action.interceptor.SMemberInfoListInterceptor">
+				<param name="status">('F','N')</param>
+			</interceptor>
+			<interceptor name="SMemberInfoListInterceptorIsStatus"
+				class="gnnt.MEBS.account.action.interceptor.SMemberInfoListInterceptorIsStatus">
+			</interceptor>
+			<interceptor name="commodityListInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.CommodityListInterceptor">
+			</interceptor>
+		</interceptors>
+		<action name="list" class="specialMemberDelayFeeAction" method="list">
+			<result>/commodity/tcDelayFee/specialMemberDelayFeeList.jsp</result>
+		</action>
+
+		<action name="forwardUpdate" class="specialMemberDelayFeeAction"
+			method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="changeResultInterceptor"></interceptor-ref>
+			<result name="applyAndAudit" type="chain">auditDetailsUpdate</result>
+			<result>/commodity/tcDelayFee/specialMemberDelayFeeUpdate.jsp
+			</result>
+		</action>
+		<action name="forwardAdd" class="specialMemberDelayFeeAction"
+			method="forwardAdd">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+			<interceptor-ref name="SMemberInfoListInterceptorIsStatus"></interceptor-ref>
+			<interceptor-ref name="changeResultInterceptor"></interceptor-ref> 
+			<result name="applyAndAudit" type="chain">auditDetailsAdd</result>
+			<result>/commodity/tcDelayFee/specialMemberDelayFeeAdd.jsp</result>
+		</action>
+		<action name="add" class="specialMemberDelayFeeAction" method="updateForAudit">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<action name="update" class="specialMemberDelayFeeAction"
+			method="updateForAudit">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<action name="delete" class="specialMemberDelayFeeAction"
+			method="delete">
+			<result type="chain">list</result>
+		</action>
+		<!-- 会员延期费设置申请 -->
+		<action name="auditDetailsUpdate" class="specialMemberDelayFeeApplyAction"	method="applyDetails">
+			<result>/applyAndAudit/apply/tcDelayFeeApply/specialMemberDelayFeeUpdateApply.jsp</result>
+		</action>
+		<!-- 会员延期费添加申请 -->
+		<action name="auditDetailsAdd" class="specialMemberDelayFeeApplyAction" method="applyDetails">
+			<result>/applyAndAudit/apply/tcDelayFeeApply/specialMemberDelayFeeAddApply.jsp</result>
+		</action>
+	</package>
+	<!-- 特别会员延期费设置 close -->
+
+	<!-- 默认延迟成交设置开始 -->
+	<package name="commodityDelayTrade" extends="base-account" namespace="/commodity/commodityDelayTrade">
+
+		<interceptors>
+			<interceptor name="defaultConditionInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.MemberQueryPointInterceptor">
+				<param name="queryWord">'Def_Customer','Def_Member'</param>
+				<param name="queryCondition">primary.f_FirmId in (%composite%)[composite]</param>
+			</interceptor>
+			<interceptor name="orderDefaultCommodityInterceptor" class="gnnt.MEBS.commodity.action.interceptor.OrderDefaultCommodityInterceptor">
+				<param name="sortString">primary.commodityId,primary.f_FirmId asc</param>
+			</interceptor>
+			<interceptor name="commodityListInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.CommodityListInterceptor">
+			</interceptor>
+		</interceptors>
+
+		<action name="list" class="commodityDelayTradeAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="defaultConditionInterceptor"></interceptor-ref>
+			<interceptor-ref name="orderDefaultCommodityInterceptor"></interceptor-ref>
+			<result>/commodity/commodityDelayTrade/commodityDelayTradeList.jsp</result>
+		</action>
+		<action name="forwardUpdate" class="commodityDelayTradeAction" method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<!--<interceptor-ref name="changeResultInterceptor"></interceptor-ref>-->
+			<!--<result name="applyAndAudit" type="chain">auditDetailsUpdate</result>-->
+			<result>
+				/commodity/commodityDelayTrade/commodityDelayTradeUpdate.jsp
+			</result>
+		</action>
+		<action name="forwardAdd" class="commodityDelayTradeAction" method="forwardAdd">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+			<!--<interceptor-ref name="changeResultInterceptor"></interceptor-ref>-->
+			<!--<result name="applyAndAudit" type="chain">auditDetailsAdd</result>-->
+			<result>/commodity/commodityDelayTrade/commodityDelayTradeAdd.jsp</result>
+		</action>
+<!--		<action name="add" class="specialMemberDelayFeeAction" method="updateForAudit">-->
+<!--			<result>/public/commonMsg.jsp</result>-->
+<!--		</action>-->
+		<action name="add" class="commodityDelayTradeAction" method="add">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<action name="update" class="commodityDelayTradeAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<action name="delete" class="commodityDelayTradeAction" method="delete">
+			<result type="redirectAction">list</result>
+		</action>
+		<!-- 延迟成交设置申请 -->
+		<action name="auditDetailsUpdate" class="commodityDelayTradeApplyAction"	method="applyDetails">
+			<result>/applyAndAudit/apply/commodityDelayTradeApply/commodityDelayTradeUpdateApply.jsp</result>
+		</action>
+		<!-- 延迟成交添加申请 -->
+		<action name="auditDetailsAdd" class="commodityDelayTradeApplyAction" method="applyDetails">
+			<result>/applyAndAudit/apply/commodityDelayTradeApply/commodityDelayTradeAddApply.jsp</result>
+		</action>
+	</package>
+	<!-- 默认延迟成交设置end -->
+	
+	<!-- 会员延迟成交设置开始 -->
+	<package name="memberDelayTrade" extends="base-account" namespace="/commodity/memberDelayTrade">
+		<interceptors>
+			<interceptor name="defaultConditionInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.MemberQueryPointInterceptor">
+				<param name="queryWord">(select id from gnnt.MEBS.account.model.MemberInfo 	as memberInfo)</param>
+				<param name="queryCondition">primary.f_FirmId[in]</param>
+			</interceptor>
+			<interceptor name="orderDefaultCommodityInterceptor" class="gnnt.MEBS.commodity.action.interceptor.OrderDefaultCommodityInterceptor">
+				<param name="sortString">primary.commodityId,primary.f_FirmId asc</param>
+			</interceptor>
+			<interceptor name="MemberStatusListInterceptor"
+				class="gnnt.MEBS.account.action.interceptor.CustomerConMemberInterceptor">
+				<param name="status">('F','N')</param>
+			</interceptor>
+			<interceptor name="commodityListInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.CommodityListInterceptor">
+			</interceptor>
+		</interceptors>
+
+		<action name="list" class="delayTradeAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="defaultConditionInterceptor"></interceptor-ref>
+			<interceptor-ref name="orderDefaultCommodityInterceptor"></interceptor-ref>
+			<result>/commodity/commodityDelayTrade/memberDelayTradeList.jsp</result>
+		</action>
+		<action name="forwardUpdate" class="delayTradeAction" method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<!--<interceptor-ref name="changeResultInterceptor"></interceptor-ref>-->
+			<!--<result name="applyAndAudit" type="chain">auditDetailsUpdate</result>-->
+			<result>
+				/commodity/commodityDelayTrade/memberDelayTradeUpdate.jsp
+			</result>
+		</action>
+		<action name="forwardAdd" class="delayTradeAction" method="forwardAdd">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+			<!--<interceptor-ref name="changeResultInterceptor"></interceptor-ref> -->
+			<interceptor-ref name="MemberStatusListInterceptor"></interceptor-ref>
+			<!--<result name="applyAndAudit" type="chain">auditDetailsAdd</result>-->
+			<result>/commodity/commodityDelayTrade/memberDelayTradeAdd.jsp</result>
+		</action>
+<!--		<action name="add" class="delayTradeAction" method="updateForAudit">-->
+<!--			<result>/public/commonMsg.jsp</result>-->
+<!--		</action>-->
+		<action name="add" class="delayTradeAction" method="add">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<action name="update" class="delayTradeAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<action name="delete" class="delayTradeAction" method="delete">
+			<result type="redirectAction">list</result>
+		</action>
+		<!-- 延迟成交设置申请 -->
+		<action name="auditDetailsUpdate" class="memberDelayTradeApplyAction"	method="applyDetails">
+			<result>/applyAndAudit/apply/memberDelayTradeApply/memberDelayTradeUpdateApply.jsp</result>
+		</action>
+		<!-- 延迟成交添加申请 -->
+		<action name="auditDetailsAdd" class="memberDelayTradeApplyAction" method="applyDetails">
+			<result>/applyAndAudit/apply/memberDelayTradeApply/memberDelayTradeAddApply.jsp</result>
+		</action>
+		<action name="updateRMI" class="delayTradeAction" method="updateRMI">
+			<result type="redirectAction">list</result>
+		</action>
+	</package>
+	<!-- 会员延迟成交设置end -->
+	<!-- 会员管辖客户延迟成交设置开始 -->
+	<package name="memCustomerDelayTrade" extends="base-account" namespace="/commodity/memCustomerDelayTrade">
+		<interceptors>
+			<interceptor name="defaultConditionInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.MemberQueryPointInterceptor">
+				<param name="queryWord">(select id from gnnt.MEBS.account.model.MemberInfo 	as memberInfo)</param>
+				<param name="queryCondition">primary.f_FirmId[in]</param>
+			</interceptor>
+			<interceptor name="orderDefaultCommodityInterceptor" class="gnnt.MEBS.commodity.action.interceptor.OrderDefaultCommodityInterceptor">
+				<param name="sortString">primary.commodityId,primary.f_FirmId asc</param>
+			</interceptor>
+			<interceptor name="commodityListInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.CommodityListInterceptor">
+			</interceptor>
+			<interceptor name="MemberStatusListInterceptor"
+				class="gnnt.MEBS.account.action.interceptor.CustomerConMemberInterceptor">
+				<param name="status">('F','N')</param>
+			</interceptor>
+		</interceptors>
+		<action name="list" class="memCustomerDelayTradeAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="orderDefaultCommodityInterceptor"></interceptor-ref>
+			<result>/commodity/commodityDelayTrade/memCustomerDelayTradeList.jsp</result>
+		</action>
+		<action name="forwardUpdate" class="memCustomerDelayTradeAction" method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<!--<interceptor-ref name="changeResultInterceptor"></interceptor-ref>-->
+			<!--<result name="applyAndAudit" type="chain">auditDetailsUpdate</result>-->
+			<result>
+				/commodity/commodityDelayTrade/memCustomerDelayTradeUpdate.jsp
+			</result>
+		</action>
+		<action name="forwardAdd" class="memCustomerDelayTradeAction" method="forwardAdd">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+			<interceptor-ref name="defaultConditionInterceptor"></interceptor-ref>
+			<!--<interceptor-ref name="changeResultInterceptor"></interceptor-ref>-->
+			<interceptor-ref name="MemberStatusListInterceptor"></interceptor-ref>
+			<!--<result name="applyAndAudit" type="chain">auditDetailsAdd</result>-->
+			<result>/commodity/commodityDelayTrade/memCustomerDelayTradeAdd.jsp</result>
+		</action>
+<!--		<action name="add" class="memCustomerDelayTradeAction" method="updateForAudit">-->
+<!--			<result>/public/commonMsg.jsp</result>-->
+<!--		</action>-->
+		<action name="add" class="memCustomerDelayTradeAction" method="add">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<action name="update" class="memCustomerDelayTradeAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<action name="delete" class="memCustomerDelayTradeAction" method="delete">
+			<result type="redirectAction">list</result>
+		</action>
+		<!-- 延迟成交设置申请 -->
+		<action name="auditDetailsUpdate" class="memCustomerDelayTradeApplyAction"	method="applyDetails">
+			<result>/applyAndAudit/apply/memCustomerDelayTradeApply/memCustomerDelayTradeUpdateApply.jsp</result>
+		</action>
+		<!-- 延迟成交添加申请 -->
+		<action name="auditDetailsAdd" class="memCustomerDelayTradeApplyAction" method="applyDetails">
+			<result>/applyAndAudit/apply/memCustomerDelayTradeApply/memCustomerDelayTradeAddApply.jsp</result>
+		</action>
+	</package>
+	<!-- 会员管辖客户延迟成交设置end -->
+	<!-- 客户延迟成交设置开始 -->
+	<package name="customerDelayTrade" extends="base-account" namespace="/commodity/customerDelayTrade">
+		<interceptors>
+			<interceptor name="orderDefaultCommodityInterceptor" class="gnnt.MEBS.commodity.action.interceptor.OrderDefaultCommodityInterceptor">
+				<param name="sortString">primary.commodityId,primary.f_FirmId asc</param>
+			</interceptor>
+			<interceptor name="commodityListInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.CommodityListInterceptor">
+			</interceptor>
+		</interceptors>
+
+		<action name="list" class="customerDelayTradeAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="orderDefaultCommodityInterceptor"></interceptor-ref>
+			<result>/commodity/commodityDelayTrade/customerDelayTradeList.jsp</result>
+		</action>
+		<action name="forwardUpdate" class="customerDelayTradeAction" method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<!--<interceptor-ref name="changeResultInterceptor"></interceptor-ref>-->
+			<!--<result name="applyAndAudit" type="chain">auditDetailsUpdate</result>-->
+			<result>
+				/commodity/commodityDelayTrade/customerDelayTradeUpdate.jsp
+			</result>
+		</action>
+		<action name="forwardAdd" class="customerDelayTradeAction" method="forwardAdd">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+			<!--<interceptor-ref name="changeResultInterceptor"></interceptor-ref> -->
+			<!--<result name="applyAndAudit" type="chain">auditDetailsAdd</result>-->
+			<result>/commodity/commodityDelayTrade/customerDelayTradeAdd.jsp</result>
+		</action>
+		<!--<action name="add" class="customerDelayTradeAction" method="updateForAudit">
+				<result>/public/commonMsg.jsp</result>
+			</action>-->
+		<action name="add" class="customerDelayTradeAction" method="add">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<action name="update" class="customerDelayTradeAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<action name="delete" class="customerDelayTradeAction" method="delete">
+			<result type="redirectAction">list</result>
+		</action>
+		<!-- 延迟成交设置申请 -->
+		<action name="auditDetailsUpdate" class="customerDelayTradeApplyAction"	method="applyDetails">
+			<result>/applyAndAudit/apply/customerDelayTradeApply/customerDelayTradeUpdateApply.jsp</result>
+		</action>
+		<!-- 延迟成交添加申请 -->
+		<action name="auditDetailsAdd" class="customerDelayTradeApplyAction" method="applyDetails">
+			<result>/applyAndAudit/apply/customerDelayTradeApply/customerDelayTradeAddApply.jsp</result>
+		</action>
+		<action name="updateRMI" class="customerDelayTradeAction" method="updateRMI">
+			<result type="redirectAction">list</result>
+		</action>
+	</package>
+	<!-- 客户延迟成交设置end -->
+</struts>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" version="2.4">
+	<display-name>tradeweb</display-name>
+	<!-- 客户名称 -->
+	<context-param>
+		<param-name>ClientName</param-name>
+		<param-value>北京金网安泰下单系统</param-value>
+	</context-param>	
+	<context-param>
+		<param-name>
+			javax.servlet.jsp.jstl.fmt.localizationContext
+		</param-name>
+		<param-value>ApplicationResources</param-value>
+	</context-param>
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/applicationContext-*.xml</param-value>
+	</context-param>
+	<filter>
+		<filter-name>Set Character Encoding</filter-name>
+		<filter-class>
+			gnnt.MEBS.timebargain.tradeweb.webapp.filter.SetCharacterEncodingFilter
+		</filter-class>
+	</filter>	
+	<filter-mapping>
+		<filter-name>Set Character Encoding</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<listener>
+		<listener-class>
+			org.springframework.web.util.IntrospectorCleanupListener
+		</listener-class>
+	</listener>
+	<listener>
+		<listener-class>
+			gnnt.MEBS.timebargain.tradeweb.webapp.listener.StartupListener
+		</listener-class>
+	</listener>
+	<listener>
+		<listener-class>
+			gnnt.MEBS.timebargain.tradeweb.webapp.listener.SessionListener
+		</listener-class>
+	</listener>
+	
+
+	<servlet>
+		<servlet-name>httpXmlServlet</servlet-name>
+		<servlet-class>gnnt.MEBS.timebargain.tradeweb.webapp.action.HttpXmlServlet</servlet-class>
+		<load-on-startup>0</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>httpXmlServlet</servlet-name>
+		<url-pattern>/httpXmlServlet</url-pattern>
+	</servlet-mapping>
+	
+	<!--  
+		<servlet>
+			<servlet-name>testHttpXmlServlet</servlet-name>
+			<servlet-class>gnnt.MEBS.timebargain.tradeweb.webapp.action.testHttpXmlServlet</servlet-class>
+			<load-on-startup>0</load-on-startup>
+		</servlet>
+	
+		<servlet-mapping>
+			<servlet-name>testHttpXmlServlet</servlet-name>
+			<url-pattern>/testHttpXmlServlet</url-pattern>
+		</servlet-mapping>
+	-->
+	
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
+	<!-- 通讯协议 -->
+	<servlet>
+		<servlet-name>Login_syn</servlet-name>
+		<servlet-class>gnnt.MEBS.servlet.Login_syn</servlet-class>
+		<init-param>
+			<param-name>MODELID</param-name>
+			<param-value>4</param-value>
+		</init-param>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>Login_syn</servlet-name>
+		<url-pattern>/login_syn.jsp</url-pattern>
+	</servlet-mapping>
+	
+	<filter>
+		<filter-name>keepAUFilter</filter-name>
+		<filter-class>gnnt.MEBS.timebargain.tradeweb.webapp.filter.KeepAUFilter</filter-class>
+		<init-param>
+			<param-name>NORIGHT_URL</param-name>
+			<param-value>/noRight.jsp</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>keepAUFilter</filter-name>
+		<url-pattern>/applySettle/*</url-pattern>
+	</filter-mapping>
+
+
+
+	<filter>
+	  <filter-name>ContextCommonSecurityFilter</filter-name>
+	  <filter-class>
+	   gnnt.MEBS.security.ContextCommonSecurityFilter
+	  </filter-class>
+	  <init-param>
+	   <param-name>IGNORE_URIS</param-name>
+	   <param-value>/common_front/checkneedless/user/logon/logon.action</param-value>
+	  </init-param>
+	  <init-param>
+	   <param-name>IGNORE_EXTS</param-name>
+	   <param-value>login_syn.jsp,httpXmlServlet,mobileServlet,communicateServlet,mobileXmlServlet</param-value>
+	  </init-param>
+ </filter> 
+ <filter-mapping>
+  <filter-name>ContextCommonSecurityFilter</filter-name>
+  <url-pattern>/*</url-pattern>
+ </filter-mapping>
+	
+</web-app>
+

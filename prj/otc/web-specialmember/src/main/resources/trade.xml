@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="base-trade" extends="base-struts2" abstract="true">
+        <interceptors>
+			<interceptor name="commodityInMarketInterceptor"
+				class="gnnt.MEBS.trade.action.interceptor.CommodityStatusQueryInterceptor">
+				<param name="status">
+					(1)
+				</param>
+			</interceptor>
+			<interceptor name="commodityNotinMarketInterceptor"
+				class="gnnt.MEBS.trade.action.interceptor.CommodityStatusQueryInterceptor">
+				<param name="status">
+					(0,2)
+				</param>
+			</interceptor>
+		</interceptors>
+    </package>
+    
+	<package name="operator" extends="base-trade" namespace="/tradeManage/operator">
+		<action name="show" class="agencyAction" method="showTradeManage">
+			<result>/trade/operations/tradeStateManage.jsp</result>
+		</action>
+		
+		<action name="updateTradeStatus" class="agencyAction" method="operate">
+			<result type="redirectAction">show</result>
+		</action>
+	
+		<action name="list" class="commodityAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="deleteMemberNo"></interceptor-ref>
+			<interceptor-ref name="commodityNotinMarketInterceptor"></interceptor-ref>
+			<result>/trade/operations/commodityStatusList.jsp</result>
+		</action>
+		
+	</package>
+	
+	<package name="deOperator" extends="base-trade" namespace="/tradeManage/deOperator">
+		<action name="deList" class="commodityAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="deleteMemberNo"></interceptor-ref>
+			<interceptor-ref name="commodityInMarketInterceptor"></interceptor-ref>
+			<result>/trade/operations/commodityDeStatusList.jsp</result>
+		</action>
+	</package>
+	
+	<!-- 交易状态管理begin-->
+	<package name="tradeStatusManage" extends="base-struts2" namespace="/tradeManage/tradeStatusManage">
+		<action name="viewById" class="agencyAction" method="viewById">
+			<result>/trade/operations/tradeStateManage.jsp</result>
+		</action>
+		<action name="updateTradeStatus" class="agencyAction" method="update">
+			<result>/trade/operations/tradeStateManage.jsp</result>
+		</action>
+	</package>
+	<!-- 交易状态管理end-->
+	<!-- 交易管理在线用户begin-->
+	<package name="onLineTrade" extends="base-struts2" namespace="/tradeManage/onLineTrade">
+		<action name="list" class="onLineTraderAction" method="list">
+			<result>/trade/operations/onlineQueryList.jsp</result>
+		</action>
+		<action name="update" class="onLineTraderAction" method="update">
+			<result type="chain">list.action</result>
+		</action>
+	</package>
+	<!-- 交易管理在线用户end-->
+	
+	<package name="marketTradingParameter" extends="base-struts2" namespace="/tradeManage/marketTradingParameter">
+		<action name="calendar" class="notTradeDayAction" method="check">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="deleteMemberNo"></interceptor-ref>
+			<result>/trade/tradingParameter/calendar.jsp</result>
+		</action>
+	</package>
+	
+	<package name="tradingParameter" extends="base-struts2" namespace="/tradeManage/tradingParameter">
+	
+		<action name="searchList" class="tradeTimeAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="deleteMemberNo"></interceptor-ref>
+			<result>/trade/tradingParameter/commoditiesTradingTimeList.jsp</result>
+		</action>
+		
+		<action name="update" class="notTradeDayAction" method="updateNotTradeDay">
+			<result type="redirectAction">show</result>
+		</action>
+		
+		<action name="editDaySection" class="notTradeDayAction" method="editDaySection">
+			<result>/trade/tradingParameter/daySectionForm.jsp</result>
+		</action>
+		
+		<action name="updateDaySection" class="notTradeDayAction" method="updateDaySection">
+			<result>/trade/tradingParameter/daySectionForm.jsp</result>
+		</action>
+		
+		<action name="forwardUpdate" class="tradeTimeAction" method="viewById">
+			<result>/trade/tradingParameter/tradeTimeUpdate.jsp</result>
+		</action>
+		
+		<action name="forwardAdd" class="tradeTimeAction" method="forwardAdd">
+			<result>/trade/tradingParameter/tradeTimeAdd.jsp</result>
+		</action>
+		
+		<action name="delete" class="tradeTimeAction" method="delete">
+			<result type="redirectAction">searchList</result>
+		</action>
+		
+		<action name="add" class="tradeTimeAction" method="add">
+			<result>/trade/tradingParameter/commoditiesTradingTime.jsp</result>
+		</action>
+		
+		<action name="updateTradeTime" class="tradeTimeAction" method="update">
+			<result>/trade/tradingParameter/commoditiesTradingTime.jsp</result>
+		</action>
+		
+		<action name="daySection" class="tradeTimeAction" method="forwardAdd">
+			<result>/trade/tradingParameter/daySectionForm.jsp</result>
+		</action>
+	</package>
+	<package name="offerBrand" extends="base-struts2" namespace="/tradeManage/offerBrand">
+		<interceptors>
+			<interceptor name="quotationListInterceptor"
+				class="gnnt.MEBS.settlement.action.interceptor.QuotationListInterceptor">
+			</interceptor>
+		</interceptors>
+		<action name="list" class="quotationAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="deleteMemberNo"></interceptor-ref>
+			<interceptor-ref name="quotationListInterceptor"></interceptor-ref>
+			<result>/trade/offerBrand/offerBrandList.jsp</result>
+		</action>
+	</package>
+</struts>

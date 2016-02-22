@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="GBK" ?>
+
+<root>
+	<range type="exchange">
+		<group isNotAll="Y / N">
+			<role>角色1，角色2</role>
+			<appoint>管理员1，管理员2</appoint>
+		</group>
+	</range>
+	<range type="member">
+		<groups isNotAllDefault="Y / N">
+			<group id="会员id"><!-- 会员之间是多对多的关系 -->
+				<isNotDefaultRole flag="Y / N">
+					<role>角色1，角色2</role>
+				</isNotDefaultRole>
+			</group>
+			<group id="会员id">
+				<isNotDefaultRole flag="Y / N">
+					<role>角色1，角色2</role>
+				</isNotDefaultRole>
+			</group>
+		</groups>
+		<appoint>管理员1，管理员2</appoint>
+	</range>
+	<range type="specialMemeber">
+		<groups isNotAllDefault="Y / N">
+			<group id="特别会员id">
+				<isNotDefaultRole flag="Y / N">
+					<role>角色1，角色2</role>
+				</isNotDefaultRole>
+			</group>
+			<group id="会员id">
+				<isNotDefaultRole flag="Y / N">
+					<role>角色1，角色2</role>
+				</isNotDefaultRole>
+			</group>
+		</groups>
+		<appoint>管理员1，管理员2</appoint>
+	</range>
+	<range type="broker">
+		<organization>机构1，机构2</organization>
+		<brokerage>居间1，居间2</brokerage>
+		<manager>经纪人1，经纪人2</manager>
+	</range>
+	<range type="trader">
+		<group isNotAllCustomers="Y / N">
+			<member>会员号1，会员号2</member>
+		</group>
+		<appoint>交易商1，交易商2</appoint>
+	</range>
+</root>

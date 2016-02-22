@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<tx:annotation-driven transaction-manager="transactionManager"
+		proxy-target-class="true" />
+
+	<!-- 总体配置管理方案 -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="configLocation" value="classpath:hibernate.cfg.xml">
+		</property>
+	</bean>
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="*" read-only="false" rollback-for="java.lang.Exception"
+				propagation="REQUIRED" />
+		</tx:attributes>
+	</tx:advice>
+
+	<util:map id="returnValueMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="page" value="success" />
+		<entry key="xls" value="xls" />
+		<entry key="applyAndAudit" value="applyAndAudit" />
+	</util:map>
+
+	<util:map id="returnOperationMap" map-class="java.util.HashMap"
+		key-type="java.lang.Integer" value-type="java.lang.String">
+		<!-- 公用返回值开始 -->
+		<entry key='1' value="操作成功" />
+		<entry key='-1' value="操作失败" />
+		<entry key='-2' value="请选择所要操作的数据" />
+		<entry key='-4' value="原密码不正确，请重新输入！" />
+		<!-- 公用返回值结束 -->
+
+		<!-- 申请审核返回值开始 -->
+		<entry key='-100' value="没有配置相应流程！" />
+		<entry key='-101' value="处理异常！" />
+		<entry key='-102' value="没有配置流程相应步骤！" />
+		<entry key='-103' value="步骤中没有此状态所对应的操作！" />
+		<entry key='-104' value="操作下没有具体执行行为！" />
+		<!-- 申请审核返回值结束 -->
+
+		<!-- 交易管理返回值开始 -->
+		<entry key='-200' value="执行存储失败！" />
+		<entry key='-204' value="下单服务器已关闭！" />
+		<entry key='-207' value="交易系统不是暂停状态，不能调整！" />
+		<!-- 交易管理返回值结束 -->
+
+		<!-- 会员管理开始 -->
+		<entry key='-400' value="此会员未和银行签约！" />
+		<entry key='-401' value="此会员未与特别会员关联！" />
+		<entry key='-402' value="此会员未入金！" />
+		<entry key='-403' value="此会员有持仓！" />
+		<entry key='-404' value="此会员有客户持仓！" />
+		<!-- 会员管理结束 -->
+
+		<!-- 账号管理返回值开始 -->
+		<entry key='-300' value="未签约！" />
+		<entry key='-301' value="没有入金！" />
+		<entry key='-302' value="强平失败！" />
+		<entry key='-303' value="持仓不为0！" />
+		<entry key='-304' value="资金不为0！" />
+		<!-- 账号管理返回值结束 -->
+	</util:map>
+
+	<bean id="springContext" class="gnnt.MEBS.base.util.SpringContextHelper"></bean>
+	<import resource="commodity_default.xml"/>
+	<import resource="globalLog_default.xml"/>
+	<import resource="account_default.xml"/>
+</beans>

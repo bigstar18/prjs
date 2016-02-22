@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="mBrokerOrganizations" extends="base-broke" namespace="/tradeManage/mBrokerOrganization">
+		<!-- 居间开始 -->
+		<action name="queryMBroker" class="MBrokerageAction" method="queryMBroker">
+			<result>/trade/announcement/queryMBroker.jsp</result>
+		</action>
+		<action name="updateBroker" class="MBrokerageAction" method="updateBroker">
+			<result type="redirectAction">queryMBroker</result>
+		</action>
+		<!-- 居间结束 -->
+		
+		
+		<!-- 机构开始 -->
+		<action name="updateMOrganization" class="MOrganizationAction" method="updateMOrganization">
+			<result type="redirectAction">queryMOrganization</result>
+		</action>
+		<action name="queryMOrganization" class="MOrganizationAction" method="queryMOrganization">
+			<result>/trade/announcement/queryMOrganization.jsp</result>
+		</action>
+		<!-- 机构结束 -->
+	</package>
+</struts>

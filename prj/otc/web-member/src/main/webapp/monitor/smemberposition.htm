@@ -1,0 +1,276 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<title>持仓监控</title>
+<link href="../common/skinstyle/default/common/commoncss/mainstyle.css" rel="stylesheet" type="text/css" />
+<script language="javascript" type="text/javascript" src="../js/jquery-1.5.2.min.js"></script>
+<script language="javascript" type="text/javascript" src="../js/jquery.tablesorter.min.js"></script>
+</head>
+
+<body>
+  <table width="98%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td width="2%">&nbsp;</td>
+      <td valign="top" >&nbsp;
+        <div class="div_cxtj"><img src="../common/skinstyle/default/common/commoncss/cssimg/13.gif"  />&nbsp;&nbsp;查询条件</div>
+      <div class="div_tj"><table width="100%" border="0" cellpadding="0" cellspacing="0" class="table2_style">
+  <tr>
+    <td height="60">
+    <div class="div2_top">
+      <form id="form1" name="form1" method="post" action="">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table3_style">
+          <tr>
+            <td class="table3_td" align="right">特别会员编号：</td>
+            <td class="table3_td2"><label>
+              <input name="memid" type="text" id="memid" value="" size="30" class="input_text" />
+            </label></td>
+            <td align="right" class="table3_td">&nbsp;</td>
+            <td class="table3_td" align="right">
+              <button class="btn_sec" onClick="reqTotalData()">
+                监控
+                </button>
+            </td>
+			<td class="table3_td2" align="left">
+				&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn_cz" onClick="javascript:window.location.reload()">
+				重置	
+				</button>
+			</td>
+          </tr>
+        </table>
+      </form>
+    </div>
+    </td>
+  </tr>
+</table>
+</div>
+      <div class="div_list">
+
+
+<div class="div_cxtj"><img src="../common/skinstyle/default/common/commoncss/cssimg/13.gif"  />特别会员净头寸</div>
+<div class="div_tj">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table2_style">
+  <tr>
+    <td class="table_top">
+    <div id="memberlist" style="display:none">
+    <table  width="100%"  class="tablesorter" border="0" cellpadding="0" cellspacing="0" id="res_tab2">
+    <thead>
+      <tr>
+        <th height="23" nowrap="nowrap" class="right_05bj_td">特别会员编号</th>
+        <th nowrap="nowrap" class="right_05bj_td">特别会员名称</th>
+    <th height="23" nowrap="nowrap" class="right_05bj_td">商品</th>
+        <th height="23" nowrap="nowrap" class="right_05bj_td">会员买量</th>
+        <th height="23" nowrap="nowrap" class="right_05bj_td">会员卖量</th>
+        <th height="23" nowrap="nowrap" class="right_05bj_td">持有净头寸</th>
+        <th nowrap="nowrap" class="right_05bj_td">净头寸方向</th>
+        <th nowrap="nowrap" class="right_05bj_td">最大净头寸阈值</th>
+      </tr>
+  </thead>
+      <tr id="template2">
+        <td height="23" class="monileft_05_tdbj" id="smemberno">&nbsp;</td>
+        <td height="23" class="monileft_05_tdbj" id="smembername">&nbsp;</td>
+        <td height="23" class="monileft_05_tdbj" id="commodityname">&nbsp;</td>
+        <td height="23" class="moniright_05_tdbj" id="userbuyqty">&nbsp;</td>
+        <td height="23" class="moniright_05_tdbj" id="usersellqty">&nbsp;</td>        
+        <td height="23" class="moniright_05_tdbj" id="netqty">&nbsp;</td>
+        <td height="23" class="right_05_tdbj" id="bsFlag">&nbsp;</td>
+        <td height="23" class="moniright_05_tdbj" id="netholdth">&nbsp;</td>
+  </tr>
+    </table>
+    </div><div id="tcl"></div></tr>
+</table>
+</div>
+
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="table1">
+  <tr>
+    <td width="16%" height="25" bgcolor="#eeeeee" class="moniright_05_tdbj1"><table width="100%" border="0"
+
+cellspacing="0" cellpadding="0">
+      <tr>
+        <td height="25" align="center" valign="middle"><a href="javascript:firstPage();"><img src="../common/skinstyle/default/common/commoncss/cssimg/20.gif" width="10"
+
+height="12" border="0" /></a></td>
+        <td height="25" align="center" valign="middle"><a href="javascript:prevPage();"><img src="../common/skinstyle/default/common/commoncss/cssimg/21.gif" width="8"
+
+height="12" border="0" /></a></td>
+        <td height="25" align="center" valign="middle"><a href="javascript:nextPage();"><img src="../common/skinstyle/default/common/commoncss/cssimg/22.gif" width="8"
+
+height="12" border="0" /></a></td>
+        <td height="25" align="center" valign="middle"><a href="javascript:lastPage();"><img src="../common/skinstyle/default/common/commoncss/cssimg/23.gif" width="10"
+
+height="12" border="0" /></a></td>
+      </tr>
+    </table></td>
+    <td width="10%" height="25" align="center" valign="middle" bordercolor="#D4D0C8" bgcolor="#eeeeee"
+
+class="moniright_05_tdbj1">
+      <input name="page" type="text" class="from1" id="page" size="4" />
+      /<span id="totalpage"></span>页     <a href="#"> <img src="../common/skinstyle/default/common/commoncss/cssimg/24.gif" alt="" width="13" height="12" border="0" /></a></td>
+    <td width="15%" height="25" align="center" valign="middle" bordercolor="#D4D0C8" bgcolor="#eeeeee"
+
+class="moniright_05_tdbj1">每页
+      <label>
+      <select name="pagesize" id="pagesize">
+        <option value="20" selected="selected">20</option>
+        <option value="30">30</option>
+        <option value="40">40</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+        <option value="200">200</option>
+      </select>
+      条
+      </label></td>
+    <td height="25" align="center" bordercolor="#D4D0C8" bgcolor="#eeeeee" class="moniright_05_tdbj1">&nbsp;</td>
+    <td width="17%" height="25" align="right" bordercolor="#D4D0C8" bgcolor="#eeeeee" class="moniright_05_tdbj1">
+      
+      共 <span id="totalline"></span> 条记录</td>
+  </tr>
+</table>
+</div>
+</td>
+    </tr>
+  </table>
+<script language="javascript"  type="text/javascript">
+<!--
+
+
+
+function reqMemberData() {
+	
+	 var sortLists = getSortList2(); 
+	
+	var meta =["smemberno","smembername","commodityname","buyqty","sellqty","userbuyqty","usersellqty","netqty","bsFlag","netholdth"];
+
+	var memid = $.trim($('#memid').val());
+	
+	var pagesize = $("#pagesize").val();
+	var curpage = $("#page").val();
+	
+	var desc = sortLists[0][1];
+	var order = meta[sortLists[0][0]];
+	
+	var params = 'mid='+memid +'&pagesize='+pagesize+'&page='+curpage+'&order='+order+'&desc='+desc;
+	
+	$.ajax({
+		type:'POST',
+		url:"./smembersum!hold.action",
+		data: params,
+	    cache: false,
+		dataType:"json",
+		timeout: 3000,
+		success: response2
+	});
+}
+
+function getSortList2() {
+		    //排序默认值处理
+		// see: http://tablesorter.com/docs/
+        var sortLists = new Array();
+        sortLists[0] = new Array();
+        var sth = null;
+        var sup =$("#tab_total2").find(".headerSortUp")[0];
+        var sud = $("#tab_total2").find(".headerSortDown")[0];
+        if(typeof(sud)!='undefined') {
+            sth = sud;
+            sortLists[0][1] = 0;
+        } else if(typeof(sup)!='undefined') {
+            sth = sup;
+            sortLists[0][1] = 1;
+        } else {
+            sortLists[0][0] = 0;
+            sortLists[0][1] = 0;
+        }
+        var tdSeq = $("#tab_total2").find("th").index(sth);
+        if(tdSeq>-1) {
+           sortLists[0][0] = tdSeq;
+		}
+		return sortLists;
+}
+
+function response2(data) {
+
+	 var sortLists = getSortList2();
+   
+	// json数据处理    
+	var tb = $("#res_tab2").clone();
+        var mtrow = tb.find("#template2");
+		if(data.data!=null && data.data!="") {
+			$.each(data.data, function(i, n) {
+			  var row = mtrow.clone();
+			  row.find("#smemberno").text(n.smemberno);
+			  row.find("#smembername").text(n.smembername);
+			  row.find("#commodityname").text(n.commodityname);
+			  row.find("#netqty").text(n.netqty);
+			  row.find("#bsFlag").text(n.bsFlag);
+			  row.find("#netholdth").text(n.netholdth);
+			  row.find("#userbuyqty").text(n.userbuyqty);
+			  row.find("#usersellqty").text(n.usersellqty);			 
+			  
+			  row.attr("id","ready");//改变绑定好数据的行的
+			  row.appendTo(tb);
+			});
+			mtrow.remove();
+		}
+        
+        tb.attr("id","tab_total2");
+	$('#tcl').html(tb);
+	$("#tab_total").tablesorter({sortList: sortLists });
+	
+	//分页处理
+	$("#totalline").text(''+data.pageInfo.totalRecords);
+	$("#totalpage").text(''+data.pageInfo.totalPages);
+	$("#page").val(''+data.pageInfo.pageNo);
+	
+	maxpage = data.pageInfo.totalPages;
+}
+
+
+
+function nextPage() {
+	clearInterval(simemberid);
+	var pg = $("#page").val();
+	if (pg>maxpage) {
+		$("#page").val(pg+1);
+	}
+	reqMemberData();
+	simemberid = setInterval ('reqMemberData()',3000);
+}
+
+function prevPage() {
+	clearInterval(simemberid);
+	var pg = $("#page").val();
+	if (pg>1) {
+		$("#page").val(pg-1);
+	}
+	reqMemberData();
+	simemberid = setInterval ('reqMemberData()',3000);
+}
+
+function firstPage() {
+	clearInterval(simemberid);
+	$("#page").val(1);
+	reqMemberData();
+	simemberid = setInterval ('reqMemberData()',3000);
+}
+function lastPage() {
+	clearInterval(simemberid);
+	$("#page").val(maxpage);
+	reqMemberData();
+	simemberid = setInterval ('reqMemberData()',3000);
+}
+
+
+var simemberid = setInterval ('reqMemberData()',3000);
+
+$(reqMemberData())
+
+var maxpage = 0;
+
+//-->
+</script>
+
+</body>
+</html>

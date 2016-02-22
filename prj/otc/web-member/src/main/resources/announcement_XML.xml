@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="GBK" ?>
+
+<root>
+	<range type="brokerage">
+		<group isNotAllBrokerage="Y / N">
+			<brokerage>居间1，居间2</brokerage>
+			<relation>Y/N</relation>
+		</group>
+		<memberId>会员ID</memberId>
+	</range>
+	<range type="organization">
+		<group isNotAllOrganization="Y / N">
+			<organization>机构1，机构2</organization>
+			<relation>Y/N</relation>
+		</group>
+		<memberId>会员ID</memberId>
+	</range>
+	<range type="traderMemberNotice">
+		<group isNotAllCustomers="Y / N">
+			<trader>交易商1，交易商2</trader>
+		</group>
+		<memberId>会员ID</memberId>
+	</range>
+</root>

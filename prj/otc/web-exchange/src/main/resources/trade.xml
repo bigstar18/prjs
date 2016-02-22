@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="base-trade" extends="base-struts2" abstract="true">
+        <interceptors>
+			<interceptor name="commodityInMarketInterceptor" class="gnnt.MEBS.trade.action.interceptor.CommodityStatusQueryInterceptor">
+				<param name="status">(1)</param>
+			</interceptor>
+			<interceptor name="commodityNotinMarketInterceptor"	class="gnnt.MEBS.trade.action.interceptor.CommodityStatusQueryInterceptor">
+				<param name="status">(0,2)</param>
+			</interceptor>
+			<interceptor name="commodityListInterceptor"
+				class="gnnt.MEBS.report.action.interceptor.CommodityListInterceptor">
+			</interceptor>
+			<interceptor name="excommodityListInterceptor"
+				class="gnnt.MEBS.trade.action.interceptor.CommodityListInterceptor">
+			</interceptor>
+		</interceptors>
+    </package>
+    
+	<package name="operator" extends="base-trade" namespace="/tradeManage/operator">
+		<action name="list" class="commodityAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="commodityNotinMarketInterceptor"></interceptor-ref>
+			<result>/trade/operations/commodityStatusList.jsp</result>
+		</action>
+		
+		<action name="forwardUpdate" class="commodityAction" method="viewById">
+			<result>/trade/operations/commodityStatusUpdate.jsp</result>
+		</action>
+		
+		<action name="updateCommodityStatus" class="commodityAction" method="updateIn">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+	</package>
+		
+	<package name="deOperator" extends="base-trade" namespace="/tradeManage/deOperator">
+		<action name="deList" class="commodityAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="commodityInMarketInterceptor"></interceptor-ref>
+			<result>/trade/operations/commodityDeStatusList.jsp</result>
+		</action>
+		
+		<action name="updateCommodityDeStatus" class="commodityAction" method="updateOut">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		
+		<action name="forwardUpdateDe" class="commodityAction" method="viewById">
+			<result>/trade/operations/commodityDeStatusUpdate.jsp</result>
+		</action>
+		
+	</package>
+	
+	<!-- 交易状态管理begin-->
+	<package name="tradeStatusManage" extends="base-trade" namespace="/tradeManage/tradeStatusManage">
+		<action name="forwardUpdate" class="agencyAction" method="viewById">
+			<result>/trade/operations/tradeStateManage.jsp</result>
+		</action>
+		<action name="updateTradeStatus" class="agencyAction" method="update">
+			<result type="redirectAction">forwardUpdate</result>
+		</action>
+		<action name="forwardUpdateRecoverTime" class="agencyAction" method="viewById">
+			<result>/trade/operations/agency_marketStatusWrite.jsp</result>
+		</action>
+		<action name="updateRecoverTime" class="agencyAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+	</package>
+	<!-- 交易状态管理end-->
+	<!-- 交易管理在线用户begin-->
+	<package name="onLineTrade" extends="base-trade" namespace="/tradeManage/onLineTrade">
+		<action name="list" class="onLineTraderAction" method="list">
+			<result>/trade/operations/onlineQueryList.jsp</result>
+		</action>
+		<action name="update" class="onLineTraderAction" method="update">
+			<result type="redirectAction">list</result>
+		</action>
+	</package>
+	<!-- 交易管理在线用户end-->
+		
+	<!-- 未上市商品begin -->
+	<package name="notInMarket" extends="base-trade" namespace="/tradeManage/notInMarket">
+		 <interceptors>
+			<interceptor name="commodityNotinMarketInterceptor"
+				class="gnnt.MEBS.trade.action.interceptor.CommodityStatusQueryInterceptor">
+				<param name="status">(0)</param>
+			</interceptor>
+			<interceptor name="commodityListInterceptor"
+				class="gnnt.MEBS.commodity.action.interceptor.CommodityListInterceptor">
+			</interceptor>
+		</interceptors>
+		<action name="list" class="commodityAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="commodityNotinMarketInterceptor"></interceptor-ref>
+			<result>/trade/notInMarket/baseInfoList.jsp</result>
+		</action>
+		<action name="forwardAdd" class="commodityAction" method="forwardAdd">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+			<result>/trade/notInMarket/commodityAdd.jsp</result>
+		</action>
+		<action name="forwardUpdate" class="commodityAction" method="viewById">
+			<result>/trade/notInMarket/commodityUpdate.jsp</result>
+		</action>
+		<action name="add" class="commodityAction" method="add">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<action name="update" class="commodityAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<action name="delete" class="commodityAction" method="delete">
+			<result type="redirectAction">list</result>
+		</action>
+	</package>
+	<!-- 未上市商品end -->
+	
+	<package name="commodityTradingParameter" extends="base-trade" namespace="/tradeManage/commodityTradingParameter">
+		<action name="searchList" class="tradeTimeAction" method="list">
+			<result>/trade/tradingParameter/commoditiesTradingTimeList.jsp</result>
+		</action>
+		
+		<action name="forwardUpdate" class="tradeTimeAction" method="viewById">
+			<result>/trade/tradingParameter/tradeTimeUpdate.jsp</result>
+		</action>
+		
+		<action name="updateTradeTime" class="tradeTimeAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		
+		<action name="updateRMI" class="tradeTimeAction" method="updateRMI">
+			<result type="redirectAction">searchList</result>
+		</action>
+		
+		<action name="delete" class="tradeTimeAction" method="delete">
+			<result type="redirectAction">searchList</result>
+		</action>
+		
+		<action name="forwardAdd" class="tradeTimeAction" method="forwardAdd">
+			<result>/trade/tradingParameter/tradeTimeAdd.jsp</result>
+		</action>
+		
+<!--lichao 添加的action  -->
+		<action name="displayCommodity" class="tradeTimeAction" method="displayCommodity">
+			<result>/trade/tradingParameter/tradeDayCommodity.jsp</result>
+		</action>
+<!--lichao 添加的action  -->	
+		<action name="handleCommodityChange" class="tradeTimeAction" method="handleCommodityChange">
+		</action>
+	</package>
+	
+	<package name="marketTradingParameter" extends="base-trade" namespace="/tradeManage/marketTradingParameter">
+		<action name="calendar" class="notTradeDayAction" method="check">
+			<result>/trade/tradingParameter/calendar.jsp</result>
+		</action>
+	</package>
+		
+	<package name="tradingParameter" extends="base-trade" namespace="/tradeManage/tradingParameter">
+	
+		<action name="forwardUpdate" class="notTradeDayAction" method="showNotTradeDay">
+			<result>/trade/tradingParameter/notTradeDayForm.jsp</result>
+		</action>
+		
+		<action name="update" class="notTradeDayAction" method="updateNotTradeDay">
+			<result type="redirectAction">forwardUpdate</result>
+		</action>
+		
+		<action name="forwardUpdateDaySection" class="notTradeDayAction" method="editDaySection">
+			<result>/trade/tradingParameter/daySectionForm.jsp</result>
+		</action>
+		
+		<action name="updateDaySection" class="notTradeDayAction" method="updateDaySection">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		
+		<action name="add" class="tradeTimeAction" method="add">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		
+		<action name="daySection" class="tradeTimeAction" method="forwardAdd">
+			<result>/trade/tradingParameter/daySectionForm.jsp</result>
+		</action>
+		
+	</package>
+	
+	<package name="offerBrand" extends="base-struts2" namespace="/tradeManage/offerBrand">
+		<interceptors>
+			<interceptor name="quotationListInterceptor"
+				class="gnnt.MEBS.settlement.action.interceptor.QuotationListInterceptor">
+			</interceptor>
+		</interceptors>
+		<action name="list" class="quotationAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="quotationListInterceptor"></interceptor-ref>
+			<result>/trade/offerBrand/offerBrandList.jsp</result>
+		</action>
+	</package>
+	
+	<!-- 客户强平 -->
+	<package name="customerClosePosition" extends="base-struts2" namespace="/customerClosePosition/customerList">
+		<action name="list" class="queryCustomerFundAction" method="list">
+			<result>/trade/closePosition/customerFundList.jsp</result>
+		</action>
+		<action name="update" class="thresholdArgsAction" method="forceClose">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<action name="forwardUpdate" class="thresholdArgsAction" method="forwardAdd">
+			<result>/trade/closePosition/forceCloseCustomer.jsp</result>
+		</action>
+	</package>
+	
+	<!-- 强平设置-->
+	<package name="customerCloseUpdate" extends="base-struts2" namespace="/customerClosePosition/customerCloseUpdate">
+		<action name="forwardUpdate" class="thresholdArgsAction" method="viewById">
+			<result>/trade/closePosition/closePositionTypeUpdate.jsp</result>
+		</action>
+		<action name="update" class="thresholdArgsAction" method="update">
+			<result>/trade/closePosition/closePositionTypeUpdate.jsp</result>
+		</action>
+	</package>
+	
+	<!-- 开市设置开始 -->
+	<package name="openMarketParameters" extends="base-struts2" namespace="/tradeManage/openMarketParameters">
+		<interceptors>
+			<interceptor name="clearDelaySecsInterceptor"
+				class="gnnt.MEBS.settlement.action.interceptor.ClearDelaySecsInterceptor">
+			</interceptor>
+		</interceptors>
+		<action name="forwardUpdate" class="openMarketParametersAction" method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="clearDelaySecsInterceptor"></interceptor-ref>
+			<result>/trade/tradingParameter/openMarketParametersUpdate.jsp</result>
+		</action>
+		<action name="update" class="openMarketParametersAction" method="update">
+			<result type="redirectAction">forwardUpdate</result>
+		</action>
+		<action name="updateMarketInfo"  class="openMarketParametersAction" method="updateAgencyRMIBean">
+			<result type="redirectAction">forwardUpdate</result>
+		</action>
+	</package>
+	
+	<!-- 会员强平 begin 
+	<package name="memberClosePosition" extends="base-struts2" namespace="/memberClosePosition/memberList">
+		<interceptors>
+			<interceptor name="memberConditionInterceptor"
+				class="gnnt.MEBS.packaging.action.interceptor.QueryCompositeInterceptor">
+				<param name="queryWord">original_memberIds</param>
+				<param name="queryCondition">primary.memberNo in (select memberInfo.id from gnnt.MEBS.account.model.MemberInfo memberInfo where memberInfo.id in(%composite%))[composite]</param>
+			</interceptor>
+		</interceptors>
+		<action name="list" class="queryMemberFundAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="memberConditionInterceptor"></interceptor-ref>
+			<result>/trade/closePosition/memberFundList.jsp</result>
+		</action>
+		<action name="update" class="thresholdArgsAction" method="memberForceClose">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+		<action name="forwardUpdate" class="thresholdArgsAction" method="forwardAdd">
+			<result>/trade/closePosition/forceCloseMember.jsp</result>
+		</action>
+	</package>
+	-->
+	<!-- 会员强平 end -->
+	
+	<!-- 行情异常补录begin -->
+	<package name="marketMaintenance" extends="base-trade" namespace="/marketMaintenance/marketLog"> 
+	    <action name="list" class="tqLogAction" method="list"> 
+	      <interceptor-ref name="mydefault"></interceptor-ref>
+	      <interceptor-ref name="excommodityListInterceptor"></interceptor-ref>
+		  <result>/trade/marketMaintenance/marketList.jsp</result>
+		</action>
+		<action name="add" class="tqLogAction" method="add">
+		  <result>list</result>
+		</action>
+	</package>
+	<!-- 行情异常补录end -->
+	
+	<!-- 行情补录设置begin -->
+	<package name="marketMaintenanceSet" extends="base-trade" namespace="/marketMaintenanceSet/marketLogSet"> 
+	    <action name="list" class="tqLogSetAction" method="list"> 
+		  <result>/trade/marketMaintenance/marketSetList.jsp</result>
+		</action>	
+		<action name="forwardAdd" class="tqLogSetAction" method="forwardAdd">
+		  <interceptor-ref name="mydefault"></interceptor-ref>
+	      <interceptor-ref name="excommodityListInterceptor"></interceptor-ref>
+	      <result>/trade/marketMaintenance/marketSetAdd.jsp</result>
+		</action>
+		<action name="add" class="tqLogSetAction" method="add">
+		  <result>/public/commonMsg.jsp</result>
+		</action>
+		<action name="forwardUpdate" class="tqLogSetAction" method="viewById">
+		  <result>/trade/marketMaintenance/marketSetUpdate.jsp</result>
+		</action>
+		<action name="update" class="tqLogSetAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+
+
+		</action>
+	</package>
+	<!-- 行情补录设置end -->
+	
+	<!-- 行情源数据维护begin -->
+	<package name="hqServerInfo" extends="base-trade" namespace="/marketMaintenanceSet/hqServerInfo"> 
+	    <action name="list" class="hqServerInfoAction" method="serverInfolist"> 
+		  <result>/trade/hqserverInfo/hqServerInfoList.jsp</result>
+		</action>	
+		<action name="update" class="hqServerInfoAction" method="update">
+			<result>list</result>
+		</action>
+	</package>
+	<!-- 行情源数据维护end -->
+	
+	<!-- 行情源数据监控begin -->
+	<package name="serverInfo" extends="base-trade" namespace="/tradeManage/serverInfo"> 
+		<action name="queryServerInfoForward" class="hqServerMonitorAction" method="forwardAdd"> 
+		  <result>/trade/serverInfoMonitor/forwardServerInfo.jsp</result>
+		</action>
+		<action name="queryServerInfo" class="hqServerMonitorAction" method="serverInfo"> 
+		  <result>/trade/serverInfoMonitor/queryServerInfo.jsp</result>
+		</action>
+	</package>
+	<!-- ajax查询 -->
+	<package name="serverInfoForAjax" extends="json-default" namespace="/tradeManage/serverInfoForAjax"> 
+		<action name="queryInfoPrice" class="hqServerMonitorAction" method="getServerInfo">
+			<result type="json">
+				<param name="root">json</param>
+			</result>
+		</action>
+	</package>
+	<!-- 行情源数据监控end -->
+</struts>

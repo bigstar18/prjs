@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="specialMemberDelayFeeApply" extends="base-struts2" namespace="/apply/specialMemberDelayFeeApply">
+	    <interceptors>
+	    <interceptor name="delayLogInterceptor"
+				class="gnnt.MEBS.audit.action.interceptor.LogDelayInterceptor">
+				<param name="classFullName">
+					   gnnt.MEBS.commodity.model.TCDelayFee
+				</param>
+				<param name="serrviceName">
+				   specialMemberDelayFeeService
+				</param>
+		 </interceptor>
+		 </interceptors>
+		<!-- 申请操作 -->
+		<action name="update" class="specialMemberDelayFeeApplyAction" method="apply">
+		   <interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="delayLogInterceptor"></interceptor-ref>
+			<result name="returnList" type="chain">
+				<param name="actionName">applyList</param>
+			</result>
+			<result>/public/commonMsg.jsp</result>
+		</action>
+	</package>
+</struts>

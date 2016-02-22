@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="announcement" extends="base-struts2" namespace="/tradeManage/announcement">
+		<action name="show" class="announcementAction" method="getUserName">
+			<result>/trade/announcement/sendAnnouncement.jsp</result>
+			<result type="redirectAction" name="transmit">
+				<param name="namespace">/tradeManage/lookAnnouncement</param>
+				<param name="actionName">list</param>
+			</result>
+		</action>
+		
+		<action name="list" class="announcementAction" method="getAllList">
+			<result>/trade/announcement/selectSend.jsp</result>
+		</action>
+		
+		<action name="add" class="announcementAction" method="addNotices">
+			<result type="redirectAction">show</result>
+			<result type="redirectAction" name="transmit">
+				<param name="namespace">/tradeManage/lookAnnouncement</param>
+				<param name="actionName">list</param>
+			</result>
+		</action>
+				
+		<action name="specialList" class="announcementAction" method="specialMemberTreeList">
+			<result>/trade/announcement/specialMemberInfoTree.jsp</result>
+		</action>
+		
+		<action name="memberList" class="announcementAction" method="memberTreeList">
+			<result>/trade/announcement/memberInfoTree.jsp</result>
+		</action>
+		
+		<action name="memberListForCustomer" class="announcementAction" method="memberTreeList">
+			<result>/trade/announcement/customerInfoTree.jsp</result>
+		</action>
+		
+		<action name="noticeList" class="announcementAction" method="noticesList">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="deleteMemberNo"></interceptor-ref>
+			<result>/trade/announcement/announcementList.jsp</result>
+		</action>
+		
+		<action name="showAnnouncement" class="lookAnnouncementAction"
+			method="getById">
+			<result>/trade/announcement/announcementShow.jsp</result>
+		</action>
+	</package>
+	
+	<package name="announcementList" extends="base-struts2"
+		namespace="/tradeManage/announcementList">
+		<interceptors>
+			<interceptor name="sendPeopleListInterceptor"
+				class="gnnt.MEBS.announcement.action.interceptor.SendPeopleListInterceptor">
+			</interceptor>
+		</interceptors>
+		<action name="noticeList" class="announcementAction" method="noticesShowList">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="deleteMemberNo"></interceptor-ref>
+			<result>/trade/announcement/announcementShowList.jsp</result>
+		</action>
+		<action name="forwardUpdate" class="announcementAction" method="viewById">
+			<result>/trade/announcement/announcementShow.jsp</result>
+		</action>
+		<action name="showAnnouncement" class="lookAnnouncementAction"
+			method="getById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<result>/trade/announcement/announcementShow.jsp</result>
+		</action>
+		<action name="showSendPeople" class="lookAnnouncementAction">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="sendPeopleListInterceptor"></interceptor-ref>
+			<result>/trade/announcement/showSendPeople.jsp</result>
+		</action>
+	</package>
+	
+	<package name="lookAnnouncement" extends="base-struts2" namespace="/tradeManage/lookAnnouncement">
+		<action name="list" class="lookAnnouncementAction" method="okNoticesList">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="deleteMemberNo"></interceptor-ref>
+			<result>/trade/announcement/lookAnnouncementList.jsp</result>
+		</action>
+		<action name="forwardUpdate" class="lookAnnouncementAction" method="viewById">
+			<result>/trade/announcement/announcementShow.jsp</result>
+		</action>
+	</package>
+	<package name="lookHisAnnouncement" extends="base-struts2" namespace="/tradeManage/lookHisAnnouncement">
+		<action name="list" class="lookHisAnnouncementAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="deleteMemberNo"></interceptor-ref>
+			<result>/trade/announcement/lookHisAnnouncementList.jsp</result>
+		</action>
+		<action name="forwardUpdate" class="lookHisAnnouncementAction" method="viewById">
+			<result>/trade/announcement/hisAnnouncementShow.jsp</result>
+		</action>
+	</package>
+</struts>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="specialMemberQuotePointAudit" extends="base-struts2" namespace="/audit/commodity_specialMemberQuotePointAudit">
+	<interceptors>
+		    <interceptor name="specialMemberQuotePointInterceptor"
+					class="gnnt.MEBS.audit.action.interceptor.LogInterceptor">
+					<param name="classFullName">
+					   gnnt.MEBS.commodity.model.QuotePoint
+					</param>
+					<param name="serrviceName">
+					   specialMemberQuotePointService
+					</param>
+			 </interceptor>
+	    </interceptors>
+		<action name="auditList" class="specialMemberQuotePointAuditAction" method="auditList">
+			<result>/applyAndAudit/audit/quotePointAudit/specialMemberQuotePointAuditList.jsp</result>
+		</action>
+		
+		<action name="audits" class="specialMemberQuotePointAuditAction" method="audit">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="specialMemberQuotePointInterceptor"></interceptor-ref>
+			<result type="chain">
+				<param name="actionName">auditDetails</param>
+			</result>
+		</action>
+		
+		<action name="auditDetails" class="specialMemberQuotePointAuditAction" method="auditDetails">
+			<result>/applyAndAudit/audit/quotePointAudit/specialMemberQuotePointDetails.jsp</result>
+		</action>
+	</package>
+</struts>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+
+
+
+	<!-- 客户收取手续费流程配置begin -->
+	<bean id="memCustomerTakeFeeUpdateProcessContext" class="gnnt.MEBS.audit.flowService.common.ProcessContextImpl">
+		<property name="finalStatus" value="2" />
+		<property name="steps">
+			<list>
+				<ref bean="memCustomerTakeFeeUdateApplyStep" />
+				<ref bean="memCustomerTakeFeeUpdateAuditStep" />
+			</list>
+		</property>
+		<property name="statusOperate" ref="statusOperate" />
+	</bean>
+
+	<bean id="memCustomerTakeFeeUdateApplyStep" class="gnnt.MEBS.audit.flowService.common.StepImpl">
+		<property name="handleList">
+			<list>
+				<ref bean="memCustomerTakeFeeUpdateApplyHandle" />
+			</list>
+		</property>
+		<property name="currentStatus">
+			<value>0</value>
+		</property>
+	</bean>
+
+	<bean id="memCustomerTakeFeeUpdateAuditStep" class="gnnt.MEBS.audit.flowService.common.StepImpl">
+		<property name="handleList">
+			<list>
+				<ref bean="memCustomerTakeFeeUpdateAuditHandle" />
+				<ref bean="memCustomerTakeFeeRejectAuditHandle" />
+			</list>
+		</property>
+		<property name="currentStatus">
+			<value>1</value>
+		</property>
+	</bean>
+
+	<bean id="memCustomerTakeFeeUpdateApplyHandle" class="gnnt.MEBS.audit.flowService.common.HandleImpl">
+		<property name="finalStatus" value="1" />
+		<property name="beanName" value="申请修改" />
+		<property name="key" value="apply" />
+		<property name="behaviour" ref="memCustomerTakeFeeUpdateApplyBehaviour" />
+	</bean>
+	<bean id="memCustomerTakeFeeUpdateAuditHandle" class="gnnt.MEBS.audit.flowService.common.HandleImpl">
+		<property name="finalStatus" value="2" />
+		<property name="beanName" value="审核修改" />
+		<property name="key" value="audit" />
+		<property name="behaviour" ref="memCustomerTakeFeeUpdateAuditBehaviour" />
+	</bean>
+	<bean id="memCustomerTakeFeeRejectAuditHandle" class="gnnt.MEBS.audit.flowService.common.HandleImpl">
+		<property name="finalStatus" value="-2" />
+		<property name="beanName" value="驳回修改" />
+		<property name="key" value="reject" />
+	</bean>
+
+	<bean id="memCustomerTakeFeeUpdateBusinessService" class="gnnt.MEBS.audit.businessService.BusinessServiceImpl">
+		<property name="serrviceName" value="memCustomerTakeFeeService" />
+		<property name="methodName" value="update" />
+		<property name="classFullName" value="gnnt.MEBS.commodity.model.MemCustomerTakeFee" />
+	</bean>
+
+	<bean id="memCustomerTakeFeeUpdateApplyBehaviour" class="gnnt.MEBS.audit.flowService.behaviour.AddAuditObject">
+	</bean>
+
+	<bean id="memCustomerTakeFeeUpdateAuditBehaviour" class="gnnt.MEBS.audit.flowService.behaviour.BusinessDeal">
+		<property name="businessService" ref="memCustomerTakeFeeUpdateBusinessService" />
+	</bean>
+	<!-- 客户收取手续费流程配置end -->
+
+	<!-- 客户收取手续费申请与审核 start -->
+	<bean id="memCustomerTakeFeeJDBCDao" class="gnnt.MEBS.audit.dao.MemCustomerTakeFeeJDBCDao"
+		autowire="byName"></bean>
+
+	<bean id="memCustomerTakeFeeApplyAction" class="gnnt.MEBS.audit.action.ApplyAction"
+		scope="request">
+		<property name="applyType" value="commodity_memCustomerTakeFee" />
+		<property name="operateStatus" value="0" />
+		<property name="action" ref="memCustomerTakeFeeAction" />
+		<property name="applyJDBCDao" ref="memCustomerTakeFeeJDBCDao" />
+	</bean>
+	<bean id="memCustomerTakeFeeAuditAction" class="gnnt.MEBS.audit.action.AuditAction"
+		scope="request">
+		<property name="applyType" value="commodity_memCustomerTakeFee" />
+		<property name="operateStatus" value="1" />
+		<property name="action" ref="memCustomerTakeFeeAction" />
+		<property name="applyJDBCDao" ref="memCustomerTakeFeeJDBCDao" />
+	</bean>
+	<!-- 客户收取手续费申请与审核 end -->
+</beans>

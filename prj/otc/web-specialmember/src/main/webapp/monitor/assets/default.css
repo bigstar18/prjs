@@ -1,0 +1,62 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace mx "library://ns.adobe.com/flex/mx";
+
+s|Application{
+	fontFamily: 微软雅黑,黑体;   
+	fontSize: 12;   
+	fontWeight: normal;
+}
+mx|DataGrid{
+/*	headerColors: #ff6600, #ff6600 ;              
+	rollOverColor: #33ccff;
+	textRollOverColor: #ffffff;
+	iconColor: #ff0000;
+	fontFamily: 微软雅黑;
+	fontSize:12;
+	dropShadowEnabled: true;
+	alternatingItemColors: #330099, #0000cc;
+	color: #ffffff;
+	borderColor: #ffffff;*/
+	fontFamily: 微软雅黑,黑体;
+	fontSize:12;
+	headerStyleName: dgHeader;
+}
+mx|AdvancedDataGrid{
+	alternatingItemColors:#eff3fa,#ffffff;
+	headerSortSeparatorSkin:ClassReference("mx.skins.ProgrammaticSkin");
+}
+.datagrid{
+	textAlign: right;
+}
+
+.dgHeader{
+	fontWeight: bold;
+	textAlign: center;
+	fontFamily: 微软雅黑,黑体;
+}
+
+mx|Tree{
+	defaultLeafIcon: ClassReference(null);
+	folderClosedIcon: ClassReference(null);
+	folderOpenIcon: ClassReference(null);	
+}
+
+s|Button {   
+     borderColor: #cccccc;   
+}
+.query{
+	color:#d33c3b;
+	accentColor:red;
+	fontWeight:bold;
+/*	fillAlphas:1.0, 0.4;
+	fillColors:red,red,red,red;*/
+}
+.reset{
+
+}
+.basic{
+	fontFamily: 微软雅黑,黑体;   
+	fontSize: 12;   
+	fontWeight: normal;
+}

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+<!-- 结算处理开始 -->
+	<package name="settlement" extends="base-struts2" namespace="/settlement/quotation">
+		<interceptors>
+			<interceptor name="quotationListInterceptor"
+				class="gnnt.MEBS.settlement.action.interceptor.QuotationListInterceptor">
+			</interceptor>
+		</interceptors>
+		<action name="show" class="quotationAction" method="forwardAdd">
+			<result>/settlement/quotation/commonList.jsp</result>
+		</action>
+		<action name="list" class="quotationAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="quotationListInterceptor"></interceptor-ref>
+			<result>/settlement/quotation/quotationList.jsp</result>
+		</action>
+		<action name="updateSettlement" class="quotationAction" method="settlement">
+			<result type="chain">list</result>
+		</action>
+		<action name="forwardUpdate" class="quotationAction" method="viewById">
+			<result>/settlement/quotation/quotationUpdate.jsp</result>
+		</action>
+		<action name="update" class="quotationAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+	</package>
+	
+	<package name="quotePointRunTime" extends="base-struts2" namespace="/settlement/quotePointRunTime">
+
+		<action name="list" class="quotePointRunTimeAction" method="list">
+			<result>/settlement/quotePointRunTime/quotePointRunTimeList.jsp</result>
+		</action>
+		<action name="forwardUpdate" class="quotePointRunTimeAction" method="viewById">
+			<result>/settlement/quotePointRunTime/quotePointRunTimeUpdate.jsp</result>
+		</action>
+		<action name="update" class="quotePointRunTimeAction" method="update">
+			<result>/public/commonMsg.jsp</result>
+		</action>
+	</package>
+	<package name="marketParameters" extends="base-struts2" namespace="/settlement/marketParameters">
+
+		<action name="list" class="marketParametersAction" method="list">
+			<result>/settlement/marketParameters/marketParametersList.jsp</result>
+		</action>
+		<action name="forwardUpdate" class="marketParametersAction" method="viewById">
+			<result>/account/thresholdArgs/marketParametersUpdate.jsp</result>
+		</action>
+		<action name="update" class="marketParametersAction" method="update">
+			<result type="redirectAction">forwardUpdate</result>
+		</action>
+	</package>
+	
+	<package name="clearStatus" extends="base-struts2" namespace="/settlement/clearStatus">
+		<action name="list" class="clearStatusAction" method="list">
+			<result>/settlement/clearStatus/clearStatusList.jsp</result>
+		</action>
+	</package>
+	<!-- 结算延时秒数处理开始 -->
+	<package name="marketParametersSecond" extends="base-struts2" namespace="/settlement/marketParametersSecond">
+		<interceptors>
+			<interceptor name="clearDelaySecsInterceptor"
+				class="gnnt.MEBS.settlement.action.interceptor.ClearDelaySecsInterceptor">
+			</interceptor>
+		</interceptors>
+		<action name="list" class="marketParametersAction" method="list">
+			<result>/settlement/marketParameters/marketParametersList.jsp</result>
+		</action>
+		<action name="forwardUpdate" class="marketParametersAction" method="viewById">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="clearDelaySecsInterceptor"></interceptor-ref>
+			<result>/account/thresholdArgs/marketParametersUpdateSecond.jsp</result>
+		</action>
+		<action name="update" class="marketParametersAction" method="update">
+			<result type="redirectAction">forwardUpdate</result>
+		</action>
+		<action name="updateMarketInfo"  class="marketParametersAction" method="updateAgencyRMIBean">
+			<result type="redirectAction">forwardUpdate</result>
+		</action>
+	</package>
+	<!-- 平均价 -->                                                             
+		<package name="avgPrice" extends="base-struts2" namespace="/settlement/avgPrice">
+		<interceptors>
+			<interceptor name="commodityListInterceptor"
+				class="gnnt.MEBS.settlement.action.interceptor.CommodityListInterceptor">
+			</interceptor>
+		</interceptors>
+		<action name="avgPrice" class="avgPriceAction" method="getAvg">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+			<result>/settlement/avgPrice/avgPrice.jsp</result>
+		</action>
+	</package>
+</struts>

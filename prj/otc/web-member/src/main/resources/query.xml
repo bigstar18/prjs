@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+	<package name="base-query" extends="base-struts2" abstract="true">
+		<interceptors>
+			<interceptor name="queryCustomerTradeInterceptor" class="queryCustomerTradeInterceptor">
+			</interceptor>
+			<interceptor name="queryCustomerFundFlowInterceptor" class="queryCustomerFundFlowInterceptor">
+			</interceptor>
+			<interceptor name="queryCustomerHoldInterceptor" class="queryCustomerHoldInterceptor">
+			</interceptor>
+			<interceptor name="queryCustomerLimitPriceInterceptor" class="queryCustomerLimitPriceInterceptor">
+			</interceptor>
+			<interceptor name="queryCustomerFundsInterceptor" class="queryCustomerFundsInterceptor">
+			</interceptor>
+			<interceptor name="commodityListInterceptor"
+				class="gnnt.MEBS.query.action.interceptor.CommodityListInterceptor">
+			</interceptor>
+			<interceptor name="customerQueryInterceptor"
+				class="gnnt.MEBS.account.action.interceptor.QueryCustomerMemInterceptor">
+			</interceptor>
+			<interceptor name="bankListInterceptor"
+				class="gnnt.MEBS.report.action.interceptor.BankListInterceptor">
+			</interceptor>
+		</interceptors>
+	</package>
+	<!-- 银行日志查询 -->
+	<package name="queryBank" extends="base-query"
+		namespace="/query/queryBankSearch">
+		<interceptors>
+			<interceptor name="sysLogInterceptor"
+				class="gnnt.MEBS.query.action.interceptor.LogQueryInterceptor">
+				<param name="type">2</param>
+			</interceptor>
+			<interceptor name="tradeInterceptor"
+				class="gnnt.MEBS.query.action.interceptor.TradeLogInterceptor">
+			</interceptor>
+			<interceptor name="typeExportInterceptor"
+				class="bankExportInterceptor">
+			</interceptor>
+		</interceptors>
+		<action name="list" class="sysLogSearchAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="deleteMemberNo"></interceptor-ref>
+			<interceptor-ref name="sysLogInterceptor"></interceptor-ref>
+			<interceptor-ref name="typeExportInterceptor"></interceptor-ref>
+			<result>/query/bankList.jsp</result>
+		</action>
+	</package>
+	<!-- 交易日志查询 -->
+	<package name="queryTradeOrder" extends="base-query"
+		namespace="/query/queryTradeOrder">
+		<interceptors>
+			<interceptor name="sysLogInterceptor"
+				class="gnnt.MEBS.query.action.interceptor.LogQueryInterceptor">
+				<param name="type">1</param>
+			</interceptor>
+		</interceptors>
+		<action name="list" class="sysLogSearchAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="deleteMemberNo"></interceptor-ref>
+			<interceptor-ref name="sysLogInterceptor"></interceptor-ref>
+			<result>/query/tradeOrderList.jsp</result>
+		</action>
+	</package>
+	<!-- 行情日志查询 -->
+	<package name="queryQutationDetail" extends="base-query"
+		namespace="/query/queryQutationDetail">
+		<interceptors>
+			<interceptor name="sysLogInterceptor"
+				class="gnnt.MEBS.query.action.interceptor.LogQueryInterceptor">
+				<param name="type">4</param>
+			</interceptor>
+		</interceptors>
+		<action name="list" class="sysLogSearchAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="deleteMemberNo"></interceptor-ref>
+			<interceptor-ref name="sysLogInterceptor"></interceptor-ref>
+			<result>/query/qutationDetailList.jsp</result>
+		</action>
+	</package>
+	<!-- 系统日志查询 -->
+	<package name="querySysLog" extends="base-query" namespace="/query/querySysLogSearch">
+		<interceptors>
+			<interceptor name="sysLogInterceptor"
+				class="gnnt.MEBS.query.action.interceptor.LogQueryInterceptor">
+				<param name="type">1</param>
+			</interceptor>
+		</interceptors>
+		<action name="list" class="sysLogSearchAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="deleteMemberNo"></interceptor-ref>
+			<interceptor-ref name="sysLogInterceptor"></interceptor-ref>
+			<result>/query/sysLogList.jsp</result>
+		</action>
+	</package>
+	<!--会员持仓查询 -->
+	<package name="queryMemberHoldSearch" extends="base-query"
+		namespace="/query/queryMemberHoldSearch">
+		<interceptors>
+		<interceptor name="typeExportInterceptor"
+				class="memberHoldExportInterceptor_q">
+			</interceptor>
+		<interceptor name="orderByQueryInterceptor"
+				class="gnnt.MEBS.query.action.interceptor.OrderDefaultQueryInterceptor">
+				<param name="sortString">primary.holdNo desc,memberno asc</param>
+				<param name="sortHString">clearDate desc,memberno asc,primary.holdNo desc</param>
+			</interceptor>
+		</interceptors>
+		<action name="list" class="queryMemberHoldSearchAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="orderByQueryInterceptor"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+			<interceptor-ref name="typeExportInterceptor"></interceptor-ref>
+			<result>/query/memberHoldList.jsp</result>
+		</action>
+	</package>
+	<!-- 会员平仓查询 -->
+	<package name="queryMemberTradeSearch" extends="base-query"
+		namespace="/query/queryMemberTradeSearch">
+		<action name="list" class="queryMemberTradeSearchAction"
+			method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+			<result>/query/memberTradeList.jsp</result>
+		</action>
+	</package>
+	
+		<!-- 会员资金流水查询 begin -->
+	<package name="queryMemberFundFlowSearch" extends="base-query"
+		namespace="/query/queryMemberFundFlowSearch">
+		<interceptors>
+		<interceptor name="typeExportInterceptor"
+				class="memberFundFlowExportInterceptor">
+			</interceptor>
+		<interceptor name="orderByQueryInterceptor"
+				class="gnnt.MEBS.query.action.interceptor.OrderDefaultQueryInterceptor">
+				<param name="sortString">primary.memberNo asc,primary.fundFlowId desc</param>
+				<param name="sortHString">primary.clearDate desc,primary.memberNo asc,primary.fundFlowId desc</param>
+			</interceptor>
+		</interceptors>
+		<action name="list" class="queryMemberFundFlowAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="orderByQueryInterceptor"></interceptor-ref>
+		    <interceptor-ref name="typeExportInterceptor"></interceptor-ref>
+			<result>/query/memberFundFlowList.jsp</result>
+		</action>
+	</package>
+	<!-- 会员资金查询流水 end -->
+	
+	<!-- 会员资金查询 begin -->
+	<package name="queryMemberFundSearch" extends="base-query"
+		namespace="/query/queryMemberFundSearch">
+		<interceptors>
+		<interceptor name="typeExportInterceptor"
+				class="memberFundExportInterceptor">
+			</interceptor>
+		<interceptor name="orderByQueryInterceptor"
+				class="gnnt.MEBS.query.action.interceptor.OrderDefaultQueryInterceptor">
+				<param name="sortString">memberno asc</param>
+				<param name="sortHString">clearDate desc,memberno asc</param>
+			</interceptor>
+		</interceptors>
+		<action name="list" class="queryMemberFundAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="orderByQueryInterceptor"></interceptor-ref>
+		    <interceptor-ref name="typeExportInterceptor"></interceptor-ref>
+			<result>/query/memberFundList.jsp</result>
+		</action>
+	</package>
+	<!-- 会员资金查询 end -->
+	<!-- 会员可出资金查询 begin -->
+	<package name="queryMemberFundOutInSearch" extends="base-query"
+		namespace="/query/queryMemberFundOutInSearch">
+		<interceptors>
+		<interceptor name="memberFundOutInInterceptor"
+				class="gnnt.MEBS.query.action.interceptor.MemberFundOutInInterceptor">
+		</interceptor>
+		</interceptors>
+		<action name="list" class="fundOutInSearchOfMemberAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="bankListInterceptor"></interceptor-ref>
+			<interceptor-ref name="memberFundOutInInterceptor"></interceptor-ref>
+			<result>/query/memberFundOutInList.jsp</result>
+		</action>
+	</package>
+	<!-- 会员可出资金查询 end -->
+	
+		<!-- 会员成交明细查询 begin -->
+	<package name="queryMemberOrdersSearch" extends="base-query"
+		namespace="/query/queryMemberOrdersSearch">
+		<interceptors>
+		<interceptor name="typeExportInterceptor"
+				class="memberTransactionExportInterceptor">
+			</interceptor>
+		<interceptor name="orderByQueryInterceptor"
+				class="gnnt.MEBS.query.action.interceptor.OrderDefaultQueryInterceptor">
+				<param name="sortString">primary.memberNo asc,primary.tradeno desc</param>
+				<param name="sortHString">primary.clearDate desc,primary.memberNo asc,primary.tradeno desc</param>
+			</interceptor>
+		</interceptors>
+		<action name="list" class="queryMemberOrdersAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="orderByQueryInterceptor"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+			<interceptor-ref name="typeExportInterceptor"></interceptor-ref>
+			<result>/query/memberOrdersList.jsp</result>
+		</action>
+	</package>
+	<!-- 会员成交明细查询 end -->
+	
+	<!-- 操作日志查询 -->
+	<package name="queryOperateLogSearch" extends="base-query"
+		namespace="/query/queryOperateLogSearch">
+
+		<interceptors>
+			<interceptor name="sysLogInterceptor"
+				class="gnnt.MEBS.query.action.interceptor.LogQueryInterceptor">
+				<param name="type">3</param>
+			</interceptor>
+			<interceptor name="tradeInterceptor"
+				class="gnnt.MEBS.query.action.interceptor.TradeLogInterceptor">
+			</interceptor>
+			<interceptor name="typeExportInterceptor"
+				class="operateLogExportInterceptor">
+			</interceptor>
+		</interceptors>
+		<action name="list" class="sysLogSearchAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="deleteMemberNo"></interceptor-ref>
+			<interceptor-ref name="sysLogInterceptor"></interceptor-ref>
+			<interceptor-ref name="typeExportInterceptor"></interceptor-ref>
+			<result>/query/operateLogList.jsp</result>
+		</action>
+	</package>
+
+
+	<!-- 客户平仓查询 -->
+	<package name="queryCustomerTradeSearch" extends="base-query"
+		namespace="/query/queryCustomerTradeSearch">
+		<action name="list" class="queryCustomerTradeSearchAction"
+			method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+			<interceptor-ref name="queryCustomerTradeInterceptor"></interceptor-ref>
+			<result>/query/customerTradeList.jsp</result>
+		</action>
+	</package>
+
+	<!-- 客户持仓单查询 begin -->
+	<package name="queryCustomerHoldSearch" extends="base-query"
+		namespace="/query/queryCustomerHoldSearch">
+		<interceptors>
+		<interceptor name="typeExportInterceptor"
+				class="customerHoldExportInterceptor">
+			</interceptor>
+		<interceptor name="orderByQueryInterceptor"
+				class="gnnt.MEBS.query.action.interceptor.OrderDefaultQueryInterceptor">
+				<param name="sortString">customerno asc,holdno desc</param>
+				<param name="sortHString">clearDate desc,customerno asc,holdno desc</param>
+			</interceptor>
+		</interceptors>
+		<action name="list" class="queryCustomerHoldSearchAction"
+			method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="orderByQueryInterceptor"></interceptor-ref>
+			<interceptor-ref name="customerQueryInterceptor"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+			<interceptor-ref name="dataFilterCustomerNoInterceptor"></interceptor-ref>
+			<interceptor-ref name="typeExportInterceptor"></interceptor-ref>
+			<result>/query/customerHoldList.jsp</result>
+		</action>
+	</package>
+	<!-- 客户持仓单查询 end -->
+
+	<!-- 客户成交明细查询 begin -->
+	<package name="queryCustomerTransactionSearch" extends="base-query"
+		namespace="/query/queryCustomerTransactionSearch">
+		<interceptors>
+		<interceptor name="typeExportInterceptor"
+				class="customerTransactionExportInterceptor">
+			</interceptor>
+		<interceptor name="orderByQueryInterceptor"
+				class="gnnt.MEBS.query.action.interceptor.OrderDefaultQueryInterceptor">
+				<param name="sortString">customerno asc,primary.tradeNo desc</param>
+				<param name="sortHString">primary.clearDate desc,primary.customerNo asc,primary.tradeNo desc</param>
+			</interceptor>
+		</interceptors>
+		<action name="list" class="queryCustomerTransactionAction"
+			method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="orderByQueryInterceptor"></interceptor-ref>
+			<interceptor-ref name="customerQueryInterceptor"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+			<interceptor-ref name="dataFilterCustomerNoInterceptor"></interceptor-ref>
+			<interceptor-ref name="typeExportInterceptor"></interceptor-ref>
+			<result>/query/customerTransactionList.jsp</result>
+		</action>
+	</package>
+	<!-- 客户成交明细查询 end -->
+	
+
+	<!-- 客户限价单查询 begin -->
+	<package name="queryCustomerLimitPriceSearch" extends="base-query"
+		namespace="/query/queryCustomerLimitPriceSearch">
+		<interceptors>
+		<interceptor name="typeExportInterceptor"
+				class="customerLimitExportInterceptor">
+			</interceptor>
+		<interceptor name="orderByQueryInterceptor"
+				class="gnnt.MEBS.query.action.interceptor.OrderDefaultQueryInterceptor">
+				<param name="sortString">customerno asc,primary.orderno desc</param>
+				<param name="sortHString">primary.clearDate desc,primary.customerNo asc,primary.orderno desc</param>
+			</interceptor>
+		</interceptors>
+		<action name="list" class="queryCustomerLimitPriceSearchAction"
+			method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="orderByQueryInterceptor"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+			<interceptor-ref name="customerQueryInterceptor"></interceptor-ref>
+			<interceptor-ref name="queryCustomerFundsInterceptor"></interceptor-ref>
+			<interceptor-ref name="typeExportInterceptor"></interceptor-ref>
+			<result>/query/customerLimitPriceList.jsp</result>
+		</action>
+	</package>
+	<!-- 客户限价单查询 end -->
+
+
+	<!-- 会员阈值查询 begin -->
+	<package name="queryMemberThSearch" extends="base-query"
+		namespace="/query/queryMemberThSearch">
+		<action name="list" class="queryMemberThSearchAction" method="list">
+			<result>/query/memberThList.jsp</result>
+		</action>
+	</package>
+	<!-- 会员阈值查询 end -->
+
+	<!-- 客户资金流水查询 begin -->
+	<package name="queryCustomerFundFlowSearch" extends="base-query"
+		namespace="/query/queryCustomerFundFlowSearch">
+		<interceptors>
+		<interceptor name="typeExportInterceptor"
+				class="customerFundFlowExportInterceptor">
+			</interceptor>
+		<interceptor name="orderByQueryInterceptor"
+				class="gnnt.MEBS.query.action.interceptor.OrderDefaultQueryInterceptor">
+				<param name="sortString">primary.customerNo asc,primary.fundFlowId desc</param>
+				<param name="sortHString">primary.clearDate desc,primary.customerNo asc,primary.fundFlowId desc</param>
+			</interceptor>
+		</interceptors>
+		<action name="list" class="queryCustomerFundFlowAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="orderByQueryInterceptor"></interceptor-ref>
+			<interceptor-ref name="typeExportInterceptor"></interceptor-ref>
+			<interceptor-ref name="customerQueryInterceptor"></interceptor-ref>
+			<interceptor-ref name="dataFilterCustomerNoInterceptor"></interceptor-ref>
+			<result>/query/customerFundFlowList.jsp</result>
+		</action>
+	</package>
+	<!-- 客户资金流水查询 end -->
+	<!-- 客户资金查询 begin -->
+	<package name="queryCustomerFundSearch" extends="base-query"
+		namespace="/query/queryCustomerFundSearch">
+		<interceptors>
+		<interceptor name="typeExportInterceptor"
+				class="customerFundExportInterceptor">
+			</interceptor>
+		<interceptor name="orderByQueryInterceptor"
+				class="gnnt.MEBS.query.action.interceptor.OrderDefaultQueryInterceptor">
+				<param name="sortString">customerno asc</param>
+				<param name="sortHString">clearDate desc,customerno asc</param>
+			</interceptor>
+		</interceptors>
+		<action name="list" class="queryCustomerFundAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="orderByQueryInterceptor"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+			<interceptor-ref name="customerQueryInterceptor"></interceptor-ref>
+			<interceptor-ref name="queryCustomerFundsInterceptor"></interceptor-ref>
+			<interceptor-ref name="typeExportInterceptor"></interceptor-ref>
+			<result>/query/customerFundList.jsp</result>
+		</action>
+	</package>
+	<!-- 客户资金查询 end -->
+	<!-- 客户交割申报查询 begin -->
+	<package name="queryCustomerApplySettleSearch" extends="base-query"
+		namespace="/query/queryCustomerApplySettleSearch">
+		<interceptors>
+		<interceptor name="orderByQueryInterceptor"
+				class="gnnt.MEBS.query.action.interceptor.OrderDefaultQueryInterceptor">
+				<param name="sortString">customerno asc</param>
+				<param name="sortHString">clearDate desc,customerno asc</param>
+			</interceptor>
+		</interceptors>
+		<action name="list" class="queryCustomerApplySettleAction" method="list">
+			<interceptor-ref name="mydefault"></interceptor-ref>
+			<interceptor-ref name="orderByQueryInterceptor"></interceptor-ref>
+			<interceptor-ref name="customerQueryInterceptor"></interceptor-ref>
+			<result>/query/customerApplySettleList.jsp</result>
+		</action>
+	</package>
+	<!-- 客户交割申报查询 end -->
+	
+	<!-- 会员冻结查询 begin -->
+	<package name="queryMemberFreezeSearch" extends="base-query"
+		namespace="/query/queryMemberFreezeSearch">
+		<interceptors>
+		<interceptor name="typeExportInterceptor"
+				class="memberFreezeExportInterceptor">
+			</interceptor>
+		<interceptor name="orderByQueryInterceptor"
+				class="gnnt.MEBS.query.action.interceptor.OrderDefaultQueryInterceptor">
+				<param name="sortString">primary.memberNo asc</param>
+				<param name="sortHString">primary.h_date desc,primary.memberNo asc</param>
+			</interceptor>
+		</interceptors>
+		<action name="list" class="queryMemberFreezeAction" method="list">
+		    <interceptor-ref name="mydefault"></interceptor-ref>
+		    <interceptor-ref name="orderByQueryInterceptor"></interceptor-ref>
+			<interceptor-ref name="commodityListInterceptor"></interceptor-ref>
+			<interceptor-ref name="typeExportInterceptor"></interceptor-ref>
+			<result>/query/memberFreezeList.jsp</result>
+		</action>
+	</package>
+	<!-- 会员冻结查询 end -->
+
+	<!-- 特别会员查询 begin -->
+	<package name="querySpecialMemberSearch" extends="base-query"
+		namespace="/query/querySpecialMemberSearch">
+		<action name="list" class="specialMemberAction" method="list">
+			<result>/query/specialMemberList.jsp</result>
+		</action>
+	</package>
+	<!-- 特别会员查询 end -->
+
+</struts>

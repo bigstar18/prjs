@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+        
+        
+        
+        
+         <!--居间添加 检测begin -->
+	<bean id="broke_brokerage_add_stringDigit" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="brokerageNo" />
+							<entry key="name" value="居间代码" />
+							<entry key="maxDigit" value="9" /> 
+              				<entry key="minDigit" value="9" /> 
+						</map>
+					</constructor-arg>
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+	<!-- 居间添加end -->
+    
+        <!--经纪添加 检测begin -->
+	<bean id="broke_manager_add_stringDigit" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="managerNo" />
+							<entry key="name" value="经纪代码" />
+							<entry key="maxDigit" value="3" /> 
+              				<entry key="minDigit" value="3" /> 
+						</map>
+					</constructor-arg>
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+	<!-- 经纪添加end -->
+	
+<!--机构添加 检测begin -->
+	<bean id="broke_organization_add_stringDigit" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<bean class="java.util.HashMap">
+					<constructor-arg>
+						<map>
+							<entry key="field" value="organizationNO" />
+							<entry key="name" value="机构代码" />
+							<entry key="maxDigit" value="9" /> 
+              				<entry key="minDigit" value="9" /> 
+						</map>
+					</constructor-arg>
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+	<!-- 机构添加end -->
+    
+        
+   <!-- 客户添加 检测begin-->
+	<bean id="account_customerInfo_add_stringDigit" class="java.util.ArrayList"> 
+       <constructor-arg> 
+        <list> 
+           <bean class="java.util.HashMap"> 
+              <constructor-arg> 
+               <map> 
+                <entry key="field" value="customerNo" />
+                <entry key="name" value="交易账号" /> 
+                 <entry key="maxDigit" value="15" /> 
+                <entry key="minDigit" value="15" /> 
+               </map> 
+             </constructor-arg> 
+           </bean>
+        </list> 
+       </constructor-arg> 
+    </bean>
+    <!-- 客户添加end -->
+     <util:map id="stringDigitVerifyMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<!--<entry key='/broke/brokerage/add' value-ref="broke_brokerage_add_stringDigit" />
+		<entry key='/broke/brokerage/update' value-ref="broke_brokerage_add_stringDigit" />
+		<entry key='/broke/manager/add' value-ref="broke_manager_add_stringDigit" />
+		<entry key='/broke/manager/update' value-ref="broke_manager_add_stringDigit" />
+		<entry key='/broke/organization/add' value-ref="broke_organization_add_stringDigit" />
+		<entry key='/broke/organization/update' value-ref="broke_organization_add_stringDigit" />
+		<entry key='/account/customer/update' value-ref="account_customerInfo_add_stringDigit"/>-->
+		 <entry key='/account/customer/add' value-ref="account_customerInfo_add_stringDigit"/> 
+	</util:map>
+</beans>

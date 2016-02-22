@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+
+
+
+	<!-- 默认延迟成交设置流程配置begin -->
+	<bean id="memberDelayTradeUpdateProcessContext" class="gnnt.MEBS.audit.flowService.common.ProcessContextImpl">
+		<property name="finalStatus" value="2" />
+		<property name="steps">
+			<list>
+				<ref bean="memberDelayTradeUdateApplyStep" />
+				<ref bean="memberDelayTradeUpdateAuditStep" />
+			</list>
+		</property>
+		<property name="statusOperate" ref="statusOperate" />
+	</bean>
+
+	<bean id="memberDelayTradeUdateApplyStep" class="gnnt.MEBS.audit.flowService.common.StepImpl">
+		<property name="handleList">
+			<list>
+				<ref bean="memberDelayTradeUpdateApplyHandle" />
+			</list>
+		</property>
+		<property name="currentStatus">
+			<value>0</value>
+		</property>
+	</bean>
+
+	<bean id="memberDelayTradeUpdateAuditStep" class="gnnt.MEBS.audit.flowService.common.StepImpl">
+		<property name="handleList">
+			<list>
+				<ref bean="memberDelayTradeUpdateAuditHandle" />
+				<ref bean="memberDelayTradeRejectAuditHandle" />
+			</list>
+		</property>
+		<property name="currentStatus">
+			<value>1</value>
+		</property>
+	</bean>
+
+	<bean id="memberDelayTradeUpdateApplyHandle" class="gnnt.MEBS.audit.flowService.common.HandleImpl">
+		<property name="finalStatus" value="1" />
+		<property name="beanName" value="申请修改" />
+		<property name="key" value="apply" />
+		<property name="behaviour" ref="memberDelayTradeUpdateApplyBehaviour" />
+	</bean>
+	<bean id="memberDelayTradeUpdateAuditHandle" class="gnnt.MEBS.audit.flowService.common.HandleImpl">
+		<property name="finalStatus" value="2" />
+		<property name="beanName" value="审核修改" />
+		<property name="key" value="audit" />
+		<property name="behaviour" ref="memberDelayTradeUpdateAuditBehaviour" />
+	</bean>
+	<bean id="memberDelayTradeRejectAuditHandle" class="gnnt.MEBS.audit.flowService.common.HandleImpl">
+		<property name="finalStatus" value="-2" />
+		<property name="beanName" value="驳回修改" />
+		<property name="key" value="reject" />
+	</bean>
+
+	<bean id="memberDelayTradeUpdateBusinessService" class="gnnt.MEBS.audit.businessService.BusinessServiceImpl">
+		<property name="serrviceName" value="delayTradeService" />
+		<property name="methodName" value="update" />
+		<property name="classFullName" value="gnnt.MEBS.commodity.model.DelayTrade" />
+	</bean>
+
+	<bean id="memberDelayTradeUpdateApplyBehaviour" class="gnnt.MEBS.audit.flowService.behaviour.AddAuditObject">
+	</bean>
+
+	<bean id="memberDelayTradeUpdateAuditBehaviour" class="gnnt.MEBS.audit.flowService.behaviour.BusinessDeal">
+		<property name="businessService" ref="memberDelayTradeUpdateBusinessService" />
+	</bean>
+	<!-- 默认延迟成交设置流程配置end -->
+
+	<!-- 默认延迟成交设置申请与审核 start -->
+	<bean id="memberDelayTradeJDBCDao" class="gnnt.MEBS.audit.dao.MemberDelayTradeJDBCDao"
+		autowire="byName"></bean>
+
+	<bean id="memberDelayTradeApplyAction" class="gnnt.MEBS.audit.action.ApplyAction"
+		scope="request">
+		<property name="applyType" value="commodity_memberDelayTrade" />
+		<property name="operateStatus" value="0" />
+		<property name="action" ref="delayTradeAction" />
+		<property name="applyJDBCDao" ref="memberDelayTradeJDBCDao" />
+	</bean>
+	<bean id="memberDelayTradeAuditAction" class="gnnt.MEBS.audit.action.AuditAction"
+		scope="request">
+		<property name="applyType" value="commodity_memberDelayTrade" />
+		<property name="operateStatus" value="1" />
+		<property name="action" ref="delayTradeAction" />
+		<property name="applyJDBCDao" ref="memberDelayTradeJDBCDao" />
+	</bean>
+	<!-- 默认延迟成交设置申请与审核 end -->
+</beans>

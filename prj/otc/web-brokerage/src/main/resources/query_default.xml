@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<context:annotation-config />
+	<context:component-scan
+		base-package="gnnt.MEBS.query.dao,gnnt.MEBS.query.service,gnnt.MEBS.query.action">
+	</context:component-scan>
+
+	<!-- 特别会员持仓状态中的操作展示 -->
+	<util:map id="holdTypeMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="1" value="正常持仓" />
+		<entry key="2" value="冻结持仓" />
+	</util:map>
+			<!--委托类型-->
+	<util:map id="ordertypeMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="1" value="市价委托" />
+		<entry key="2" value="指价委托" />
+	</util:map>
+		<!--成交类型-->
+	<util:map id="tradeMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="1" value="市价成交" />
+		<entry key="2" value="市价成交" />
+		<entry key="3" value="市价成交" />
+		<entry key="4" value="自动强平" />
+		<entry key="5" value="手动强平" />
+		<entry key="6" value="指价成交" />
+		<entry key="7" value="指价成交" />
+	</util:map>
+			<!--操作类型-->
+	<util:map id="operateQueryMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="1" value="用户下单" />
+		<entry key="2" value="电话下单" />
+		<entry key="3" value="系统下单" />
+		<entry key="4" value="系统下单" />
+		<entry key="5" value="系统下单" />
+		<entry key="6" value="系统下单" />
+		<entry key="7" value="电话下单" />
+	</util:map>
+	<!--所有日志查询 操作结果-->
+	<util:map id="resultMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="1" value="成功" />
+		<entry key="0" value="失败" />
+	</util:map>
+	<!-- 会员持仓查询中的操作展示 -->
+	<util:map id="tradeTypeMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="1" value="正常交易" />
+		<entry key="2" value="对冲或强平" />
+	</util:map>
+	<util:map id="whetherMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="Y" value="是" />
+		<entry key="N" value="否" />
+	</util:map>
+	
+<!-- 客户持仓查询中的操作展示 -->
+	<util:map id="customerTradeTypeMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="1" value="正常交易" />
+		<entry key="2" value="对冲或强平" />
+	</util:map>
+	<!-- 会员持仓查询中的买卖标志展示 -->
+	<util:map id="bsFlagMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="1" value="买入" />
+		<entry key="2" value="卖出" />
+	</util:map>
+	<!-- 客户限价单查询中的操作类型 -->
+	<util:map id="operatorMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="1" value="操作员下单" />
+		<entry key="2" value="代客下单（无结价权限）" />
+		<entry key="3" value="代客下单（有结价权限）" />
+		<entry key="4" value="结算撤单" />
+		<entry key="5" value="结算锁仓" />
+		<entry key="6" value="结算锁仓斩仓" />
+		<entry key="7" value="结算斩仓" />
+		<entry key="8" value="收市价成交限价单" />
+		<entry key="9" value="系统撮合成交" />
+		<entry key="10" value="系统下单" />
+		<entry key="11" value="用户下单" />
+		<entry key="12" value="指定价格成交限价单" />
+	</util:map>
+	
+	<!-- 客户限价单查询中的类型 -->
+	<util:map id="moldMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="O" value="建仓" />
+		<entry key="C" value="平仓" />
+	</util:map>
+	<!-- 客户限价单查询中的类型 -->
+	
+	<!-- 客户限价单查询中的成交方向类型 -->
+	<util:map id="tradeDirectionMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="1" value="上涨" />
+		<entry key="2" value="下跌" />
+	</util:map>
+		<!-- 客户限价单查询中的成交方向类型 -->
+		
+		<!-- 客户限价单查询中的处理状态 -->
+	<util:map id="processStateMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="1" value="未成交" />
+		<entry key="2" value="已成交" />
+		<entry key="3" value="已撤单" />
+	</util:map>
+		<!-- 客户限价单查询中的处理状态 -->
+		<!-- 会员阈值查询中的状态展示 -->
+	<util:map id="statusMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="1" value="未调整" />
+		<entry key="2" value="已调整" />
+	</util:map>
+	<!-- 客户资金流水查询的类型展示 -->
+	<util:map id="fundFlowMap" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="1" value="扣除手续费" />
+		<entry key="2" value=" 盈亏" />
+		<entry key="3" value="资金出金"></entry>
+	</util:map>
+	<!-- 客户资金流水中业务代码的类型 -->
+	<util:map id="customerCodeMap_query" map-class="java.util.HashMap" key-type="java.lang.String"
+		value-type="java.lang.String">
+		<entry key="101" value="入金" />
+		<entry key="102" value="出金" />
+		<entry key="201" value="扣除手续费" />
+		<entry key="204" value="持仓亏损" />
+		<entry key="205" value="持仓盈利" />
+		<entry key="206" value="平仓亏损" />
+		<entry key="207" value="平仓盈利" />
+		<entry key="210" value="扣除延期费" />
+		<entry key="310" value="客户与会员的结算盈亏" />
+	</util:map>
+	
+	
+	<!-- 客户持仓统计查询begin -->
+	<bean name="queryCustomerHoldSearchAction" class="gnnt.MEBS.query.action.QueryBaseAction" scope="request">
+		<property name="queryBaseService" ref="customerHoldSearchService"></property>
+		<property name="firstMap" ref="bsFlagMap"></property>
+	</bean>
+	<bean name="customerHoldSearchService" class="gnnt.MEBS.query.service.QueryBaseService">
+		<property name="queryBaseDDao" ref="customerHoldSearchDao"></property>
+		<property name="queryBaseHDao" ref="customerHoldSearchHisDao"></property>
+	</bean>
+	<!-- 客户持仓统计查询end -->
+	<!-- 客户限价单查询begin -->
+	<bean name="queryCustomerLimitPriceSearchAction" class="gnnt.MEBS.query.action.QueryBaseAction" scope="request">
+		<property name="queryBaseService" ref="customerLimitPriceSearchService"></property>
+		<property name="firstMap" ref="ordertypeMap"></property>
+		<property name="secondMap" ref="bsFlagMap"></property>
+		<property name="thirdMap" ref="moldMap"></property>
+		<property name="fourthMap" ref="processStateMap"></property>
+	</bean>
+	<bean name="customerLimitPriceSearchService" class="gnnt.MEBS.query.service.QueryBaseService">
+		<property name="queryBaseDDao" ref="customerLimitPriceDao"></property>
+		<property name="queryBaseHDao" ref="customerLimitPriceHisDao"></property>
+	</bean>
+	<!-- 客户限价单查询end -->
+	
+	<!-- 客户成交明细查询begin -->
+	<bean name="queryCustomerTransactionAction" class="gnnt.MEBS.query.action.QueryBaseAction" scope="request">
+		<property name="queryBaseService" ref="customerTransactionService"></property>
+		<property name="firstMap" ref="moldMap"></property>
+		<property name="secondMap" ref="bsFlagMap"></property>
+		<property name="thirdMap" ref="tradeMap"></property>
+		<property name="fourthMap" ref="operateQueryMap"></property>
+	</bean>
+	<bean name="customerTransactionService" class="gnnt.MEBS.query.service.QueryBaseService">
+		<property name="queryBaseDDao" ref="customerTransactionSearchDao"></property>
+		<property name="queryBaseHDao" ref="customerTransactionSearchHisDao"></property>
+	</bean>
+	<!-- 客户成交明细查询end -->
+	
+	
+		<!-- 客户资金查询begin -->
+	<bean name="queryCustomerFundAction" class="gnnt.MEBS.query.action.QueryBaseAction" scope="request">
+		<property name="queryBaseService" ref="customerFundService"></property>
+	</bean>
+	<bean name="customerFundService" class="gnnt.MEBS.query.service.QueryBaseService">
+		<property name="queryBaseDDao" ref="customerFundSearchDao"></property>
+		<property name="queryBaseHDao" ref="customerFundSearchHisDao"></property>
+	</bean>
+	<!-- 客户资金查询end -->
+	<!-- 客户资金流水查询begin -->
+	<bean name="queryCustomerFundFlowAction" class="gnnt.MEBS.query.action.CustomerFundFlowAction" scope="request">
+		<property name="queryBaseService" ref="customerFundFlowService"></property>
+		<property name="firstMap" ref="customerCodeMap_query"></property>
+	</bean>
+	<bean name="customerFundFlowService" class="gnnt.MEBS.query.service.QueryBaseService">
+		<property name="queryBaseDDao" ref="customerFundFlowSearchDao"></property>
+		<property name="queryBaseHDao" ref="customerFundFlowSearchHisDao"></property>
+	</bean>
+	<!-- 客户资金流水查询end -->
+	
+	<bean id="transactionManagerForQuery"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory">
+			<ref bean="sessionFactoryForQuery" />
+		</property>
+	</bean>
+	
+		<tx:advice id="txAdviceForQuery" transaction-manager="transactionManager">  
+		<tx:attributes>  
+		    <tx:method name="get*" read-only="true"/>  
+		    <tx:method name="find*" read-only="true"/>
+		    <tx:method name="intercept" read-only="true"/>   
+		    <tx:method name="*" rollback-for="Exception,DataAccessException"/>  
+		</tx:attributes>  
+	</tx:advice>
+	
+	<aop:config>
+	    <aop:advisor id="managerTxForExportForQuery" advice-ref="txAdviceForQuery" 
+		  pointcut="execution(* gnnt.MEBS.packaging.action.interceptor.*ExportInterceptor.*(..))" order="0"/>
+    </aop:config>
+	
+	<import resource="query_CSV.xml"/>
+</beans>

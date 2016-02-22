@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+
+
+
+	<!-- 商品汇率修改流程配置begin -->
+	<bean id="articleParitiesAgioUpdateProcessContext" class="gnnt.MEBS.audit.flowService.common.ProcessContextImpl">
+		<property name="finalStatus" value="2" />
+		<property name="steps">
+			<list>
+				<ref bean="articleParitiesAgioUdateApplyStep" />
+				<ref bean="articleParitiesAgioUpdateAuditStep" />
+			</list>
+		</property>
+		<property name="statusOperate" ref="statusOperate" />
+	</bean>
+
+	<bean id="articleParitiesAgioUdateApplyStep" class="gnnt.MEBS.audit.flowService.common.StepImpl">
+		<property name="handleList">
+			<list>
+				<ref bean="articleParitiesAgioUpdateApplyHandle" />
+			</list>
+		</property>
+		<property name="currentStatus">
+			<value>0</value>
+		</property>
+	</bean>
+
+	<bean id="articleParitiesAgioUpdateAuditStep" class="gnnt.MEBS.audit.flowService.common.StepImpl">
+		<property name="handleList">
+			<list>
+				<ref bean="articleParitiesAgioUpdateAuditHandle" />
+				<ref bean="articleParitiesAgioRejectAuditHandle" />
+			</list>
+		</property>
+		<property name="currentStatus">
+			<value>1</value>
+		</property>
+	</bean>
+
+	<bean id="articleParitiesAgioUpdateApplyHandle" class="gnnt.MEBS.audit.flowService.common.HandleImpl">
+		<property name="finalStatus" value="1" />
+		<property name="beanName" value="申请修改" />
+		<property name="key" value="apply" />
+		<property name="behaviour" ref="articleParitiesAgioUpdateApplyBehaviour" />
+	</bean>
+	<bean id="articleParitiesAgioUpdateAuditHandle" class="gnnt.MEBS.audit.flowService.common.HandleImpl">
+		<property name="finalStatus" value="2" />
+		<property name="beanName" value="审核修改" />
+		<property name="key" value="audit" />
+		<property name="behaviour" ref="articleParitiesAgioUpdateAuditBehaviour" />
+	</bean>
+	
+	<bean id="articleParitiesAgioRejectAuditHandle" class="gnnt.MEBS.audit.flowService.common.HandleImpl">
+		<property name="finalStatus" value="-2" />
+		<property name="beanName" value="驳回修改" />
+		<property name="key" value="reject" />
+	</bean>
+
+	<bean id="articleParitiesAgioUpdateBusinessService" class="gnnt.MEBS.audit.businessService.BusinessServiceImpl">
+		<property name="serrviceName" value="articleParitiesAgioService" />
+		<property name="methodName" value="update" />
+		<property name="classFullName" value="gnnt.MEBS.commodity.model.ArticleParitiesAgio" />
+	</bean>
+
+	<bean id="articleParitiesAgioUpdateApplyBehaviour" class="gnnt.MEBS.audit.flowService.behaviour.AddAuditObject">
+	</bean>
+
+	<bean id="articleParitiesAgioUpdateAuditBehaviour" class="gnnt.MEBS.audit.flowService.behaviour.BusinessDeal">
+		<property name="businessService" ref="articleParitiesAgioUpdateBusinessService" />
+	</bean>
+	<!-- 商品汇率修改流程配置end -->
+
+	<!-- 商品汇率修改申请与审核 start -->
+	<bean id="articleParitiesAgioJDBCDao" class="gnnt.MEBS.audit.dao.ArticleParitiesAgioJDBCDao"
+		autowire="byName"></bean>
+
+	<bean id="articleParitiesAgioApplyAction" class="gnnt.MEBS.audit.action.ApplyAction"
+		scope="request">
+		<property name="applyType" value="commodity_articleParitiesAgio" />
+		<property name="operateStatus" value="0" />
+		<property name="action" ref="articleParitiesAgioAction" />
+		<property name="applyJDBCDao" ref="articleParitiesAgioJDBCDao" />
+	</bean>
+	<bean id="articleParitiesAgioAuditAction" class="gnnt.MEBS.audit.action.AuditAction"
+		scope="request">
+		<property name="applyType" value="commodity_articleParitiesAgio" />
+		<property name="operateStatus" value="1" />
+		<property name="action" ref="articleParitiesAgioAction" />
+		<property name="applyJDBCDao" ref="articleParitiesAgioJDBCDao" />
+	</bean>
+	<!-- 商品汇率修改申请与审核 end -->
+</beans>

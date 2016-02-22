@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<context:annotation-config />
+	<context:component-scan base-package="gnnt.MEBS.announcement.dao,gnnt.MEBS.announcement.service,gnnt.MEBS.announcement.action,gnnt.MEBS.announcement.noticeHandler,gnnt.MEBS.announcement.promptHandler,gnnt.MEBS.announcement.xmlDeal,gnnt.MEBS.announcement.scheduling,gnnt.MEBS.announcement.dwr">
+	</context:component-scan>
+	
+	<!--<import resource="announcement_scheduling.xml"/>-->
+	
+	<!-- 责任链 begin -->
+	<bean id="abstractTypeHandler" class="gnnt.MEBS.announcement.noticeHandler.AbstractTypeHandler" abstract="true" />
+	<bean id="brokerHandler" class="gnnt.MEBS.announcement.noticeHandler.BrokerHandler" parent="abstractTypeHandler">
+	   <property name="nextHandle" ref="memberHandler"></property>
+	</bean>
+	<bean id="memberHandler" class="gnnt.MEBS.announcement.noticeHandler.MemberHandler" parent="abstractTypeHandler">
+	   <property name="nextHandle" ref="bourseHandler"></property>
+	</bean>
+	<bean id="bourseHandler" class="gnnt.MEBS.announcement.noticeHandler.BourseHandler" parent="abstractTypeHandler">
+	   <property name="nextHandle" ref="specialMemeberHandler"></property>
+	</bean>
+	<bean id="specialMemeberHandler" class="gnnt.MEBS.announcement.noticeHandler.SpecialMemeberHandler" parent="abstractTypeHandler">
+	   <property name="nextHandle" ref="traderHandler"></property>
+	</bean>
+	<bean id="traderHandler" class="gnnt.MEBS.announcement.noticeHandler.TraderHandler" parent="abstractTypeHandler" />
+	<!-- 责任链 end -->
+	
+	<!-- 弹出框责任链 begin -->
+	<bean id="abstractType" class="gnnt.MEBS.announcement.promptHandler.AbstractTypeHandler" abstract="true" />
+	<bean id="systemStatusHandler" class="gnnt.MEBS.announcement.promptHandler.SystemStatusHandler" parent="abstractType">
+	   <property name="nextHandle" ref="tradeHandler"></property>
+	</bean>
+	<bean id="tradeHandler" class="gnnt.MEBS.announcement.promptHandler.TradeHandler" parent="abstractType" />
+	<!-- 弹出框责任链 end -->
+</beans>

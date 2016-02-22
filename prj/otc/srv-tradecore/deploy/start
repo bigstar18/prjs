@@ -1,0 +1,25 @@
+#!/bin/sh
+:
+
+./stop.sh
+
+CLASSPATH=$CLASSPATH:\
+./bin:\
+./lib/commons-collections.jar:\
+./lib/ActiveUser.jar:\
+./lib/commons-logging-1.1.jar:\
+./lib/ojdbc6.jar:\
+./lib/commons-lang.jar:\
+./lib/commons-dbcp-1.4.jar:\
+./lib/log4j-1.2.13.jar:\
+./lib/commons-pool-1.6.jar:\
+./lib/fanbase.jar:\
+./lib/spring-2.0.jar:\
+./lib/ReceiveQuotation.jar:\
+./lib/quartz-1.5.2.jar:\
+./lib/tradecore.jar
+
+
+echo 正在启动交易服务器1.0.0.1版本......
+echo $CLASSPATH
+nohup java -Xms1024m -Xmx5120m -XX:PermSize=128m -XX:MaxPermSize=256m -classpath $CLASSPATH -Djava.security.policy=ServerShell.policy gnnt.MEBS.timebargain.server.ServerShell timebargain >>./logs/sys.log & tail -f -n0 ./logs/sys.log

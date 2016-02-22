@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+          "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+        <property name="dialect">org.hibernate.dialect.OracleDialect</property>
+		<property name="show_sql">false</property>
+		<property name="hbm2ddl.auto">none</property>
+		<property name="format_sql">true</property>
+		<property name="hibernate.cache.use_structured_entries">
+			true
+		</property><!--  最优化二级缓存-->
+		<property name="hibernate.cache.use_second_level_cache">
+			true
+		</property><!--  完全禁用二级缓存开关，对那些在类的映射定义中指定cache的类，默认开启二级缓存-->
+		<property name="hibernate.cache.provider_class">
+			org.hibernate.cache.EhCacheProvider
+		</property>
+		<property name="hibernate.cache.use_query_cache">true</property>
+		<property name="hibernate.cache.provider_configuration_file_resource_path">/ehcache.xml</property>
+		
+		<mapping resource="gnnt/MEBS/common/model/Right.hbm.xml" />
+		<mapping resource="gnnt/MEBS/common/model/User.hbm.xml" />
+		<mapping resource="gnnt/MEBS/common/model/Role.hbm.xml" />
+		<mapping resource="gnnt/MEBS/common/model/Menu.hbm.xml" />
+		<mapping resource="gnnt/MEBS/common/model/UserForPassword.hbm.xml" />
+		<mapping resource="gnnt/MEBS/settlement/model/firm.hbm.xml" />
+		
+		<!-- 商品管理模块 开始-->
+		<mapping resource="gnnt/MEBS/commodity/model/commodity.hbm.xml" />
+		<mapping resource="gnnt/MEBS/commodity/model/margin.hbm.xml" />
+		<mapping resource="gnnt/MEBS/commodity/model/holdQty.hbm.xml" />
+		<mapping resource="gnnt/MEBS/commodity/model/commodityPriceProtect.hbm.xml" />
+		<mapping resource="gnnt/MEBS/commodity/model/tradeAuth.hbm.xml" />
+		<mapping resource="gnnt/MEBS/commodity/model/quotePoint.hbm.xml" />
+		<mapping resource="gnnt/MEBS/commodity/model/commodityFee.hbm.xml" />
+		<mapping resource="gnnt/MEBS/commodity/model/articleParitiesAgio.hbm.xml" />
+		<mapping resource="gnnt/MEBS/commodity/model/orderPoint.hbm.xml" />
+		<mapping resource="gnnt/MEBS/audit/model/paramLog.hbm.xml" />
+		
+		 <mapping resource="gnnt/MEBS/commodity/model/stepDictionary.hbm.xml" />
+		<mapping resource="gnnt/MEBS/commodity/model/fundsLadder.hbm.xml" />
+		<mapping resource="gnnt/MEBS/commodity/model/tcDelayFee.hbm.xml" />
+		<mapping resource="gnnt/MEBS/commodity/model/takeFee.hbm.xml" />
+		<!-- 账户管理模块      开始 -->
+		<mapping resource="gnnt/MEBS/account/model/Customer.hbm.xml" />
+		<mapping resource="gnnt/MEBS/account/model/MemberInfo.hbm.xml" />
+		<mapping resource="gnnt/MEBS/account/model/customerStatus.hbm.xml" />
+		<mapping resource="gnnt/MEBS/account/model/specialMember.hbm.xml" />
+		<mapping resource="gnnt/MEBS/account/model/specialMemberStatus.hbm.xml" />
+		<mapping resource="gnnt/MEBS/account/model/memberRelation.hbm.xml" />
+		<mapping resource="gnnt/MEBS/account/model/compMember.hbm.xml" />
+		<mapping resource="gnnt/MEBS/account/model/MemberRight.hbm.xml" />
+		<mapping resource="gnnt/MEBS/account/model/MemberRole.hbm.xml" />
+		<mapping resource="gnnt/MEBS/account/model/MemberUser.hbm.xml" />
+		<mapping resource="gnnt/MEBS/account/model/SpecialMemberUser.hbm.xml" />
+		<mapping resource="gnnt/MEBS/account/model/SpecialMemberRole.hbm.xml" />
+		<mapping resource="gnnt/MEBS/account/model/SpecialMemberRight.hbm.xml" />
+		<mapping resource="gnnt/MEBS/account/model/thresholdArgs.hbm.xml" />
+		<mapping resource="gnnt/MEBS/account/model/specialThreshold.hbm.xml" />
+		<mapping resource="gnnt/MEBS/account/model/memberThreshold.hbm.xml" />
+		<!-- 账户管理模块      结束 -->
+		<!-- 交易参数开始 -->
+		<mapping resource="gnnt/MEBS/trade/model/systemStatus.hbm.xml" />
+		<mapping resource="gnnt/MEBS/trade/model/market.hbm.xml" />
+		<mapping resource="gnnt/MEBS/trade/model/notTradeDay.hbm.xml" />
+		<mapping resource="gnnt/MEBS/trade/model/tradeTime.hbm.xml" />
+		<mapping resource="gnnt/MEBS/trade/model/daySection.hbm.xml" />
+		<!-- 交易参数结束 -->
+
+		<!-- 公告开始 -->
+		<mapping resource="gnnt/MEBS/announcement/model/notice.hbm.xml" />
+		<mapping resource="gnnt/MEBS/announcement/model/oKNotice.hbm.xml" />
+		<mapping resource="gnnt/MEBS/announcement/model/h_Notice.hbm.xml" />
+		<mapping resource="gnnt/MEBS/announcement/model/h_OKNotice.hbm.xml" />
+		<mapping resource="gnnt/MEBS/announcement/model/trade.hbm.xml" />
+		<!-- 公告结束 -->
+		
+		<mapping resource="gnnt/MEBS/globalLog/model/operateLog.hbm.xml" />
+		
+		<!-- 大字报价牌 -->
+        <mapping resource="gnnt/MEBS/settlement/model/quotation.hbm.xml" />
+        <mapping resource="gnnt/MEBS/settlement/model/quotationRunTime.hbm.xml" />
+	</session-factory>
+
+</hibernate-configuration>

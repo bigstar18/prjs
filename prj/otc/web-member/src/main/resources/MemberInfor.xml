@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="memberInfor" extends="base-struts2" namespace="/tradeManage/memberInfor">
+	
+		<action name="queryMemberInfor" class="memberInforAction" method="queryMemberInfor">
+			<result>/trade/announcement/queryMemberInfor.jsp</result>
+		</action>
+		<action name="addMemberInfor" class="memberInforAction" method="addMemberInfor">
+			<result>/trade/announcement/queryMemberInfor.jsp</result>
+		</action>
+		<action name="updateMemberInfor" class="memberInforAction" method="updateMemberInfor">
+			<result type="redirectAction">/queryMemberInfor</result>
+		</action>
+				
+	</package>
+</struts>

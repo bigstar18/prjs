@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" 
+	xmlns="http://java.sun.com/xml/ns/javaee" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+	
+	<!-- 字符集通用过滤器 -->
+    <filter>
+		<filter-name>Set Character Encoding</filter-name>
+		<filter-class>filters.SetCharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>GBK</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>Set Character Encoding</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!-- 字符集通用过滤器 -->
+	
+		<!-- 检查权限 -->
+	<filter>
+		<filter-name>checkUrl</filter-name>
+		<filter-class>
+			gnnt.MEBS.common.security.SecurityFilter
+		</filter-class>
+		<init-param>
+			<param-name>LOGIN_URL</param-name>
+			<param-value>/noSession.jsp</param-value>
+		</init-param>
+		<init-param>
+			<param-name>NORIGHT_URL</param-name>
+			<param-value>/common/public/noRight.jsp</param-value>
+		</init-param>
+		<init-param>
+			<param-name>METHODS</param-name>
+			<param-value>funcflg</param-value>
+		</init-param>
+		<init-param>
+			<param-name>NOKEYWORDS</param-name>
+			<param-value>
+				.css,.js,.jpg,.png,.htc,.ico,.bmp,.gif,.zip
+			</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>checkUrl</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!-- 检查权限 -->
+	
+	<!-- ecside过滤器配置 -->
+	<filter>
+		<filter-name>ecsideExport</filter-name>
+		<filter-class>org.ecside.filter.ECSideFilter</filter-class>
+		<init-param>
+			<param-name>useEasyDataAccess</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>useEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>GBK</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>ecsideExport</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!-- ecside过滤器配置 -->
+	
+	<!-- 全局日志 -->
+	<filter>
+		<filter-name>logging</filter-name>
+		<filter-class>gnnt.MEBS.common.filter.LoggingFilter</filter-class>
+		<init-param>
+			<param-name>METHODS</param-name>
+			<param-value>funcflg</param-value>
+		</init-param>
+		<init-param>
+			<param-name>NOKEYWORDS</param-name>
+			<param-value>
+				.css,.js,.jpg,.png,.htc,.ico,.bmp,.gif,.zip
+			</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>logging</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!-- 全局日志 -->
+	
+	<!-- 菜单日志 -->
+	<!--<filter>
+		<filter-name>menuLogging</filter-name>
+		<filter-class>gnnt.MEBS.common.filter.MenuLoggingFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>menuLogging</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping> -->
+	<!-- 菜单日志 -->
+	
+	
+	<!-- ecside读取配置文件设置 -->
+	<context-param>
+	    <param-name>ecsidePreferencesLocation</param-name>   
+	    <param-value>/WEB-INF/classes/ecside.properties</param-value>   
+	</context-param>
+	<!-- ecside读取配置文件设置 -->
+	
+	<!-- 财务系统
+	<servlet>
+		<servlet-name>finance</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>finance</servlet-name>
+		<url-pattern>*.spr</url-pattern>
+		
+	</servlet-mapping>
+	-->
+	<!-- 财务系统结束-->
+	
+	<!-- 初始化spring容器 -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:jndi_DataSource.xml,classpath:*_JNDI.xml</param-value>
+	</context-param>
+	<listener>
+		<listener-class>
+			org.springframework.web.context.ContextLoaderListener
+		</listener-class>
+	</listener>
+	<listener>
+		<listener-class>
+			org.springframework.web.context.request.RequestContextListener
+		</listener-class>
+	</listener>
+	<!-- 初始化spring容器 -->
+	
+	<!-- 初始化权限 -->
+	<servlet>
+		<servlet-name>loadAcl</servlet-name>
+		<servlet-class>gnnt.MEBS.common.security.AclCtrl</servlet-class>
+		<load-on-startup>0</load-on-startup>
+	</servlet>
+	<!-- 初始化权限 -->
+	
+	
+	
+	<!-- session存活时间 -->
+	<session-config>
+		<session-timeout>120</session-timeout>
+	</session-config>
+	<!-- session存活时间 -->
+
+    <!-- 默认页面 -->
+	<welcome-file-list>
+		<welcome-file>logon.jsp</welcome-file>
+	</welcome-file-list>
+	<!-- 默认页面 -->
+	
+	
+	
+	<!-- struts2配置 -->
+	<filter>
+		<filter-name>struts-cleanup</filter-name>
+		<filter-class>
+			org.apache.struts2.dispatcher.ActionContextCleanUp
+		</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>struts-cleanup</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter>
+		<filter-name>struts2</filter-name>
+		<filter-class>
+			org.apache.struts2.dispatcher.FilterDispatcher
+		</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>struts2</filter-name>
+		<url-pattern>/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+	</filter-mapping>
+	<!-- struts2配置 -->
+
+
+	<!--@@JSPC-SERVLETS@@-->
+	
+	<!--dwr servlet-->
+	<servlet>
+		<servlet-name>dwr-invoker</servlet-name>
+		<servlet-class>
+			org.directwebremoting.servlet.DwrServlet
+		</servlet-class>
+		<init-param>
+			<param-name>debug</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>dwr-invoker</servlet-name>
+		<url-pattern>/dwr/*</url-pattern>
+	</servlet-mapping>
+	<!-- 自定义标签 -->
+	<jsp-config>
+		<taglib>
+			<taglib-uri>/tld/forEcSide</taglib-uri>
+			<taglib-location>
+				/WEB-INF/tlds/forEcside.tld
+			</taglib-location>
+		</taglib>
+		<taglib>
+			<taglib-uri>/tld/forDateFormat</taglib-uri>
+		    <taglib-location>/WEB-INF/tlds/forDateFormat.tld</taglib-location>
+		</taglib>
+		<taglib>
+			<taglib-uri>/tld/rightButton</taglib-uri>
+		    <taglib-location>/WEB-INF/tlds/button.tld</taglib-location>
+		</taglib>
+	</jsp-config>
+	<!-- 自定义标签 -->
+	
+	<!-- 自定义错误跳转页面-->
+	<error-page>
+		<error-code>404</error-code>
+		<location>/public/error.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/public/error.jsp</location>
+	</error-page>
+
+		<filter>
+		  <filter-name>ContextCommonSecurityFilter</filter-name>
+		  <filter-class>
+		   gnnt.MEBS.security.ContextCommonSecurityFilter
+		  </filter-class>
+		  <init-param>
+		   <param-name>IGNORE_URIS</param-name>
+		   <param-value>/common_front/checkneedless/user/logon/logon.action</param-value>
+		  </init-param>
+		  <init-param>
+		   <param-name>IGNORE_EXTS</param-name>
+		   <param-value>login_syn.jsp,httpXmlServlet,mobileServlet,communicateServlet,mobileXmlServlet</param-value>
+		  </init-param>
+	 </filter> 
+	 <filter-mapping>
+		  <filter-name>ContextCommonSecurityFilter</filter-name>
+		  <url-pattern>/*</url-pattern>
+	 </filter-mapping>
+
+
+
+
+
+</web-app>
