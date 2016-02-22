@@ -1,5 +1,6 @@
 package gnnt.MEBS.member.ActiveUser;
 
+import java.io.PrintStream;
 import java.security.MessageDigest;
 
 public class MD5
@@ -40,5 +41,10 @@ public class MD5
   public static final String getMD5(String userId, String pwd)
   {
     return encodePassword(userId + pwd, "MD5");
+  }
+  
+  public static void main(String[] args)
+  {
+    System.out.println(getMD5("te2_admin", "111111"));
   }
 }

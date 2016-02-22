@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class TraderInfo
   implements Serializable
 {
+  private static final long serialVersionUID = 1L;
   public static final String TRADER_TYPE_ADMIN = "A";
   public static final String TRADER_TYPE_NORMAL = "N";
   public String traderId;
@@ -16,4 +17,6 @@ public class TraderInfo
   public int forceChangePwd;
   public String lastTime;
   public String lastIP;
+  public String keyCode;
+  public String message;
 }

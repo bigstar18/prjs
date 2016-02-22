@@ -137,7 +137,7 @@ public class ActiveUserManager {
 	}
 
 	public String[] getAllUsers() {
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 		Enumeration en = activeStore.elements();
 		Vector<String> v1 = new Vector();
@@ -158,7 +158,7 @@ public class ActiveUserManager {
 	}
 
 	public String[] getAllUsersSys(String name) {
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 		Enumeration en = activeStore.elements();
 		Vector<String> v1 = new Vector();
@@ -183,7 +183,7 @@ public class ActiveUserManager {
 	}
 
 	public String[] getAllUsersWithIP() {
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 		Enumeration en = activeStore.elements();
 

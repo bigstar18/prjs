@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import javax.sql.DataSource;
@@ -17,25 +19,27 @@ public class LogonManager
 {
   private final transient Log logger = LogFactory.getLog(LogonManager.class);
   private String moduleId;
-  private Map<String, Map> auConfigs;
+  private Map<String, Map<String, Object>> auConfigs;
   private static volatile LogonManager um;
   private DataSource ds;
   private Connection conn;
   private int localRMIPort;
   private int space = 30;
   private int expireTime = 30;
-  private static int MULTI_MODE = 2;
+  private int MULTI_MODE = 2;
+  private int allowLogonError = 30;
   private static ActiveUserManager au;
   
   private LogonManager(int expireTime)
   {
     this.expireTime = expireTime;
-    au = new ActiveUserManager(this.space, this.expireTime, MULTI_MODE);
   }
   
-  private LogonManager()
+  private LogonManager() {}
+  
+  private void initActiveUserManager()
   {
-    au = new ActiveUserManager(this.space, this.expireTime, MULTI_MODE);
+    au = new ActiveUserManager(this.space, this.expireTime, this.MULTI_MODE);
   }
   
   public static LogonManager getInstance()
@@ -52,6 +56,7 @@ public class LogonManager
         {
           um = new LogonManager(expireTime);
           um.init(moduleId, ds);
+          um.initActiveUserManager();
         }
       }
     }
@@ -67,6 +72,7 @@ public class LogonManager
         {
           um = new LogonManager();
           um.init(moduleId, ds);
+          um.initActiveUserManager();
         }
       }
     }
@@ -89,7 +95,7 @@ public class LogonManager
     try
     {
       this.conn = ds.getConnection();
-      String sql = "select moduleid, hostip, rmi_port from m_trademodule where hostip is not null and rmi_port is not null";
+      String sql = "select moduleid, hostip, rmi_port,mutex from m_trademodule where hostip is not null and rmi_port is not null";
       PreparedStatement stat = this.conn.prepareStatement(sql);
       ResultSet rs = stat.executeQuery();
       while (rs.next())
@@ -97,6 +103,7 @@ public class LogonManager
         String moduleid = rs.getString("MODULEID");
         String ip = rs.getString("HOSTIP");
         Long port = Long.valueOf(rs.getLong("RMI_PORT"));
+        String mutex = rs.getString("MUTEX");
         if (moduleid.equals(this.moduleId))
         {
           this.localRMIPort = port.intValue();
@@ -120,11 +127,26 @@ public class LogonManager
         this.logger.debug("==============>ip:" + ip);
         conf.put("RMI_PORT", port);
         this.logger.debug("==============>port:" + port);
-        
+        if ("Y".equals(mutex)) {
+          this.MULTI_MODE = 1;
+        }
         this.auConfigs.put(moduleid, conf);
       }
       rs.close();
       stat.close();
+      
+
+      sql = "select value from M_Configuration where key='allowLogonError'";
+      stat = this.conn.prepareStatement(sql);
+      rs = stat.executeQuery();
+      if (rs.next())
+      {
+        String value = rs.getString("value");
+        this.allowLogonError = Integer.parseInt(value);
+      }
+      rs.close();
+      stat.close();
+      
       this.conn.close();
       this.conn = null;
     }
@@ -132,6 +154,17 @@ public class LogonManager
     {
       e.printStackTrace();
       this.logger.error("UserManager init error!", e);
+      try
+      {
+        if (this.conn != null) {
+          this.conn.close();
+        }
+      }
+      catch (SQLException ex)
+      {
+        ex.printStackTrace();
+        this.logger.error(ex);
+      }
     }
     finally
     {
@@ -171,13 +204,38 @@ public class LogonManager
   
   public TraderInfo logon(String userId, String password, String key, String logonIP)
   {
+    this.logger.debug("Entering 'logon' method");
     TraderInfo trader = new TraderInfo();
+    LogonInfo logoninfo = new LogonInfo();
     long auSessionId = -1L;
     try
     {
-      String sql = "select * from M_Trader t,M_TraderModule m where t.traderid=m.traderid and t.traderid=? and m.moduleid=?";
       this.conn = this.ds.getConnection();
       
+
+      String delete_sql = "delete from m_errorloginlog e where trunc(e.logindate)<trunc(sysdate) and e.TraderID=?";
+      PreparedStatement delete_stat = this.conn.prepareStatement(delete_sql);
+      delete_stat.setString(1, userId);
+      delete_stat.executeQuery();
+      delete_stat.close();
+      delete_stat = null;
+      
+      String err_sql = "select count(*) from M_ErrorLoginLog e where e.TraderID=? and trunc(e.loginDate)=trunc(sysdate)";
+      PreparedStatement err_stat = this.conn.prepareStatement(err_sql);
+      err_stat.setString(1, userId);
+      ResultSet err_rs = err_stat.executeQuery();
+      int sum = 0;
+      if (err_rs.next()) {
+        sum = err_rs.getInt(1);
+      }
+      err_rs.close();
+      err_rs = null;
+      err_stat.close();
+      err_stat = null;
+      
+      String sql = "select * from M_Trader t,M_TraderModule m where t.traderid=m.traderid and t.traderid=? and m.moduleid=?";
+      
+
       PreparedStatement stat = this.conn.prepareStatement(sql);
       stat.setString(1, userId);
       stat.setString(2, this.moduleId);
@@ -190,30 +248,44 @@ public class LogonManager
         String enableKey = rs.getString("EnableKey");
         String Enabled = rs.getString("Enabled");
         String pwd = rs.getString("password");
-        if (("N".equals(status)) && (("N".equals(enableKey)) || (("Y".equals(enableKey)) && (key.equals(keyCode)))) && ("Y".equals(Enabled)) && (pwd.equals(MD5.getMD5(userId, password))))
-        {
-          long sid = au.logon(userId, logonIP);
-          if (sid == -1L) {
-            auSessionId = -5L;
-          } else {
-            auSessionId = sid;
+        
+        logoninfo.setAuSessionId(auSessionId);
+        logoninfo.setCkey(key);
+        logoninfo.setEnableKey(enableKey);
+        logoninfo.setErrSum(sum);
+        logoninfo.setLogonIP(logonIP);
+        logoninfo.setPassword(password);
+        logoninfo.setPwd(pwd);
+        logoninfo.setSkey(keyCode);
+        logoninfo.setUserId(userId);
+        
+        boolean flag = checkErrorLogin(logoninfo);
+        auSessionId = logoninfo.getAuSessionId();
+        if (flag) {
+          if (("N".equals(status)) && 
+            (("N".equals(enableKey)) || (("Y".equals(enableKey)) && 
+            (key.equals(keyCode)))) && ("Y".equals(Enabled)) && 
+            (pwd.equals(MD5.getMD5(userId, password))))
+          {
+            long sid = au.logon(userId, logonIP);
+            if (sid == -1L) {
+              auSessionId = -5L;
+            } else {
+              auSessionId = sid;
+            }
           }
-        }
-        else if (!pwd.equals(MD5.getMD5(userId, password)))
-        {
-          auSessionId = -2L;
-        }
-        else if ("D".equals(status))
-        {
-          auSessionId = -3L;
-        }
-        else if (("Y".equals(enableKey)) && (key.equals(keyCode)))
-        {
-          auSessionId = -4L;
-        }
-        else if ("N".equals(Enabled))
-        {
-          auSessionId = -6L;
+          else if ("D".equals(status))
+          {
+            auSessionId = -3L;
+          }
+          else if (("Y".equals(enableKey)) && (!key.equals(keyCode)))
+          {
+            auSessionId = -4L;
+          }
+          else if ("N".equals(Enabled))
+          {
+            auSessionId = -6L;
+          }
         }
       }
       else
@@ -226,7 +298,7 @@ public class LogonManager
       stat = null;
       if (auSessionId > 0L)
       {
-        sql = "select f.firmId,f.name firmName,traderId,m.name traderName,m.type,m.forceChangePwd from m_firm f,m_trader m where f.firmId=m.firmId and m.traderId=?";
+        sql = "select f.firmId,f.name firmName,traderId,m.name traderName,m.type,m.forceChangePwd,m.KeyCode from m_firm f,m_trader m where f.firmId=m.firmId and m.traderId=?";
         stat = this.conn.prepareStatement(sql);
         stat.setString(1, userId);
         rs = stat.executeQuery();
@@ -238,13 +310,16 @@ public class LogonManager
           trader.traderName = rs.getString(4);
           trader.type = rs.getString(5);
           trader.forceChangePwd = rs.getInt(6);
+          
+          trader.keyCode = rs.getString(7);
+          trader.message = logoninfo.getMsg();
         }
         rs.close();
         rs = null;
         stat.close();
         stat = null;
         
-        sql = "select * from  (select ip,OccurTime from M_TraderLog where TraderID=? and ModuleID=? and OprType=1 order by OccurTime desc) a where rownum<2";
+        sql = "select ip,max(OccurTime) maxTime from M_TraderLog where TraderID=? and ModuleID=? and OprType=1 group by ip order by maxTime desc";
         stat = this.conn.prepareStatement(sql);
         stat.setString(1, userId);
         stat.setString(2, this.moduleId);
@@ -274,6 +349,17 @@ public class LogonManager
     catch (Exception e)
     {
       this.logger.error("User logon error!", e);
+      try
+      {
+        if (this.conn != null) {
+          this.conn.close();
+        }
+      }
+      catch (SQLException ex)
+      {
+        ex.printStackTrace();
+        this.logger.error(ex);
+      }
     }
     finally
     {
@@ -326,6 +412,17 @@ public class LogonManager
     catch (Exception e)
     {
       this.logger.error("User logon error!", e);
+      try
+      {
+        if (this.conn != null) {
+          this.conn.close();
+        }
+      }
+      catch (SQLException ex)
+      {
+        ex.printStackTrace();
+        this.logger.error(ex);
+      }
     }
     finally
     {
@@ -377,6 +474,17 @@ public class LogonManager
     {
       result = -2;
       this.logger.error("Change password error!", e);
+      try
+      {
+        if (this.conn != null) {
+          this.conn.close();
+        }
+      }
+      catch (SQLException ex)
+      {
+        ex.printStackTrace();
+        this.logger.error(ex);
+      }
     }
     finally
     {
@@ -395,16 +503,21 @@ public class LogonManager
     return result;
   }
   
+  public void logoff(String userId)
+  {
+    au.logoffUser(userId);
+  }
+  
   public void logoff(long sessionID)
   {
     String userId = getUserID(sessionID);
     
-    logoff(userId);
+    logoff(userId, sessionID);
   }
   
-  public void logoff(String userId)
+  public void logoff(String userId, long sessionID)
   {
-    au.logoffUser(userId);
+    au.logoff(sessionID);
     try
     {
       this.conn = this.ds.getConnection();
@@ -419,6 +532,17 @@ public class LogonManager
     catch (Exception e)
     {
       this.logger.error("insert M_TraderLog error", e);
+      try
+      {
+        if (this.conn != null) {
+          this.conn.close();
+        }
+      }
+      catch (SQLException ex)
+      {
+        ex.printStackTrace();
+        this.logger.error(ex);
+      }
     }
     finally
     {
@@ -468,7 +592,7 @@ public class LogonManager
       stat.close();
       stat = null;
       
-      sql = "select ip,max(OccurTime) from M_TraderLog where TraderID=? and ModuleID=? and OprType=1 group by ip";
+      sql = "select ip,max(OccurTime) occourTime from M_TraderLog where TraderID=? and ModuleID=? and OprType=1 group by ip order by occourTime";
       stat = this.conn.prepareStatement(sql);
       stat.setString(1, userId);
       stat.setString(2, this.moduleId);
@@ -487,6 +611,17 @@ public class LogonManager
     catch (Exception e)
     {
       this.logger.error("getTraderInfo error!", e);
+      try
+      {
+        if (this.conn != null) {
+          this.conn.close();
+        }
+      }
+      catch (SQLException ex)
+      {
+        ex.printStackTrace();
+        this.logger.error(ex);
+      }
     }
     finally
     {
@@ -546,10 +681,9 @@ public class LogonManager
       if (rs.next())
       {
         String status = rs.getString("status");
-        String keyCode = rs.getString("KeyCode");
-        String enableKey = rs.getString("EnableKey");
+        
+
         String Enabled = rs.getString("Enabled");
-        String pwd = rs.getString("password");
         if (("N".equals(status)) && ("Y".equals(Enabled))) {
           sign = true;
         }
@@ -562,6 +696,17 @@ public class LogonManager
     catch (Exception e)
     {
       this.logger.error("User logon error!", e);
+      try
+      {
+        if (this.conn != null) {
+          this.conn.close();
+        }
+      }
+      catch (SQLException ex)
+      {
+        ex.printStackTrace();
+        this.logger.error(ex);
+      }
     }
     finally
     {
@@ -580,9 +725,9 @@ public class LogonManager
     return sign;
   }
   
-  public static Map getRMIConfig(String moduleId, DataSource ds)
+  public static Map<String, Object> getRMIConfig(String moduleId, DataSource ds)
   {
-    Map map = null;
+    Map<String, Object> map = null;
     PreparedStatement state = null;
     ResultSet rs = null;
     Connection conn = null;
@@ -612,6 +757,17 @@ public class LogonManager
     catch (Exception e)
     {
       logger.error("getRMIConfig error!", e);
+      try
+      {
+        if (conn != null) {
+          conn.close();
+        }
+      }
+      catch (SQLException ex)
+      {
+        ex.printStackTrace();
+        logger.error(ex);
+      }
     }
     finally
     {
@@ -639,7 +795,7 @@ public class LogonManager
     {
       if (moduleId != null)
       {
-        Map conf = (Map)this.auConfigs.get(moduleId);
+        Map<String, Object> conf = (Map)this.auConfigs.get(moduleId);
         if (conf != null) {
           if ((conf.get("HOSTIP") != null) && (conf.get("RMI_PORT") != null))
           {
@@ -673,5 +829,179 @@ public class LogonManager
       ok = Boolean.valueOf(true);
     }
     return ok.booleanValue();
+  }
+  
+  private boolean checkErrorLogin(LogonInfo logoninfo)
+  {
+    this.logger.debug("Entering 'checkErrorLogin' method");
+    if ("N".equals(logoninfo.getEnableKey())) {
+      if ((logoninfo.getSkey() == null) || ("".equals(logoninfo.getSkey().trim())))
+      {
+        if (logoninfo.getErrSum() >= this.allowLogonError)
+        {
+          logoninfo.setAuSessionId(-3L);
+          return false;
+        }
+        if (!checkPwd(logoninfo.getPwd(), logoninfo.getPassword(), logoninfo.getUserId(), logoninfo.getLogonIP()))
+        {
+          logoninfo.setAuSessionId(-2L);
+          return false;
+        }
+      }
+      else if ((logoninfo.getCkey() != null) && (!"".equals(logoninfo.getCkey().trim())))
+      {
+        if (logoninfo.getCkey().equals(logoninfo.getSkey()))
+        {
+          if (!logoninfo.getPwd().equals(MD5.getMD5(logoninfo.getUserId(), logoninfo.getPassword())))
+          {
+            logoninfo.setAuSessionId(-2L);
+            return false;
+          }
+        }
+        else
+        {
+          if (logoninfo.getErrSum() >= this.allowLogonError)
+          {
+            logoninfo.setAuSessionId(-3L);
+            return false;
+          }
+          if (checkPwd(logoninfo.getPwd(), logoninfo.getPassword(), logoninfo.getUserId(), logoninfo.getLogonIP()))
+          {
+            logoninfo.setMsg("您本次登录地点和上次不一致,如果这不是您自己的主动行为,建议您及时修改密码!");
+            return true;
+          }
+          logoninfo.setAuSessionId(-2L);
+          return false;
+        }
+      }
+      else
+      {
+        if (logoninfo.getErrSum() >= this.allowLogonError)
+        {
+          logoninfo.setAuSessionId(-3L);
+          return false;
+        }
+        if (!checkPwd(logoninfo.getPwd(), logoninfo.getPassword(), logoninfo.getUserId(), logoninfo.getLogonIP()))
+        {
+          logoninfo.setAuSessionId(-2L);
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+  
+  private boolean checkPwd(String pwd, String password, String userId, String logonIP)
+  {
+    this.logger.debug("Entering 'checkPwd' method");
+    if (pwd.equals(MD5.getMD5(userId, password)))
+    {
+      createRandomKeyCode(userId);
+      return true;
+    }
+    addErrLog(userId, logonIP, "登录密码错误！");
+    return false;
+  }
+  
+  private void addErrLog(String userId, String logonIP, String msg)
+  {
+    this.logger.debug("Entering 'addErrLog' method");
+    try
+    {
+      String errsql = "insert into M_ErrorLoginLog values(?,sysdate,?,?)";
+      PreparedStatement error = this.conn.prepareStatement(errsql);
+      error.setString(1, userId);
+      error.setString(2, this.moduleId);
+      error.setString(3, logonIP);
+      error.executeUpdate();
+      error.close();
+      error = null;
+      
+      String errLogsql = "insert into M_FirmLog values(sysdate,?,?,?)";
+      PreparedStatement errLog = this.conn.prepareStatement(errLogsql);
+      errLog.setString(1, userId);
+      errLog.setString(2, userId);
+      errLog.setString(3, msg);
+      errLog.executeUpdate();
+      errLog.close();
+      errLog = null;
+    }
+    catch (Exception e)
+    {
+      this.logger.error("User logon error!", e);
+      try
+      {
+        if (this.conn != null) {
+          this.conn.close();
+        }
+      }
+      catch (SQLException ex)
+      {
+        ex.printStackTrace();
+        this.logger.error(ex);
+      }
+    }
+    finally
+    {
+      try
+      {
+        if (this.conn != null) {
+          this.conn.close();
+        }
+      }
+      catch (SQLException ex)
+      {
+        ex.printStackTrace();
+        this.logger.error(ex);
+      }
+    }
+  }
+  
+  private void createRandomKeyCode(String userId)
+  {
+    this.logger.debug("Entering 'createRandomKeyCode' method");
+    
+    SimpleDateFormat spdf = new SimpleDateFormat("yyyyMMddHHmmssSS");
+    String date = spdf.format(new Date());
+    String randomKey = date + userId + String.valueOf((Math.random() * 100000.0D));
+    try
+    {
+      String sql = "update m_trader set keycode = ? where traderid = ?";
+      PreparedStatement prs = this.conn.prepareStatement(sql);
+      prs.setString(1, randomKey);
+      prs.setString(2, userId);
+      prs.execute();
+      prs.close();
+      prs = null;
+    }
+    catch (Exception e)
+    {
+      this.logger.error("User logon error!", e);
+      try
+      {
+        if (this.conn != null) {
+          this.conn.close();
+        }
+      }
+      catch (SQLException ex)
+      {
+        ex.printStackTrace();
+        this.logger.error(ex);
+      }
+    }
+    finally
+    {
+      try
+      {
+        if (this.conn != null) {
+          this.conn.close();
+        }
+      }
+      catch (SQLException ex)
+      {
+        ex.printStackTrace();
+        this.logger.error(ex);
+      }
+    }
   }
 }
