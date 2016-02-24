@@ -104,14 +104,14 @@
 			<version>1.0.0</version>
 		</dependency>
 		<dependency>
-			<groupId>org.hxx</groupId>
-			<artifactId>util-bank-processor</artifactId>
-			<version>1.0.0</version>
-		</dependency>
-		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
 			<artifactId>quartz</artifactId>
 			<version>1.8.6</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hxx</groupId>
+			<artifactId>util-mrtProcForBank</artifactId>
+			<version>1.0.0</version>
 		</dependency>
 	</dependencies>
 

@@ -224,7 +224,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.hxx</groupId>
-			<artifactId>util-bank-processor</artifactId>
+			<artifactId>util-mrtProcForBank</artifactId>
 			<version>1.0.0</version>
 		</dependency>
 	</dependencies>

@@ -298,7 +298,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.hxx</groupId>
-			<artifactId>util-bank</artifactId>
+			<artifactId>util-bankcore</artifactId>
 			<version>1.0.0</version>
 		</dependency>
 	</dependencies>
