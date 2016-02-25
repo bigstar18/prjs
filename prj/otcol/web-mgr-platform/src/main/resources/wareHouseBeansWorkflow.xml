@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:tx="http://www.springframework.org/schema/tx"
+xmlns:aop="http://www.springframework.org/schema/aop"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/tx
+http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+http://www.springframework.org/schema/aop
+http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+      
+	 <!-- =======================================common======================================== -->
+	 
+	<!-- =============================================导入各个流程=========================================== -->
+	<!-- 入库申请配置文件 -->
+	<import resource="gnnt/MEBS/delivery/workFlowXml/testWorkflow.xml"/>
+	<import resource="gnnt/MEBS/delivery/workFlowXml/enterApplyWorkflow.xml"/>
+	<import resource="gnnt/MEBS/delivery/workFlowXml/outWareWorkflow.xml"/>
+	<import resource="gnnt/MEBS/delivery/workFlowXml/enterInformWorkflow.xml"/>
+	<import resource="gnnt/MEBS/delivery/workFlowXml/enterWareWorkflow.xml"/>
+	<import resource="gnnt/MEBS/delivery/workFlowXml/regStockToEnterWareWorkflow.xml"/>
+	<import resource="gnnt/MEBS/delivery/workFlowXml/regStockApplyWorkflow.xml"/>
+
+
+    <bean id="w_translate" class="gnnt.MEBS.delivery.workflow.common.Translate" >
+        <property name="resultMap">
+	           <ref bean="w_resultMap"/> 
+	    </property>
+	    <property name="handleTransNameMap">
+	           <ref bean="w_handleTransNameMap"/> 
+	    </property>
+	    <property name="logContentMap">
+	           <ref bean="w_logContentMap"/> 
+	    </property>
+    </bean>
+	
+	<!-- ================================================================================================== -->
+	<bean id="w_workflowMap" class="java.util.HashMap"> 
+	   <constructor-arg> 
+	    <map> 
+			<entry key="test" value-ref="testProcessContext" />
+			<entry key="enterApply" value-ref="enterApplyProcessContext" />
+			<entry key="outWare" value-ref="outWareProcessContext" />			
+			<entry key="enterInform" value-ref="enterInformProcessContext" />
+			<entry key="enterWare" value-ref="enterWareProcessContext" />
+			<entry key="regStockToEnterWare" value-ref="regStockToEnterWareProcessContext" />
+			<entry key="regStockApply" value-ref="regStockApplyProcessContext" />
+	    </map> 
+	   </constructor-arg> 
+	</bean>
+	
+	<bean id="w_workflowFacade" class="gnnt.MEBS.delivery.workflow.common.WorkflowFacadeImpl">
+	     <property name="workflowMap">
+	          <ref bean="w_workflowMap"/>
+	     </property>
+	     <property name="translate">
+	          <ref bean="w_translate"/>
+	     </property>
+	</bean>
+	
+	<bean id="w_workFlowLog" class="gnnt.MEBS.delivery.workflow.aop.AddLog"/>
+
+    <aop:config>
+		<aop:aspect id="workFlowLogAspect" ref="w_workFlowLog">
+		<aop:pointcut id="addWorkFlowLog"
+		expression="execution(* gnnt.MEBS.delivery.workflow.ProcessContext.doActivities(*))" />
+		<aop:around  pointcut-ref="addWorkFlowLog" method="logAround"/>
+		</aop:aspect>
+	</aop:config>
+
+</beans>

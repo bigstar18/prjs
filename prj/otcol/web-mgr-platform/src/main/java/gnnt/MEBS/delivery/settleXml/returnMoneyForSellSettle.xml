@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+  
+
+	<!-- ******************************** settleBehavior start ********************************* -->
+	
+	<!-- 退卖方保证金资金判断 Filtering -->
+	<bean id="w_returnMoneyForSellFiltering" class="gnnt.MEBS.delivery.command.settleBehavior.filter.CheckMarginForSell"></bean>
+	
+    <!-- 退卖方保证金 Behavior-->
+	<bean id="w_returnMoneyForSellBehavior" class="gnnt.MEBS.delivery.command.settleBehavior.behavior.ReturnMoneyForSell"></bean>
+	
+	<!-- 退卖方保证金 handle -->
+	<bean id="w_returnMoneyForSellHandle" class="gnnt.MEBS.delivery.command.settleBehavior.BaseHandle">
+	   <property name="conditionList">  
+			<list>
+				<ref bean="w_moduleCondition"/>
+			</list>
+	    </property>
+	    <property name="filteringList">  
+            <list>
+    			<ref bean="w_returnMoneyForSellFiltering"/>
+    		</list>
+	    </property>
+	    <property name="behaviourList">  
+            <list>
+    			<ref bean="w_returnMoneyForSellBehavior"/>
+    		</list>
+	    </property>
+	</bean>
+	
+	 
+	<!-- 退卖方保证金 Receive -->
+	<bean id="w_returnMoneyForSellReceive" class="gnnt.MEBS.delivery.command.settleBehavior.BaseReceive">
+	  <property name="handleList">  
+    		<list>
+    			<ref bean="w_returnMoneyForSellHandle"/>
+    		</list>
+	    </property>
+	     <property name="settleBalanceCheck">
+			<ref bean="w_settleBalanceCheckForSellDeduction"/>
+		</property>
+		<property name="settleLegalExamine">
+	    	<ref bean="w_settleLegalExamineNotCheckRegStock"/>
+	    </property>
+	</bean>
+	
+</beans>

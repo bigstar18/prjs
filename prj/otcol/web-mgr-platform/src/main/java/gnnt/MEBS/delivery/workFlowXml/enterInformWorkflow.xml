@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:tx="http://www.springframework.org/schema/tx"
+xmlns:aop="http://www.springframework.org/schema/aop"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/tx
+http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+http://www.springframework.org/schema/aop
+http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+      
+	 
+	<!-- =======================================enterApply======================================== -->
+	
+	<bean id="enterInformStatusOperate" class="gnnt.MEBS.delivery.workflow.enterInform.handle.StatusOperateImpl"></bean>
+	<bean id="enterInformPrecondition" class="gnnt.MEBS.delivery.workflow.enterInform.PreconditionImpl"></bean>
+	
+	<bean id="printEnterInformHandle" class="gnnt.MEBS.delivery.workflow.common.HandleImpl">
+        <property name="finalStatus">  
+	            <value>1</value>    
+	    </property>
+	    <property name="beanName">  
+	          <value>printEnterInform</value>  
+	    </property>
+    </bean>
+	
+	<!-- 入库通知第一步（交易商打印） -->
+	<bean id="enterInformStepOne" class="gnnt.MEBS.delivery.workflow.common.StepImpl">
+	    <property name="currentStatus">  
+	            <value>0</value>    
+	    </property>
+	    <property name="authorityList"> 
+	         <list> 
+	            <value>9</value>
+	         </list>    
+	    </property>
+	    <!-- 默认操作为打印操作 -->
+	    <property name="defaultHandle">  
+	        <ref bean="printEnterInformHandle"/>    
+	    </property>
+	    <!-- 更改状态 -->
+	    <property name="statusOperate">
+	        <ref bean="enterInformStatusOperate"/> 
+	    </property>
+	    <!-- 设置是否需要日志信息 -->
+	    <property name="existNote">
+	        <value>false</value>
+	    </property>
+	    <!-- 给对象加锁 -->
+	    <property name="preconditionList">
+            <list>
+            	<ref bean="enterInformPrecondition" />
+            </list> 
+	    </property>
+	</bean>
+	
+	<!-- 入库通知ProcessContext -->
+	<bean id="enterInformProcessContext"  class="gnnt.MEBS.delivery.workflow.common.ProcessContextImpl">
+		<property name="steps">
+			 <!-- list中的bean必需按步骤的顺序排列 -->
+	         <list> 
+	            <ref bean="enterInformStepOne" />
+	         </list>
+        </property>
+        <property name="finalStatus">
+        	<list>
+        		<value>1</value>
+        	</list>
+        </property>
+	</bean> 
+	
+</beans>

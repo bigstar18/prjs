@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+	<bean id="addSessionInterceptor"
+        class="gnnt.MEBS.delivery.action.interceptor.AddSessionInterceptor" />
+        
+     <bean id="addMsgHandlerInterceptor"
+        class="gnnt.MEBS.delivery.action.interceptor.AddMsgHandlerInterceptor" />
+        
+     <bean id="returnCurrentPageInterceptor"
+        class="gnnt.MEBS.delivery.action.interceptor.ReturnCurrentPage" />
+        
+     <bean id="addConditionInterceptor"
+        class="gnnt.MEBS.delivery.action.interceptor.AddConditionInterceptor" />
+ 
+    <!-- View Resolver for JSPs -->
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix"><value></value></property>
+        <property name="suffix"><value>.jsp</value></property>
+    </bean>
+     
+    <!--  配置根据请求名决定控制器-->
+    <bean id="handlerMapping" 
+          class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping">
+          <property name="interceptors">
+            <list>
+                <ref bean="returnCurrentPageInterceptor" />
+                <ref bean="addSessionInterceptor" />
+                <ref bean="addMsgHandlerInterceptor" />
+                <ref bean="addConditionInterceptor" />
+            </list>
+           </property>
+    </bean>
+    <bean id="paramResolver" class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver">
+		<property name="paramName">
+			<value>funcflg</value>
+		</property>
+	</bean>
+	
+	<!-- 商品 begin -->
+	<bean name="/delivery/servlet/commodityController.wha" class="org.springframework.web.servlet.mvc.multiaction.MultiActionController">
+		<property name="methodNameResolver">
+			<ref bean="paramResolver"/>
+		</property>
+		<property name="delegate">
+			<ref bean="w_commodityController"/>
+		</property>
+	</bean>
+	
+	<bean id="w_commodityController" class="gnnt.MEBS.delivery.action.CommodityController"/>
+	<!-- 商品end -->
+
+	<!-- 仓库 begin -->
+	<bean name="/delivery/servlet/warehouseController.wha" class="org.springframework.web.servlet.mvc.multiaction.MultiActionController">
+		<property name="methodNameResolver">
+			<ref bean="paramResolver"/>
+		</property>
+		<property name="delegate">
+			<ref bean="w_warehouseController"/>
+		</property>
+	</bean>
+	
+	<bean id="w_warehouseController" class="gnnt.MEBS.delivery.action.WarehouseController"/>
+	<!-- 仓库 end -->
+
+	<!-- 日志 begin -->
+	<bean name="/delivery/servlet/operateLogController.wha" class="org.springframework.web.servlet.mvc.multiaction.MultiActionController">
+		<property name="methodNameResolver">
+			<ref bean="paramResolver"/>
+		</property>
+		<property name="delegate">
+			<ref bean="w_operateLogController"/>
+		</property>
+	</bean>
+	
+	<bean id="w_operateLogController" class="gnnt.MEBS.delivery.action.OperateLogController"/>
+	<!-- 日志end -->
+	
+	<!-- 管理员管理 begin -->
+	<bean name="/delivery/servlet/userController.wha" class="org.springframework.web.servlet.mvc.multiaction.MultiActionController">
+		<property name="methodNameResolver">
+			<ref bean="paramResolver"/>
+		</property>
+		<property name="delegate">
+			<ref bean="w_userController"/>
+		</property>
+	</bean>
+	
+	<bean id="w_userController" class="gnnt.MEBS.delivery.action.UserController"/>
+	<!-- 管理员管理end -->
+	
+   <import resource="classpath:base-servlet.xml"/>
+</beans>

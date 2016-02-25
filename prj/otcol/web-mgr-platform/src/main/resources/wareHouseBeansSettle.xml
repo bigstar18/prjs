@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+  
+  
+     <!-- 板块 -->
+   <bean id="w_moduleMap" class="java.util.HashMap"> 
+	   <constructor-arg> 
+	    <map> 
+	     <entry key="2" value-ref="w_futures" /> 
+	     <entry key="3" value-ref="w_spot" /> 
+	     <entry key="4" value-ref="w_bid" /> 
+	    </map> 
+	   </constructor-arg> 
+    </bean>
+    
+    <bean id="w_settleAddUseModuleList" class="java.util.ArrayList"> 
+	    <constructor-arg> 
+	     <list> 
+	       <value>2</value> 
+	       <value>3</value> 
+	       <value>4</value>
+	     </list> 
+	    </constructor-arg> 
+    </bean> 
+    
+    <bean id="w_noPLList" class="java.util.ArrayList"> 
+	    <constructor-arg> 
+	     <list> 
+	       <value>3</value> 
+	       <value>4</value>
+	     </list> 
+	     </constructor-arg> 
+    </bean> 
+    
+    <!-- 远期 -->
+    <bean id="w_futures" class="java.util.HashMap"> 
+   <constructor-arg> 
+    <map> 
+     <entry key="Payout" value="208" /> <!-- 收货款 -->
+     <entry key="Income" value="209" /> <!-- 付货款 -->
+     <entry key="ReturnMargin" value="214" /> <!-- 返还保证金 -->
+     <entry key="ReceivePenalty" value="217" /> <!-- 收违约金 -->
+     <entry key="PayPenalty" value="218" /><!-- 付违约金 -->
+     <entry key="ReceivePL" value="211" /><!-- 收交收盈亏 -->
+     <entry key="PayPL" value="212" />  <!-- 付交收盈亏 -->
+    </map> 
+   </constructor-arg> 
+    </bean>
+    
+    <!-- 挂牌 -->
+    <bean id="w_spot" class="java.util.HashMap"> 
+   <constructor-arg> 
+    <map> 
+     <entry key="Payout" value="301" /><!-- 收货款 -->
+     <entry key="Income" value="305" />  <!-- 付货款 -->
+     <entry key="ReturnMargin" value="302" /> <!-- 返还保证金 -->
+     <entry key="ReceivePenalty" value="310" /><!-- 收违约金 -->
+     <entry key="PayPenalty" value="311" /> <!-- 付违约金 -->
+    </map> 
+   </constructor-arg> 
+    </bean>
+    
+    <!-- 竞价 -->
+    <bean id="w_bid" class="java.util.HashMap"> 
+   <constructor-arg> 
+    <map> 
+     <entry key="Payout" value="406" /> <!-- 收货款 -->
+     <entry key="Income" value="408" />  <!-- 付货款 -->
+     <entry key="ReturnMargin" value="407" />  <!-- 返还保证金 -->
+     <entry key="ReceivePenalty" value="410" /> <!-- 收违约金 -->
+     <entry key="PayPenalty" value="411" /> <!-- 付违约金 -->
+    </map> 
+   </constructor-arg> 
+    </bean>
+    
+    <bean id="noCancelPrefixList" class="java.util.ArrayList"> 
+      <constructor-arg> 
+	     <list> 
+	       <value>ATS</value> 
+	     </list> 
+      </constructor-arg> 
+    </bean>
+  
+  	<bean id="w_settleTranslate" class="gnnt.MEBS.delivery.command.Translate" >
+        <property name="settleResultMap">
+	           <ref bean="w_settleResultMap"/> 
+	    </property>
+    </bean>
+  
+
+	<!-- ******************************** settleBehavior start ********************************* -->
+    
+    <!-- 修改仓单条件判断 Filtering-->
+	<bean id="w_changeRegStockFiltering" class="gnnt.MEBS.delivery.command.settleBehavior.filter.CheckChangeRegStock"></bean>
+	<!-- 冻结新的注册仓单 Behavior-->
+	<bean id="w_frozenNewRegStockBehavior" class="gnnt.MEBS.delivery.command.settleBehavior.behavior.FrozenNewRegStock"></bean>
+	<!-- 释放旧的注册仓单 Behavior-->
+	<bean id="w_releaseOldRegStockBehavior" class="gnnt.MEBS.delivery.command.settleBehavior.behavior.ReleaseOldRegStock"></bean>
+	<!-- 为配对记录更新注册仓单 Behavior-->
+	<bean id="w_updateRegStockForSettleMatchBehavior" class="gnnt.MEBS.delivery.command.settleBehavior.behavior.UpdateRegStockForSettleMatch"></bean>
+    
+    <!-- 违约仓单判断Filtering -->
+	<bean id="w_checkDefaultRegStockFiltering" class="gnnt.MEBS.delivery.command.settleBehavior.filter.CheckDefaultRegStock"></bean>
+	<!-- 为配对记录更新执行结果 Behavior-->
+	<bean id="w_updateResultForSettleMatchBehavior" class="gnnt.MEBS.delivery.command.settleBehavior.behavior.UpdateResultForSettleMatch"></bean>
+    <!-- 检查设置完成配对记录合法性Filtering -->
+  	<bean id="w_checkSettleFinshForComplianceFiltering" class="gnnt.MEBS.delivery.command.settleBehavior.filter.CheckSettleFinshForCompliance"></bean>
+  
+  
+    
+    <!-- ******************************** 公用检查 start ********************************* -->
+    
+    <!-- 资金检查（默认使用：不检查资金） -->
+    <bean id="w_settleBalanceCheckDefault" class="gnnt.MEBS.delivery.command.settleExtra.SettleBalanceCheck">
+		<property name="isBalance">
+			<value>false</value>
+		</property>
+	</bean>
+	
+	<!-- 资金检查（默认使用：检查买方资金，不为负项） -->
+    <bean id="w_settleBalanceCheckForBuy" class="gnnt.MEBS.delivery.command.settleExtra.SettleBalanceCheck">
+		<property name="isBalance">
+			<value>true</value>
+		</property>
+		<property name="buyOrSell">
+			<value>B</value>
+		</property>
+		<property name="isDeduction">
+			<value>false</value>
+		</property>
+	</bean>
+	
+	<!-- 资金检查（默认使用：检查买方资金，为负项） -->
+    <bean id="w_settleBalanceCheckForBuyDeduction" class="gnnt.MEBS.delivery.command.settleExtra.SettleBalanceCheck">
+		<property name="isBalance">
+			<value>true</value>
+		</property>
+		<property name="buyOrSell">
+			<value>B</value>
+		</property>
+		<property name="isDeduction">
+			<value>true</value>
+		</property>
+	</bean>
+    
+    <!-- 资金检查（默认使用：检查卖方资金,不为负项） -->
+    <bean id="w_settleBalanceCheckForSell" class="gnnt.MEBS.delivery.command.settleExtra.SettleBalanceCheck">
+		<property name="isBalance">
+			<value>true</value>
+		</property>
+		<property name="buyOrSell">
+			<value>S</value>
+		</property>
+		<property name="isDeduction">
+			<value>false</value>
+		</property>
+	</bean>
+	
+	<!-- 资金检查（默认使用：检查卖方资金，为负项） -->
+    <bean id="w_settleBalanceCheckForSellDeduction" class="gnnt.MEBS.delivery.command.settleExtra.SettleBalanceCheck">
+		<property name="isBalance">
+			<value>true</value>
+		</property>
+		<property name="buyOrSell">
+			<value>S</value>
+		</property>
+		<property name="isDeduction">
+			<value>true</value>
+		</property>
+	</bean>
+    
+    <!-- 合法性判断(默认使用:检查仓单) -->
+    <bean id="w_settleLegalExamineCheckRegStock" class="gnnt.MEBS.delivery.command.settleExtra.SettleLegalExamine">
+		<property name="statusList">
+			<list>
+				<value>0</value>
+				<value>1</value>
+			</list>
+		</property>
+		<property name="typeList">
+			<list>
+				<value>1</value>
+			</list>
+		</property>
+		<property name="checkRegStock">
+			<value>true</value>
+		</property>
+	</bean>
+    
+    <!-- 合法性判断(默认使用:不检查仓单) -->
+    <bean id="w_settleLegalExamineNotCheckRegStock" class="gnnt.MEBS.delivery.command.settleExtra.SettleLegalExamine">
+		<property name="statusList">
+			<list>
+				<value>0</value>
+				<value>1</value>
+			</list>
+		</property>
+		<property name="typeList">
+			<list>
+				<value>1</value>
+			</list>
+		</property>
+		<property name="checkRegStock">
+			<value>false</value>
+		</property>
+	</bean>
+	
+	<!-- 合法性判断(默认使用:不检查仓单) -->
+    <bean id="w_settleLegalExamineNotCheckRegStockForAllType" class="gnnt.MEBS.delivery.command.settleExtra.SettleLegalExamine">
+		<property name="statusList">
+			<list>
+				<value>0</value>
+				<value>1</value>
+			</list>
+		</property>
+		<property name="typeList">
+			<list>
+				<value>1</value>
+				<value>2</value>
+				<value>3</value>
+				<value>4</value>
+			</list>
+		</property>
+		<property name="checkRegStock">
+			<value>false</value>
+		</property>
+	</bean>
+	<!-- 合法性判断(默认使用:不检查仓单) -->
+	<bean id="w_settleLegalExamineNotCheckRegStockForDefault" class="gnnt.MEBS.delivery.command.settleExtra.SettleLegalExamine">
+		<property name="statusList">
+			<list>
+				<value>0</value>
+				<value>1</value>
+			</list>
+		</property>
+		<property name="typeList">
+			<list>
+				<value>2</value>
+				<value>3</value>
+				<value>4</value>
+			</list>
+		</property>
+		<property name="checkRegStock">
+			<value>false</value>
+		</property>
+   </bean>
+   
+   <!-- 合法性判断(履约只是初始状态) -->
+	<bean id="w_settleLegalExamineForInitialCompliance" class="gnnt.MEBS.delivery.command.settleExtra.SettleLegalExamine">
+		<property name="statusList">
+			<list>
+				<value>0</value>
+			</list>
+		</property>
+		<property name="typeList">
+			<list>
+				<value>1</value>
+			</list>
+		</property>
+		<property name="checkRegStock">
+			<value>false</value>
+		</property>
+   </bean>
+	
+	<!-- ******************************** 公用检查 end ********************************* -->
+	
+	<import resource="gnnt/MEBS/delivery/settleXml/changeHLSettle.xml"/>
+	<import resource="gnnt/MEBS/delivery/settleXml/changeRegStockSettle.xml"/>
+	<import resource="gnnt/MEBS/delivery/settleXml/changeStatusSettle.xml"/>
+	<import resource="gnnt/MEBS/delivery/settleXml/payoutSettle.xml"/>
+	<import resource="gnnt/MEBS/delivery/settleXml/incomeSettle.xml"/>
+	<import resource="gnnt/MEBS/delivery/settleXml/restoreSettle.xml"/>
+	<import resource="gnnt/MEBS/delivery/settleXml/cancelSettle.xml"/>
+	<import resource="gnnt/MEBS/delivery/settleXml/receivePenaltySettle.xml"/>
+	<import resource="gnnt/MEBS/delivery/settleXml/payPenaltySettle.xml"/>
+	<import resource="gnnt/MEBS/delivery/settleXml/marginTurnGoodsPaymentSettle.xml"/>
+	<import resource="gnnt/MEBS/delivery/settleXml/finshSettle.xml"/>
+	<import resource="gnnt/MEBS/delivery/settleXml/changePLSettle.xml"/>
+	<import resource="gnnt/MEBS/delivery/settleXml/settleInvoiceSettle.xml"/>
+	<import resource="gnnt/MEBS/delivery/settleXml/returnMoneyForSellSettle.xml"/>
+	<import resource="gnnt/MEBS/delivery/settleXml/settleTransferSettle.xml"/>
+	<import resource="gnnt/MEBS/delivery/settleXml/returnMarginForBuySettle.xml"/>
+	<import resource="gnnt/MEBS/delivery/settleXml/settleSelf.xml"/>
+	
+	
+	<!-- ******************************** 基本配置 start ********************************* -->
+	
+	<!-- 仓单类型判断 Filtering -->
+	<bean id="w_regStockTypeFiltering" class="gnnt.MEBS.delivery.command.settleBehavior.filter.CheckRegStockType">
+		<property name="regStockTypeList">
+			<list>
+				<value>0</value>
+				<value>1</value>
+				<value>3</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 板块名称 -->
+	<bean id="w_moduleNameMap" class="java.util.HashMap"> 
+	   <constructor-arg> 
+	    <map> 
+	     <entry key="2" value="订单" /> 
+	     <entry key="3" value="挂牌" />
+	     <entry key="4" value="竞价" />
+	    </map> 
+	   </constructor-arg> 
+    </bean>
+    
+    <!-- 板块配置 -->
+    <bean id="w_moduleCondition" class="gnnt.MEBS.delivery.command.settleBehavior.condition.ModuleCondition">
+		<property name="moduleList">
+			<list>
+				<value>2</value>
+				<value>3</value>
+				<value>4</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="w_moduleSpotCondition" class="gnnt.MEBS.delivery.command.settleBehavior.condition.ModuleCondition">
+		<property name="moduleList">
+			<list>
+				<value>3</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 履约条件判断 Condition-->
+	<bean id="w_complianceCondition" class="gnnt.MEBS.delivery.command.settleBehavior.condition.TypeCondition">
+	    <property name="typeList">  
+			<list>
+				<value>1</value>
+			</list>
+	    </property>
+	</bean>
+	<!-- 违约条件判断 Condition-->
+	<bean id="w_defaultCondition" class="gnnt.MEBS.delivery.command.settleBehavior.condition.TypeCondition">
+	    <property name="typeList">  
+			<list>
+				<value>2</value>
+				<value>3</value>
+				<value>4</value>
+			</list>
+	    </property>
+	</bean>
+    
+    <!-- 交收操作Map -->
+	<bean id="w_settleReceiveMap" class="java.util.HashMap"> 
+	   <constructor-arg> 
+	    <map> 
+	       <entry key="changeRegStock" value-ref="w_changeRegStockReceive" />
+	       <entry key="settleHL" value-ref="w_settleHLReceive" />
+	       <entry key="changeStatus" value-ref="w_changeStatusReceive" />
+	       <entry key="receivePenalty" value-ref="w_receivePenaltyReceive" />
+	       <entry key="payPenalty" value-ref="w_payPenaltyReceive" />
+	       <entry key="payout" value-ref="w_payoutReceive" />
+	       <entry key="income" value-ref="w_incomeReceive" />
+	       <entry key="receivePenalty" value-ref="w_receivePenaltyReceive" />
+	       <entry key="settleRestore" value-ref="w_settleRestoreReceive" />
+	       <entry key="settleCancel" value-ref="w_settleCancelReceive" />
+	       <entry key="marginTurnGoodsPayment" value-ref="w_marginTurnGoodsPaymentReceive" />
+	       <entry key="settleFinish" value-ref="w_settleFinshReceive" />
+	       <entry key="settleFinishSelf" value-ref="w_SettleFinshSelfReceive" /> <!-- 自主交收设置完成：不检查货权转移 -->
+	       <entry key="settleChangePL" value-ref="w_settleChangePLReceive" />
+	       <entry key="settleInvoice" value-ref="w_settleInvoiceReceive" />
+	       <entry key="returnMarginForSell" value-ref="w_returnMoneyForSellReceive" />
+	       <entry key="returnMarginForBuy" value-ref="w_returnMarginForBuyReceive" />
+	       <entry key="settleTransfer" value-ref="w_settleTransferReceive" />
+	       <entry key="settleSelf" value-ref="w_settleSelfReceive" />
+	    </map> 
+	   </constructor-arg>
+	</bean>
+	
+	<!-- 标准操作Map -->
+	<bean id="w_standardReceiveMap" class="java.util.HashMap"> 
+	   <constructor-arg> 
+	    <map> 
+	       <entry key="settleAdd" value-ref="w_settleAddReceive" /> <!-- 添加配对信息 -->
+	       <entry key="settleBalance" value-ref="w_settleBalanceReceive" /> <!-- 交收结算 -->
+	    </map> 
+	   </constructor-arg>
+	</bean>
+	
+	<!-- 创建配对 Receive -->
+	<bean id="w_settleAddReceive" class="gnnt.MEBS.delivery.command.standardBehavior.SettleAdd">
+		<property name="settleAddUseModuleList">
+			<ref bean="w_settleAddUseModuleList"/>
+		</property>
+	</bean>
+	
+	<!-- 交收结算 Receive -->
+	<bean id="w_settleBalanceReceive" class="gnnt.MEBS.delivery.command.standardBehavior.SettleBalance">
+	</bean>
+	
+	<!-- 交收命令 -->
+	<bean id="w_settleCommand" class="gnnt.MEBS.delivery.command.SettleCommand">
+	    <property name="receiveMap">
+	       <ref bean="w_settleReceiveMap"/>
+	    </property>
+    </bean>
+    
+	<!-- 标准命令 -->
+    <bean id="w_standardCommand" class="gnnt.MEBS.delivery.command.StandardCommand">
+	    <property name="receiveMap">
+	       <ref bean="w_standardReceiveMap"/>
+	    </property>
+    </bean>
+      
+	<bean id="w_commandMap" class="java.util.HashMap"> 
+	   <constructor-arg> 
+	    <map> 
+	     <entry key="standardCommand" value-ref="w_standardCommand" /> <!-- 标准命令 -->
+	     <entry key="settleCommand" value-ref="w_settleCommand" /> <!-- 交收命令 -->
+	    </map> 
+	   </constructor-arg> 
+	</bean>
+	
+	<bean id="w_policySuperior" class="gnnt.MEBS.delivery.command.PolicySuperiorImp">
+		<property name="commandMap">
+			<ref bean="w_commandMap"/>
+		</property>
+		<property name="translate">
+			<ref bean="w_settleTranslate"/>
+		</property>
+	</bean>
+	
+	<bean id="w_commandExecute"
+		class="gnnt.MEBS.delivery.command.util.CommandExecute" autowire="byName">
+	</bean>
+	
+	<bean id="w_settlelog" class="gnnt.MEBS.delivery.command.aop.AddLog"/>
+	
+	<bean id="w_checkRealFunds" class="gnnt.MEBS.delivery.command.aop.CheckRealFunds"/>
+     
+    <bean id="w_settleMatchLock" class="gnnt.MEBS.delivery.command.aop.SettleMatchLock"/>
+     
+    <bean id="w_checkSettleLegal" class="gnnt.MEBS.delivery.command.aop.CheckSettleLegal"/>
+    
+    <aop:config>
+		<aop:aspect id="settleLogAspect" ref="w_settlelog">
+		<aop:pointcut id="addSettleLog" 
+		expression="execution(* gnnt.MEBS.delivery.command.Command.execute(*))" />
+		<aop:around  pointcut-ref="addSettleLog" method="logAround"/>
+		</aop:aspect>
+		
+		<aop:aspect id="settleMatchLockAspect" ref="w_settleMatchLock" >
+		<aop:pointcut id="addSettleMatchLock"
+		expression="execution(* gnnt.MEBS.delivery.command.SettleReceive.deal(*))" />
+		<aop:around  pointcut-ref="addSettleMatchLock" method="around"/>
+		</aop:aspect>
+		
+		<aop:aspect id="checkSettleLegalAspect" ref="w_checkSettleLegal" >
+		<aop:pointcut id="addCheckSettleLegal"
+		expression="execution(* gnnt.MEBS.delivery.command.SettleReceive.deal(*))" />
+		<aop:around  pointcut-ref="addCheckSettleLegal" method="around"/>
+		</aop:aspect>
+		
+		<aop:aspect id="checkRealFundsAspect" ref="w_checkRealFunds" >
+		<aop:pointcut id="addCheckRealFunds"
+		expression="execution(* gnnt.MEBS.delivery.command.SettleReceive.deal(*))" />
+		<aop:around  pointcut-ref="addCheckRealFunds" method="around"/>
+		</aop:aspect>
+	 </aop:config>
+  
+    <!-- ******************************** 基本配置 start ********************************* -->
+</beans>

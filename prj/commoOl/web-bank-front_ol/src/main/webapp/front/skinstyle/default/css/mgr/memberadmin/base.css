@@ -1,0 +1,143 @@
+@charset "GBK";
+/* CSS Document */
+/*=======   CSS Document   =======*/
+body{margin:0; padding:0; font:12px/20px Arial,"Microsoft Yahei","SimSun";  background: #FFF; color:#333;}
+div,dl,dt,dd,ul,ol,li,pre,form,fieldset,input,textarea,blockquote,p,img{margin:0px; padding:0px;list-style: none;}
+h1,h2,h3,h4,h5,h6{ margin:0px; padding:0px; font-weight:normal;font-style:normal;}
+a img{ border:0px;}
+
+.clear{ clear:both;}
+.clearfix:after{ content:"."; display:block; height:0; clear:both; visibility:hidden;}
+.clearfix{ display:inline-table;}
+/* Hides from IE-mac \*/
+* html .clearfix{ height:1%;}
+.clearfix{ display:block;}
+/* End hide from IE-mac */
+/* --框架样式 Begin-- */
+.header{ width:100%;}
+.bottom{ width:100%;}
+.wrapper{ width:100%;}
+.navMenu{ float:left; width:200px;}
+.main{ float:left; width:78%; margin-left:15px;}
+.main_content{ width:780px;}
+/* --框架样式 End-- */
+/*=======    主链接颜色    =======*/
+a{ color:#1767b1; text-decoration:none;}
+a:hover{ color:#f60; text-decoration:underline;}
+/*=======   辅助链接颜色   {命名规则：Link+颜色+具体属性}=======*/
+
+/*----------黑色_black 链接定义----------*/
+a.link_black{ color:#222;}
+a.link_black:hover{ color:#f60;text-decoration:underline;}
+
+/*---------橙色_orange 链接定义----------*/
+a.link_orange_14b{ color:#f30; font-size:14px; font-weight:bold;}
+a.link_orange_14b:hover{ font-size:14px; font-weight:bold;}
+
+a.link_orange_12{ color:#f30; text-decoration:underline;}
+a.link_orange_12:hover{ color:#f30; text-decoration:none;}
+
+a.link_white{ color:#fff;}
+a.link_white:hover{ color:#ff0; text-decoration:none;}
+
+
+/*----------蓝色_blue 链接定义(可随网页的主色调更改)----------*/
+a.link_blue_14b:link,a.link_blue_14b:visited{ font-size:14px; font-weight:600; color:#1767b1;}
+a.link_blue_14b:hover,a.link_blue_14b:active{ color:#f30; text-decoration:none;}
+
+a.link_blue_14:link,a.link_blue_14:visited{ font-size:14px; color:#1767b1;}
+a.link_blue_14:hover,a.link_blue_14:active{ color:#fff; background-color:#1767b1; text-decoration:none;}
+
+a.link_blue2_14:link,a.link_blue2_14:visited{ font-size:14px; color:#1767b1;}
+a.link_blue2_14:hover,a.link_blue2_14:active{ color:#f30; text-decoration:none;}
+
+a.link_blue_12_:link,a.link_blue_12_:visited{ font-size:12px; color:#1767b1; text-decoration:underline;}
+a.link_blue_12_:hover,a.link_blue_12_:active{ font-size:12px; color:#F30; text-decoration:none;}
+	
+/*=======   字体样式定义   {命名规则：Font+颜色+具体属性}=======*/
+
+	.font_orange_12{ color:#f30; font-size:12px; line-height:18px;}
+	.font_orange_14b{ color:#f60; font-weight:bold; font-size:14px; line-height:24px; }
+	.font_red_12b{ color:#f00; font-weight:600;}
+	.font_blue_12{ color:#1767b1;}
+	.font_blue_12_2{ color:#1ea7e5;}
+	.font_blue_14b{ color:#1767b1; font-weight:bold; font-size:14px; line-height:24px; }
+	.font_green_12{ color:#1b8b01;}
+	.font_black_14b{ color:#222; font-weight:bold; font-size:14px; line-height:24px; }
+	.font_black_12b{ color:#222; font-weight:bold; font-size:14px; line-height:24px; }
+	.font_black_12{ color:#222; font-weight:bold; font-size:14px; line-height:24px; }
+	.font_gray_12{ color:#666; font-size:14px; line-height:24px; }
+	.font_gray_14{ color:#666; font-size:14px; line-height:24px; }
+
+
+
+/*=======   线条样式定义   {命名规则：Line+横/纵+颜色}=======*/
+	.line_X{ background:url(../../../image/mgr/memberadmin/rowline.gif) repeat-x left bottom;}
+	.line_Y{ background:url(../../../image/mgr/memberadmin/colline.gif) repeat-y right top;}
+	
+/*=======   边框样式定义   {命名规则：Border+颜色+具体属性}=======*/
+
+	.border_gray_b{ background-color:#f5f5f5; border-bottom:1px solid #ccc; }
+	.border_yellow_trbl{ background-color:#fffff7; border:1px solid #ffcf00; padding:10px;}
+	.border_gray_trbl{ background-color:#ffffff; border:1px solid #ddd; padding:10px;}
+	.border_gray_trbl2{ background-color:#fafafa; border:1px solid #d6d6d6; padding:10px;}
+	.border_gray_trbl3{ border:1px solid #d6d6d6; margin:10px;}
+
+/*=======   其它样式定义   =======*/
+	.margin_10b{ margin-bottom:10px;}
+	.bg{ background-color:#fff;}
+	.bgon{ background-color:#edfeff; cursor:hand;}
+	.bgno{ background-color:#fff; cursor:hand;}
+	.text_left{ text-align:left;}
+	.text_center{ text-align:center;}
+	.text_right{ text-align:right;}
+	.padding10{ padding:10px;}
+/*---------------------------消息框样式------------------------*/
+
+.userMessageDiv {
+	z-index: 9999;
+	position: absolute;
+	display: none;
+	bottom: 0;
+	right: 0;
+	overflow: hidden;
+}
+.sysMessageDiv {
+	z-index: 9999;
+	position: absolute;
+	display: none;
+	bottom: 0;
+	left: 0;
+	overflow: hidden;
+}
+.messageToolDiv {
+	width: 100%;
+	height: 25px;
+	overflow: hidden;
+}
+
+.msgtitleDiv {
+	padding: 3px 0 0 5px;
+	width: 100px;
+	line-height: 20px;
+	text-align: center;
+	overflow: hidden;
+	position: absolute;
+}
+
+.messageCloseDiv {
+	right: 10px;
+	width: 16px;
+	text-align: center;
+	cursor: pointer;
+	position: absolute;
+}
+
+.messageContentDiv {
+	margin: 0 5px 0 5px;
+	padding: 10px 0 10px 5px;
+	width: 239px;
+	height: 135px;
+	text-align: left;
+	overflow: hidden;
+}

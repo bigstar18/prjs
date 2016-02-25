@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+    <!-- View Resolver for JSPs -->
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix"><value>/</value></property>
+        <property name="suffix"><value>.jsp</value></property>
+    </bean>
+    
+    <bean id="paramResolver" class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver">
+		<property name="paramName">
+			<value>funcflg</value>
+		</property>
+	</bean>
+	
+	<!-- 交易商管理 begin -->
+	<bean name="/member/firmController.mem" class="org.springframework.web.servlet.mvc.multiaction.MultiActionController">
+
+		<property name="methodNameResolver">
+			<ref bean="paramResolver"/>
+		</property>
+		<property name="delegate">
+			<ref bean="firmController"/>
+		</property>
+	</bean>
+	
+	<bean id="firmController" class="gnnt.MEBS.member.firm.web.FirmController">
+
+	</bean>
+	<!-- 交易商管理 end -->
+	<!-- 加盟商管理 begin -->
+	<bean name="/member/brokerController.mem" class="org.springframework.web.servlet.mvc.multiaction.MultiActionController">
+		
+		<property name="methodNameResolver">
+			<ref bean="paramResolver"/>
+		</property>
+		<property name="delegate">
+			<ref bean="brokerController"/>
+		</property>
+	</bean>
+	<bean name="/member/feeDetailController.mem" class="org.springframework.web.servlet.mvc.multiaction.MultiActionController">
+		<property name="methodNameResolver">
+			<ref bean="paramResolver"/>
+		</property>
+		<property name="delegate">
+			<ref bean="feeDetailController"/>
+		</property>
+	</bean>		
+	<bean name="/member/brokerRewardController.mem" class="org.springframework.web.servlet.mvc.multiaction.MultiActionController">
+		<property name="methodNameResolver">
+			<ref bean="paramResolver"/>
+		</property>
+		<property name="delegate">
+			<ref bean="brokerRewardController"/>
+		</property>
+	</bean>
+	<bean name="/member/errorLoginLogController.mem" class="org.springframework.web.servlet.mvc.multiaction.MultiActionController">
+		<property name="methodNameResolver">
+			<ref bean="paramResolver"/>
+		</property>
+		<property name="delegate">
+			<ref bean="errorLoginLogController"/>
+		</property>
+	</bean>
+	<bean name="/member/brokerReportController.mem" class="org.springframework.web.servlet.mvc.multiaction.MultiActionController">
+		<property name="methodNameResolver">
+			<ref bean="paramResolver"/>
+		</property>
+		<property name="delegate">
+			<ref bean="tradeFeeController"/>
+		</property>
+	</bean>
+	
+	<!-- 加盟商权限 -->
+	<bean name="/member/brokerRightController.mem" class="org.springframework.web.servlet.mvc.multiaction.MultiActionController">
+		<property name="methodNameResolver">
+			<ref bean="paramResolver"/>
+		</property>
+		<property name="delegate">
+			<ref bean="brokerRightController"/>
+		</property>
+	</bean>
+	<bean id="brokerRightController" class="gnnt.MEBS.member.broker.action.BrokerRightController"/>
+	
+	<bean id="brokerController" class="gnnt.MEBS.member.broker.action.BrokerController"/>
+	<bean id="baseController" class="gnnt.MEBS.member.broker.action.BaseController"/>
+	<bean id="brokerRewardController" class="gnnt.MEBS.member.broker.action.BrokerRewardController"/>
+	<bean id="feeDetailController" class="gnnt.MEBS.member.broker.action.FeeDetailController"/>
+	<bean id="errorLoginLogController" class="gnnt.MEBS.member.firm.web.ErrorLoginLogController"/>
+	<bean id="tradeFeeController" class="gnnt.MEBS.member.broker.action.TradeFeeController"/>
+	<!-- 加盟商管理 end -->
+</beans>

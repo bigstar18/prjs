@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="GBK"?>
+<sitemap>
+	<node title="出入金划转" path="/front/app/bank/money/inoutMoney.jsp"/>
+	<node title="查询余额" path="/front/app/bank/balance/firmBalance.jsp"/>
+	<node title="流水查询" path="/front/app/bank/capital/capitalInfoList.jsp"/>
+	<node title="密码修改" path="/front/app/bank/user/changePassword.jsp"/>
+	<node title="签约解约" path="/front/app/bank/firmInfo/firmInfo.jsp"/>
+	<node title="他行签约" path="/front/app/bank/firmInfo/addCorr_hx.jsp"/>
+	<node title="交易商个人信息" path="/front/app/bank/firmInfo/firmregistList.jsp"/>
+	<node title="注册交易商" path="/front/app/bank/firmInfo/addCorr.jsp"/>
+	<node title="输入密码" path="/front/app/bank/firmInfo/enterPwd.jsp"/>
+	<node title="修改密码" path="/front/app/bank/user/changePasswordByPlat.jsp"/>
+	<node title="系统间资金划转" path="/front/app/bank/money/SysFundstranfer.jsp"/>
+	<node title="账户签约" path="/front/app/bank/firmInfo/inputBankMsg.jsp"/>
+	<node title="账户解约" path="/front/app/bank/firmInfo/unsignFirm.jsp"/>
+	<node title="账户修改" path="/front/app/bank/firmInfo/selectBankModAcc.jsp"/>
+	<node title="登录" href="/" path="/">
+		<node title="注册" path="/front/logon/register.jsp"/>
+	</node>
+	<node title="登录" href="/" path="/front/logon/logon.jsp"/>
+</sitemap>

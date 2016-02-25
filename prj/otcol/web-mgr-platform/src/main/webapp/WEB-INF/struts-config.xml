@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+  <display-name>Main Struts Configuration File</display-name>
+  <description>基础系统框架模块</description>
+
+  <global-forwards>
+    <forward name="msg" path="/common/messages.jsp" />
+    <forward name="msgdel" path="/common/messages_del.jsp" />
+  </global-forwards>
+  <action-mappings>
+
+  </action-mappings>
+  <message-resources parameter="ApplicationResources" />  
+  <plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+    <set-property property="pathnames" value="/WEB-INF/validation.xml,/WEB-INF/validator-rules.xml,/WEB-INF/validator-rules-custom.xml" />
+  </plug-in>
+</struts-config>
+

@@ -1,0 +1,214 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+        
+	<bean id="commonConfig" class="java.util.Properties">
+		<constructor-arg type="java.util.Properties">
+	      <props>
+	      </props>
+	    </constructor-arg>
+	</bean>
+		<!-- 风格Map begin-->
+	<bean id="styleNameMap" class="java.util.HashMap"> 
+	   	<constructor-arg> 
+		    <map> 
+			     <entry key="default" value="淡  蓝" /> 
+			     <entry key="gray" value="银  白" />
+		    </map> 
+	   	</constructor-arg> 
+    </bean>
+  	<!-- 风格Map  end -->  
+	
+	<!--  hibernate事务 
+	  <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+			<property name="sessionFactory">
+				<ref bean="sessionFactory" />
+			</property>
+	  </bean>
+	 -->
+	<!-- 添加一个类路径配置，让Spring 容器知道需要扫描该类路径下所有可以加载到容器中的类。  -->
+	<context:component-scan base-package="gnnt.MEBS.common.services"/>
+	<!-- spring 事务管理 -->
+	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<!-- ***************************** DAO begin *****************************  -->
+	<bean id="menuDao" class="gnnt.MEBS.common.dao.MenuDao" autowire="byName">
+		<property name="sessionFactory">
+	  		<ref bean="sessionFactory" />
+	    </property>
+	</bean>
+	
+	<bean id="outSideDao" class="gnnt.MEBS.common.dao.OutSideDao" autowire="byName">
+		<property name="sessionFactory">
+		    <ref bean="sessionFactory" />
+	    </property>
+	</bean>
+	
+	<bean id="rightDao" class="gnnt.MEBS.common.dao.RightDao" autowire="byName">
+		<property name="sessionFactory">
+		    <ref bean="sessionFactory" />
+	    </property>
+	</bean>
+	
+	<bean id="userDao" class="gnnt.MEBS.common.dao.UserDao" autowire="byName">
+		<property name="sessionFactory">
+		    <ref bean="sessionFactory" />
+	    </property>
+  	</bean>
+	    
+   <bean id="roleDao" class="gnnt.MEBS.common.dao.RoleDao" autowire="byName"> 
+	   	 <property name="sessionFactory">
+	   		 <ref bean="sessionFactory" />
+	   	 </property>
+   </bean>       
+ 
+   
+	
+	<!--*****************************  DAO end ***************************** -->
+
+
+    
+
+   <bean id="verify" class="gnnt.MEBS.common.security.strategy.VerifyImpl"/> 
+
+   <bean id="sessionFactory"
+  class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+  <property name="dataSource">
+   <ref bean="dataSource" />
+  </property>
+  <property name="hibernateProperties">
+   <props>
+    <prop key="hibernate.dialect">
+     org.hibernate.dialect.Oracle10gDialect
+    </prop>
+    <prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
+	<prop key="hibernate.hbm2ddl.auto">none</prop>
+	<prop key="hibernate.query.factory_class">org.hibernate.hql.classic.ClassicQueryTranslatorFactory</prop>
+	<prop key="hibernate.connection.release_mode">auto</prop>
+	<prop key="hibernate.show_sql">false</prop>
+	<!--
+	<prop key="hibernate.cache.use_query_cache">true</prop> 
+    <prop key="hibernate.cache.use_second_level_cache">true</prop>  
+	 -->
+   </props>
+  </property>
+  <property name="mappingResources">
+   <list>
+    <value>gnnt/MEBS/common/model/Right.hbm.xml</value>
+    <value>gnnt/MEBS/common/model/User.hbm.xml</value>
+    <value>gnnt/MEBS/common/model/Role.hbm.xml</value>
+    <value>gnnt/MEBS/common/model/Menu.hbm.xml</value>
+    </list>
+  </property></bean>
+  
+
+
+
+  <!--  
+  <bean id="txProxyTemplate" abstract="true"
+		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+		<property name="transactionManager">
+			<ref bean="transactionManager" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="save*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>
+				<prop key="*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+   <bean id="rightDao" class="gnnt.MEBS.common.dao.RightDao"> 
+    <property name="sessionFactory">
+    <ref bean="sessionFactory" />
+    </property>
+   </bean>
+   
+   <bean id="userDao" class="gnnt.MEBS.common.dao.UserDao"> 
+    <property name="sessionFactory">
+    <ref bean="sessionFactory" />
+    </property>
+   </bean>
+   
+   <bean id="roleDao" class="gnnt.MEBS.common.dao.RoleDao"> 
+    <property name="sessionFactory">
+    <ref bean="sessionFactory" />
+    </property>
+   </bean>
+   
+   <bean id="menuDao" class="gnnt.MEBS.common.dao.impl.MenuDaoImpl"> 
+    <property name="sessionFactory">
+    <ref bean="sessionFactory" />
+    </property>
+   </bean>
+   
+   <bean id="outSideDao" class="gnnt.MEBS.common.dao.impl.OutSideDaoImpl"> 
+    <property name="sessionFactory">
+    <ref bean="sessionFactory" />
+    </property>
+   </bean>
+   
+   <bean id="rightService" parent="txProxyTemplate">
+        <property name="target">
+            <bean class="gnnt.MEBS.common.services.impl.RightServiceImpl" autowire="byName"/>
+        </property>
+    </bean>
+    <bean id="userService" parent="txProxyTemplate">
+        <property name="target">
+            <bean class="gnnt.MEBS.common.services.impl.UserServiceImpl" autowire="byName"/>
+        </property>
+    </bean>
+    <bean id="roleService" parent="txProxyTemplate">
+        <property name="target">
+            <bean class="gnnt.MEBS.common.services.impl.RoleServiceImpl" autowire="byName"/>
+        </property>
+    </bean> 
+     <bean id="menuService" parent="txProxyTemplate">
+        <property name="target">
+            <bean class="gnnt.MEBS.common.services.impl.MenuServiceImpl" autowire="byName"/>
+        </property>
+
+    </bean>  
+  -->  
+    
+    <bean id="securityHandler" class="gnnt.MEBS.common.security.handler.SpecialHandle" autowire="byName"><!-- 判断是不是特殊权限 -->
+    </bean>
+    
+    <bean id="secondSecurityHandler" class="gnnt.MEBS.common.security.handler.SessionHandle" autowire="byName"><!-- 检查session -->
+    </bean>
+    
+    <bean id="thirdSecurityHandler" class="gnnt.MEBS.common.security.handler.AuHandle" autowire="byName"><!-- 检查au -->
+    </bean>
+    
+    
+    <!-- <bean id="thirdSecurityHandler" class="gnnt.MEBS.common.security.handler.NoWildcardHandler" autowire="byName"> 判断不带通配符的是否有权限 
+    </bean>
+    
+    <bean id="fourthSecurityHandler" class="gnnt.MEBS.common.security.handler.WildcardHandler" autowire="byName">判断带通配符的是否有权限
+    </bean> -->
+    
+    <bean id="seventhSecurityHandler" class="gnnt.MEBS.common.security.handler.PathHandle" autowire="byName"> <!-- 判断不带通配符的是否有权限和有通配符的是否有权限 --> 
+    </bean>
+
+    <bean id="logManagerDAO" class="gnnt.MEBS.common.dao.impl.LogManagerIMpl"> 
+        <property name="dataSource"  ref="dataSource"/>  
+   </bean>
+    
+    
+
+
+</beans> 

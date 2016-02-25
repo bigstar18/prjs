@@ -1,0 +1,50 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+      
+	<context:annotation-config />
+    <context:component-scan base-package="gnnt.MEBS.member.firm.services"/>
+	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<!-- ***************************** DAO begin *****************************  -->
+	<bean id="m_firmDao" class="gnnt.MEBS.member.firm.dao.FirmDao" autowire="byName">
+		<property name="dataSource" ref="dataSource" />
+	<property name="transactionManager"> 
+    <ref bean="transactionManager"/> 
+    </property> 
+	</bean>
+	
+	<bean id="m_traderDao" class="gnnt.MEBS.member.firm.dao.TraderDao" autowire="byName"/>
+	
+	<bean id="m_systemDao" class="gnnt.MEBS.member.firm.dao.SystemDao" autowire="byName"/>
+	
+	<bean id="m_errorLoginLogDao" class="gnnt.MEBS.member.firm.dao.ErrorLoginLogDao" autowire="byName"/>
+	
+	<bean id="m_configurationDao" class="gnnt.MEBS.member.firm.dao.ConfigurationDao" autowire="byName"/>
+	<!--*****************************  DAO end ***************************** -->
+	
+	<bean id="m_firmExtendData" class="gnnt.MEBS.member.firm.unit.FirmExtendData"/>
+	
+	<bean id="m_firmlog" class="gnnt.MEBS.member.firm.aop.AddLog"/>
+	
+	<aop:config>
+	    <aop:aspect id="firmLogAspect" ref="m_firmlog">
+		<aop:pointcut id="addFirmLog" 
+		expression="execution(int gnnt.MEBS.member.firm.services.*.*(..))" />
+		<aop:around  pointcut-ref="addFirmLog" method="logAround"/>
+		</aop:aspect>
+	</aop:config>
+	
+</beans>

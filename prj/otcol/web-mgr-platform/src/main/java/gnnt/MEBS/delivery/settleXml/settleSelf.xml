@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+		
+   <bean id="w_checkSellIncomeFiltering" class="gnnt.MEBS.delivery.command.settleBehavior.filter.CheckSellIncome"></bean>		
+		
+		
+  <bean id="w_returnMoneyForDelivery_BBehavior" class="gnnt.MEBS.delivery.command.settleBehavior.behavior.ReturnMoneyForDelivery_B">
+  	<property name="moneyDoService">
+  		<ref bean="w_moneyDoService"/>
+  	</property>
+  </bean>
+  <bean id="w_returnMoneyForDelivery_SBehavior" class="gnnt.MEBS.delivery.command.settleBehavior.behavior.ReturnMoneyForDelivery_S">
+  	<property name="moneyDoService">
+  		<ref bean="w_moneyDoService"/>
+  	</property>
+  </bean>
+  <!-- 自助交收 handle -->
+	<bean id="w_settleSelfHandle" class="gnnt.MEBS.delivery.command.settleBehavior.BaseHandle">
+	    <property name="conditionList">  
+			<list>
+				<ref bean="w_moduleSpotCondition"/>
+			</list>
+	    </property>
+	    <property name="filteringList">  
+            <list>
+    			<!-- <ref bean="w_settleHLFiltering"/>
+    			<ref bean="w_checkBalanceForReturnMarginFiltering"/>
+    			<ref bean="w_returnMoneyForSellFiltering"/>
+    			<ref bean="w_checkIsSettleTransferForFinishFiltering"/> 
+    			<ref bean="w_checkSettleFinshForComplianceFiltering"/>-->
+    			<ref bean="w_checkSellIncomeFiltering"/>
+    		</list>
+	    </property>
+	    <property name="behaviourList">  
+            <list>
+                <ref bean="w_settleHLBehavior"/>
+    			<ref bean="w_releaseOldRegStockBehavior"/>
+    			<ref bean="w_returnMoneyForBuyBehavior"/>
+    			<ref bean="w_returnMoneyForSellBehavior"/>
+    			<ref bean="w_returnMoneyForDelivery_BBehavior"/>
+    			<ref bean="w_returnMoneyForDelivery_SBehavior"/>
+    			<!-- 缺少退买方卖方交收手续费 -->
+    			<ref bean="w_returnMarginAllFinshBehavior"/>
+    			<ref bean="w_returnPayForComplianceFinshBehavior"/>
+    			<ref bean="w_finshSettleBehavior"/>
+    		</list>
+	    </property>
+	</bean>
+
+	<!-- 自助交收 Receive -->
+	<bean id="w_settleSelfReceive" class="gnnt.MEBS.delivery.command.settleBehavior.BaseReceive">
+	  <property name="handleList">  
+    		<list>
+    			<ref bean="w_settleSelfHandle"/>
+    		</list>
+	    </property>
+	     <property name="settleBalanceCheck">
+			<ref bean="w_settleBalanceCheckDefault"/>
+		</property>
+		<property name="settleLegalExamine">
+	    	<ref bean="w_settleLegalExamineForInitialCompliance"/>
+	    </property>
+	</bean>
+</beans>

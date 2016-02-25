@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+ 
+    
+    
+    <!-- *************************************************付违约金 start***************************************-->  
+    <!-- 付违约金履约状态和交易商资金条件判断 Filtering-->
+	<bean id="w_checkPayPenaltyFiltering" class="gnnt.MEBS.delivery.command.settleBehavior.filter.CheckPayPenalty"></bean>
+	<!-- 付违约金总金额判断 Filtering-->
+	<bean id="w_checkTakePenaltyFiltering" class="gnnt.MEBS.delivery.command.settleBehavior.filter.CheckTakePenalty"></bean>
+	<!-- 付违约金 Behavior-->
+	<bean id="w_payPenaltyBehavior" class="gnnt.MEBS.delivery.command.settleBehavior.behavior.PayPenalty"></bean>
+    <!-- 付违约金  Handle -->
+	<bean id="w_payPenaltyHandel" class="gnnt.MEBS.delivery.command.settleBehavior.BaseHandle">
+		<property name="conditionList">  
+			<list>
+				<ref bean="w_moduleCondition"/>
+			</list>
+	    </property>
+	    <property name="filteringList">  
+            <list>
+    			<ref bean="w_checkPayPenaltyFiltering"/>
+    			<ref bean="w_checkTakePenaltyFiltering"/>
+    		</list>
+	    </property>
+	    <property name="behaviourList">  
+            <list>
+    			<ref bean="w_payPenaltyBehavior"/>
+    		</list>
+	    </property>
+   	</bean>		
+    <!--付违约金 Receive -->
+	<bean id="w_payPenaltyReceive" class="gnnt.MEBS.delivery.command.settleBehavior.BaseReceive">
+	    <property name="handleList">  
+    		<list>
+    			<ref bean="w_payPenaltyHandel"/>
+    		</list>
+	    </property>
+	    <property name="settleBalanceCheck">
+			<ref bean="w_settleBalanceCheckDefault"/>
+		</property>
+	  	<property name="settleLegalExamine">
+	        <ref bean="w_settleLegalExamineNotCheckRegStockForDefault"/>
+	    </property>
+    </bean>
+    <!-- ******************************************付违约金 end********************************************-->
+</beans>

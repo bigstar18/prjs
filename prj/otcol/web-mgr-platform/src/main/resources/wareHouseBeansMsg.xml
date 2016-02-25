@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+        
+       <bean id="w_settleResultMap" class="java.util.HashMap"> 
+		   <constructor-arg> 
+		    <map> 
+		    	<entry key="0" value="无操作" />
+				<entry key="1" value="操作成功!" />
+				<entry key="-1" value="配对状态不符" />
+				<entry key="-3" value="提交金额不符合条件" />			
+				<entry key="-4" value="未完成货权转移，不能操作" />
+				<entry key="-5" value="收违约金总数不能为负" />
+				<entry key="-6" value="已进行货权转移，不能重复设置" />
+				<entry key="-7" value="付卖方货款已大于实际应付，需先退卖方货款" />
+				<entry key="-8" value="应付卖方货款不等于实付卖方货款" />
+				<entry key="-9" value="实收买方货款不足" />
+				<entry key="-10" value="已经进行确认，不能重复设置" />
+				<entry key="-12" value="创建配对信息失败" />
+				<entry key="-13" value="仓单有误，临时仓单不能进行交收" />
+				<entry key="-14" value="交易商资金不足" />
+				<entry key="-15" value="不允许废除" />
+				<entry key="-16" value="仓单不允许操作" />
+				<entry key="-17" value="修改状态有误，请检查要修改的状态和仓单是否配套" />
+				<entry key="-18" value="已付卖方货款不能操作" />
+				<entry key="-100" value="操作异常！" />
+		    	<entry key="-1000" value="系统异常!" />
+		    </map> 
+		   </constructor-arg> 
+	   </bean>
+        
+       <bean id="w_resultMap" class="java.util.HashMap"> 
+	   <constructor-arg> 
+	    <map> 
+			<entry key="1" value="操作成功" />
+			<entry key="-1" value="无操作" />
+			<entry key="-2" value="没有访问权限" />			
+			<entry key="-3" value="不符合数量要求" />
+			<entry key="-4" value="操作状态与现实状态不符" />
+			<entry key="-6" value="没有符合条件的行为" />
+			<entry key="-7" value="入库单不能出库" />
+			<entry key="-8" value="出库重量大于可用重量" />
+			<entry key="-9" value="不能添加入库单" />
+			<entry key="-10" value="注册仓单不能转为入库单" />
+			<entry key="-11" value="临时仓单不能转为入库单" />
+			<entry key="-12" value="注册仓单数量不能大于可用数量" />
+			<entry key="-13" value="入库单不能转注册仓单" />
+			<entry key="-100" value="操作异常" />
+	    </map> 
+	   </constructor-arg> 
+	   </bean>
+	  <bean id="w_handleTransNameMap" class="java.util.HashMap"> 
+	   <constructor-arg> 
+	    <map> 
+	        <entry key="add" value="添加" />
+	        <entry key="addnonStandard" value="添加" />
+			<entry key="confirm" value="确认" />
+			<entry key="cancel" value="撤消" />
+			<entry key="approve" value="审核" />			
+			<entry key="overrule" value="驳回" />
+			<entry key="balance" value="结算" />
+			<entry key="regStockCancelled" value="注销" />
+	    </map> 
+	   </constructor-arg> 
+	</bean>
+	   <bean id="w_logContentMap" class="java.util.HashMap"> 
+	   <constructor-arg> 
+	    <map> 
+	        <entry key="add" value="添加记录" />
+			<entry key="confirm" value="确认记录" />
+			<entry key="cancel" value="撤消记录" />
+			<entry key="approve" value="审核记录" />			
+			<entry key="overrule" value="驳回记录" />
+			<entry key="balance" value="结算记录" />
+			<entry key="regStockCancelled" value="注销记录" />
+	    </map> 
+	   </constructor-arg> 
+	</bean>
+	
+	
+	
+</beans>

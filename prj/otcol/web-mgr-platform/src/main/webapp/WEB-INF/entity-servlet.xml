@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dwr ="http://www.directwebremoting.org/schema/spring-dwr" 
+	xmlns:context="http://www.springframework.org/schema/context"   
+		 xsi:schemaLocation="http://www.springframework.org/schema/beans
+		 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+				http://www.springframework.org/schema/context    
+				http://www.springframework.org/schema/context/spring-context-2.5.xsd		
+				http://www.directwebremoting.org/schema/spring-dwr 
+                http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd"> 
+ 
+    <!-- View Resolver for JSPs -->
+
+     <bean id="addMsgHandlerInterceptor"
+        class="gnnt.MEBS.entity.action.interceptor.AddMsgHandlerInterceptor" />
+        
+     <bean id="returnCurrentPageInterceptor"
+        class="gnnt.MEBS.entity.action.interceptor.ReturnCurrentPage" />
+        
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix"><value></value></property>
+        <property name="suffix"><value>.jsp</value></property>
+    </bean>
+    <!--  配置根据请求名决定控制器-->
+    <bean id="handlerMapping" 
+          class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping">
+          <property name="interceptors">
+            <list>
+                <ref bean="returnCurrentPageInterceptor" />
+                <ref bean="addMsgHandlerInterceptor" />
+            </list>
+           </property>
+    </bean>
+    
+    <bean id="paramResolver" class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver">
+		<property name="paramName">
+			<value>funcflg</value>
+		</property>
+	</bean>
+	
+	<!-- breed begin-->
+	<bean name="/entity/breedController.entity" class="org.springframework.web.servlet.mvc.multiaction.MultiActionController">
+		<property name="methodNameResolver">
+			<ref bean="paramResolver"/>
+		</property>
+		<property name="delegate">
+			<ref bean="breedController"/>
+		</property>
+	</bean>
+	<bean id="breedController" class="gnnt.MEBS.entity.action.BreedController"/>
+	
+
+</beans>

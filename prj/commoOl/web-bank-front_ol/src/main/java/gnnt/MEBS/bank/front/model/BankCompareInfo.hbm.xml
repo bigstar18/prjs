@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!--
+	通过配置文件配置 Model 类与数据库表之间的字段联系
+	将本配置文件配置到 hibernate.cfg.xml 中
+-->
+<hibernate-mapping>
+	<class name="gnnt.MEBS.bank.front.model.BankCompareInfo" table="F_B_BANKCOMPAREINFO" dynamic-update="true" lazy="false">
+		<id name="id"/>
+
+		<property name="funID"/>
+		<property name="account"/>
+		<property name="type"/>
+		<property name="money"/>
+		<property name="compareDate"/>
+		<property name="note"/>
+		<property name="createTime"/>
+		<property name="status"/>
+		
+		<many-to-one name="firm" class="gnnt.MEBS.common.front.model.integrated.MFirm" column="firmID"></many-to-one>
+		<many-to-one name="bank" class="gnnt.MEBS.bank.front.model.Bank" column="bankID"></many-to-one>
+	</class>
+</hibernate-mapping>
+

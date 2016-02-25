@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<!-- 前台系统维护的所有模块的 map 集合，key：moduleID(模块编号) value：moduleMsg(模块信息，其中信息依然以 Map 形式存储) -->
+	<util:map id="tradeModuleMap" map-class="java.util.LinkedHashMap" key-type="java.lang.Integer" value-type="java.util.Map">
+		<entry key="99" value-ref="module99"/><!-- 公用系统 -->
+		<entry key="98" value-ref="module98"/><!-- 模拟系统 -->
+		<entry key="10" value-ref="module10"/><!-- 综合系统 -->
+		<entry key="13" value-ref="module13"/><!-- 仓单系统 -->
+		<entry key="14" value-ref="module14"/><!-- 融资系统 -->
+		<entry key="23" value-ref="module23"/><!-- E现货系统 -->
+		<entry key="28" value-ref="module28"/><!-- 银行接口 -->
+	</util:map>
+
+	<!-- 公用系统配置信息 -->
+	<util:map id="module99" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="contextName" value="common_front"/><!-- 部署在tomcat中的名称 -->
+		<entry key="serverPic" value="common.gif"/><!-- 展示图片 -->
+		<entry key="serverPath" value="http://127.0.0.1:8080/"/><!-- 服务地址 -->
+		<entry key="homepageAction" value=""/><!-- 左菜单中平台主页action -->
+	</util:map>
+
+	<!-- 模拟系统配置信息 -->
+	<util:map id="module98" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="contextName" value="demo_front"/><!-- 部署在tomcat中的名称 -->
+		<entry key="serverPic" value="demo.gif"/><!-- 展示图片 -->
+		<entry key="serverPath" value=""/><!-- 服务地址 -->
+		<entry key="homepageAction" value=""/><!-- 左菜单中平台主页action -->
+	</util:map>
+
+	<!-- 综合系统配置信息 -->
+	<util:map id="module10" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="contextName" value="integrated_front"/><!-- 部署在tomcat中的名称 -->
+		<entry key="serverPic" value="ico_syn.png"/><!-- 展示图片 -->
+		<entry key="serverPath" value=""/><!-- 服务地址 -->
+		<entry key="homepageAction" value=""/><!-- 左菜单中平台主页action -->
+	</util:map>
+
+	<!-- 仓单系统配置信息 -->
+	<util:map id="module13" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="contextName" value="bill_front"/><!-- 部署在tomcat中的名称 -->
+		<entry key="serverPic" value="ico_cdsys.png"/><!-- 展示图片 -->
+		<entry key="serverPath" value=""/><!-- 服务地址 -->
+		<entry key="homepageAction" value=""/><!-- 左菜单中平台主页action -->
+	</util:map>
+
+	<!-- 融资系统配置信息 -->
+	<util:map id="module14" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="contextName" value="financing_front"/><!-- 部署在tomcat中的名称 -->
+		<entry key="serverPic" value="ico_money.png"/><!-- 展示图片 -->
+		<entry key="serverPath" value=""/><!-- 服务地址 -->
+		<entry key="homepageAction" value=""/><!-- 左菜单中平台主页action -->
+	</util:map>
+
+	<!-- E现货系统配置信息 -->
+	<util:map id="module23" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="contextName" value="espot_front"/><!-- 部署在tomcat中的名称 -->
+		<entry key="serverPic" value="ico_e.png"/><!-- 展示图片 -->
+		<entry key="serverPath" value=""/><!-- 服务地址 -->
+		<entry key="homepageAction" value="/home/menu/homepage.action"/><!-- 左菜单中平台主页action -->
+
+		<entry key="welcomePage" value="/front/app/espot/display/trade/index.jsp"/><!-- 首页地址 -->
+		<entry key="welcomePic" value="ico_e.png"/><!-- 首页点击图标 -->
+	</util:map>
+
+	<!-- 银行接口系统配置信息 -->
+	<util:map id="module28" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="contextName" value="bank_front"/><!-- 部署在tomcat中的名称 -->
+		<entry key="serverPic" value="ico_bank.png"/><!-- 展示图片 -->
+		<entry key="serverPath" value=""/><!-- 服务地址 -->
+		<entry key="homepageAction" value=""/><!-- 左菜单中平台主页action -->
+	</util:map>
+	
+
+</beans>

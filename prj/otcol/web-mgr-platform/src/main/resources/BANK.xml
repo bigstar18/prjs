@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+<!--注意：VALUE不能为空，不然会报解析不了XML的错误 -->
+    <COMPONENT>
+        <NAME>BANK</NAME>
+        <TYPE>normal</TYPE> 
+		<SECTION>
+            <NAME>Processor</NAME>
+             <PROPERTYS>
+                <!-- 处理器数据库类型 -->
+				<PROPERTY>
+                    <KEY>DBType</KEY>
+                    <VALUE>Oracle</VALUE>
+                </PROPERTY>
+				<!-- DBUrl -->
+				<PROPERTY>
+                    <KEY>DBUrl</KEY>
+                    <VALUE>jdbc:oracle:thin:@172.18.100.11:1521:gnnt</VALUE>
+                </PROPERTY>
+				<!-- DBUser -->
+				<PROPERTY>
+                    <KEY>DBUser</KEY>
+                    <VALUE>trade_bank</VALUE>
+                </PROPERTY>
+				<!-- DBPassword -->
+				<PROPERTY>
+                    <KEY>DBPassword</KEY>
+                    <VALUE>password</VALUE>
+                </PROPERTY>
+				<!-- 数据源 -->
+				<PROPERTY>
+						<KEY>JNDIName</KEY>
+						<VALUE>java:/comp/env/mgr</VALUE>
+				</PROPERTY>
+				<!-- 数据库连接类型 -->
+				<PROPERTY>
+						<KEY>DBConnType</KEY>
+						<VALUE>JNDIName</VALUE>
+				</PROPERTY>
+				<!--处理器远程IP地址 -->
+				<PROPERTY>
+					<KEY>RmiIpAddress</KEY> 
+					<VALUE>172.18.100.17</VALUE>
+				</PROPERTY>
+				<!--远程端口 -->
+				<PROPERTY>
+					<KEY>RmiPortNumber</KEY> 
+					<VALUE>2118</VALUE>
+				</PROPERTY>
+				<!--远程服务器名称 -->
+				<PROPERTY>
+					<KEY>RmiServiceName</KEY> 
+					<VALUE>CapitalProcessorRMI</VALUE>
+				</PROPERTY>
+				<!--远程服务器名称平台 -->
+				<PROPERTY>
+					<KEY>PTRmiServiceName</KEY> 
+					<VALUE>PlatformProcessorRMI</VALUE>
+				</PROPERTY>
+				<PROPERTY>
+                    <KEY>MarketCode</KEY>
+                    <VALUE>2102EC10000246</VALUE>
+                </PROPERTY> 
+                
+				<!-- 是否自动对账0：是 1：否 -->
+				<PROPERTY>
+						<KEY>CompareMode</KEY>
+						<VALUE>0</VALUE>
+				</PROPERTY>
+				<!-- 自动对账时间HH:mm:ss -->
+				<PROPERTY>
+						<KEY>CompareTime</KEY>
+						<VALUE>00:00:00</VALUE>
+				</PROPERTY>
+				<!-- 银行处理出金失败后 是否自动将出金金额退还给交易商 -->
+				<PROPERTY>
+                    <KEY>OutFailProcess</KEY>
+                    <VALUE>true</VALUE>
+                </PROPERTY>
+				<!-- 是否自动审核 -->
+				<PROPERTY>
+                    <KEY>AutoAudit</KEY>
+                    <VALUE>false</VALUE>
+                </PROPERTY>
+                <!-- 是否2次审核 -->
+				<PROPERTY>
+                    <KEY>secondMoneyAudit</KEY>
+                    <VALUE>true</VALUE>
+                </PROPERTY>
+				<!-- 审核开始时间（HH:MM:SS） 不设置则不检查-->
+				<PROPERTY>
+                    <KEY>AuditBeginTime</KEY>
+                    <VALUE>00:00:00</VALUE>
+                </PROPERTY>
+				<!-- 审核结束时间（HH:MM:SS） 不设置则不检查 -->
+				<PROPERTY>
+                    <KEY>AuditEndTime</KEY>
+                    <VALUE>23:59:59</VALUE>
+                </PROPERTY>
+				<!-- 当银行账号为空时的默认值 -->
+				<PROPERTY>
+                    <KEY>DefaultAccount</KEY>
+                    <VALUE>999999999999999999</VALUE>
+                </PROPERTY>
+				
+				<!--国付宝 交易市场监管账户 (G商银通账户)-->
+				<PROPERTY>
+                    <KEY>marketGSAcount</KEY>
+                    <VALUE>0000000002000092801</VALUE>
+                </PROPERTY>
+            </PROPERTYS>
+        </SECTION>
+        
+    </COMPONENT>
+</CONFIG>

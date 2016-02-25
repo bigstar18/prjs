@@ -1,0 +1,636 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE form-validation PUBLIC "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.1//EN" "http://jakarta.apache.org/commons/dtds/validator_1_1.dtd">
+
+<form-validation>
+     <global>
+      <constant>
+        <constant-name>phone</constant-name>
+        <constant-value>^\(?(\d{3})\)?[-| ]?(\d{3})[-| ]?(\d{4})$</constant-value>
+      </constant>
+      <constant>
+        <constant-name>zip</constant-name>
+        <constant-value>^\d{5}\d*$</constant-value>
+      </constant>
+      <constant>
+        <constant-name>currency</constant-name>
+        <constant-value>^\d{1,3}(,?\d{1,3})*\.?(\d{1,2})?$</constant-value>
+      </constant>
+   </global>
+
+  <formset>
+  <!--
+    Define form validation config in validation-forms.xml
+  -->
+  <!-- ==========================start xtgl =================================-->
+      <!-- =================== start role form           =================== -->
+      <form name="roleForm">
+              <field property="role_id" depends="required">
+                  <arg0 key="roleForm.role_id"/>
+              </field>
+              <field property="role_name" depends="required">
+                  <arg0 key="roleForm.role_name"/>
+              </field>
+      </form>
+      <!-- =================== end role form             =================== -->
+
+      <!-- =================== start user form           =================== -->
+      <form name="userForm">
+              <field property="userid" depends="required">
+                  <arg0 key="userForm.userid"/>
+              </field>
+               <field property="username" depends="required">
+                  <arg0 key="userForm.username"/>
+              </field>
+              <!--<field property="password" depends="required,twofields,minlength">
+                <msg name="twofields" key="errors.twofields"/>
+                <arg0 key="userForm.password"/>
+                <arg1 key="userForm.confirmPassword"/>
+                <var>
+                  <var-name>secondProperty</var-name>
+                  <var-value>confirmPassword</var-value>
+                </var>
+                <arg0 key="userForm.password"/>
+                <arg1 name="minlength" key="${var:minlength}" resource="false"/>
+                <var>
+                  <var-name>minlength</var-name>
+                  <var-value>6</var-value>
+                </var>
+              </field>-->
+      </form>
+      <!-- =================== end user form             =================== -->
+
+      <!-- =================== start pass form           =================== -->
+      <form name="passForm">
+              <field property="oldpassword" depends="required">
+                <arg0 key="passForm.oldpass"/>
+              </field>
+              <field property="password" depends="required,twofields,minlength">
+                <msg name="twofields" key="errors.twofields"/>
+                <arg0 key="passForm.newpass"/>
+                <arg1 key="passForm.confirmpass"/>
+                <var>
+                  <var-name>secondProperty</var-name>
+                  <var-value>confirmPassword</var-value>
+                </var>
+                <arg0 key="passForm.newpass"/>
+                <arg1 name="minlength" key="${var:minlength}" resource="false"/>
+                <var>
+                  <var-name>minlength</var-name>
+                  <var-value>4</var-value>
+                </var>
+              </field>
+              <field property="confirmPassword" depends="required">
+                <arg0 key="passForm.confirmpass"/>
+              </field>
+      </form>
+      <!-- =================== end pass form             =================== -->
+
+     <!-- ====================== start xtrz form =========================== -->
+     <form name="gzrzkForm">
+     <!--
+     <field property="gjdbm" depends="required">
+       <arg0 key="GzrzkForm.gjdbm"/>
+     </field>
+     -->
+     <field property="begintime" depends="required,date">
+       <arg0 key="GzrzkForm.begintime"/>
+       <var>
+         <var-name>datePattern</var-name>
+         <var-value>yyyy-MM-dd</var-value>
+       </var>
+     </field>
+     <field property="endtime" depends="required,date">
+       <arg0 key="GzrzkForm.endtime"/>
+       <var>
+         <var-name>datePattern</var-name>
+         <var-value>yyyy-MM-dd</var-value>
+       </var>
+     </field>
+     </form>
+     <!-- ====================== end xtrz  ============================= -->
+  <!-- ====================== end xtgl  ==================================== -->
+
+<!-- ======================== start baseinfo =============================== -->
+     <!-- ====================== start customerGroup form =======+============= -->
+     <form name="customerGroupForm">
+     <field property="parentID" depends="required">
+       <arg0 key="customerGroupForm.parentName"/>
+     </field> 
+     <field property="groupID" depends="required,integer,intRange">
+       <arg0 key="customerGroupForm.groupID"/>
+       <arg1 name="intRange" key="${var:min}" resource="false"/>
+       <arg2 name="intRange" key="${var:max}" resource="false"/>
+       <var>
+         <var-name>min</var-name>
+         <var-value>0</var-value>
+       </var>
+       <var>
+         <var-name>max</var-name>
+         <var-value>999999999</var-value>
+       </var>
+     </field>
+     <field property="groupName" depends="required">
+       <arg0 key="customerGroupForm.groupName"/>
+     </field>        
+     </form>
+     <!-- ====================== end customerGroup form ========+============== -->
+     <!-- ====================== start customer form ========================= -->
+     <form name="customerForm">
+  <!--   <field property="firmID" depends="required">
+       <arg0 key="customerForm.FirmID"/>
+     </field> -->
+    <!--  <field property="customerName" depends="required">
+       <arg0 key="customerForm.CustomerName"/>
+     </field>   -->
+     <field property="status" depends="required">
+       <arg0 key="customerForm.Status"/>
+     </field>
+	 <!--         
+     <field property="password" depends="required,twofields,minlength">
+                <msg name="twofields" key="errors.twofields"/>
+                <arg0 key="customerForm.Password"/>
+                <arg1 key="customerForm.ConfirmPassword"/>
+                <var>
+                  <var-name>secondProperty</var-name>
+                  <var-value>confirmPassword</var-value>
+                </var>
+                <arg0 key="customerForm.Password"/>
+                <arg1 name="minlength" key="${var:minlength}" resource="false"/>
+                <var>
+                  <var-name>minlength</var-name>
+                  <var-value>6</var-value>
+                </var>
+     </field>  
+     -->   
+     </form>
+     <!-- ====================== end customer form ============================= -->
+     <!-- ====================== start trader form ========================= -->
+     <form name="traderForm">
+     <field property="traderID" depends="required">
+       <arg0 key="traderForm.TraderID"/>
+     </field>
+     <field property="name" depends="required">
+       <arg0 key="traderForm.Name"/>
+     </field>
+     <field property="firmID" depends="required">
+       <arg0 key="traderForm.FirmID"/>
+     </field>
+     <field property="groupID" depends="required">
+       <arg0 key="traderForm.GroupID"/>
+     </field>
+     
+     
+   <!--   <field property="name" depends="required">
+       <arg0 key="traderForm.Name"/>
+     </field>    -->
+     <field property="password" depends="required,twofields,minlength">
+                <msg name="twofields" key="errors.twofields"/>
+                <arg0 key="traderForm.Password"/>
+                <arg1 key="traderForm.ConfirmPassword"/>
+                <var>
+                  <var-name>secondProperty</var-name>
+                  <var-value>confirmPassword</var-value>
+                </var>
+                <arg0 key="traderForm.Password"/>
+                <arg1 name="minlength" key="${var:minlength}" resource="false"/>
+                <var>
+                  <var-name>minlength</var-name>
+                  <var-value>6</var-value>
+                </var>
+     </field>          
+  <!--    <field property="status" depends="required">
+       <arg0 key="traderForm.Status"/>
+     </field>  -->
+     </form>
+     <!-- ====================== end trader form ============================= -->     
+     <!-- ====================== start market ============================ -->
+     <form name="marketForm">
+     <field property="marketCode" depends="required">
+       <arg0 key="marketForm.marketCode"/>
+     </field>
+     <field property="marketName" depends="required">
+       <arg0 key="marketForm.marketName"/>
+     </field> 
+     <!--<field property="shortName" depends="required">
+       <arg0 key="marketForm.shortName"/>
+     </field>-->
+     <field property="status" depends="required">
+       <arg0 key="marketForm.status"/>
+     </field>       
+   <!--   <field property="firmID" depends="required">
+       <arg0 key="marketForm.firmID"/>
+     </field> -->
+     <!--
+     <field property="tradePassword" depends="required,twofields,minlength">
+                <msg name="twofields" key="errors.twofields"/>
+                <arg0 key="marketForm.tradePassword"/>
+                <arg1 key="marketForm.confirmPassword"/>
+                <var>
+                  <var-name>secondProperty</var-name>
+                  <var-value>confirmPassword</var-value>
+                </var>
+                <arg0 key="marketForm.tradePassword"/>
+                <arg1 name="minlength" key="${var:minlength}" resource="false"/>
+                <var>
+                  <var-name>minlength</var-name>
+                  <var-value>4</var-value>
+                </var>
+     </field> 
+     -->
+     <field property="marginPriceType" depends="required">
+       <arg0 key="marketForm.marginPriceType"/>
+     </field>  
+     <field property="marginFBFlag" depends="required">
+       <arg0 key="marketForm.marginFBFlag"/>
+     </field>
+     <field property="floatingLossComputeType" depends="required">
+       <arg0 key="marketForm.floatingLossComputeType"/>
+     </field> 
+  <!--    <field property="commoditySetType" depends="required">
+       <arg0 key="marketForm.commoditySetType"/>
+     </field>    -->   
+     </form>
+     <!-- ====================== end market form ============================= -->
+     <!-- ====================== start tradeProps ============================ -->
+     <form name="tradePropsForm">
+     <field property="maxHoldQty" depends="required,integer,intRange">
+       <arg0 key="tradePropsForm.maxHoldQty"/>
+       <arg1 name="intRange" key="${var:min}" resource="false"/>
+       <arg2 name="intRange" key="${var:max}" resource="false"/>
+       <var>
+         <var-name>min</var-name>
+         <var-value>0</var-value>
+       </var>
+       <var>
+         <var-name>max</var-name>
+         <var-value>9999999999</var-value>
+       </var>
+     </field>     
+     <field property="minClearDeposit" depends="required,double,floatRange">
+       <arg0 key="tradePropsForm.minClearDeposit"/>
+       <arg1 name="floatRange" key="${var:min}" resource="false"/>
+       <arg2 name="floatRange" key="${var:max}" resource="false"/>
+       <var>
+         <var-name>min</var-name>
+         <var-value>0</var-value>
+       </var>
+       <var>
+         <var-name>max</var-name>
+         <var-value>999999999999.99</var-value>
+       </var>
+     </field>         
+     <field property="maxOverdraft" depends="required,double,floatRange">
+       <arg0 key="tradePropsForm.maxOverdraft"/>
+       <arg1 name="floatRange" key="${var:min}" resource="false"/>
+       <arg2 name="floatRange" key="${var:max}" resource="false"/>
+       <var>
+         <var-name>min</var-name>
+         <var-value>0</var-value>
+       </var>
+       <var>
+         <var-name>max</var-name>
+         <var-value>999999999999.99</var-value>
+       </var>
+     </field>            
+     </form>
+     <!-- ====================== end tradeProps form ============================= -->
+     <!-- ====================== start tradeRule form ============================ -->
+     <form name="tradeRuleForm">
+     <field property="marginAlgr" depends="required">
+       <arg0 key="commodityForm.MarginAlgr"/>
+     </field> 
+     <field property="marginRate_B" depends="required">
+       <arg0 key="commodityForm.MarginRate_B"/>
+     </field>  
+     <field property="marginAssure_B" depends="required">
+       <arg0 key="commodityForm.MarginAssure"/>
+     </field>  
+     <!-- <field property="marginRate_S" depends="required">
+       <arg0 key="commodityForm.MarginRate_S"/>
+     </field>-->   
+     <field property="feeAlgr" depends="required">
+       <arg0 key="commodityForm.FeeAlgr"/>
+     </field>     
+     <field property="feeRate_B" depends="required">
+       <arg0 key="commodityForm.FeeRate_B"/>
+     </field>
+     <field property="feeRate_S" depends="required">
+       <arg0 key="commodityForm.FeeRate_S"/>
+     </field>  
+     
+     <field property="settleFeeAlgr" depends="required">
+       <arg0 key="commodityForm.SettleFeeAlgr"/>
+     </field> 
+     <field property="settleFeeRate_B" depends="required">
+       <arg0 key="commodityForm.SettleFeeRate_B"/>
+     </field>
+     <field property="settleFeeRate_S" depends="required">
+       <arg0 key="commodityForm.SettleFeeRate_S"/>
+     </field>   
+     <field property="forceCloseFeeAlgr" depends="required">
+       <arg0 key="commodityForm.ForceCloseFeeAlgr"/>
+     </field>     
+     <field property="forceCloseFeeRate_B" depends="required">
+       <arg0 key="commodityForm.ForceCloseFeeRate_B"/>
+     </field>
+     <field property="forceCloseFeeRate_S" depends="required">
+       <arg0 key="commodityForm.ForceCloseFeeRate_S"/>
+     </field>
+     <!--<field property="marketCode" depends="required">
+       <arg0 key="marketForm.marketCode"/>
+     </field>     
+      <field property="feeDiscountRate" depends="double,floatRange">
+       <arg0 key="tradeRuleForm.feeDiscountRate"/>
+       <arg1 name="floatRange" key="${var:min}" resource="false"/>
+       <arg2 name="floatRange" key="${var:max}" resource="false"/>
+       <var>
+         <var-name>min</var-name>
+         <var-value>0</var-value>
+       </var>
+       <var>
+         <var-name>max</var-name>
+         <var-value>99.99999</var-value>
+       </var>
+     </field>         
+     <field property="marginDiscountRate" depends="double,floatRange">
+       <arg0 key="tradeRuleForm.marginDiscountRate"/>
+       <arg1 name="floatRange" key="${var:min}" resource="false"/>
+       <arg2 name="floatRange" key="${var:max}" resource="false"/>
+       <var>
+         <var-name>min</var-name>
+         <var-value>0</var-value>
+       </var>
+       <var>
+         <var-name>max</var-name>
+         <var-value>99.99999</var-value>
+       </var>
+     </field> -->          
+     </form>
+     <!-- ====================== end tradeRule form ============================= -->
+     <!-- ====================== start cM_CustomerMap form ============================ -->
+     <form name="cM_CustomerMapForm">
+     <field property="marketCode" depends="required">
+       <arg0 key="marketForm.marketCode"/>
+     </field>     
+     <field property="customerID" depends="required">
+       <arg0 key="customerForm.CustomerID"/>
+     </field>
+     <field property="m_CustomerID" depends="required">
+       <arg0 key="cM_CustomerMapForm.m_CustomerID"/>
+     </field>     
+     <field property="status" depends="required">
+       <arg0 key="cM_CustomerMapForm.status"/>
+     </field>             
+     </form>
+     <!-- ====================== end cM_CustomerMap form ============================= -->
+     <!-- ====================== start breed ============================ -->
+     <form name="breedForm">
+     <!-- <field property="marketCode" depends="required">
+       <arg0 key="marketForm.marketName"/>
+     </field>-->
+     <field property="sortID" depends="required">
+       <arg0 key="cmdtySortForm.sortName"/>
+     </field>
+     <field property="breedName" depends="required">
+       <arg0 key="breedForm.BreedName"/>
+     </field>      
+     <field property="minPriceMove" depends="required">
+       <arg0 key="commodityForm.MinPriceMove"/>
+     </field> 
+     <field property="spreadAlgr" depends="required">
+       <arg0 key="commodityForm.SpreadAlgr"/>
+     </field>     
+     <field property="spreadUpLmt" depends="required">
+       <arg0 key="commodityForm.SpreadUpLmt"/>
+     </field>
+     <field property="spreadDownLmt" depends="required">
+       <arg0 key="commodityForm.SpreadDownLmt"/>
+     </field>             
+     <field property="marginAlgr" depends="required">
+       <arg0 key="commodityForm.MarginAlgr"/>
+     </field> 
+     <field property="marginRate_B" depends="required">
+       <arg0 key="commodityForm.MarginRate_B"/>
+     </field> 
+     <field property="marginAssure_B" depends="required">
+       <arg0 key="commodityForm.MarginAssure_B"/>
+     </field>   
+     <!-- <field property="marginRate_S" depends="required">
+       <arg0 key="commodityForm.MarginRate_S"/>
+     </field>-->   
+     <field property="feeAlgr" depends="required">
+       <arg0 key="commodityForm.FeeAlgr"/>
+     </field>     
+     <field property="feeRate_B" depends="required">
+       <arg0 key="commodityForm.FeeRate_B"/>
+     </field>
+     <field property="feeRate_S" depends="required">
+       <arg0 key="commodityForm.FeeRate_S"/>
+     </field>     
+     <!--<field property="marketFeeAlgr" depends="required">
+       <arg0 key="commodityForm.MarketFeeAlgr"/>
+     </field>     
+     <field property="marketFeeRate_B" depends="required">
+       <arg0 key="commodityForm.MarketFeeRate_B"/>
+     </field>
+     <field property="marketFeeRate_S" depends="required">
+       <arg0 key="commodityForm.MarketFeeRate_S"/>
+     </field>-->
+     <field property="startTime" depends="required">
+       <arg0 key="breedForm.StartTime"/>
+     </field>  
+     <field property="endTime" depends="required">
+       <arg0 key="breedForm.EndTime"/>
+     </field>  
+                        
+     </form>
+     <!-- ====================== end breed form ============================= -->
+     <!-- ====================== start commodity form ============================ -->
+     <form name="commodityForm">   
+     <field property="marketCode" depends="required">
+       <arg0 key="marketForm.marketName"/>
+     </field>     
+     <field property="commodityID" depends="required">
+       <arg0 key="commodityForm.CommodityID"/>
+     </field>     
+     <field property="name" depends="required">
+       <arg0 key="commodityForm.Name"/>
+     </field>  
+     <field property="marketDate" depends="required,date">
+       <arg0 key="commodityForm.MarketDate"/>
+       <var>
+         <var-name>datePattern</var-name>
+         <var-value>yyyy-MM-dd</var-value>
+       </var>
+     </field>        
+     <field property="settleDate" depends="required,date">
+       <arg0 key="commodityForm.SettleDate"/>
+       <var>
+         <var-name>datePattern</var-name>
+         <var-value>yyyy-MM-dd</var-value>
+       </var>
+     </field>     
+     <field property="status" depends="required">
+       <arg0 key="commodityForm.Status"/>
+     </field> 
+     <field property="lastPrice" depends="required">
+       <arg0 key="commodityForm.LastPrice"/>
+     </field>        
+     <field property="breedID" depends="required">
+       <arg0 key="commodityForm.BreedID"/>
+     </field> 
+     <field property="sortID" depends="required">
+       <arg0 key="cmdtySortForm.sortName"/>
+     </field> 
+     <field property="minPriceMove" depends="required">
+       <arg0 key="commodityForm.MinPriceMove"/>
+     </field>                    
+     <field property="contractFactor" depends="required,integer,intRange">
+       <arg0 key="commodityForm.ContractFactor"/>
+       <arg1 name="intRange" key="${var:min}" resource="false"/>
+       <arg2 name="intRange" key="${var:max}" resource="false"/>
+       <var>
+         <var-name>min</var-name>
+         <var-value>0</var-value>
+       </var>
+       <var>
+         <var-name>max</var-name>
+         <var-value>9999999999</var-value>
+       </var>
+     </field> 
+     <field property="spreadAlgr" depends="required">
+       <arg0 key="commodityForm.SpreadAlgr"/>
+     </field>     
+     <field property="spreadUpLmt" depends="required">
+       <arg0 key="commodityForm.SpreadUpLmt"/>
+     </field>
+     <field property="spreadDownLmt" depends="required">
+       <arg0 key="commodityForm.SpreadDownLmt"/>
+     </field>             
+     <field property="marginAlgr" depends="required">
+       <arg0 key="commodityForm.MarginAlgr"/>
+     </field> 
+     <field property="marginRate_B" depends="required">
+       <arg0 key="commodityForm.MarginRate_B"/>
+     </field> 
+     <field property="marginAssure_B" depends="required">
+       <arg0 key="commodityForm.MarginAssure"/>
+     </field>  
+     <!-- <field property="marginRate_S" depends="required">
+       <arg0 key="commodityForm.MarginRate_S"/>
+     </field>-->   
+     <field property="feeAlgr" depends="required">
+       <arg0 key="commodityForm.FeeAlgr"/>
+     </field>     
+     <field property="feeRate_B" depends="required">
+       <arg0 key="commodityForm.FeeRate_B"/>
+     </field>
+     <field property="feeRate_S" depends="required">
+       <arg0 key="commodityForm.FeeRate_S"/>
+     </field>     
+     <field property="startTime" depends="required">
+       <arg0 key="breedForm.StartTime"/>
+     </field>  
+     <field property="endTime" depends="required">
+       <arg0 key="breedForm.EndTime"/>
+     </field> 
+
+     <field property="settleDate1" depends="date">
+       <arg0 key="commodityForm.SettleDate1"/>
+       <var>
+         <var-name>datePattern</var-name>
+         <var-value>yyyy-MM-dd</var-value>
+       </var>
+     </field>  
+     <field property="settleDate2" depends="date">
+       <arg0 key="commodityForm.SettleDate2"/>
+       <var>
+         <var-name>datePattern</var-name>
+         <var-value>yyyy-MM-dd</var-value>
+       </var>
+     </field>  
+     <field property="settleDate3" depends="date">
+       <arg0 key="commodityForm.SettleDate3"/>
+       <var>
+         <var-name>datePattern</var-name>
+         <var-value>yyyy-MM-dd</var-value>
+       </var>
+     </field>  
+     <field property="settleDate4" depends="date">
+       <arg0 key="commodityForm.SettleDate4"/>
+       <var>
+         <var-name>datePattern</var-name>
+         <var-value>yyyy-MM-dd</var-value>
+       </var>
+     </field>                                                    
+     </form>
+     <!-- ====================== end commodity form ============================= -->
+     <!-- ====================== start broadcast form ========================= -->
+     <form name="broadcastForm">
+     <field property="title" depends="required">
+       <arg0 key="broadcast.title"/>
+     </field>
+     <field property="content" depends="required">
+       <arg0 key="broadcast.content"/>
+     </field>
+     </form>
+     <!-- ====================== end broadcast form ============================= -->
+     <!-- ====================== start cmdtySort form ========================= -->
+     <form name="cmdtySortForm">
+     <field property="sortID" depends="required">
+       <arg0 key="cmdtySortForm.sortID"/>
+     </field>
+     <field property="maxHoldQty" depends="required">
+       <arg0 key="cmdtySortForm.maxHoldQty"/>
+     </field>     
+     </form>
+     <!-- ====================== end cmdtySort form ============================= -->
+  
+     <!-- ====================== start orders form ============================ -->
+     <form name="ordersForm">
+     <field property="customerID" depends="required">
+       <arg0 key="ordersForm.CustomerID"/>
+     </field>   
+     <field property="marketCode" depends="required">
+       <arg0 key="marketForm.marketName"/>
+     </field>   
+     <field property="uni_Cmdty_Code" depends="required">
+       <arg0 key="ordersForm.CommodityID"/>
+     </field>
+     <field property="BS_Flag" depends="required">
+       <arg0 key="ordersForm.BS_Flag"/>
+     </field>
+     <field property="orderType" depends="required">
+       <arg0 key="ordersForm.OrderType"/>
+     </field>     
+     <field property="price" depends="required,double,floatRange">
+       <arg0 key="ordersForm.Price"/>
+       <arg1 name="floatRange" key="${var:min}" resource="false"/>
+       <arg2 name="floatRange" key="${var:max}" resource="false"/>
+       <var>
+         <var-name>min</var-name>
+         <var-value>0</var-value>
+       </var>
+       <var>
+         <var-name>max</var-name>
+         <var-value>9999999.99</var-value>
+       </var>
+     </field>
+     <field property="quantity" depends="required,integer,intRange">
+       <arg0 key="ordersForm.Quantity"/>
+       <arg1 name="intRange" key="${var:min}" resource="false"/>
+       <arg2 name="intRange" key="${var:max}" resource="false"/>
+       <var>
+         <var-name>min</var-name>
+         <var-value>1</var-value>
+       </var>
+       <var>
+         <var-name>max</var-name>
+         <var-value>9999999999</var-value>
+       </var>
+     </field>      
+     </form>
+     
+     <!-- ====================== end orders form ============================= -->  
+  </formset>
+</form-validation>

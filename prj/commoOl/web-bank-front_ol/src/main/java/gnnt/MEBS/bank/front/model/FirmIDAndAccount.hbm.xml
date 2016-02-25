@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!--
+	通过配置文件配置 Model 类与数据库表之间的字段联系
+	将本配置文件配置到 hibernate.cfg.xml 中
+-->
+<hibernate-mapping>
+	<class name="gnnt.MEBS.bank.front.model.FirmIDAndAccount" table="F_B_FIRMIDANDACCOUNT" dynamic-update="true" lazy="false">
+		<composite-id>
+			<key-many-to-one name="bank" class="gnnt.MEBS.bank.front.model.Bank" column="bankID"/>
+			<key-many-to-one name="firm" class="gnnt.MEBS.common.front.model.integrated.MFirm" column="firmID"/>
+		</composite-id>
+
+		<property name="account"/>
+		<property name="account1"/>
+		<property name="status"/>
+		<property name="accountName"/>
+		<property name="bankName"/>
+		<property name="bankProvince"/>
+		<property name="bankCity"/>
+		<property name="mobile"/>
+		<property name="email"/>
+		<property name="isOpen"/>
+		<property name="cardType"/>
+		<property name="card"/>
+		<property name="frozenFuns"/>
+		<property name="accountName1"/>
+		<property name="openTime"/>
+		<property name="delTime"/>
+		<property name="inmarketCode"/>
+	</class>
+</hibernate-mapping>
+

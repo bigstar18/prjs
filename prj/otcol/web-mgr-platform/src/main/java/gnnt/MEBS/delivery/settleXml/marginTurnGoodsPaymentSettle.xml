@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+  
+
+	<!-- ******************************** settleBehavior start ********************************* -->
+    
+	<!-- 保证金转货款资金判断 Filtering -->
+	<bean id="w_marginTurnGoodsPaymentFiltering" class="gnnt.MEBS.delivery.command.settleBehavior.filter.CheckMarginTurnGoodsPayment"></bean>
+	<!-- 保证金转货款 Behavior-->
+	<bean id="w_marginTurnGoodsPaymentBehavior" class="gnnt.MEBS.delivery.command.settleBehavior.behavior.MarginTurnGoodsPayment"></bean>
+	
+	<!-- 保证金转货款 handle -->
+	<bean id="w_marginTurnGoodsPaymentHandle" class="gnnt.MEBS.delivery.command.settleBehavior.BaseHandle">
+	   <property name="conditionList">  
+			<list>
+				<ref bean="w_moduleCondition"/>
+			</list>
+	    </property>
+	    <property name="filteringList">  
+            <list>
+    			<ref bean="w_marginTurnGoodsPaymentFiltering"/>
+    			<ref bean="w_regStockTypeFiltering"/> 
+    		</list>
+	    </property>
+	    <property name="behaviourList">  
+            <list>
+    			<ref bean="w_marginTurnGoodsPaymentBehavior"/>
+    		</list>
+	    </property>
+	</bean>
+	
+	<!-- 保证金转货款 Receive -->
+	<bean id="w_marginTurnGoodsPaymentReceive" class="gnnt.MEBS.delivery.command.settleBehavior.BaseReceive">
+	  <property name="handleList">  
+    		<list>
+    			<ref bean="w_marginTurnGoodsPaymentHandle"/>
+    		</list>
+	    </property>
+	     <property name="settleBalanceCheck">
+			<ref bean="w_settleBalanceCheckForBuyDeduction"/>
+		</property>
+		<property name="settleLegalExamine">
+	    	<ref bean="w_settleLegalExamineCheckRegStock"/>
+	    </property>
+	</bean>
+	
+</beans>

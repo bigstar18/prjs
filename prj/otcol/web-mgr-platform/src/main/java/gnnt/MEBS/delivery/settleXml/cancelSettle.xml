@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+		
+ <!-- 板块配置 -->
+    <bean id="w_moduleSettleCancelConditionForFutures" class="gnnt.MEBS.delivery.command.settleBehavior.condition.ModuleCondition">
+		<property name="moduleList">
+			<list>
+				<value>2</value>
+			</list>
+		</property>
+	</bean>
+	
+	 <bean id="w_moduleSettleCancelConditionForBidAndSpot" class="gnnt.MEBS.delivery.command.settleBehavior.condition.ModuleCondition">
+		<property name="moduleList">
+			<list>
+				<value>3</value>
+				<value>4</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 判断不能废除Filtering -->
+	<bean id="w_checkNoCancelSettleCancelFiltering" class="gnnt.MEBS.delivery.command.settleBehavior.filter.CheckNoCancel">
+	    <property name="noCancelPrefixList">
+				<ref bean="noCancelPrefixList"/>
+		</property>
+	</bean>
+	
+	<!-- 废除交收配对记录数据 Behavior-->
+	<bean id="w_settleCancelDataBehavior" class="gnnt.MEBS.delivery.command.settleBehavior.behavior.SettleCancelData"></bean>
+	
+    <!-- 废除远期交收配对记录数据 Behavior-->
+	<bean id="w_settleCancelForFuturesBehavior" class="gnnt.MEBS.delivery.command.settleBehavior.behavior.SettleCancelForFutures"></bean>
+	
+    <!-- 还原交收交易客户持仓明细表中已配对数量 Behavior-->
+	<bean id="w_updateMatchQuantityBehavior" class="gnnt.MEBS.delivery.command.settleBehavior.behavior.UpdateMatchQuantityBehavior"></bean>
+	
+	<!-- 远期废除 handle -->
+	<bean id="w_settleCancelForFuturesHandle" class="gnnt.MEBS.delivery.command.settleBehavior.BaseHandle">
+	   <property name="conditionList">  
+			<list>
+				<ref bean="w_moduleSettleCancelConditionForFutures"/>
+			</list>
+	    </property>
+	    <property name="filteringList">  
+            <list>
+    			<ref bean="w_checkNoCancelSettleCancelFiltering"/>
+    		</list>
+	    </property>
+	    <property name="behaviourList">  
+            <list>
+    			<ref bean="w_releaseOldRegStockBehavior"/>
+    			<ref bean="w_settleCancelDataBehavior"/>
+    			<ref bean="w_settleCancelForFuturesBehavior"/>
+    			<ref bean="w_updateMatchQuantityBehavior"/>
+    		</list>
+	    </property>
+	</bean>
+	
+	<!-- 现货竞价废除 handle -->
+	<bean id="w_settleCancelForBidAndSpotHandle" class="gnnt.MEBS.delivery.command.settleBehavior.BaseHandle">
+	   <property name="conditionList">  
+			<list>
+				<ref bean="w_moduleSettleCancelConditionForBidAndSpot"/>
+			</list>
+	    </property>
+	    <property name="behaviourList">  
+            <list>
+    			<ref bean="w_releaseOldRegStockBehavior"/>
+    			<ref bean="w_settleCancelDataBehavior"/>
+    			<ref bean="w_updateMatchQuantityBehavior"/>
+    		</list>
+	    </property>
+	</bean>
+	
+	<!-- 修改状态 Receive -->
+	<bean id="w_settleCancelReceive" class="gnnt.MEBS.delivery.command.settleBehavior.BaseReceive">
+	  <property name="handleList">  
+    		<list>
+    			<ref bean="w_settleCancelForFuturesHandle"/>
+    			<ref bean="w_settleCancelForBidAndSpotHandle"/>
+    		</list>
+	    </property>
+	     <property name="settleBalanceCheck">
+			<ref bean="w_settleBalanceCheckDefault"/>
+		</property>
+		<property name="settleLegalExamine">
+	    	<ref bean="w_settleLegalExamineNotCheckRegStockForAllType"/>
+	    </property>
+	</bean>
+		
+ 
+ 
+</beans>

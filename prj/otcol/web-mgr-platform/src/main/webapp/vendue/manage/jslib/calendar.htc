@@ -1,0 +1,879 @@
+<!--
+   Author: Kivian Chen
+   version: 1.0
+   description: 通用日历控件。
+   
+   ==========================================================================================
+   属性说明：
+   showTime    : 是否显示时间，true/false；缺省为false，不显示；如果显示时间格式为：YYYY-MM-DD HH:MM
+   eltID       : 日期Input的ID；缺省为inpt_Date
+   eltValue    : 日期Input的Value；缺省为当前的日期和时间
+   eltCSS      : 日期Input的样式Class；缺省为date
+   eltStyle    : 日期Input的样式Style；缺省为空，主要用于单独设置样式，例如长度等
+   eltImgPath  : 弹出日历的按钮图片所在路径；缺省为：/skin/default/images/
+   eltImgName  ：弹出日历的按钮图片的名称；缺省为：calendar.gif
+   initDisplay : 初始状态下是否显示日历。
+   ==========================================================================================
+   修改记录：
+   2005-01-30: 完成基本功能；未完成预定事件－onerror、onreadystatechange
+-->
+
+<PUBLIC:COMPONENT
+	ID = "calendar"
+    NAME = "calendar"
+    tagName = "calendar"
+>
+
+<PUBLIC:PROPERTY ID="showTime" NAME="showTime" value="false" />
+<PUBLIC:PROPERTY ID="eltID" NAME="eltID" />
+<PUBLIC:PROPERTY ID="eltName" NAME="eltName" />
+<PUBLIC:PROPERTY ID="eltValue" NAME="eltValue" />
+<PUBLIC:PROPERTY ID="eltCSS" NAME="eltCSS" value="date" />
+<PUBLIC:PROPERTY ID="eltStyle" NAME="eltStyle" value="" />
+<PUBLIC:PROPERTY ID="eltImgPath" NAME="eltImgPath" value="/skin/default/images/" />
+<PUBLIC:PROPERTY ID="eltImgName" NAME="eltImgName" value="calendar.gif" />
+<PUBLIC:PROPERTY ID="eltProperty" NAME="eltProperty" value="" />
+<PUBLIC:PROPERTY ID="initDisplay" NAME="initDisplay" value="none" />
+
+<PUBLIC:ATTACH EVENT="ondocumentready" ONEVENT="initCalendar()" />
+<PUBLIC:ATTACH EVENT="onclick" ONEVENT="onClickFunc()" />
+<PUBLIC:ATTACH EVENT="ondblclick" ONEVENT="onClickFunc()" />
+
+<PUBLIC:EVENT ID="onerror" NAME="onErrorFunc" />
+<PUBLIC:EVENT ID="onclick" NAME="onClickFunc" />
+<PUBLIC:EVENT ID="ondblclick" NAME="onClickFunc" />
+<PUBLIC:EVENT ID="onreadystatechange" NAME="onReadystatechangeFunc" />
+
+<Script LANGUAGE="JavaScript">
+	var gaMonthNames = new Array( '一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '十一', '十二' ); //中文月份
+	var gaWeekNames = new Array( '日', '一', '二', '三', '四', '五', '六'); //中文星期
+	var gaMonthDays = new Array( 
+		/* 一月 */ 31,	/* 二月 */ 29,	/* 三月 */ 31,	/* 四月 */ 30, 
+		/* 五月 */ 31,	/* 六月 */ 30,	/* 七月 */ 31,	/* 八月 */ 31, 
+		/* 九月 */ 30,	/* 十月 */ 31,	/* 十一月 */ 30,	/* 十二月 */ 31 ); //每月天数
+
+	var gaDayCell             = new Array()    // 放置日期的单元格数组
+	var goDayTitleRow         = null           // 星期所在的行对象
+	var goDateInput           = null           // 日期输入框
+	var goHourSelect          = null           // 选择小时的Select对象
+	var goMinuteSelect        = null           // 选择分钟的Select对象
+	var goCurrentDayCell      = null           // 当前被选中的日期单元格对象
+	var goImg                 = null           // 图片对象
+	var goCalendar            = null           // 显示日历网格的DIV对象
+	var giStartDayIndex       = 0              // 每个月的第一天在日期单元格数值中的序号
+
+	var giMinute                               // 分钟
+	var giHour                                 // 小时
+	var giDay                                  // 日期 （1 到 31）
+	var giMonth                                // 月份 （1 到 12）
+	var giYear                                 // 年份 （1900 到 2099）
+	var giFirstDay            = 0              // 每周的第一天 （0 到 6）
+	var giMinYear             = 1900           // 最小年份
+	var giMaxYear             = 2099           // 最大年份
+
+	//初始化日历控件
+	function initCalendar()
+	{
+		createStyleSheets();
+		createCalendarHTML();
+
+		setInitDate();
+		updateTitle();
+		updateDayTitle();
+		fillDateCell();
+	}
+
+	//建立样式表
+	function createStyleSheets()
+	{
+		var StyleInfo;
+
+		if ( !element.document.body.BehaviorStyleSheet )
+			element.document.body.BehaviorStyleSheet = element.document.createStyleSheet();
+
+		StyleInfo = element.document.body.BehaviorStyleSheet;
+
+		StyleInfo.addRule( '.WholeCalendar_' + uniqueID,'background-color : #E0E0E0;' +
+														'border           : 1px solid gray;' +
+														'cursor           : default;' +
+														'width            : 250px;' +
+														'height           : 185px;' );
+
+		StyleInfo.addRule( '.TitleDirector_' + uniqueID,'color            : #00009F;' +
+														'font-family      : Webdings;' +
+														'font-size        : 10pt;' +
+														'text-align       : center;' +
+														'height           : 30px;' +
+														'width            : 20%;' +
+														'background-color : #E0E0E0;' +
+														'vertical-align   : center;' );
+		
+		StyleInfo.addRule( '.DateTitle_' + uniqueID,    'color            : #333333;' +
+														'font-family      : Arial;' +
+														'font-size        : 10pt;' +
+														'font-weight      : bold;' +
+														'text-align       : center;' +
+														'vertical-align   : center;' +
+														'height           : 30px;' +
+														'width            : 60%;' +
+														'background-color : #E0E0E0;' );
+		
+		StyleInfo.addRule( '.TimeSelect_' + uniqueID,   'font-size  : 9pt;' +
+														'font-family: Arial;' );
+
+		StyleInfo.addRule( '.TitleTable_' + uniqueID,   'background-color    : #E0E0E0;' +
+														'border-width        : 1px;' +
+														'border-style        : solid;' +
+														'border-left-color   : white;' +
+														'border-top-color    : white;' +
+														'border-right-color  : gray;' +
+														'border-bottom-color : gray;' +
+														'cursor              : default;' +
+														'width               : 100%;' +
+														'height              : 100%;' );
+
+		StyleInfo.addRule( '.CalTable_' + uniqueID,     'border : 1 solid gray;' +
+														'width  : 100%;' +
+														'height : 100%;' );
+
+		StyleInfo.addRule( '.DayTitle_' + uniqueID,     'background-color    : Arial;' +
+														'color               : #333333;' +
+														'font-family         : Arial;' +
+														'font-size           : 9pt;' +
+														'font-weight         : bold;' +
+														'text-align          : center;' +
+														'border-width        : 1px;' +
+														'border-style        : solid;' +
+														'border-left-color   : white;' +
+														'border-top-color    : white;' +
+														'border-right-color  : gray;' +
+														'border-bottom-color : gray;' +
+														'width               : 14%;' +
+														'height              : 25px;' );
+
+		StyleInfo.addRule( '.OffDay_' + uniqueID,        'background-color    : #E0E0E0;' +
+														'color               : #7F7F7F;' +
+														'font-family         : Arial;' +
+														'font-size           : 8pt;' +
+														'font-weight         : normal;' +
+														'text-align          : center;' +
+														'vertical-align      : center;' +
+														'border-width        : 1px;' +
+														'border-style        : solid;' +
+														'border-left-color   : white;' +
+														'border-top-color    : white;' +
+														'border-right-color  : gray;' +
+														'border-bottom-color : gray;' +
+														'width               : 14%;' +
+														'cursor              : hand;' +
+														'height              : 22px;' );
+
+		StyleInfo.addRule( '.Day_' + uniqueID,          'background-color    : #E0E0E0;' +
+														'color               : #00009F;' +
+														'font-family         : Aria;' +
+														'font-size           : 9pt;' +
+														'font-weight         : normal;' +
+														'text-align          : center;' +
+														'vertical-align      : center;' +
+														'border-width        : 1px;' +
+														'border-style        : solid;' +
+														'border-left-color   : white;' +
+														'border-top-color    : white;' +
+														'border-right-color  : gray;' +
+														'border-bottom-color : gray;' +
+														'width               : 14%;' +
+														'cursor              : hand;' +
+														'height              : 22px;' );
+
+		StyleInfo.addRule( '.DaySelected_' + uniqueID,  'background-color    : #7F7F7F;' +
+														'color               : yellow;' +
+														'font-family         : Arial;' +
+														'font-size           : 8pt;' +
+														'font-weight         : normal;' +
+														'text-align          : center;' +
+														'vertical-align      : center;' +
+														'border-width        : 1px;' +
+														'border-style        : solid;' +
+														'border-left-color   : #555555;' +
+														'border-top-color    : #555555;' +
+														'border-right-color  : #BFBFBF;' +
+														'border-bottom-color : #BFBFBF;' +
+														'width               : 14%;' +
+														'cursor              : hand;' +
+														'height              : 22px;' );
+	}
+
+	//创建输入框和日历元素，为全局对象赋值
+	function createCalendarHTML()
+	{
+		var row, cell;
+
+		element.innerHTML = '<span style="height:22px;">' +
+							'	<input id="' + eltID.value + '" name="' + eltName.value + '" type="text" class="'+ eltCSS.value + '" style="' + eltStyle.value + '" ' + eltProperty.value + '>&nbsp;<img id="img_Date_' + uniqueID + '" src="' + eltImgPath.value + eltImgName.value + '" border="0" alt="显示 / 隐藏 日历" width="16" height="15" style="cursor: hand;">' +
+							'</span>';
+		var strCalndrHTML =	'<div id="div_Calendar_' + uniqueID + '" style="position: absolute; left: 0px; top: 0px; display: none; z-index: 100;">' +
+							'<table border="0" class="WholeCalendar_' + uniqueID + '">' +
+							'	<thead>' +
+							'		<tr height="25">' +
+							'			<td>' +
+							'				<table class="TitleTable_' + uniqueID + '" cellspacing="0" cellpadding="0" border="0">' +
+							'					<tr>' +
+							'						<td class="TitleDirector_' + uniqueID + '"><span id="span_prevYear_' + uniqueID + '" title="上一年" style="cursor: hand;">9</span> <span id="span_prevMonth_' + uniqueID + '" title="上一月" style="cursor: hand;">7</span></td>' +
+							'						<td class="DateTitle_' + uniqueID + '" NOWRAP><span id="span_title_' + uniqueID + '"></span><span id="span_TimeSelect' + uniqueID + '" style="display: none;">' +
+							'							<select id="slt_hour_' + uniqueID + '" class="TimeSelect_' + uniqueID + '">' +
+							'								<option value="00">00</option>' +
+							'								<option value="01">01</option>' +
+							'								<option value="02">02</option>' +
+							'								<option value="03">03</option>' +
+							'								<option value="04">04</option>' +
+							'								<option value="05">05</option>' +
+							'								<option value="06">06</option>' +
+							'								<option value="07">07</option>' +
+							'								<option value="08">08</option>' +
+							'								<option value="09">09</option>' +
+							'								<option value="10">10</option>' +
+							'								<option value="11">11</option>' +
+							'								<option value="12">12</option>' +
+							'								<option value="13">13</option>' +
+							'								<option value="14">14</option>' +
+							'								<option value="15">15</option>' +
+							'								<option value="16">16</option>' +
+							'								<option value="17">17</option>' +
+							'								<option value="18">18</option>' +
+							'								<option value="19">19</option>' +
+							'								<option value="20">20</option>' +
+							'								<option value="21">21</option>' +
+							'								<option value="22">22</option>' +
+							'								<option value="23">23</option>' +
+							'							</select> : ' +
+							'							<select id="slt_minute_' + uniqueID + '" class="TimeSelect_' + uniqueID + '">' +
+							'								<option value="00">00</option>' +
+							'								<option value="05">05</option>' +
+							'								<option value="10">10</option>' +
+							'								<option value="15">15</option>' +
+							'								<option value="20">20</option>' +
+							'								<option value="25">25</option>' +
+							'								<option value="30">30</option>' +
+							'								<option value="35">35</option>' +
+							'								<option value="40">40</option>' +
+							'								<option value="45">45</option>' +
+							'								<option value="50">50</option>' +
+							'								<option value="55">55</option>' +
+							'							</select></span>' +
+							'						</td>' +
+							'						<td class="TitleDirector_' + uniqueID + '"><span id="span_nextMonth_' + uniqueID + '" title="下一月" style="cursor: hand;">8 <span id="span_nextYear_' + uniqueID + '" title="下一年" style="cursor: hand;">:</span></td>' +
+							'					</tr>' +
+							'				</table>' +
+							'			</td>' +
+							'		</tr>' +
+							'	</thead>' +
+							'	<tbody>' +
+							'		<tr>' +
+							'			<td colspan="3">' +
+							'				<table class="CalTable_' + uniqueID + '" cellspacing="0" cellpadding="0" border="1">' +
+							'					<tr>' +
+							'						<td class="DayTitle_' + uniqueID + '"></td>' +
+							'						<td class="DayTitle_' + uniqueID + '"></td>' +
+							'						<td class="DayTitle_' + uniqueID + '"></td>' +
+							'						<td class="DayTitle_' + uniqueID + '"></td>' +
+							'						<td class="DayTitle_' + uniqueID + '"></td>' +
+							'						<td class="DayTitle_' + uniqueID + '"></td>' +
+							'						<td class="DayTitle_' + uniqueID + '"></td>' +
+							'					</tr>' +
+							'					<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>' +
+							'					<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>' +
+							'					<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>' +
+							'					<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>' +
+							'					<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>' +
+							'					<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>' +
+							'				</table>' +
+							'			</td>' +
+							'		</tr>' +
+							'	</tbody>' +
+							'	<tfoot>' +
+							'		<tr height="3">' +
+							'			<td></td>' +
+							'		</tr>' +
+							'	</tfoot>' +
+							'</table><iframe width="100%" height= "100% "   style= "position:absolute;top:0px;z-index:-1;border-style:none;"> </iframe>' +
+							'</div>';
+							
+		element.document.body.insertAdjacentHTML( "beforeEnd", strCalndrHTML );
+		
+		goCalendar = element.document.getElementById( "div_Calendar_" + uniqueID );
+		goCalendar.onclick = onClickFunc;
+		goDateInput = element.children[0].children[0];
+		goImg = element.children[0].children[1];
+		goDateInput.onblur = checkInput;
+		goImg.onclick = showCalendarDIV;
+
+		goDayTitleRow = goCalendar.children[0].rows[1].cells[0].children[0].rows[0];
+		goHourSelect = goCalendar.children[0].rows[0].cells[0].children[0].rows[0].cells[1].children[1].children[0];
+		goHourSelect.onchange = onHourSelectChange;
+		goMinuteSelect = goCalendar.children[0].rows[0].cells[0].children[0].rows[0].cells[1].children[1].children[1];
+		goMinuteSelect.onchange = onMinuteSelectChange;
+
+		if ( showTime )
+		{
+			goHourSelect.style.display = "inline";
+			goMinuteSelect.style.display = "inline";
+		}
+
+		for ( row=1; row < 7; row++ )
+			for ( cell=0; cell < 7; cell++ )
+				gaDayCell[( ( row - 1 ) * 7 ) + cell] = goCalendar.children[0].rows[1].cells[0].children[0].rows[row].cells[cell];
+	}
+
+	//设置输入框的初始值，为全局年份、月份、日变量赋值
+	function setInitDate()
+	{
+		var strMonth, strDay;
+
+		if ( eltValue.value != null && eltValue.value != "" )
+		{
+			giDay = parseInt( eltValue.value.substr( 8, 2 ),10 );
+			giMonth = parseInt( eltValue.value.substr( 5, 2 ),10 );
+			giYear = parseInt( eltValue.value.substr( 0, 4 ),10 );
+
+			if ( showTime.value == "true" )
+			{
+				giHour = parseInt( eltValue.value.substr( 11, 2 ),10 );
+				giMinute = parseInt( eltValue.value.substr ( 14, 2 ),10 );
+				if ( ( giMinute % 5 ) != 0 )
+					giMinute = ( parseInt(giMinute / 5) + 1 ) * 5;
+			}
+		}
+		else
+		{
+			var oDate = new Date();
+
+			giDay = oDate.getDate();
+			giMonth = oDate.getMonth() + 1;
+			giYear = oDate.getYear();
+
+			if ( giYear < 100 ) giYear += 1900;	// 如果取得的年份数值小于100，则为19XX年，否则为20XX年
+			
+			if ( showTime.value == "true" )
+			{
+				giHour = oDate.getHours();
+				giMinute = oDate.getMinutes();
+				if ( ( giMinute % 5 ) != 0 )
+					giMinute = ( parseInt(giMinute / 5) + 1 ) * 5;
+			}
+		}
+
+		checkLeapYear( giYear );
+
+		if ( eltValue.value != "" )
+			updateInputDate();
+
+		updateTimeSelect();
+	}
+	
+	//判断是否闰年，设置二月份天数
+	//===============================
+	//参数：
+	// iYear: 年份、整型
+	//===============================
+	function checkLeapYear( iYear )
+	{
+		gaMonthDays[1] = (((!(iYear % 4)) && (iYear % 100) ) || !(iYear % 400)) ? 29 : 28;
+	}
+
+	//检查日期值
+	//===============================
+	//参数：
+	// aYearValue : 年份、四位
+	// aMonthValue: 月份、两位
+	// aDayValue  : 日期、两位
+	//===============================
+	function checkDate( aYearValue, aMonthValue, aDayValue )
+	{
+		if(aYearValue == null || aYearValue.length != 4)
+			return false;
+		
+		var yearValue = parseInt(aYearValue);
+		var monthValue; 
+		
+		if( aMonthValue.substring(0,1) == "0")
+			monthValue = parseInt( aMonthValue.substring(1,2) );
+		else
+			monthValue = parseInt(aMonthValue);
+
+		var dayValue;
+		if( aDayValue.substring(0,1) == "0")
+			dayValue = parseInt( aDayValue.substring(1,2) );
+		else
+			dayValue = parseInt(aDayValue);
+			
+		if ( isNaN(yearValue) || isNaN(monthValue) || isNaN(dayValue) )
+		{
+			return false;
+		}
+			
+		monthValue--;
+			
+		if ( yearValue >= 1900 && yearValue < 2000 )
+			yearValue = yearValue-1900;
+		
+		var dateValue = new Date( yearValue, monthValue, dayValue );
+
+		if ( dateValue.getDate() != dayValue || dateValue.getMonth() != monthValue || dateValue.getYear() != yearValue )
+			return false;
+		
+		return true;
+	}
+
+	//检查日期字符串值
+	//===============================
+	//参数：
+	// aDateStr: 日期字符串、十位；YYYY-MM-DD
+	// aDateSeq: 年月日之间的分隔符
+	//===============================
+	function checkDateStr( aDateStr, aDateSeq )
+	{
+		var aYearValue="";
+		var aMonthValue="";
+		var aDayValue="";
+
+		if ( aDateSeq == "" )
+		{	
+			aYearValue = aDateStr.substring(0,4);
+			aMonthValue = aDateStr.substring(4,6);
+			aDayValue = aDateStr.substring(6,8);
+		}
+		else
+		{
+			var regPattern = "(" + "^[0-9]+"+")("+aDateSeq +")";
+			regExp = new RegExp(regPattern);
+			if ( regExp.exec(aDateStr) != null )
+				aYearValue = RegExp.$1;
+
+			regPattern = "("+aDateSeq+")("+"[0-9]+"+")("+aDateSeq+")";
+			regExp = new RegExp(regPattern);
+			if ( regExp.exec(aDateStr) != null )
+				aMonthValue = RegExp.$2;
+
+			regPattern = "("+aDateSeq+")("+"[0-9]+$"+")";
+			regExp = new RegExp(regPattern);
+			if ( regExp.exec(aDateStr) != null )
+				aDayValue = RegExp.$2;
+		}
+		
+		return checkDate ( aYearValue, aMonthValue, aDayValue );
+	}
+
+	//检查输入框中的日期格式
+	function checkInput()
+	{
+		var objSrc = event.srcElement;
+
+		if( objSrc.value != "" && !checkDateStr( objSrc.value.toString().substr( 0, 10 ), "\\-" ) )
+		{
+			alert( "日期格式不对,请重新输入！格式:(yyyy-mm-dd)" );
+			objSrc.value = "";
+			objSrc.focus();			
+			return;
+		}
+	}
+
+	//显示、隐藏日历
+	function showCalendarDIV()
+	{
+		var iTop = goDateInput.getBoundingClientRect().top;
+		var iBottom = goDateInput.getBoundingClientRect().bottom;
+		var iLeft = goDateInput.getBoundingClientRect().left;
+		var iRight = goDateInput.getBoundingClientRect().right;
+		var iScrollHeight = window.document.body.scrollTop;
+		var iScrollWidth = window.document.body.scrollLeft;
+		var iAvailHeight = window.screen.availHeight - 60 - 55 - 60;
+		var iAvailWidth = window.screen.availWidth;
+		
+		if ( ( iAvailHeight - iBottom ) < 220 )
+		{
+			iBottom = iBottom - 264 + iScrollHeight;
+		}
+
+		if ( ( iAvailWidth - iLeft ) < 350 )
+		{
+			iLeft = iRight - 350;
+		}
+		
+		goCalendar.style.left = iLeft + "px";
+		goCalendar.style.top = parseInt( iBottom + 2 )+30+ "px";
+
+		if ( goCalendar.style.display == "none" )
+			goCalendar.style.display = "block";
+		else
+			goCalendar.style.display = "none";
+	}
+
+	//设置日期标题
+	function updateTitle()
+	{
+		var dateTitleCell = goCalendar.children[0].rows[0].cells[0].children[0].rows[0].cells[1].children[0];
+
+		var strDay, strMonth
+		if ( giDay.toString().length < 2 )
+			strDay = "0" + giDay;
+		else
+			strDay = giDay;
+
+		if ( giMonth.toString().length < 2 )
+			strMonth = "0" + giMonth;
+		else
+			strMonth = giMonth;
+
+		var strDateTitle = giYear + " 年 " + strMonth + " 月 " + strDay + " 日 ";
+
+		dateTitleCell.innerHTML = strDateTitle;
+	}
+
+	//设置星期标题
+	function updateDayTitle()
+	{
+		var iCell = 0
+
+		for ( i = giFirstDay; i < 7; i++ )
+		{
+			goDayTitleRow.cells[iCell++].innerText = gaWeekNames[i];
+		}
+ 
+		for ( i = 0; i < giFirstDay; i++ )
+		{
+			goDayTitleRow.cells[iCell++].innerText = gaWeekNames[i];
+		}
+	}
+
+	//填充日期单元格
+	function fillDateCell()
+	{
+		var iDayCell = 0;
+		var iLastMonthIndex, iNextMonthIndex;
+		var iLastMonthTotalDays;
+
+		var iStartDay;
+
+		checkLeapYear( giYear );
+
+		iLastMonthDays = gaMonthDays[ (( giMonth - 1 == 0 ) ? 12 : giMonth - 1 ) - 1 ];
+		iNextMonthDays = gaMonthDays[ (( giMonth + 1 == 13 ) ? 1 : giMonth + 1 ) - 1 ];
+
+		iLastMonthYear = (giMonth == 1)  ? giYear - 1 : giYear;
+		iLastMonth     = (giMonth == 1)  ? 12         : giMonth - 1 ;
+		iNextMonthYear = (giMonth == 12) ? giYear + 1 : giYear;
+		iNextMonth     = (giMonth == 12) ? 1          : giMonth + 1 ;
+
+		var oDate = new Date( giYear, (giMonth - 1), 1 );
+
+		iStartDay = oDate.getDay() - giFirstDay;
+		if ( iStartDay < 1 ) iStartDay += 7;
+		iStartDay = iLastMonthDays - iStartDay + 1;
+
+		for ( i = iStartDay ; i <= iLastMonthDays  ; i++ , iDayCell++ )
+		{
+			gaDayCell[iDayCell].innerText = i;
+			
+			if ( gaDayCell[iDayCell].className != 'OffDay_' + uniqueID )
+				gaDayCell[iDayCell].className = 'OffDay_' + uniqueID;
+
+			gaDayCell[iDayCell].day = i;
+			gaDayCell[iDayCell].month = iLastMonth;
+			gaDayCell[iDayCell].year = iLastMonthYear;
+
+			setCellTitle( i, iLastMonth, iLastMonthYear, gaDayCell[iDayCell] );
+		}
+
+		giStartDayIndex = iDayCell;
+
+		for ( i = 1 ; i <= gaMonthDays[giMonth - 1] ; i++, iDayCell++ )
+		{
+			gaDayCell[iDayCell].innerText = i;
+
+			if ( giDay == i )
+			{
+				goCurrentDayCell = gaDayCell[iDayCell];
+				gaDayCell[iDayCell].className = 'DaySelected_' + uniqueID;
+			} 
+			else 
+			{
+				if ( gaDayCell[iDayCell].className != 'Day_' + uniqueID )
+					gaDayCell[iDayCell].className = 'Day_' + uniqueID;
+			}
+
+			gaDayCell[iDayCell].day = i;
+			gaDayCell[iDayCell].month = giMonth;
+			gaDayCell[iDayCell].year = giYear;
+
+			setCellTitle( i, giMonth, giYear, gaDayCell[iDayCell] );
+		}
+
+		for (i = 1 ; iDayCell < 42 ; i++, iDayCell++)
+		{
+			gaDayCell[iDayCell].innerText = i;
+			if ( gaDayCell[iDayCell].className != 'OffDay_' + uniqueID );
+				gaDayCell[iDayCell].className = 'OffDay_' + uniqueID;
+
+			gaDayCell[iDayCell].day = i;
+			gaDayCell[iDayCell].month = iNextMonth;
+			gaDayCell[iDayCell].year = iNextMonthYear;
+
+			setCellTitle( i, iNextMonth, iNextMonthYear, gaDayCell[iDayCell] );
+		}
+	}
+
+	//设置日期单元格的提示信息
+	//===============================
+	//参数：
+	// iYear    : 年份、整型
+	// iMonth   : 月份、整型
+	// iDay     : 日期、整型
+	// objTarget：目标单元格对象
+	//===============================
+	function setCellTitle( iDay, iMonth, iYear, objTarget)
+	{
+		if ( iDay.toString().length < 2 )
+		{
+			iDay = "0" + iDay;
+		}
+
+		if ( iMonth.toString().length < 2 )
+		{
+			iMonth = "0" + iMonth;
+		}
+
+		strTitle = iYear + "-" + iMonth + "-" + iDay;
+		objTarget.title = strTitle;
+	}
+
+	//检查鼠标点击动作
+	function onClickFunc()
+	{
+		var e = window.event.srcElement;
+
+		if ( e.tagName == "TD" ) 
+		{
+			if ( e.day == undefined ) return;
+			if ( ( e.year < giMinYear ) || ( e.year > giMaxYear ) ) return;
+			setDay( e.day, e.month, e.year );
+			showCalendarDIV();
+		}
+		else if ( e.tagName == "SPAN" )
+		{
+			if ( e.id.substr( 0, 13 ).toUpperCase() == "SPAN_PREVYEAR" )
+			{
+				updateYearChange( "PREVYEAR" );
+			}
+			else if ( e.id.substr( 0, 13 ).toUpperCase() == "SPAN_NEXTYEAR" )
+			{
+				updateYearChange( "NEXTYEAR" );
+			}
+			else if ( e.id.substr( 0, 14 ).toUpperCase() == "SPAN_PREVMONTH" )
+			{
+				updateMonthChange( "PREVMONTH" );
+			}
+			else if ( e.id.substr( 0, 14 ).toUpperCase() == "SPAN_NEXTMONTH" )
+			{
+				updateMonthChange( "NEXTMONTH" );
+			}
+		}
+	}
+
+	//设置当前选中的日期（修改单元格样式、修改日期全局变量值、修改日期标题栏及输入框的值）
+	//===============================
+	//参数：
+	// iYear : 年份、整型
+	// iMonth: 月份、整型
+	// iDay  : 日期、整型
+	//===============================
+	function setDay( iDay, iMonth, iYear )
+	{
+		if ( iYear < giMinYear ) iYear = giMinYear;
+		if ( iYear > giMaxYear ) iYear = giMaxYear;
+		if ( giYear != iYear )
+			checkLeapYear( iYear );
+
+		if ( iMonth < 1 ) iMonth = 1;
+		if ( iMonth > 12 ) iMonth = 12;
+
+		if ( iDay < 1 ) iDay = 1;
+		if ( iDay > gaMonthDays[iMonth - 1] ) iDay = gaMonthDays[iMonth - 1];
+
+		if ( ( giDay == iDay ) && ( giMonth == iMonth ) && ( giYear == iYear ) && ( goDateInput.value != "" ) ) return;
+  
+		if ( giDay != iDay ) giDay = iDay;
+
+		if ( ( giYear == iYear ) && ( giMonth == iMonth ) )
+		{
+			goCurrentDayCell.className = 'Day_' + uniqueID;
+			goCurrentDayCell = gaDayCell[giStartDayIndex + iDay - 1];
+			goCurrentDayCell.className = 'DaySelected_' + uniqueID;
+			giDay = iDay;
+		}
+		else 
+		{
+			if (giYear != iYear)
+			{
+				giYear = iYear;
+			}
+    
+			if (giMonth != iMonth) 
+			{
+				giMonth = iMonth;
+			}
+
+			fillDateCell();
+		}
+
+		updateTitle();
+		updateInputDate();
+	}
+
+	//年份变更动作（上一年、下一年）
+	//===============================
+	//参数：
+	// selectDriection: 方向；NEXTYEAR－下一年；PREVYEAR－上一年
+	//===============================
+	function updateYearChange( selectDriection )
+	{
+		if ( selectDriection.toUpperCase() == "NEXTYEAR" )
+		{
+			iYear = giYear + 1;
+			if ( iYear > giMaxYear )
+				iYear = giMaxYear;
+
+			setDay( giDay, giMonth, iYear );
+		}
+		else if ( selectDriection.toUpperCase() == "PREVYEAR" )
+		{
+			iYear = giYear - 1;
+			if ( iYear < giMinYear )
+				iYear = giMinYear;
+
+			setDay( giDay, giMonth, iYear );
+		}
+	}
+
+	//月份变更动作（上一月、下一月）
+	//===============================
+	//参数：
+	// selectDriection: 方向；NEXTMONTH－下一月；PREVMONTH－上一月
+	//===============================
+	function updateMonthChange( selectDriection )
+	{
+		if ( selectDriection.toUpperCase() == "NEXTMONTH" )
+		{
+			iMonth = giMonth + 1;
+			if ( iMonth > 12 )
+			{
+				iMonth = 1;
+				iYear = giYear + 1;
+				setDay( giDay, iMonth, iYear );
+			}
+			else
+			{
+				setDay( giDay, iMonth, giYear );
+			}
+		}
+		else if ( selectDriection.toUpperCase() == "PREVMONTH" )
+		{
+			iMonth = giMonth - 1;
+			if ( iMonth < 1 )
+			{
+				iMonth = 12;
+				iYear = giYear - 1;
+				setDay( giDay, iMonth, iYear );
+			}
+			else
+			{
+				setDay( giDay, iMonth, giYear );
+			}
+		}
+	}
+
+	//变更输入框的值
+	function updateInputDate()
+	{
+		var strDay, strMonth, strHour, strMinute;
+		if ( giDay.toString().length < 2 )
+			strDay = "0" + giDay;
+		else
+			strDay = giDay;
+
+		if ( giMonth.toString().length < 2 )
+			strMonth = "0" + giMonth;
+		else
+			strMonth = giMonth;
+
+		if ( giHour != undefined )
+		{
+			if ( giHour.toString().length < 2 )
+				strHour = "0" + giHour;
+			else
+				strHour = giHour;
+
+			if ( giMinute.toString().length < 2 )
+				strMinute = "0" + giMinute;
+			else
+				strMinute = giMinute;
+	
+			goDateInput.value = giYear + "-" + strMonth + "-" + strDay + " " + strHour + ":" + strMinute;
+		}
+		else
+			goDateInput.value = giYear + "-" + strMonth + "-" + strDay;
+	}
+
+	//变更时间选择框的选定值
+	function updateTimeSelect()
+	{
+		var objTarget = goCalendar.children[0].rows[0].cells[0].children[0].rows[0].cells[1].children[1];
+		var strHour, strMinute;
+
+		if ( giHour != undefined )
+		{
+			objTarget.style.display = "inline";
+
+			if ( giHour.toString().length < 2 )
+				strHour = "0" + giHour;
+			else
+				strHour = giHour;
+
+			if ( giMinute.toString().length < 2 )
+				strMinute = "0" + giMinute;
+			else
+				strMinute = giMinute;
+
+			for ( var i = 0; i < 24; i++ )
+			{
+				if ( goHourSelect.options[i].value == strHour  )
+					goHourSelect.options[i].selected = true;
+				else
+					goHourSelect.options[i].selected = false;
+			}
+
+			for ( var i = 0; i < 12; i++ )
+			{
+				if ( goMinuteSelect.options[i].value == strMinute )
+					goMinuteSelect.options[i].selected = true;
+				else
+					goMinuteSelect.options[i].selected = false;
+			}
+		}
+	}
+
+	//小时选择框选定值变更动作
+	function onHourSelectChange()
+	{
+		giHour = goHourSelect.options[goHourSelect.selectedIndex].value;
+		updateInputDate();
+	}
+
+	//分钟选择框选定值变更动作
+	function onMinuteSelectChange()
+	{
+		giMinute = goMinuteSelect.options[goMinuteSelect.selectedIndex].value;
+		updateInputDate();
+	}
+</Script>
+
+</PUBLIC:COMPONENT>

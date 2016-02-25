@@ -1,0 +1,52 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+        
+   <bean id="brokerConfig" class="java.util.Properties">
+	<constructor-arg type="java.util.Properties">
+      <props>
+        <!-- awmts ; paimai; agency;trade;null 未用-->
+        <prop key="systemType"></prop>
+        <prop key="firmId">交易商代码</prop>
+	    <prop key="firmName">姓名</prop>
+	    <prop key="b_date">日期</prop>
+	    <prop key="lastBalance">期初余额</prop>
+	    <prop key="other">+其他交易系统</prop>
+	    <prop key="todayBalance">期末余额</prop>
+	    <prop key="lastWarranty">期初担保金</prop>
+	    <prop key="todayWarranty">期末担保金</prop>
+	    <prop key="brokerName">加盟商</prop>
+	    <prop key="brokerAccount">加盟商帐号</prop>
+      </props>
+    </constructor-arg> 
+	</bean>   
+	
+	<context:annotation-config />
+    <context:component-scan base-package="gnnt.MEBS.member.broker.services"/>
+	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<!-- ***************************** DAO begin *****************************  -->
+	<bean id="m_brokerDao" class="gnnt.MEBS.member.broker.dao.BrokerDao" autowire="byName"/>
+	<bean id="m_brokerRewardDao" class="gnnt.MEBS.member.broker.dao.BrokerRewardDao" autowire="byName"/>
+	<bean id="m_brokerRewardPropsDao" class="gnnt.MEBS.member.broker.dao.BrokerRewardPropsDao" autowire="byName"/>
+	<bean id="m_feeDetailDao" class="gnnt.MEBS.member.broker.dao.FeeDetailDao" autowire="byName"/>
+	<bean id="m_firmHoldDao" class="gnnt.MEBS.member.broker.dao.FirmHoldDao" autowire="byName"/>
+	<bean id="m_moduleConfigurationDao" class="gnnt.MEBS.member.broker.dao.ModuleConfigurationDao" autowire="byName"></bean>
+	<bean id="m_brokerReportDao" class="gnnt.MEBS.member.broker.dao.BrokerReportDao" autowire="byName"></bean>
+	<bean id="m_brokerRightDao" class="gnnt.MEBS.member.broker.dao.BrokerRightDao" autowire="byName"></bean>
+	<bean id="m_brokerLogDao" class="gnnt.MEBS.member.broker.dao.BrokerLogDao" autowire="byName"></bean>
+	<bean id="m_brokerGroupDao" class="gnnt.MEBS.member.broker.dao.BrokerGroupDao" autowire="byName"></bean>
+	<!--*****************************  DAO end ***************************** -->
+</beans>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+  <!-- 检查货权转移 iltering -->
+  <bean id="w_checkIsSettleTransferForFinishFiltering" class="gnnt.MEBS.delivery.command.settleBehavior.filter.CheckIsSettleTransferForFinish"></bean>
+		
+  <!-- 返回剩余买卖保证金 Behavior-->
+  <bean id="w_returnMarginAllFinshBehavior" class="gnnt.MEBS.delivery.command.settleBehavior.behavior.ReturnMarginAll"></bean>
+  
+  <!-- 返回剩余履约时卖方多余的货款 Behavior-->
+  <bean id="w_returnPayForComplianceFinshBehavior" class="gnnt.MEBS.delivery.command.settleBehavior.behavior.ReturnPayForCompliance"></bean>
+  
+  <!-- 返回剩余违约时卖方多余的货款 Behavior-->
+  <bean id="w_returnPayForDefaultFinshBehavior" class="gnnt.MEBS.delivery.command.settleBehavior.behavior.ReturnPayForDefault"></bean>
+  
+  <!-- 配对记录设置完成 Behavior-->
+  <bean id="w_finshSettleBehavior" class="gnnt.MEBS.delivery.command.settleBehavior.behavior.FinshSettle"></bean>
+  
+  <!-- 设置履约完成状态 handle -->
+	<bean id="w_complianceFinshHandle" class="gnnt.MEBS.delivery.command.settleBehavior.BaseHandle">
+	   <property name="conditionList">  
+			<list>
+				<ref bean="w_moduleCondition"/>
+				<ref bean="w_complianceCondition"/>
+			</list>
+	    </property>
+	    <property name="filteringList">  
+            <list>
+            	 <ref bean="w_checkIsSettleTransferForFinishFiltering"/>  
+    			<ref bean="w_checkSettleFinshForComplianceFiltering"/>
+    		</list>
+	    </property>
+	    <property name="behaviourList">  
+            <list>
+    			<ref bean="w_returnMarginAllFinshBehavior"/>
+    			<ref bean="w_returnPayForComplianceFinshBehavior"/>
+    			<ref bean="w_finshSettleBehavior"/>
+    		</list>
+	    </property>
+	</bean>
+	
+	<!-- 设置违约完成状态 handle -->
+	<bean id="w_defaultFinshHandle" class="gnnt.MEBS.delivery.command.settleBehavior.BaseHandle">
+	   <property name="conditionList">  
+			<list>
+				<ref bean="w_moduleCondition"/>
+				<ref bean="w_defaultCondition"/>
+			</list>
+	    </property>
+	    <property name="behaviourList">  
+            <list>
+    			<ref bean="w_returnMarginAllFinshBehavior"/>
+    			<ref bean="w_returnPayForDefaultFinshBehavior"/>
+    			<ref bean="w_finshSettleBehavior"/>
+    		</list>
+	    </property>
+	</bean>
+	
+	<!-- 修改状态 Receive -->
+	<bean id="w_settleFinshReceive" class="gnnt.MEBS.delivery.command.settleBehavior.BaseReceive">
+	  <property name="handleList">  
+    		<list>
+    			<ref bean="w_complianceFinshHandle"/>
+    			<ref bean="w_defaultFinshHandle"/>
+    		</list>
+	    </property>
+	     <property name="settleBalanceCheck">
+			<ref bean="w_settleBalanceCheckDefault"/>
+		</property>
+		<property name="settleLegalExamine">
+	    	<ref bean="w_settleLegalExamineNotCheckRegStockForAllType"/>
+	    </property>
+	</bean>
+	
+	<!-- (自主交收)修改状态 Receive -->
+	<bean id="w_SettleFinshSelfReceive" class="gnnt.MEBS.delivery.command.settleBehavior.BaseReceive">
+	  <property name="handleList">  
+    		<list>
+    			<ref bean="w_complianceFinshSelfHandle"/>
+    			<ref bean="w_defaultFinshHandle"/>
+    		</list>
+	    </property>
+	     <property name="settleBalanceCheck">
+			<ref bean="w_settleBalanceCheckDefault"/>
+		</property>
+		<property name="settleLegalExamine">
+	    	<ref bean="w_settleLegalExamineNotCheckRegStockForAllType"/>
+	    </property>
+	</bean>
+	
+	<!-- (自主交收)设置履约完成状态 handle -->
+	<bean id="w_complianceFinshSelfHandle" class="gnnt.MEBS.delivery.command.settleBehavior.BaseHandle">
+	   <property name="conditionList">  
+			<list>
+				<ref bean="w_moduleCondition"/>
+				<ref bean="w_complianceCondition"/>
+			</list>
+	    </property>
+	    <property name="filteringList">  
+            <list>
+            	<!-- <ref bean="w_checkIsSettleTransferForFinishFiltering"/> -->
+    			<ref bean="w_checkSettleFinshForComplianceFiltering"/>
+    		</list>
+	    </property>
+	    <property name="behaviourList">  
+            <list>
+    			<ref bean="w_returnMarginAllFinshBehavior"/>
+    			<ref bean="w_returnPayForComplianceFinshBehavior"/>
+    			<ref bean="w_finshSettleBehavior"/>
+    		</list>
+	    </property>
+	</bean>
+</beans>

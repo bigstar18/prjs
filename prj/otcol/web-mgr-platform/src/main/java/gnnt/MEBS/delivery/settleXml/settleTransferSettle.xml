@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+		
+  <!-- 检查货权转移 iltering -->
+  <bean id="w_checkIsSettleTransferFiltering" class="gnnt.MEBS.delivery.command.settleBehavior.filter.CheckIsSettleTransfer"></bean>
+		
+  <!-- 货权转移 Behavior-->
+  <bean id="w_settleTransferBehavior" class="gnnt.MEBS.delivery.command.settleBehavior.behavior.SettleTransfer"></bean>
+
+  <!-- 货权转移 handle -->
+	<bean id="w_settleTransferHandle" class="gnnt.MEBS.delivery.command.settleBehavior.BaseHandle">
+	   <property name="conditionList">  
+			<list>
+				<ref bean="w_moduleCondition"/>
+			</list>
+	    </property>
+<!-- 
+	    <property name="filteringList">  
+            <list>
+    			<ref bean="w_checkIsSettleTransferFiltering"/>
+    			<ref bean="w_checkSettleFinshForComplianceFiltering"/>
+    		</list>
+	    </property>
+ -->
+	    <property name="behaviourList">  
+            <list>
+    			<ref bean="w_settleTransferBehavior"/>
+    		</list>
+	    </property>
+	</bean>
+
+	<!-- 货权转移 Receive -->
+	<bean id="w_settleTransferReceive" class="gnnt.MEBS.delivery.command.settleBehavior.BaseReceive">
+	  <property name="handleList">  
+    		<list>
+    			<ref bean="w_settleTransferHandle"/>
+    		</list>
+	    </property>
+	     <property name="settleBalanceCheck">
+			<ref bean="w_settleBalanceCheckDefault"/>
+		</property>
+		<property name="settleLegalExamine">
+	    	<ref bean="w_settleLegalExamineCheckRegStock"/>
+	    </property>
+	</bean>
+</beans>

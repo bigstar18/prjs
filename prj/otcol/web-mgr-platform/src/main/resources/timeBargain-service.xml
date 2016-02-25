@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+    <bean id="lookupManager" class="gnnt.MEBS.timebargain.manage.service.impl.LookupManagerImpl">
+        <property name="lookupDAO" ref="lookupDAO"/>
+        <property name="lookupUseBackDsDAO" ref="lookupUseBackDsDAO"/>
+    </bean>
+
+    <!-- Transaction template for Managers, from:
+         http://blog.exis.com/colin/archives/2004/07/31/concise-transaction-definitions-spring-11/ -->
+    <bean id="txProxyTemplate" abstract="true"
+        class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+        <property name="transactionManager"><ref bean="transactionManager"/></property> 
+        <property name="transactionAttributes">
+            <props>
+                <prop key="insert*">PROPAGATION_REQUIRED</prop>
+                <prop key="update*">PROPAGATION_REQUIRED</prop>
+                <prop key="delete*">PROPAGATION_REQUIRED</prop>
+                <prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="manager" parent="txProxyTemplate">
+        <property name="target">
+            <bean class="gnnt.MEBS.timebargain.manage.service.impl.BaseManager">
+                <property name="DAO"><ref bean="dao"/></property>
+            </bean>
+        </property>
+    </bean>
+  
+    <bean id="customerManager" parent="txProxyTemplate">
+        <property name="target">
+            <bean class="gnnt.MEBS.timebargain.manage.service.impl.CustomerManagerImpl" autowire="byName"/>
+        </property>
+    </bean>    
+    <bean id="ordersManager" parent="txProxyTemplate">
+        <property name="target">
+            <bean class="gnnt.MEBS.timebargain.manage.service.impl.OrdersManagerImpl" autowire="byName"/>
+        </property>
+    </bean>      
+    <bean id="tradePropsManager" parent="txProxyTemplate">
+        <property name="target">
+            <bean class="gnnt.MEBS.timebargain.manage.service.impl.TradePropsManagerImpl" autowire="byName"/>
+        </property>
+    </bean>  
+    <bean id="marketManager" parent="txProxyTemplate">
+        <property name="target">
+            <bean class="gnnt.MEBS.timebargain.manage.service.impl.MarketManagerImpl" autowire="byName"/>
+        </property>
+    </bean>
+    <bean id="tradeRuleManager" parent="txProxyTemplate">
+        <property name="target">
+            <bean class="gnnt.MEBS.timebargain.manage.service.impl.TradeRuleManagerImpl" autowire="byName"/>
+        </property>
+    </bean>
+    <bean id="tradeBreedRuleManager" parent="txProxyTemplate">
+        <property name="target">
+            <bean class="gnnt.MEBS.timebargain.manage.service.impl.TradeBreedRuleManagerImpl" autowire="byName"/>
+        </property>
+    </bean>  
+    <bean id="commodityManager" parent="txProxyTemplate">
+        <property name="target">
+            <bean class="gnnt.MEBS.timebargain.manage.service.impl.CommodityManagerImpl" autowire="byName"/>
+        </property>
+    </bean>  
+    <bean id="tradeCtlManager" parent="txProxyTemplate">
+        <property name="target">
+            <bean class="gnnt.MEBS.timebargain.manage.service.impl.TradeCtlManagerImpl" autowire="byName"/>
+        </property>
+    </bean>   
+    <bean id="statQueryManager" parent="txProxyTemplate">
+        <property name="target">
+            <bean class="gnnt.MEBS.timebargain.manage.service.impl.StatQueryManagerImpl" autowire="byName"/>
+        </property>
+    </bean> 
+    <bean id="reportManager" parent="txProxyTemplate">
+        <property name="target">
+            <bean class="gnnt.MEBS.timebargain.manage.service.impl.ReportManagerImpl" autowire="byName"/>
+        </property>
+    </bean>     
+    <bean id="breedManager" parent="txProxyTemplate">
+        <property name="target">
+            <bean class="gnnt.MEBS.timebargain.manage.service.impl.BreedManagerImpl" autowire="byName"/>
+        </property>
+    </bean>
+        <bean id="tariffManager" parent="txProxyTemplate">
+        <property name="target">
+            <bean class="gnnt.MEBS.timebargain.manage.service.impl.TariffManagerImpl" autowire="byName"/>
+        </property>
+    </bean> 
+        
+    <bean id="traderManager" parent="txProxyTemplate">
+        <property name="target">
+            <bean class="gnnt.MEBS.timebargain.manage.service.impl.TraderManagerImpl" autowire="byName"/>
+        </property>
+    </bean>   
+    <bean id="cmdtySortManager" parent="txProxyTemplate">
+        <property name="target">
+            <bean class="gnnt.MEBS.timebargain.manage.service.impl.CmdtySortManagerImpl" autowire="byName"/>
+        </property>
+    </bean> 
+    <bean id="commoditySettlePropManager" parent="txProxyTemplate">
+        <property name="target">
+            <bean class="gnnt.MEBS.timebargain.manage.service.impl.CommoditySettlePropManagerImpl" autowire="byName"/>
+        </property>
+    </bean>
+    <bean id="settleprivilegeManager" parent="txProxyTemplate">
+        <property name="target">
+            <bean class="gnnt.MEBS.timebargain.manage.service.impl.SettleprivilegeManageImpl" autowire="byName"/>
+        </property>
+    </bean>
+    <bean id="broadcastManager" parent="txProxyTemplate">
+        <property name="target">
+            <bean class="gnnt.MEBS.timebargain.manage.service.impl.BroadcastManagerImpl" autowire="byName"/>
+        </property>
+    </bean>    
+    
+    <bean id="deductManager" parent="txProxyTemplate">
+        <property name="target">
+            <bean class="gnnt.MEBS.timebargain.manage.service.impl.DeductManagerImpl" autowire="byName"/>
+        </property>
+    </bean>        
+    <bean id="delayManager" parent="txProxyTemplate">
+    	<property name="target">
+    		<bean class="gnnt.MEBS.timebargain.manage.service.impl.DelayManagerImpl" autowire="byName"/>
+    	</property>
+    </bean> 
+    <bean id="userManager" parent="txProxyTemplate">
+        <property name="target">
+            <bean class="gnnt.MEBS.timebargain.manage.service.impl.xtgl.UserManagerImpl" autowire="byName"/>
+        </property>
+        <property name="transactionAttributes">
+            <props>
+                <prop key="add*">PROPAGATION_REQUIRED,-Exception</prop>
+                <prop key="save*">PROPAGATION_REQUIRED,-Exception</prop>
+                <prop key="remove*">PROPAGATION_REQUIRED,-Exception</prop>
+            </props>
+        </property>
+    </bean>
+    
+    <bean id="tradeMonitorManager" parent="txProxyTemplate">
+        <property name="target">
+            <bean class="gnnt.MEBS.timebargain.manage.service.impl.TradeMonitorManagerImpl" autowire="byName"/>
+        </property>
+    </bean>        
+    
+    <bean id="conditionOrderManager" parent="txProxyTemplate">
+        <property name="target">
+            <bean class="gnnt.MEBS.timebargain.manage.service.impl.ConditionOrderManagerImpl" autowire="byName"/>
+        </property>
+    </bean>   
+    
+    <!-- 定时扫描广播消息时间间隔 -->
+	<bean id="broadcastInterval" class="java.util.HashMap"> 
+	   <constructor-arg> 
+	    <map> 
+	     <entry key="interval" value="10000" /> 
+	    </map> 
+	   </constructor-arg> 
+    </bean>
+    
+    <!-- 是否关联仓库交收标志 -->
+    <bean id="isSettleList" class="java.util.ArrayList"> 
+	   <constructor-arg> 
+	    <list>
+	    	<value>Y</value>
+	    	<value>N</value>	    	
+	    </list>
+	   </constructor-arg> 
+    </bean> 
+
+	<!-- 仓单抵顶 -->
+	
+	<bean id="gageWarehouseManager" parent="txProxyTemplate">
+        <property name="target">
+            <bean class="gnnt.MEBS.timebargain.manage.service.impl.GageWarehouseManagerImpl" autowire="byName"/>
+        </property>
+    </bean> 
+    
+	<!-- 抵顶转让\撤销抵顶 -->
+	<bean id="applyGageManager" parent="txProxyTemplate">
+		<property name="target">
+            <bean class="gnnt.MEBS.timebargain.manage.service.impl.ApplyGageManagerImpl" autowire="byName"/>
+        </property>
+        <property name="transactionAttributes">
+            <props>
+                <prop key="update*">PROPAGATION_REQUIRED,-Exception</prop>
+                <prop key="save*">PROPAGATION_REQUIRED,-Exception</prop>
+                <prop key="gageProcessor*">PROPAGATION_REQUIRED,-Exception</prop>
+                <!-- <prop key="delete*">PROPAGATION_REQUIRED,-Exception</prop> -->
+            </props>
+        </property>
+	</bean>
+	
+	<!-- 提前交收 -->
+	<bean id="aheadSettleManager" parent="txProxyTemplate">
+		<property name="target">
+			<bean class="gnnt.MEBS.timebargain.manage.service.impl.AheadSettleManagerImpl" autowire="byName"/>
+		</property>
+		<property name="transactionAttributes">
+			<props>
+                <prop key="update*">PROPAGATION_REQUIRED,-Exception</prop>
+                <prop key="save*">PROPAGATION_REQUIRED,-Exception</prop>
+                <prop key="aheadSettleProcessor*">PROPAGATION_REQUIRED,-Exception</prop>
+                <!-- <prop key="delete*">PROPAGATION_REQUIRED,-Exception</prop> -->
+            </props>
+		</property>
+	</bean>
+	
+	<!-- 注入statuQueryAndUpdate -->
+	<bean id="statuQueryAndUpdate" parent="txProxyTemplate">
+		<property name="target">
+			<bean
+				class="gnnt.MEBS.timebargain.manage.service.impl.StatuQueryAndUpdateImpl"
+				autowire="byName" />
+		</property>
+	</bean>
+	
+	<!-- 注入directFirmBreedManager 主持交易商品种 -->
+	<bean id="directFirmBreedManager" parent="txProxyTemplate">
+		<property name="target">
+			<bean
+				class="gnnt.MEBS.timebargain.manage.service.impl.DirectFirmBreedManagerImpl"
+				autowire="byName" />
+		</property>
+	</bean>
+</beans>
+
+
+
+
+
+
+
+
+
+
+

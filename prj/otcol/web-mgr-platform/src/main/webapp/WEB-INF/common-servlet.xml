@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dwr ="http://www.directwebremoting.org/schema/spring-dwr" 
+	xmlns:context="http://www.springframework.org/schema/context"   
+		 xsi:schemaLocation="http://www.springframework.org/schema/beans
+		 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+				http://www.springframework.org/schema/context    
+				http://www.springframework.org/schema/context/spring-context-2.5.xsd		
+				http://www.directwebremoting.org/schema/spring-dwr 
+                http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd"> 
+ 
+    <!-- View Resolver for JSPs -->
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix"><value>/</value></property>
+        <property name="suffix"><value>.jsp</value></property>
+    </bean>
+    <bean id="paramResolver" class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver">
+		<property name="paramName">
+			<value>funcflg</value>
+		</property>
+	</bean>
+	<!--  管理员模块 begin -->
+	<bean name="/common/commonUserController.cmn" class="org.springframework.web.servlet.mvc.multiaction.MultiActionController">
+		<property name="methodNameResolver">
+			<ref bean="paramResolver"/>
+		</property>
+		<property name="delegate">
+			<ref bean="commonUserController"/>
+		</property>
+	</bean>
+	<bean id="commonUserController" class="gnnt.MEBS.common.action.CommonUserController"/>
+	<!--  管理员模块  end  -->
+   
+    <!-- right manager  begin-->
+    <bean name="/common/commonRightController.cmn" class="org.springframework.web.servlet.mvc.multiaction.MultiActionController">
+   		 <property name="methodNameResolver">
+			<ref bean="paramResolver"/>
+		</property>
+    	<property name="delegate">
+    		<ref bean="commonRightController"/>
+    	</property>
+    </bean>
+    	<bean id="commonRightController" class="gnnt.MEBS.common.action.CommonRightController"/>
+    <!-- right manager  end -->
+    
+    
+    
+ 	 <bean name="/common/commonRoleController.cmn" class="org.springframework.web.servlet.mvc.multiaction.MultiActionController">
+   		 <property name="methodNameResolver">
+			<ref bean="paramResolver"/>
+		</property>
+    	<property name="delegate">
+    		<ref bean="commonRoleController"/>
+    	</property>
+    </bean>
+   	<bean id="commonRoleController" class="gnnt.MEBS.common.action.CommonRoleController"/>
+    	
+    	
+    	
+    <!-- right manager  end -->
+    <!-- <bean name="/common/commonUser*.cmn" class="gnnt.MEBS.common.action.CommonUserController">
+    	<property name="methodNameResolver">
+    		<ref bean="userManagerDispacher"/>
+    	</property>
+    </bean>
+    <bean id="userManagerDispacher" class="org.springframework.web.servlet.mvc.multiaction.PropertiesMethodNameResolver">
+    	<property name="mappings">
+    		<props>
+    			<prop key="/common/commonUserLogon.cmn">commonUserLogon</prop>
+    			<prop key="/common/commonUserLogout.cmn">commonUserLogout</prop>
+    			<prop key="/common/commonUserDirect.cmn">commonUserDirect</prop>
+    			<prop key="/common/commonUserList.cmn">commonUserList</prop>
+    			<prop key="/common/commonUserView.cmn">commonUserView</prop>
+    			<prop key="/common/commonUserReturn.cmn">commonUserReturn</prop>
+    			<prop key="/common/commonUserAdd.cmn">commonUserAdd</prop>
+    			<prop key="/common/commonUserAddForward.cmn">commonUserAddForward</prop>
+    			<prop key="/common/commonUserDelete.cmn">commonUserDelete</prop>
+    			<prop key="/common/commonUserMod.cmn">commonUserMod</prop>
+    			<prop key="/common/commonUserModForward.cmn">commonUserModForward</prop>
+    			<prop key="/common/commonUserModPassword.cmn">commonUserModPassword</prop>
+    			<prop key="/common/commonUserModPasswordForward.cmn">commonUserModPasswordForward</prop>
+    			<prop key="/common/commonUserModStyle.cmn">commonUserModStyle</prop>
+
+    			<prop key="/common/commonUserOnLineDirect.cmn">commonUserOnLineDirect</prop>
+    			<prop key="/common/commonUserOnLineList.cmn">commonUserOnLineList</prop>
+    			<prop key="/common/commonUserForcedOffline.cmn">commonUserForcedOffline</prop>
+    		</props>
+    	</property>    
+    </bean>
+    
+      <bean name="/common/commonRight*.cmn" class="gnnt.MEBS.common.action.CommonRightController">
+    	<property name="methodNameResolver">
+    		<ref bean="rightManagerDispacher"/>
+    	</property>
+    </bean>
+    <bean id="rightManagerDispacher" class="org.springframework.web.servlet.mvc.multiaction.PropertiesMethodNameResolver">
+    	<property name="mappings">
+    		<props>
+    			<prop key="/common/commonRightUserList.cmn">commonRightUserList</prop>
+    			<prop key="/common/commonRightSaveUserRights.cmn">commonRightSaveUserRights</prop>
+    			
+    			<prop key="/common/commonRightRoleList.cmn">commonRightRoleList</prop>
+    			<prop key="/common/commonRightSaveRoleRights.cmn">commonRightSaveRoleRights</prop>
+    		</props>
+    	</property>    
+    </bean>
+    
+    
+    
+    
+        <bean name="/common/commonRole*.cmn" class="gnnt.MEBS.common.action.CommonRoleController">
+    	<property name="methodNameResolver">
+    		<ref bean="roleManagerDispacher"/>
+    	</property>
+    </bean>
+    <bean id="roleManagerDispacher" class="org.springframework.web.servlet.mvc.multiaction.PropertiesMethodNameResolver">
+    	<property name="mappings">
+    		<props>
+    			<prop key="/common/commonRoleDirect.cmn">commonRoleDirect</prop>
+    			<prop key="/common/commonRoleList.cmn">commonRoleList</prop>
+    			<prop key="/common/commonRoleView.cmn">commonRoleView</prop>
+    			<prop key="/common/commonRoleReturn.cmn">commonRoleReturn</prop>
+    			<prop key="/common/commonRoleAdd.cmn">commonRoleAdd</prop>
+    			<prop key="/common/commonRoleAddForward.cmn">commonRoleAddForward</prop>
+    			<prop key="/common/commonRoleDelete.cmn">commonRoleDelete</prop>
+    			<prop key="/common/commonRoleModForward.cmn">commonRoleModForward</prop>
+    			<prop key="/common/commonRoleUserAssociate.cmn">commonRoleUserAssociate</prop>
+    			<prop key="/common/commonRoleSaveAssociation.cmn">commonRoleSaveAssociation</prop>
+    			<prop key="/common/commonRoleAddAssociation.cmn">commonRoleAddAssociation</prop>
+    			<prop key="/common/commonRoleDeleteAssociation.cmn">commonRoleDeleteAssociation</prop>
+    		</props>
+    	</property>    
+    </bean>
+    -->
+    
+    
+    
+  
+
+    
+    <!-- menu manager -->
+    <bean name="/common/commonMenu*.cmn" class="gnnt.MEBS.common.action.CommonMenuController">
+    	<property name="methodNameResolver">
+    		<ref bean="menuManagerDispacher"/>
+    	</property>
+    </bean>
+    <bean id="menuManagerDispacher" class="org.springframework.web.servlet.mvc.multiaction.PropertiesMethodNameResolver">
+    	<property name="mappings">
+    		<props>
+    			<prop key="/common/commonMenuList.cmn">commonMenuList</prop>
+    		</props>
+    	</property>    
+    </bean>
+    
+  
+</beans>

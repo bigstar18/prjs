@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dwr PUBLIC "-//GetAhead Limited//DTD Direct Web Remoting 2.0//EN" "http://getahead.ltd.uk/dwr/dwr20.dtd">
+
+<dwr>
+	<allow>
+	
+	  
+      
+      <create creator="new" javascript="FnameForManage" scope="application">
+           <param name="class" value="gnnt.MEBS.zcjs.xhzc.manage.FnameForManage"/>
+      </create>
+      
+      <convert converter="bean" match="gnnt.MEBS.timebargain.manage.model.TradeTime"/>
+      <convert converter="bean" match="gnnt.MEBS.timebargain.manage.model.Commodity"/>
+      <create creator="spring" javascript="commodityManager">
+            <param name="beanName" value="timebargainCommodity"/>
+            <include method="getCommodityById"/>
+      </create>
+      
+      <create creator="spring" javascript="customerManager">
+            <param name="beanName" value="timebargainCustomer"/>
+            <include method="getCustomerName"/>
+      </create>
+      
+	</allow>
+
+	<signatures>
+		<![CDATA[     
+		  import java.util.Map;     
+		  import java.util.List;   
+		  import javax.servlet.http.HttpServletRequest;       
+		]]>
+	</signatures>
+
+</dwr>

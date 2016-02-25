@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" 
+	xmlns="http://java.sun.com/xml/ns/j2ee" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
+	http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+<!--*********************  公共模块  ********************-->
+<filter>  
+	<filter-name>Set Character Encoding</filter-name>
+	<filter-class>filters.SetCharacterEncodingFilter</filter-class>
+	<init-param>
+	<param-name>encoding</param-name>
+	<param-value>GBK</param-value>
+	</init-param>
+</filter>
+<filter-mapping>
+  <filter-name>Set Character Encoding</filter-name>
+	<url-pattern>/*</url-pattern>
+</filter-mapping>
+
+<filter>
+	<filter-name>ecsideExport</filter-name>
+	<filter-class>org.ecside.filter.ECSideFilter</filter-class>
+	<init-param>
+		<param-name>useEasyDataAccess</param-name>
+		<param-value>true</param-value>
+	</init-param>
+	<init-param>
+		<param-name>useEncoding</param-name>
+		<param-value>true</param-value>
+	</init-param>
+	<init-param>		
+		<param-name>encoding</param-name>
+		<param-value>GBK</param-value>
+	</init-param>
+</filter>
+
+<filter-mapping>
+	<filter-name>ecsideExport</filter-name>
+	<url-pattern>/*</url-pattern>
+</filter-mapping>
+
+<filter>
+	<filter-name>checkUrl</filter-name>
+	<filter-class>gnnt.MEBS.common.security.SecurityFilter</filter-class>
+	<init-param>
+	<param-name>LOGIN_URL</param-name>
+	<param-value>/logon.jsp</param-value>
+	</init-param>
+	<init-param>
+	<param-name>NORIGHT_URL</param-name>
+	<param-value>/common/public/noRight.jsp</param-value>
+	</init-param>
+	<init-param>
+	<param-name>METHODS</param-name>
+	<param-value>funcflg</param-value>
+	</init-param>
+	<init-param>
+	<param-name>NOKEYWORDS</param-name>
+	<param-value>.css,.js,.jpg,.png,.htc,.ico,.bmp,.gif</param-value>
+	</init-param>
+</filter>
+<filter-mapping>
+  <filter-name>checkUrl</filter-name>
+  <url-pattern>/*</url-pattern>
+</filter-mapping>
+
+<servlet>
+    <servlet-name>loadAcl</servlet-name>
+    <servlet-class>gnnt.MEBS.common.security.AclCtrl</servlet-class>
+    <load-on-startup>0</load-on-startup>
+</servlet>
+
+<session-config>
+    <session-timeout>120</session-timeout>
+</session-config>
+<!-- 
+<error-page>
+<error-code>404</error-code>
+<location>/common/public/error.jsp</location>
+</error-page>
+<error-page>
+<error-code>500</error-code>
+<location>/common/public/error.jsp</location>
+</error-page>
+ -->
+ 
+ 
+   
+ 
+ 
+ 
+<servlet>
+    <servlet-name>common</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+ </servlet>
+ <servlet-mapping>
+    <servlet-name>common</servlet-name>
+    <url-pattern>*.cmn</url-pattern>
+ </servlet-mapping>
+ 
+ <welcome-file-list>
+    <welcome-file>logon.jsp</welcome-file>
+ </welcome-file-list>
+
+<!--*********************  公共模块  end ********************-->
+<!-- 交易商和加盟商系统-->
+	<servlet>
+		<servlet-name>member</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>member</servlet-name>
+		<url-pattern>*.mem</url-pattern>
+	</servlet-mapping>
+<!-- 交易商和加盟商结束-->
+<!-- 财务系统-->
+	<servlet>
+		<servlet-name>finance</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>finance</servlet-name>
+		<url-pattern>*.spr</url-pattern>
+	</servlet-mapping>
+<!-- 财务系统结束-->
+<!--仓库交收-->
+   <servlet>
+		<servlet-name>warehouse</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet
+		</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>warehouse</servlet-name>
+		<url-pattern>*.wha</url-pattern>
+	</servlet-mapping>
+<!--仓库交收-->
+
+<!-- 挂牌交易-->
+	<servlet>
+		<servlet-name>zcjs</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>zcjs</servlet-name>
+		<url-pattern>*.zcjs</url-pattern>
+	</servlet-mapping>
+<!-- 挂牌交易结束-->
+
+<!-- 品种管理-->
+	<servlet>
+		<servlet-name>entity</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>entity</servlet-name>
+		<url-pattern>*.entity</url-pattern>
+	</servlet-mapping>
+<!-- 品种管理-->
+
+
+<!-- ************************* 远期 begin **********************-->
+
+	<!-- ecside 表格标签的Properties文件 -->
+	<context-param>
+		<param-name>ecsidePreferencesLocation</param-name>
+		<param-value>/ecside.properties</param-value>
+	</context-param>
+
+	<servlet>
+		<servlet-name>HisBroadcastServlet</servlet-name>
+		<servlet-class>gnnt.MEBS.timebargain.manage.util.HisBroadcastServlet1</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	 </servlet>
+
+	<servlet>
+		<servlet-name>action</servlet-name>
+		<servlet-class>
+			org.apache.struts.action.ActionServlet
+		</servlet-class>
+		<init-param>
+			<param-name>config</param-name>
+			<param-value>
+				/WEB-INF/struts-config.xml,/WEB-INF/struts-config-manager.xml
+			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>debug</param-name>
+			<param-value>0</param-value>
+		</init-param>
+		<init-param>
+			<param-name>application</param-name>
+			<param-value>ApplicationResources</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	
+
+	<servlet>
+		<servlet-name>commodityImp</servlet-name>
+		<servlet-class>gnnt.MEBS.timebargain.manage.excel.commodityImp</servlet-class>
+    </servlet>
+	<servlet-mapping>
+		<servlet-name>commodityImp</servlet-name>
+		<url-pattern>/timebargain/commodityImp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>action</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+	
+	
+	
+<!-- ************************* 远期  end  **********************-->
+
+
+  <context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			classpath*:autoBean.xml
+			<!--/WEB-INF/dwr.xml-->
+		</param-value>
+	</context-param>
+	
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<!-- DWR servlet setup -->
+	<servlet>
+		<servlet-name>dwr-invoker</servlet-name>
+		<servlet-class>uk.ltd.getahead.dwr.DWRServlet</servlet-class>
+		<init-param>
+			<param-name>debug</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>dwr-invoker</servlet-name>
+		<url-pattern>/dwr/*</url-pattern>
+	</servlet-mapping>
+	
+	<!-- 是否显示或隐藏延期交易信息的字段   Y表示显示   N表示隐藏 -->
+	<context-param>
+		<param-name>useDelay</param-name>
+		<param-value>Y</param-value>
+	</context-param>
+
+	<!-- 是否显示或隐藏品种交易模式   Y表示显示   N表示隐藏 -->
+	<context-param>
+		<param-name>useBreedTradeMode</param-name>
+		<param-value>N</param-value>
+	</context-param>
+	
+	<!-- 数据库默认的备份路径-->
+	<context-param>
+		<param-name>DbBackupPath</param-name>
+		<param-value>/users/mgr/DbBackup</param-value>
+	</context-param>
+</web-app>

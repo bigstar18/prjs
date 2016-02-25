@@ -1,0 +1,25 @@
+package gnnt.bank.adapter.bankBusiness.message;
+
+import java.io.Serializable;
+
+public class CEB_RSP implements Serializable
+{
+
+	private static final long serialVersionUID = 1L;
+	public String flag = "1";// 是否成功，0为成功，1为失败
+	public String errorInfo;// 返回错误信息
+	public Object rsp = new Object();
+	public RSP_F601 rsp_F601 = new RSP_F601();// 商户信息查询
+	public RSP_F603 rsp_F603 = new RSP_F603();// 商户查询上传的文件处理情况
+	public RSP_F604 rsp_F604 = new RSP_F604();// 上传文件数据确认/删除
+	public RSP_F608 rsp_F608 = new RSP_F608();// 银行端出金申请查询
+	public RSP_F609 rsp_F609 = new RSP_F609();// 查询资金明细情况
+	public RSP_F610 rsp_F610 = new RSP_F610();// 实时清分
+	public RSP_F612 rsp_F612 = new RSP_F612();//转账处理	                
+	public RSP_F618 rsp_F618 = new RSP_F618();//商户对账结果查询	        
+	public RSP_F619 rsp_F619 = new RSP_F619();//文件传输完毕通知	        
+	public RSP_F622 rsp_F622 = new RSP_F622();//商户查正交易结果	        
+	public RSP_F625 rsp_F625 = new RSP_F625();//商户/会员资金余额查询	    
+	public RSP_F626 rsp_F626 = new RSP_F626();//查询资金明细情况	        
+	public RSP_F623 rsp_F623 = new RSP_F623();//商户冲补抹帐请求	
+}

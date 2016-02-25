@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:tx="http://www.springframework.org/schema/tx"
+xmlns:aop="http://www.springframework.org/schema/aop"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/tx
+http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+http://www.springframework.org/schema/aop
+http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+  
+
+	<!-- ******************************** settleBehavior start ********************************* -->
+	<!-- 退买方保证金资金判断 -->
+	<bean id="w_checkBalanceForReturnMarginFiltering" class="gnnt.MEBS.delivery.command.settleBehavior.filter.CheckMarginForBuy"></bean>
+	
+	<!-- 退卖方保证金 Behavior-->
+	<bean id="w_returnMoneyForBuyBehavior" class="gnnt.MEBS.delivery.command.settleBehavior.behavior.ReturnMoneyForBuy"></bean>
+	
+	<!-- 退买方保证金 Handle -->
+	<bean id="w_returnMarginForBuyHandle" class="gnnt.MEBS.delivery.command.settleBehavior.BaseHandle">
+		<property name="conditionList">  
+			<list>
+				<ref bean="w_moduleCondition"/>
+			</list>
+	    </property>
+	    <property name="filteringList">  
+            <list>
+    			<ref bean="w_checkBalanceForReturnMarginFiltering"/>
+    		</list>
+	    </property>
+	    <property name="behaviourList">
+            <list>
+    			<ref bean="w_returnMoneyForBuyBehavior"/>
+    		</list>
+	    </property>
+   	</bean>		
+	<!-- 退买方保证金 Receive -->
+	<bean id="w_returnMarginForBuyReceive" class="gnnt.MEBS.delivery.command.settleBehavior.BaseReceive">
+	    <property name="handleList">  
+    		<list>
+    			<ref bean="w_returnMarginForBuyHandle"/>
+    		</list>
+	    </property>
+	    <property name="settleBalanceCheck">
+			<ref bean="w_settleBalanceCheckForSellDeduction"/>
+		</property>
+	    <property name="settleLegalExamine">
+	    	<ref bean="w_settleLegalExamineNotCheckRegStock"/>
+	    </property>
+    </bean>
+</beans>

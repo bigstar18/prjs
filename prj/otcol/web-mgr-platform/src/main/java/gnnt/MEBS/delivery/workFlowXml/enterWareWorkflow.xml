@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:tx="http://www.springframework.org/schema/tx"
+xmlns:aop="http://www.springframework.org/schema/aop"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/tx
+http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+http://www.springframework.org/schema/aop
+http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+      
+	 
+	<!-- =======================================enterWare======================================== -->
+	
+	<!-- 添加入库单，且更改通知单状态Behaviour申请 -->
+	<bean id="addEnterWareBehaviour" class="gnnt.MEBS.delivery.workflow.enterWare.handle.behaviour.AddEnterWareBehaviour">
+		<property name="informAbility">  
+	          <value>1</value>
+	    </property>
+	</bean>
+	
+	<!-- 更改通知单状态Behaviour -->
+	<bean id="updateInformAbilityBehaviour" class="gnnt.MEBS.delivery.workflow.enterWare.handle.behaviour.UpdateInformAbilityBehaviour">
+		<property name="informAbility">  
+	          <value>0</value>
+	    </property>
+	</bean>
+	
+	<!-- defaultHandle中的过滤器 -->
+	<bean id="enterWareInvalidFiltering" class="gnnt.MEBS.delivery.workflow.common.InvalidFilterIngImpl" />	
+	
+	<!-- 状态判断操作 -->
+	<bean id="condition" class="gnnt.MEBS.delivery.workflow.common.ConditionImpl" autowire="byName"/>
+	
+	<!-- 判断是否可以添加到入库单的过滤器 -->
+	<bean id="enterWarefilterAbility" class="gnnt.MEBS.delivery.workflow.enterWare.handle.filter.FilteringAbilityImpl" />
+	
+	<!-- 入库单申请StatusOperate -->
+    <bean id="enterWareStatusOperate" class="gnnt.MEBS.delivery.workflow.enterWare.handle.StatusOperateImpl" autowire="byName"/>
+    
+    <!-- 入库单申请Precondition -->
+    <bean id="enterWarePrecondition" class="gnnt.MEBS.delivery.workflow.enterWare.PreconditionImpl" autowire="byName"/>    
+    
+    <!-- 填写入库单申请Handle -->
+	<bean id="addEnterWareHandle" class="gnnt.MEBS.delivery.workflow.common.HandleImpl">
+		
+		<!-- 添加的最终状态 -->
+		<property name="finalStatus">
+	            <value>1</value>
+	    </property> 
+	    
+	    <!-- 添加入库单申请表 -->
+	    <property name="behaviourList">
+	    	<list>
+	    		<ref bean="addEnterWareBehaviour"/>
+	    	</list>
+	    </property>
+	    
+	    <!-- 添加入库单申请条件 -->
+	    <property name="conditionList">
+	        <list>
+	            <ref bean="condition"/>
+	        </list>      
+	    </property>
+	    
+	    <property name="filteringList">
+	          <list>
+	             <ref bean="enterWarefilterAbility" />
+	          </list>
+	    </property>
+	    
+	    <!-- 添加入库单的bean name -->
+	    <property name="beanName">
+	          <value>add</value>
+	    </property>  
+	    
+	</bean>
+    
+    <!-- 入库单交易商撤销Handle -->
+     <bean id="cancelEnterWareHandle" class="gnnt.MEBS.delivery.workflow.common.HandleImpl">
+        
+        <!-- 撤销的最终状态 -->
+        <property name="finalStatus">  
+	            <value>-1</value>    
+	    </property>
+	    
+	    <!-- 撤销入库单申请表 -->
+	    <property name="behaviourList">
+	    	<list>
+	    		<ref bean="updateInformAbilityBehaviour"/>
+	    	</list>
+	    </property>
+	    
+	    <!-- 撤销入库单申请条件 -->
+	    <property name="conditionList">
+	        <list>
+	            <ref bean="condition"/>
+	        </list>      
+	    </property>
+	    
+	    <!-- 撤销入库单的bean name -->
+	    <property name="beanName">
+	          <value>cancel</value>
+	    </property>
+	    
+     </bean>
+     
+     <!-- 仓库审核Handle -->
+	<bean id="enterWareStorageApproveHandle" class="gnnt.MEBS.delivery.workflow.common.HandleImpl">
+		
+		<!-- 仓库审核的状态 -->
+		<property name="finalStatus">  
+	            <value>2</value>    
+	    </property>
+	    
+	    <!-- 审核状态判断 -->
+	    <property name="conditionList">
+	        <list>
+	            <ref bean="condition"/>
+	        </list>
+	    </property>
+	    
+	    <!-- 审核的bean name -->
+	    <property name="beanName">  
+	          <value>approve</value>  
+	    </property>
+	    
+	    <!-- 是否需要写入日志 -->
+	    <property name="writeNote">  
+	          <value>false</value>  
+	    </property>
+	    
+	</bean>
+	
+	<!-- 仓库驳回Handle -->
+	<bean id="enterWareStorageOverruleHandle" class="gnnt.MEBS.delivery.workflow.common.HandleImpl">
+		
+		<property name="finalStatus">  
+	    	<value>-2</value>    
+	    </property>
+	    
+	    <!-- 仓库驳回Behaviour -->
+	    <property name="behaviourList">
+	    	<list>
+	    		<ref bean="updateInformAbilityBehaviour"/>
+	    	</list>
+	    </property>
+	    
+	    <!-- 状态判断 -->
+	    <property name="conditionList">
+	        <list>
+	            <ref bean="condition"/>
+	        </list>
+	    </property>
+	    
+	    <property name="beanName">  
+	          <value>overrule</value>  
+	    </property>
+	    
+	    <!-- 是否需要写入日志 -->
+	    <property name="writeNote">  
+	          <value>true</value>  
+	    </property>
+	    
+	</bean>
+	
+	<!-- 市场审核Handle -->
+	<bean id="enterWareMarketApproveHandle" class="gnnt.MEBS.delivery.workflow.common.HandleImpl">
+		
+		<property name="finalStatus">
+	     	<value>3</value>
+	    </property>
+	    
+	    <!-- 状态判断 -->
+	    <property name="conditionList">
+	        <list>
+	            <ref bean="condition"/>
+	        </list>      
+	    </property>
+	   
+	    <property name="beanName">
+	          <value>approve</value>
+	    </property>
+	   
+	    <!-- 是否需要写入日志 -->
+	    <property name="writeNote">
+	          <value>false</value>
+	    </property>
+	    
+	</bean>
+	
+	<!-- 市场驳回Handle -->
+	<bean id="enterWareMarketOverruleHandle" class="gnnt.MEBS.delivery.workflow.common.HandleImpl">
+		<property name="finalStatus">
+	    	<value>-3</value>
+	    </property>
+	    
+	    <!-- 市场驳回Behaviour -->
+	    <property name="behaviourList">
+	    	<list>
+	    		<ref bean="updateInformAbilityBehaviour"/>
+	    	</list>
+	    </property>
+	    
+	    <!-- 状态判断 -->
+	    <property name="conditionList">
+	        <list>
+	            <ref bean="condition"/>
+	        </list>
+	    </property>
+	    
+	    <property name="beanName">
+	    	<value>overrule</value>
+	    </property>
+	    
+	    <!-- 是否需要写入日志 -->
+	    <property name="writeNote">
+	    	<value>true</value>
+	    
+	    </property>
+	</bean>
+	
+	<bean id="defaultEnterWareHandle" class="gnnt.MEBS.delivery.workflow.common.HandleImpl">
+		<property name="filteringList">
+			<list>
+				<ref bean="enterWareInvalidFiltering" />
+	        </list>
+	    </property>
+    </bean>
+    
+    <!-- 第一步：填写入库单申请表 -->
+	 <bean id="enterWareStepOne" class="gnnt.MEBS.delivery.workflow.common.StepImpl">
+	    
+	    <!-- 初始状态 -->
+	    <property name="currentStatus">  
+	    	<value>0</value>
+	    </property>
+	    
+	    <!-- 操作权限 -->
+	    <property name="authorityList">  
+	    	<list>
+     			<value>0</value>
+     			<value>1</value>
+     		</list>    
+	    </property>
+	    
+	    <!-- Handle列表中有添加入库单申请表 -->
+	    <property name="handleList">  
+	          <list>
+	             <ref bean="addEnterWareHandle" />
+	          </list>    
+	    </property>
+	    
+	    <!-- 默认Handle为执行完成break -->
+	    <property name="defaultHandle">
+	          <ref bean="defaultEnterWareHandle"/> 
+	    </property>
+	    
+	    <!-- 更改状态 -->
+	    <property name="statusOperate">
+	           <ref bean="enterWareStatusOperate"/> 
+	    </property>
+	    
+	    <!-- 设置是否需要日志信息 -->
+	    <property name="existNote">
+	           <value>false</value>
+	    </property>
+	    
+	 </bean>
+	 
+	 <!-- 第二步：撤消入库单申请表 -->
+	 <bean id="enterWareStepTwo" class="gnnt.MEBS.delivery.workflow.common.StepImpl">
+	    
+	    <property name="currentStatus">  
+	    	<value>1</value>
+	    </property>
+	    
+	    <property name="authorityList">  
+	    	<list>
+     			<value>9</value>     			
+     		</list>    
+	    </property>
+	    
+	    <!-- Handle列表中有撤消入库单申请表 -->
+	    <property name="handleList">  
+	          <list>
+	             <ref bean="cancelEnterWareHandle" />
+	          </list>    
+	    </property>
+	    
+	    <!-- 默认Handle为执行完成break -->
+	    <property name="defaultHandle">
+	          <ref bean="defaultEnterWareHandle"/> 
+	    </property>
+	    
+	    <!-- 更改状态 -->
+	    <property name="statusOperate">
+	           <ref bean="enterWareStatusOperate"/> 
+	    </property>
+	    
+	    <!-- 为对象加锁 -->
+	    <property name="preconditionList">
+            <list>
+             <ref bean="enterWarePrecondition" />
+            </list> 
+	    </property>
+	    
+	    <!-- 设置是否需要日志信息 -->
+	    <property name="existNote">
+	           <value>false</value>
+	    </property>
+	    
+	 </bean>
+	 
+	 <!-- 第三步：仓库审核 -->
+	 <bean id="enterWareStepThree" class="gnnt.MEBS.delivery.workflow.common.StepImpl">
+	    
+	    <property name="currentStatus">  
+	    	<value>1</value>
+	    </property>
+	    
+	    <property name="authorityList">  
+	    	<list>
+     			<value>1</value>     			
+     		</list>    
+	    </property>
+	    
+	    <!-- Handle列表中有仓库审核和驳回 -->
+	    <property name="handleList">  
+	          <list>
+	             <ref bean="enterWareStorageApproveHandle" />
+	             <ref bean="enterWareStorageOverruleHandle" />
+	          </list>    
+	    </property>
+	    
+	    <!-- 默认Handle为执行完成break -->
+	    <property name="defaultHandle">
+	          <ref bean="defaultEnterWareHandle"/> 
+	    </property>
+	    
+	    <!-- 更改状态 -->
+	    <property name="statusOperate">
+	           <ref bean="enterWareStatusOperate"/> 
+	    </property>
+	    
+	    <!-- 为对象加锁 -->
+	    <property name="preconditionList">
+            <list>
+             <ref bean="enterWarePrecondition" />
+            </list> 
+	    </property>
+	    
+	    <!-- 设置是否需要日志信息 -->
+	    <property name="existNote">
+	           <value>true</value>
+	    </property>
+	    
+	 </bean>
+	 
+	 <!-- 第四步：市场审核 -->
+	 <bean id="enterWareStepFour" class="gnnt.MEBS.delivery.workflow.common.StepImpl">
+	    
+	    <property name="currentStatus">  
+	    	<value>2</value>
+	    </property>
+	    
+	    <property name="authorityList">  
+	    	<list>
+     			<value>0</value>     			
+     		</list>    
+	    </property>
+	    
+	    <!-- Handle列表中有市场审核和驳回 -->
+	    <property name="handleList">  
+	          <list>
+	             <ref bean="enterWareMarketApproveHandle" />
+	             <ref bean="enterWareMarketOverruleHandle" />
+	          </list>    
+	    </property>
+	    
+	    <!-- 默认Handle为执行完成break -->
+	    <property name="defaultHandle">
+	          <ref bean="defaultEnterWareHandle"/> 
+	    </property>
+	    
+	    <!-- 更改状态 -->
+	    <property name="statusOperate">
+	           <ref bean="enterWareStatusOperate"/> 
+	    </property>
+	    
+	      <!-- 为对象加锁 -->
+	    <property name="preconditionList">
+            <list>
+             <ref bean="enterWarePrecondition" />
+            </list> 
+	    </property>
+	    
+	    <!-- 设置是否需要日志信息 -->
+	    <property name="existNote">
+	           <value>true</value>
+	    </property>
+	    
+	 </bean>
+	 
+	 <!-- 入库单申请ProcessContext -->
+	 <bean id="enterWareProcessContext" class="gnnt.MEBS.delivery.workflow.common.ProcessContextImpl">
+		
+		<property name="steps">
+			<!-- list中的bean必需按步骤的顺序排列 -->
+			<list> 
+				<ref bean="enterWareStepOne" />
+				<ref bean="enterWareStepTwo" />
+				<ref bean="enterWareStepThree" />
+				<ref bean="enterWareStepFour" />
+			</list>
+		</property>
+		
+		<property name="finalStatus">
+			<list>
+				<value>3</value>
+			</list>
+		</property>
+		
+	 </bean> 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</beans>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+		
+  <!-- 检查被还原仓单合法性Filtering -->
+  <bean id="w_checkRestoreRegStockFiltering" class="gnnt.MEBS.delivery.command.settleBehavior.filter.CheckRestoreRegStock"></bean>
+
+  <!-- 还原交收配对记录数据 Behavior-->
+  <bean id="w_settleMatchDataRestoreBehavior" class="gnnt.MEBS.delivery.command.settleBehavior.behavior.SettleMatchDataRestore"></bean>
+	
+	
+  <!-- 还原初始 handle -->
+	<bean id="w_settleRestoreHandle" class="gnnt.MEBS.delivery.command.settleBehavior.BaseHandle">
+	   <property name="conditionList">  
+			<list>
+				<ref bean="w_moduleCondition"/>
+			</list>
+	    </property>
+	    <property name="filteringList">  
+            <list>
+    			<ref bean="w_checkRestoreRegStockFiltering"/>
+    		</list>
+	    </property>
+	    <property name="behaviourList">  
+            <list>
+    			<ref bean="w_frozenNewRegStockBehavior"/>
+    			<ref bean="w_releaseOldRegStockBehavior"/>
+    			<ref bean="w_settleMatchDataRestoreBehavior"/>
+    		</list>
+	    </property>
+	</bean>
+	
+	<!-- 修改状态 Receive -->
+	<bean id="w_settleRestoreReceive" class="gnnt.MEBS.delivery.command.settleBehavior.BaseReceive">
+	  <property name="handleList">  
+    		<list>
+    			<ref bean="w_settleRestoreHandle"/>
+    		</list>
+	    </property>
+	     <property name="settleBalanceCheck">
+			<ref bean="w_settleBalanceCheckDefault"/>
+		</property>
+		<property name="settleLegalExamine">
+	    	<ref bean="w_settleLegalExamineNotCheckRegStockForAllType"/>
+	    </property>
+	</bean>
+</beans>

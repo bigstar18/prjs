@@ -1,0 +1,113 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+      
+	<context:annotation-config />
+    
+    <context:component-scan base-package="gnnt.MEBS.delivery.services"/>
+	
+	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+	
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<bean id="transactionManager1"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<bean id="warehouseConfig" class="java.util.Properties">
+		<constructor-arg type="java.util.Properties">
+			<props>
+				<prop key="firmId">交易商代码</prop>
+				<prop key="firmName">交易商名称</prop>
+				<prop key="postfix">wha</prop>
+				<prop key="matchPrefix">S</prop>
+				<prop key="checkBalance">1</prop><!-- 检查交易商资金 1检查 0 不检查-->
+			</props>
+		</constructor-arg>
+	</bean>
+	
+	<!-- ***************************** DAO begin *****************************  -->
+	<!-- 基本信息 begin -->
+	<bean id="w_commodityDao" class="gnnt.MEBS.delivery.dao.CommodityDao" autowire="byName"/>
+	<bean id="w_warehouseDao" class="gnnt.MEBS.delivery.dao.WarehouseDao" autowire="byName"/>
+	<bean id="w_userDao" class="gnnt.MEBS.delivery.dao.UserDao" autowire="byName"/>
+	<bean id="w_operateLogDao" class="gnnt.MEBS.delivery.dao.OperateLogDao" autowire="byName"/>
+	<bean id="w_statusDao" class="gnnt.MEBS.delivery.dao.StatusDao" autowire="byName"/>
+	<bean id="w_menuDao" class="gnnt.MEBS.delivery.dao.MenuDao" autowire="byName"/>
+    <bean id="w_dealerDao" class="gnnt.MEBS.delivery.dao.DealerDao" autowire="byName"/>
+    <bean id="w_breedDao" class="gnnt.MEBS.delivery.dao.entity.EntityBreedDao" autowire="byName"/>
+	<!-- 基本信息 end-->
+	
+	<!-- 交收信息 begin -->
+	<bean id="w_moneyDoDao" class="gnnt.MEBS.delivery.dao.MoneyDoDao" autowire="byName"/>
+	<bean id="w_settleMatchDao" class="gnnt.MEBS.delivery.dao.SettleMatchDao" autowire="byName"/>
+	<!-- 交收信息 end -->
+	
+	<!-- 入库流程 begin -->
+	<bean id="w_enterApplyDao" class="gnnt.MEBS.delivery.dao.EnterApplyDao" autowire="byName"/>
+	<bean id="w_enterWareDao" class="gnnt.MEBS.delivery.dao.EnterWareDao" autowire="byName"/>
+	<bean id="w_outWareDao" class="gnnt.MEBS.delivery.dao.OutWareDao" autowire="byName"/>
+	<bean id="w_regStockToEnterWareDao" class="gnnt.MEBS.delivery.dao.RegStockToEnterWareDao" autowire="byName"/>
+	<!-- 入库流程 end -->
+	
+	<!-- 交收流程 begin -->
+	<bean id="w_regStockApplyDao" class="gnnt.MEBS.delivery.dao.RegStockApplyDao" autowire="byName"/>
+	<bean id="w_regStockDao" class="gnnt.MEBS.delivery.dao.RegStockDao" autowire="byName"/>
+	<bean id="w_logDao" class="gnnt.MEBS.delivery.dao.LogDao" autowire="byName"/>
+	<bean id="w_paymentPropsDao" class="gnnt.MEBS.delivery.dao.PaymentPropsDao" autowire="byName"/>
+	
+	
+	
+	<bean id="w_toolService" class="gnnt.MEBS.delivery.services.ToolService">
+	   <property name="moduleMap">
+	       <ref bean="w_moduleMap"/>
+	   </property>
+	</bean>
+	<!-- 交收流程 end -->
+	
+	
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">  
+		<tx:attributes>  
+		    <tx:method name="get*" read-only="true"/>  
+		    <tx:method name="find*" read-only="true"/>  
+		    <tx:method name="*" rollback-for="Exception,DataAccessException"/>  
+		</tx:attributes>  
+	</tx:advice>
+	
+	<aop:config>
+	    <aop:advisor id="managerTx" advice-ref="txAdvice" 
+		  pointcut="execution(* gnnt.MEBS.delivery.workflow.ProcessContext.*(..))" order="0"/>
+		<aop:advisor id="managerTx2" advice-ref="txAdvice" 
+		  pointcut="execution(* gnnt.MEBS.delivery.command.Command.*(..))" order="0"/>
+    </aop:config>
+    
+    <bean id="w_addCommonLog" class="gnnt.MEBS.delivery.aop.AddLog"/>
+    
+    <aop:config>
+	    <aop:aspect id="commonLogAspect" ref="w_addCommonLog">
+		<aop:pointcut id="addCommonLog" 
+		expression="execution(int gnnt.MEBS.delivery.services.*.*(..))" />
+		<aop:around  pointcut-ref="addCommonLog" method="logAround"/>
+		</aop:aspect>
+	</aop:config>
+	
+	<!--*****************************  DAO end ***************************** -->
+	<import resource="wareHouseBeansSettle.xml"/>
+    <import resource="wareHouseBeansWorkflow.xml"/>
+    <import resource="wareHouseBeansMsg.xml"/>
+
+</beans>

@@ -1,0 +1,184 @@
+<?xml version="1.0"  encoding="GB2312" ?>
+<CONFIG>
+    <COMPONENT>
+        <NAME>MEBS</NAME>
+        <TYPE>normal</TYPE> 
+        <SECTION>
+            <NAME>Database</NAME>
+            <PROPERTYS>
+                <PROPERTY>
+                    <KEY>DBType</KEY>
+                    <VALUE>Oracle</VALUE>
+                </PROPERTY>
+            </PROPERTYS>
+        </SECTION>
+		<SECTION>
+            <NAME>TradeDataSource</NAME>
+            <PROPERTYS>
+                <PROPERTY>
+                    <KEY>JNDIName</KEY>
+                    <VALUE>java:comp/env/mgr</VALUE>
+                </PROPERTY>
+            </PROPERTYS>
+        </SECTION>
+				<SECTION>
+            <NAME>RMIServer</NAME>
+            <PROPERTYS>
+                <PROPERTY>
+                    <KEY>IsRMIServer</KEY>
+                    <VALUE>false</VALUE>
+                </PROPERTY>    
+            </PROPERTYS>
+        </SECTION>
+		<SECTION>
+            <NAME>DBConnection</NAME>
+            <PROPERTYS>
+                <PROPERTY>
+                    <KEY>Url</KEY>
+                    <VALUE>jdbc:oracle:thin:@172.16.10.140:1521:gnnt</VALUE>
+                </PROPERTY>
+				<PROPERTY>
+                    <KEY>Username</KEY>
+                    <VALUE>trade</VALUE>
+                </PROPERTY>
+				<PROPERTY>
+                    <KEY>Password</KEY>
+                    <VALUE>password</VALUE>
+                </PROPERTY>
+            </PROPERTYS>
+        </SECTION>
+        <SECTION>
+            <NAME>TradeParams</NAME>
+                <PROPERTYS>
+            		<!--系统监听进程刷新时间间隔 单位：毫秒-->
+            		<PROPERTY>
+                    <KEY>Interval</KEY>
+                    <VALUE>1000</VALUE>
+                    </PROPERTY>
+					<!--交易费用收取方式 0 只收保证金不收手续费 1 同时收取保证金手续费-->
+            		<PROPERTY>
+                    <KEY>PayType</KEY>
+                    <VALUE>1</VALUE>
+                    </PROPERTY>
+					<!--保证金收取方式 0 绝对值 1 百分比-->
+            		<PROPERTY>
+                    <KEY>SecurityType</KEY>
+                    <VALUE>0</VALUE>
+                    </PROPERTY>
+					<!--保证金是否计算折扣 0 不计算 1 计算-->
+            		<PROPERTY>
+                    <KEY>SecuritySiscount</KEY>
+                    <VALUE>1</VALUE>
+                    </PROPERTY>
+					<!--保证金是否可以自己设定收取方式 0 不可以 1 可以  可以时保证金收取方式配置项将失效-->
+					<PROPERTY>
+                    <KEY>SecurityBySelf</KEY>
+                    <VALUE>1</VALUE>
+                    </PROPERTY>
+					<!--手续费收取方式 0 绝对值 1 百分比-->
+            		<PROPERTY>
+                    <KEY>FeeType</KEY>
+                    <VALUE>1</VALUE>
+                    </PROPERTY>
+					<!--手续费是否计算折扣 0 不计算 1 计算-->
+            		<PROPERTY>
+                    <KEY>FeeSiscount</KEY>
+                    <VALUE>1</VALUE>
+                    </PROPERTY>
+					<!--手续费是否可以自己设定收取方式 0 不可以 1 可以  可以时手续费收取方式配置项将失效-->
+					<PROPERTY>
+                    <KEY>FeeBySelf</KEY>
+                    <VALUE>1</VALUE>
+                    </PROPERTY>
+					<!--自己是否可以参与竞价 0 不可以 1 可以-->
+            		<PROPERTY>
+                    <KEY>Myself</KEY>
+                    <VALUE>0</VALUE>
+                    </PROPERTY>
+					<!--数量单位是否用批  xieying  true为开启 false 为关闭-->
+					<PROPERTY>
+                    <KEY>PD</KEY>
+                    <VALUE>false</VALUE>
+                	</PROPERTY>
+					<!--额定交易保证金 为植物油交易定制-->
+					<PROPERTY>
+                    <KEY>RatingBail</KEY>
+                    <VALUE>100000</VALUE>
+                    </PROPERTY>
+					<!--最大交易数量-->
+            		<PROPERTY>
+                    <KEY>MaxTradeAmount</KEY>
+                    <VALUE>5000</VALUE>
+					</PROPERTY>
+					 <!--招标是否自动成交 0:不是 1:是-->
+					<PROPERTY>
+					<KEY>IsAuto</KEY>
+					<VALUE>1</VALUE>
+					</PROPERTY>
+					<!--招标等价格，等数量规则 0：平分 1：按时间优先-->
+					<PROPERTY>
+					<KEY>equalityRule</KEY>
+					<VALUE>1</VALUE>
+					</PROPERTY>
+					<!--招标是否显示栏标价 0:不是 1:是-->
+					<PROPERTY>
+					<KEY>IsShowPrice</KEY>
+					<VALUE>0</VALUE>
+					</PROPERTY>
+					<!--招标是否显示提示信息 0:不是 1:是-->
+					<PROPERTY>
+					<KEY>IsClew</KEY>
+					<VALUE>0</VALUE>
+					</PROPERTY>
+					<!--招标履约费用-->
+            		<PROPERTY>
+                    <KEY>PerformanceBond1</KEY>
+                    <VALUE>5</VALUE>
+                    </PROPERTY>
+		</PROPERTYS>
+        </SECTION>
+
+	<!-- 行情组件相关配置 -->
+		<SECTION>
+            <NAME>ThreadRefreshMemory</NAME>
+            <PROPERTYS>
+                <PROPERTY>
+                    <KEY>QuotationTimeInterval</KEY>
+                    <VALUE>2000</VALUE>
+                </PROPERTY>
+                <PROPERTY>
+                    <KEY>BroadcastTimeInterval</KEY>
+                    <VALUE>6000</VALUE>
+                </PROPERTY>
+            </PROPERTYS>
+        </SECTION>
+        <SECTION>
+            <NAME>Partition</NAME>
+            <PROPERTYS>
+                <PROPERTY>
+                    <KEY>HighBufferNumber</KEY>
+                    <VALUE>20</VALUE>
+                </PROPERTY>
+            </PROPERTYS>
+        </SECTION>
+        <SECTION>
+            <NAME>Broadcast</NAME>
+            <PROPERTYS>
+                <PROPERTY>
+                    <KEY>HighBufferNumber</KEY>
+                    <VALUE>100</VALUE>
+                </PROPERTY>
+            </PROPERTYS>
+        </SECTION> 
+		<SECTION>
+            <NAME>QuotationDataSource</NAME>
+            <PROPERTYS>
+                <PROPERTY>
+                    <KEY>JNDIName</KEY>
+                    <VALUE>java:/comp/env/mgr</VALUE>
+                </PROPERTY>
+            </PROPERTYS>
+        </SECTION>
+
+    </COMPONENT>
+</CONFIG>

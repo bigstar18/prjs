@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dwr ="http://www.directwebremoting.org/schema/spring-dwr" 
+	xmlns:context="http://www.springframework.org/schema/context"   
+		 xsi:schemaLocation="http://www.springframework.org/schema/beans
+		 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+				http://www.springframework.org/schema/context    
+				http://www.springframework.org/schema/context/spring-context-2.5.xsd		
+				http://www.directwebremoting.org/schema/spring-dwr 
+                http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd"> 
+ 
+    <!-- View Resolver for JSPs -->
+
+     <bean id="addMsgHandlerInterceptor"
+        class="gnnt.MEBS.zcjs.action.interceptor.AddMsgHandlerInterceptor" />
+        
+     <bean id="returnCurrentPageInterceptor"
+        class="gnnt.MEBS.zcjs.action.interceptor.ReturnCurrentPage" />
+        
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix"><value></value></property>
+        <property name="suffix"><value>.jsp</value></property>
+    </bean>
+    <!--  配置根据请求名决定控制器-->
+    <bean id="handlerMapping" 
+          class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping">
+          <property name="interceptors">
+            <list>
+                <ref bean="returnCurrentPageInterceptor" />
+                <ref bean="addMsgHandlerInterceptor" />
+            </list>
+           </property>
+    </bean>
+    
+    <bean id="paramResolver" class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver">
+		<property name="paramName">
+			<value>funcflg</value>
+		</property>
+	</bean>
+	
+	
+	<!-- 系统配置begin -->
+	<bean name="/zcjs/systemConfigController.zcjs" class="org.springframework.web.servlet.mvc.multiaction.MultiActionController">
+		<property name="methodNameResolver">
+			<ref bean="paramResolver"/>
+		</property>
+		<property name="delegate">
+			<ref bean="systemConfigController"/>
+		</property>
+	</bean>
+	<bean id="systemConfigController" class="gnnt.MEBS.zcjs.action.SystemConfigController"/>
+	<!--  系统配置  end  -->
+  <!-- 广播消息begin -->
+	<bean name="/zcjs/broadcastController.zcjs" class="org.springframework.web.servlet.mvc.multiaction.MultiActionController">
+		<property name="methodNameResolver">
+			<ref bean="paramResolver"/>
+		</property>
+		<property name="delegate">
+			<ref bean="broadcastController"/>
+		</property>
+	</bean>
+	<bean id="broadcastController" class="gnnt.MEBS.zcjs.action.BroadcastController"/>
+	<!-- 广播消息end -->
+	
+	<!-- 交易节begin -->
+	<bean name="/zcjs/tradeTimeController.zcjs" class="org.springframework.web.servlet.mvc.multiaction.MultiActionController">
+		<property name="methodNameResolver">
+			<ref bean="paramResolver"/>
+		</property>
+		<property name="delegate">
+			<ref bean="tradeTimeController"/>
+		</property>
+	</bean>
+	<bean id="tradeTimeController" class="gnnt.MEBS.zcjs.action.TradeTimeController"/>
+	<!--交易节end -->
+	<!-- 质量指标begin -->
+	<bean name="/zcjs/qualityController.zcjs" class="org.springframework.web.servlet.mvc.multiaction.MultiActionController">
+		<property name="methodNameResolver">
+			<ref bean="paramResolver"/>
+		</property>
+		<property name="delegate">
+			<ref bean="qualityController"/>
+		</property>
+	</bean>
+	<bean id="qualityController" class="gnnt.MEBS.zcjs.action.QualityController"/>
+	<!--质量指标end -->
+	
+	<!-- 品种管理begin -->
+	<bean name="/zcjs/breedController.zcjs" class="org.springframework.web.servlet.mvc.multiaction.MultiActionController">
+		<property name="methodNameResolver">
+			<ref bean="paramResolver"/>
+		</property>
+		<property name="delegate">
+			<ref bean="breedController"/>
+		</property>
+	</bean>
+	<bean id="breedController" class="gnnt.MEBS.zcjs.action.BreedController"/>
+	<!--品种管理end -->
+	<!-- 商品参数begin -->
+	<bean name="/zcjs/commodityParameterController.zcjs" class="org.springframework.web.servlet.mvc.multiaction.MultiActionController">
+		<property name="methodNameResolver">
+			<ref bean="paramResolver"/>
+		</property>
+		<property name="delegate">
+			<ref bean="commodityParameterController"/>
+		</property>
+	</bean>
+	<bean id="commodityParameterController" class="gnnt.MEBS.zcjs.action.CommodityParameterController"/>
+	<!--商品参数end -->
+	<!-- 商品属性begin -->
+	<bean name="/zcjs/commodityPropertyController.zcjs" class="org.springframework.web.servlet.mvc.multiaction.MultiActionController">
+		<property name="methodNameResolver">
+			<ref bean="paramResolver"/>
+		</property>
+		<property name="delegate">
+			<ref bean="commodityPropertyController"/>
+		</property>
+	</bean>
+	<bean id="commodityPropertyController" class="gnnt.MEBS.zcjs.action.CommodityPropertyController"/>
+	<!--商品属性end -->
+
+	<!-- 交易商begin -->
+	<bean name="/zcjs/firmPermissionController.zcjs" class="org.springframework.web.servlet.mvc.multiaction.MultiActionController">
+		<property name="methodNameResolver">
+			<ref bean="paramResolver"/>
+		</property>
+		<property name="delegate">
+			<ref bean="firmPermissionController"/>
+		</property>
+	</bean>
+	<bean id="firmPermissionController" class="gnnt.MEBS.zcjs.action.FirmPermissionController"/>
+	<!--交易商end -->
+
+	<!-- 成交信息begin -->
+	<bean name="/zcjs/bargainInfoController.zcjs" class="org.springframework.web.servlet.mvc.multiaction.MultiActionController">
+		<property name="methodNameResolver">
+			<ref bean="paramResolver"/>
+		</property>
+		<property name="delegate">
+			<ref bean="bargainInfoController"/>
+		</property>
+	</bean>
+	<bean id="bargainInfoController" class="gnnt.MEBS.zcjs.action.BargainInfoController"/>
+	<!--成交信息end -->
+	
+	<!-- 有效仓单管理begin -->
+	<bean name="/zcjs/regStockController.zcjs" class="org.springframework.web.servlet.mvc.multiaction.MultiActionController">
+		<property name="methodNameResolver">
+			<ref bean="paramResolver"/>
+		</property>
+		<property name="delegate">
+			<ref bean="regStockController"/>
+		</property>
+	</bean>
+	<bean id="regStockController" class="gnnt.MEBS.zcjs.action.RegStockController"/>
+	<!--有效仓单管理end -->
+
+	
+	<!-- 交收管理begin -->
+	<bean name="/zcjs/bargainManagerController.zcjs" class="org.springframework.web.servlet.mvc.multiaction.MultiActionController">
+		<property name="methodNameResolver">
+			<ref bean="paramResolver"/>
+		</property>
+		<property name="delegate">
+			<ref bean="bargainManagerController"/>
+		</property>
+	</bean>
+	<bean id="bargainManagerController" class="gnnt.MEBS.zcjs.action.BargainManagerController"/>
+	<!--交收管理end -->
+
+	<!-- 市场信息 begin-->
+	<bean name="/zcjs/tradeController.zcjs" class="org.springframework.web.servlet.mvc.multiaction.MultiActionController">
+		<property name="methodNameResolver">
+			<ref bean="paramResolver"/>
+		</property>
+		<property name="delegate">
+			<ref bean="tradeController"/>
+		</property>
+	</bean>
+	<bean id="tradeController" class="gnnt.MEBS.zcjs.action.TradeController"/>
+	<!-- 商品规则 begin-->
+	<bean name="/zcjs/commodityRuleController.zcjs" class="org.springframework.web.servlet.mvc.multiaction.MultiActionController">
+		<property name="methodNameResolver">
+			<ref bean="paramResolver"/>
+		</property>
+		<property name="delegate">
+			<ref bean="commodityRuleController"/>
+		</property>
+	</bean>
+	<bean id="commodityRuleController" class="gnnt.MEBS.zcjs.action.CommodityRuleController"/>
+	<!-- 商品规则 end-->
+	<!-- 分类 begin-->
+	<bean name="/zcjs/sortController.zcjs" class="org.springframework.web.servlet.mvc.multiaction.MultiActionController">
+		<property name="methodNameResolver">
+			<ref bean="paramResolver"/>
+		</property>
+		<property name="delegate">
+			<ref bean="sortController"/>
+		</property>
+	</bean>
+	<bean id="sortController" class="gnnt.MEBS.zcjs.action.SortController"/>
+	
+	<!-- 前台列表 begin-->
+	<bean name="/zcjs/prosceniumShowController.zcjs" class="org.springframework.web.servlet.mvc.multiaction.MultiActionController">
+		<property name="methodNameResolver">
+			<ref bean="paramResolver"/>
+		</property>
+		<property name="delegate">
+			<ref bean="prosceniumShowController"/>
+		</property>
+	</bean>
+	<bean id="prosceniumShowController" class="gnnt.MEBS.zcjs.action.ProsceniumShowController"/>
+	
+
+</beans>

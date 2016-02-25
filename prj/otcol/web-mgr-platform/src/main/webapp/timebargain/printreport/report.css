@@ -1,0 +1,118 @@
+table.reportTemp
+{
+	border-top: 1px solid #000000;
+	border-left: 1px solid #000000;
+	border-right: 1px solid #000000;
+		font-family:宋体
+}
+td.td_reportMd
+{
+	text-align: center;
+	border-bottom: 1px solid #000000;
+    border-right: 1px solid #000000;
+    font-size:12px;
+    	font-family:宋体
+	height:24px;
+}
+td.td_reportMdHead
+{
+	text-align: center;
+	border-bottom: 1px solid #000000;
+    border-right: 1px solid #000000;
+    font-size:12px;
+	height:24px;
+	font-weight: bold;
+	font-family:宋体
+}
+td.td_reportMdHead_Right
+{
+	border-bottom: 1px solid #000000;
+    border-right: 1px solid #000000;
+    font-size:14px;
+	height:24px;
+	font-weight: bold;
+	font-family:宋体
+}
+td.td_reportMd1
+{
+	text-align: right;
+	border-bottom: 1px solid #000000;
+    border-right: 1px solid #000000;
+    font-size:12px;
+    	font-family:宋体
+	height:24px;
+}
+td.td_reportRd
+{
+	text-align: center;
+	border-bottom: 1px solid #000000;
+    font-size:12px;
+    	font-family:宋体
+	height:24px;
+}
+td.td_reportRdHead
+{
+	text-align: center;
+	border-bottom: 1px solid #000000;
+    font-size:12px;
+	height:24px;
+	font-weight: bold;
+	font-family:宋体
+}
+td.td_reportRd1
+{
+	text-align: right;
+	border-bottom: 1px solid #000000;
+    font-size:12px;
+	font-family:宋体
+	height:24px;
+}
+td.td_reportBd
+{
+	text-align: center;
+	border-right: 1px solid #000000;
+    font-size:14px;
+	font-family:宋体
+	height:24px;
+}
+
+.reportHead
+{
+font-size:22px;
+text-align: center;
+font-weight: bold;
+	font-family:宋体
+}
+.reportLeft
+{
+font-size:12px;
+text-align: left;
+font-family:宋体
+}
+.reportRight
+{
+font-size:12px;
+text-align: right;
+font-family:宋体
+}
+.tableHead
+{
+font-size:18px;
+text-align: center;
+font-weight: bold;
+font-family:宋体
+}
+.sumStr
+{
+font-size:16px;
+text-align: center;
+font-weight: bold;
+	font-family:宋体
+}
+.reportHeadForMarketName
+{
+font-size:20px;
+text-align: center;
+font-weight: bold;
+font-family:宋体
+}

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+	<bean name="/finance/home.spr" class="gnnt.MEBS.finance.web.HomeController"/>
+
+    <!-- View Resolver for JSPs -->
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix"><value>/</value></property>
+        <property name="suffix"><value>.jsp</value></property>
+    </bean>
+    
+    <bean id="paramResolver" class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver">
+		<property name="paramName">
+			<value>funcflg</value>
+		</property>
+	</bean>
+    
+    <!-- 科目管理 begin -->
+    <bean name="/finance/accountController.spr" class="org.springframework.web.servlet.mvc.multiaction.MultiActionController">
+		<property name="methodNameResolver">
+			<ref bean="paramResolver"/>
+		</property>
+		<property name="delegate">
+			<ref bean="accountController"/>
+		</property>
+	</bean>
+	
+	<bean id="accountController" class="gnnt.MEBS.finance.web.AccountController"/>
+	<!-- 科目管理 end -->
+	
+	<!-- 凭证管理 begin -->
+	<bean name="/finance/voucherController.spr" class="org.springframework.web.servlet.mvc.multiaction.MultiActionController">
+		<property name="methodNameResolver">
+			<ref bean="paramResolver"/>
+		</property>
+		<property name="delegate">
+			<ref bean="voucherController"/>
+		</property>
+	</bean>
+	
+	<bean id="voucherController" class="gnnt.MEBS.finance.web.VoucherController"/>
+	<!-- 凭证管理 end -->
+	
+	<!-- 报表管理 begin -->
+	<bean name="/finance/reportController.spr" class="org.springframework.web.servlet.mvc.multiaction.MultiActionController">
+		<property name="methodNameResolver">
+			<ref bean="paramResolver"/>
+		</property>
+		<property name="delegate">
+			<ref bean="reportController"/>
+		</property>
+	</bean>
+	
+	<bean id="reportController" class="gnnt.MEBS.finance.web.ReportController"/>
+	<!-- 报表管理 end -->
+	
+	<!-- 申请与审核 begin -->
+	<!-- 申请与审核 (虚拟资金)begin -->
+	 <bean name="/common/timebargain/virtualFund*.spr" class="gnnt.MEBS.common.manage.web.VirtualFundController">
+		<property name="methodNameResolver">
+			<ref bean="virtualFundActionResolver"/>
+		</property>
+	</bean>
+	<bean id="virtualFundActionResolver" class="org.springframework.web.servlet.mvc.multiaction.PropertiesMethodNameResolver">
+		<property name="mappings">
+			<props>
+				<prop key="/common/timebargain/virtualFundList.spr">listVirtualFund</prop>
+				<prop key="/common/timebargain/virtualFundEdit.spr">editVirtualFund</prop>
+				<prop key="/common/timebargain/virtualFundSave.spr">saveVirtualFund</prop>
+				<prop key="/common/timebargain/virtualFundCheList.spr">listVirtualFundChe</prop>
+				<prop key="/common/timebargain/virtualFundCheck.spr">checkVirtualFund</prop>
+			</props>
+		</property>
+	</bean> 
+	<!-- 申请与审核 (虚拟资金)end -->
+	<!-- 申请与审核 (质押资金)begin -->
+	 <bean name="/common/timebargain/pledge*.spr" class="gnnt.MEBS.common.manage.web.PledgeController">
+		<property name="methodNameResolver">
+			<ref bean="pledgeActionResolver"/>
+		</property>
+	</bean>
+	<bean id="pledgeActionResolver" class="org.springframework.web.servlet.mvc.multiaction.PropertiesMethodNameResolver">
+		<property name="mappings">
+			<props>
+				<prop key="/common/timebargain/pledgeAppList.spr">listPledgeApp</prop>
+				<prop key="/common/timebargain/pledgeAppEdit.spr">editPledgeApp</prop>
+				<prop key="/common/timebargain/pledgeAppSave.spr">savePledgeApp</prop>
+				<prop key="/common/timebargain/pledgeCheList.spr">listPledgeChe</prop>
+				<prop key="/common/timebargain/pledgeCheck.spr">checkPledge</prop>
+			</props>
+		</property>
+	</bean> 
+	<!-- 申请与审核 (质押资金)end -->
+	
+	<!-- 申请与审核商品 begin -->
+	<bean name="/common/timebargain/commodity*.spr" class="gnnt.MEBS.common.manage.web.CommodityController">
+		<property name="methodNameResolver">
+			<ref bean="commodityActionResolver"/>
+		</property>
+	</bean>
+	<bean id="commodityActionResolver" class="org.springframework.web.servlet.mvc.multiaction.PropertiesMethodNameResolver">
+		<property name="mappings">
+			<props>
+			<!-- 商品手续费 -->
+				<prop key="/common/timebargain/commodityFeeAppList.spr">listCommodityFeeApp</prop>
+				<prop key="/common/timebargain/commodityFeeAppEdit.spr">editCommodityFeeApp</prop>
+				<prop key="/common/timebargain/commodityFeeAppSave.spr">saveCommodityFeeApp</prop>
+				<prop key="/common/timebargain/commodityFeeCheList.spr">listCommodityFeeChe</prop>
+				<prop key="/common/timebargain/commodityFeeCheck.spr">checkCommodityFee</prop>
+			<!-- 商品手续费 -->
+			<!-- 商品保证金 -->
+				<prop key="/common/timebargain/commodityMarginAppList.spr">listCommodityMarginApp</prop>
+				<prop key="/common/timebargain/commodityMarginAppEdit.spr">editCommodityMarginApp</prop>
+				<prop key="/common/timebargain/commodityMarginAppSave.spr">saveCommodityMarginApp</prop>
+				<prop key="/common/timebargain/commodityMarginCheList.spr">listCommodityMarginChe</prop>
+				<prop key="/common/timebargain/commodityMarginCheck.spr">checkCommodityMargin</prop>
+			<!-- 商品保证金 -->
+			</props>
+		</property>
+	</bean>
+	<!-- 申请与审核商品 end -->
+	
+	<!-- 申请与审核 end -->
+</beans>

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<!-- 加载相对目录下的多有spring文件 -->
+	<import resource="classpath*:/configfiles/*/spring/spring*.xml"/>
+	<!-- 系统配置项 -->
+	<bean id="config" class="java.util.Properties">
+		<constructor-arg type="java.util.Properties">
+			<props>
+				<prop key="Test">Test</prop><!--测试-->
+
+				<!--将字符串以逗号分隔成数组，以此数组中任何一个结尾的的url不需要权限判断-->
+				<prop key="NoKeyWords">.css,.js,.jpg,.png,.htc,.ico,.bmp,.gif,.zip,.htm,.html</prop>
+
+				<!--将字符串以逗号分隔成数组，以此数组中为不需要权限检查的目录-->
+				<prop key="NeedlessCheckDir">/checkneedless</prop>
+
+				<!-- 登录地址 session失效后转向此地址 -->
+				<prop key="LoginURL">/front/public/jsp/nosession.jsp</prop>
+
+				<!-- 没有权限地址 当判断用户没有当前页面权限时转向此地址 -->
+				<prop key="NoRightURL">/front/public/jsp/noright.jsp</prop>
+
+				<!-- 没有本模块的权限 -->
+				<prop key="NoModuleRightURL">/front/public/jsp/nomoduleright.jsp</prop>
+
+				<!-- 系统根目录 ID -->
+				<prop key="RootRightID">9900000000</prop>
+				
+				<!-- 本系统模块号，默认为 99 -->
+				<prop key="SelfModuleID">28</prop>
+
+				<!-- 如果银行不需要验证密码，是否验证市场密码。true 验证市场密码，false 不验证市场密码 -->
+				<prop key="isCheckMarketPassword">true</prop>
+				<!-- 签约时，需要验证密码的银行。之间以英文逗号分割 -->
+				<prop key="rgstAccountNeedPasswordBankID">005,12</prop>
+				
+				<!-- 解约时，需要验证密码的银行。之间以英文逗号分割 -->
+				<prop key="delAccountNeedPasswordBankID">1</prop>
+				<!-- 入金时，需要验证密码的银行。之间以英文逗号分割 -->
+				<prop key="inMoneyNeedPasswordBankID">005,12</prop>
+				
+				<!-- 出金时，需要验证密码的银行。之间以英文逗号分割 -->
+				<prop key="outMoneyNeedPasswordBankID">1</prop>
+				
+				<!-- 查询余额时，需要验证密码的银行。之间以英文逗号分割 -->
+				<prop key="queryMoneyNeedPasswordBankID">005,12</prop>
+
+				<!--国付宝后台通知URL-->
+				<prop key="BackgroundMerUrl_GFB">http://124.207.182.178:16726/GSYT/gnnt.do</prop>
+				<!--国付宝前台跳转通知URL-->
+				<prop key="FrontMerUrl_GFB">http://172.16.2.26:16225/money/back.jsp</prop>
+				<!--国付宝分配给市场的交易市场代码-->
+				<prop key="MarkCode_GFB">0000036148</prop>
+				<!--国付宝G商银通账号-->
+				<prop key="MarketGSAcount_GFB">0000000002000092801</prop>
+				<!--国付宝交易市场的身份识别码-->
+				<prop key="VerficationCode_GFB">1111aaaa</prop>
+				
+				<!--AU配置-->
+
+				<!-- 访问模式 0：rmi访问登录管理 1：本地访问登录管理 -->
+				<prop key="CallMode">0</prop>
+
+				<!-- 重连几次后到数据库重新获取连接,-1表示永不重新获取连接 --> 
+				<prop key="clearRMITimes">3</prop> 
+				
+				<!-- 本系统登录类型--> 
+				<prop key="selfLogonType">web</prop> 
+				
+				<!-- 验证登录超时线程睡眠时间，单位毫秒 -->
+				<prop key="timeSpace">200</prop>
+				
+			</props>
+		</constructor-arg>
+	</bean>
+	
+	<!-- AU 超时 类型配置MAp -->
+	<util:map id="auExpireTimeMap" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Long">
+		<entry key="web" value="7200000"/>
+		<entry key="pc" value="30000"/>
+		<entry key="mobile" value="7200000"/>
+	</util:map>
+	<!-- 系统配置项结束 -->
+
+	<!-- 添加一个类路径配置，让Spring 容器知道需要扫描该类路径下所有可以加载到容器中的类。  -->
+	<context:component-scan base-package="gnnt.MEBS" />
+ <!-- sessionFactoryForQuery -->
+	<bean id="sessionFactoryForQuery"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSourceForQuery"/>
+		</property>
+		<property name="configLocation" value="classpath:hibernate.cfg.xml">
+		</property>
+		<property name="annotatedPackages">
+			<list>
+				<value>gnnt.MEBS</value>
+			</list>
+		</property>
+	</bean>
+	<!-- sessionFactory -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="configLocation" value="classpath:hibernate.cfg.xml">
+		</property>
+		<property name="annotatedPackages">
+			<list>
+				<value>gnnt.MEBS</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 事务配置开始 -->
+	<!-- 使用注解方式事务管理 强制使用动态代理 -->
+	<tx:annotation-driven transaction-manager="transactionManager"
+		proxy-target-class="true" />
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<!-- 事务配置结束-->
+
+	<!-- 在spring容器加载时获取spring容器对象以方便其它类使用 -->
+	<bean class="gnnt.MEBS.common.front.statictools.ApplicationContextInit" />
+
+	<!-- 权限判断  -->
+	<bean id="urlCheck" class="gnnt.MEBS.common.front.webFrame.securityCheck.UrlCheck">
+		<property name="urlCheckList">
+			<list>
+				<!-- 检查url是否为不需要判断权限 的url 如登录界面等-->
+				<bean class="gnnt.MEBS.common.front.webFrame.securityCheck.UrlCheckNeedlessCheck" />
+				<!-- 检查session信息 -->
+				<bean class="gnnt.MEBS.common.front.webFrame.securityCheck.UrlCheckSession"></bean>
+				<!-- 使用Au检查用户是否合法 -->
+				<bean class="gnnt.MEBS.common.front.webFrame.securityCheck.UrlCheckUserInfo"></bean>
+				<!-- 根据用户检查是否拥有url的访问权限 -->
+				<bean class="gnnt.MEBS.common.front.webFrame.securityCheck.UrlCheckUserPurview"></bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 通过字段获取字段名  -->
+	<bean id="getNameByField" class="gnnt.MEBS.common.front.model.translate.GetNameByField">
+		<property name="getNameByFieldList">
+			<list>
+				<!-- 从资源文件中获取field的名称-->
+				<bean class="gnnt.MEBS.common.front.model.translate.GetNameByFieldFromResource" />
+				<!-- 通过注解获取field对应的名称 -->
+				<bean class="gnnt.MEBS.common.front.model.translate.GetNameByFieldFromAnnotation"></bean>
+				<!-- 获取field本身的名称-->
+				<bean class="gnnt.MEBS.common.front.model.translate.GetNameByFieldFromThis"></bean>
+			</list>
+		</property>
+	</bean>
+
+</beans>

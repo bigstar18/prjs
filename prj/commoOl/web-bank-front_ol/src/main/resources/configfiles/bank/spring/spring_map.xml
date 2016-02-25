@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<!-- 银行状态 -->
+	<util:map id="bankStatus" map-class="java.util.HashMap"
+		key-type="java.lang.Integer" value-type="java.lang.String">
+		<entry key="0" value="可用"></entry>
+		<entry key="1" value="不可用"></entry>
+	</util:map>
+
+	<!-- 银行转账限制条件 -->
+	<util:map id="bankControl" map-class="java.util.HashMap"
+		key-type="java.lang.Integer" value-type="java.lang.String">
+		<entry key="0" value="受双重限制"></entry>
+		<entry key="1" value="不受限制"></entry>
+		<entry key="2" value="受交易日限制"></entry>
+		<entry key="3" value="受交易时间限制"></entry>
+	</util:map>
+
+	<!-- 交易商证件类型 -->
+	<util:map id="firmIDAndAccountCardType" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="1" value="身份证"></entry>
+		<entry key="2" value="军官证"></entry>
+		<entry key="3" value="国内护照"></entry>
+		<entry key="4" value="户口本"></entry>
+		<entry key="5" value="学员证"></entry>
+		<entry key="6" value="退休证"></entry>
+		<entry key="7" value="临时身份证"></entry>
+		<entry key="8" value="组织机构代码"></entry>
+		<entry key="9" value="营业执照"></entry>
+		<entry key="a" value="法人代码证"></entry>
+	</util:map>
+
+	<!-- 交易商签约银行状态 -->
+	<util:map id="firmIDAndAccountIsOpen" map-class="java.util.HashMap"
+		key-type="java.lang.Integer" value-type="java.lang.String">
+		<entry key="0" value="未签约"></entry>
+		<entry key="1" value="成功"></entry>
+	</util:map>
+
+	<!-- 交易商签约帐号状态 -->
+	<util:map id="firmIDAndAccountStatus" map-class="java.util.HashMap"
+		key-type="java.lang.Integer" value-type="java.lang.String">
+		<entry key="0" value="可用"></entry>
+		<entry key="1" value="冻结"></entry>
+	</util:map>
+
+	<!-- 资金流水类型 -->
+	<util:map id="capitalInfoType" map-class="java.util.HashMap" 
+		key-type="java.lang.Integer" value-type="java.lang.String">
+		<entry key="0" value="入金"></entry>
+		<entry key="1" value="出金"></entry>
+		<entry key="2" value="手续费"></entry>
+		<entry key="3" value="资金划转"></entry>
+	</util:map>
+
+	<!-- 资金流水状态 -->
+	<util:map id="capitalInfoStatus" map-class="java.util.HashMap" 
+		key-type="java.lang.Integer" value-type="java.lang.String">
+		<entry key="0" value="成功"></entry>
+		<entry key="1" value="失败"></entry>
+		<entry key="2" value="处理中"></entry>
+		<entry key="3" value="一次审核"></entry>
+		<entry key="4" value="二次审核"></entry>
+		<entry key="5" value="银行返回空"></entry>
+		<entry key="6" value="银行返回流水号错"></entry>
+		<entry key="13" value="假银行转账待审核"></entry>
+	</util:map>
+
+	<!-- 字典分类 -->
+	<util:map id="dictionaryType" map-class="java.util.HashMap" 
+		key-type="java.lang.Integer" value-type="java.lang.String">
+		<entry key="0" value="财务摘要"></entry>
+		<entry key="1" value="科目代码"></entry>
+		<entry key="2" value="账户信息"></entry>
+		<entry key="3" value="费用信息"></entry>
+	</util:map>
+
+</beans>

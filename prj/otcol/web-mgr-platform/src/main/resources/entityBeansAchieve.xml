@@ -1,0 +1,54 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+      
+	 <context:annotation-config />
+    
+    <context:component-scan base-package="gnnt.MEBS.entity.service"/>
+    
+    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+	
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<tx:advice id="z_txAdvice" transaction-manager="transactionManager">  
+		<tx:attributes>  
+		    <tx:method name="get*" read-only="true"/>  
+		    <tx:method name="find*" read-only="true"/>  
+		    <tx:method name="*" rollback-for="Exception,DataAccessException"/>  
+		</tx:attributes>  
+	</tx:advice>
+    
+    <!-- =============================================更新blob类型注入================================================== -->
+	 <bean id="lobHandler"
+           class="org.springframework.jdbc.support.lob.DefaultLobHandler"
+           lazy-init="true">
+     </bean>
+     <!-- =============================================================================================== -->
+	
+
+	<bean id="daoHelper" class="gnnt.MEBS.base.dao.DaoHelper" autowire="byName"></bean>
+	
+	<bean id="e_breedDao" class="gnnt.MEBS.entity.dao.BreedDao" autowire="byName"></bean>
+	
+	<bean id="e_breedParametersDao" class="gnnt.MEBS.entity.dao.BreedParametersDao" autowire="byName"></bean>
+	
+	<bean id="e_breedPropertyDao" class="gnnt.MEBS.entity.dao.BreedPropertyDao" autowire="byName"></bean>
+	<bean id="e_breedQualityDao" class="gnnt.MEBS.entity.dao.BreedQualityDao" autowire="byName"></bean>
+	
+	
+	
+	
+</beans>

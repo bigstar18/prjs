@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:tx="http://www.springframework.org/schema/tx"
+xmlns:aop="http://www.springframework.org/schema/aop"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/tx
+http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+http://www.springframework.org/schema/aop
+http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+    
+	 
+	<!-- =======================================outWare======================================== -->
+	
+	<!-- 状态判断操作 -->
+	<bean id="condition" class="gnnt.MEBS.delivery.workflow.common.ConditionImpl" autowire="byName"/>
+	
+	<!-- defaultHandle中的过滤器 -->
+	<bean id="outWareInvalidFiltering" class="gnnt.MEBS.delivery.workflow.common.InvalidFilterIngImpl" />
+	
+	<!-- 判断是否可出库的过滤器 -->
+	<bean id="outWareFilterAbility" class="gnnt.MEBS.delivery.workflow.outWare.handle.filter.FilteringAbilityImpl" />
+	
+	<!-- 判断是否可出库的过滤器 -->
+	<bean id="filterAmount" class="gnnt.MEBS.delivery.workflow.outWare.handle.filter.FilteringAmountImpl" />
+	
+	<!-- 入库申请Behaviour -->
+	<bean id="addOutWareBehaviour" class="gnnt.MEBS.delivery.workflow.outWare.handle.behaviour.AddOutWareBehaviour" autowire="byName" />
+	
+	<!-- 入库申请Behaviour -->
+	<bean id="updateAmountBehaviour" class="gnnt.MEBS.delivery.workflow.outWare.handle.behaviour.UpdateAmountBehaviour" autowire="byName" />
+	
+	<!-- 入库申请Behaviour -->
+	<bean id="updateToBeforeAmountBehaviour" class="gnnt.MEBS.delivery.workflow.outWare.handle.behaviour.UpdateToBeforeAmountBehaviour" autowire="byName" />
+	
+	<!-- 入库申请Behaviour -->
+	<bean id="updateFrozenAmountBehaviour" class="gnnt.MEBS.delivery.workflow.outWare.handle.behaviour.UpdateFrozenAmountBehaviour" autowire="byName" />
+	
+	<!-- 出库申请StatusOperate -->
+    <bean id="outWareStatusOperate" class="gnnt.MEBS.delivery.workflow.outWare.handle.StatusOperateImpl" autowire="byName"/>
+    
+    <!-- 出库申请Precondition -->
+    <bean id="outWarePrecondition" class="gnnt.MEBS.delivery.workflow.outWare.PreconditionImpl" autowire="byName"/>
+	
+	<!-- 填写出库申请Handle -->
+	<bean id="addOutWareHandle" class="gnnt.MEBS.delivery.workflow.common.HandleImpl">
+		<property name="finalStatus">
+	            <value>1</value>
+	    </property>
+	    <!-- 状态判断 -->
+	    <property name="conditionList">
+	        <list>
+	            <ref bean="condition"/>
+	        </list>
+	    </property>
+	    <!-- 添加出库仓库表 -->
+	    <property name="behaviourList">
+	    	<list>
+	    		<ref bean="addOutWareBehaviour"/>
+	    		<ref bean="updateAmountBehaviour"/>
+	    	</list>
+	    </property>
+	    <!-- 过滤是否为可出库仓单 -->
+	    <property name="filteringList">
+	          <list>
+	             <ref bean="outWareFilterAbility" />
+	             <ref bean="filterAmount" />
+	          </list>
+	    </property>
+	    <property name="beanName">
+	          <value>add</value>
+	    </property>
+	</bean>
+	
+	<!-- 交易商撤销Handle -->
+     <bean id="firmOverruleHandle" class="gnnt.MEBS.delivery.workflow.common.HandleImpl">
+        <property name="finalStatus">  
+	            <value>-1</value>    
+	    </property>
+	    <!-- 冻结数量和现存数量更改为原先数量 -->
+	    <property name="behaviourList">
+		    <list>
+		    	<ref bean="updateToBeforeAmountBehaviour"/>
+		    </list>
+	    </property>
+	    <!-- 状态判断 -->
+	    <property name="conditionList">
+	        <list>
+	            <ref bean="condition"/>
+	        </list>      
+	    </property>
+	    <property name="beanName">
+	          <value>cancel</value>
+	    </property>
+     </bean>
+     
+	<!-- 市场审核Handle -->
+	<bean id="marketOutApproveHandle" class="gnnt.MEBS.delivery.workflow.common.HandleImpl">
+		<property name="finalStatus">
+	     	<value>2</value>
+	    </property>
+	    <!-- 状态判断 -->
+	    <property name="conditionList">
+	        <list>
+	            <ref bean="condition"/>
+	        </list>      
+	    </property>
+	    <!-- 冻结数量和现存数量更改为原先数量 -->
+	    <!--<property name="behaviourList">
+		    <list>
+		    	<ref bean="updateToBeforeAmountBehaviour"/>
+		    </list>
+	    </property>-->
+	    <property name="beanName">
+	          <value>approve</value>
+	    </property>
+	    <!-- 是否需要写入日志 -->
+	    <property name="writeNote">
+	          <value>false</value>
+	    </property>
+	</bean>
+	
+	<!-- 市场驳回Handle -->
+	<bean id="marketOutOverruleHandle" class="gnnt.MEBS.delivery.workflow.common.HandleImpl">
+		<property name="finalStatus">
+	    	<value>-2</value>
+	    </property>
+	    <!-- 状态判断 -->
+	    <property name="conditionList">
+	        <list>
+	            <ref bean="condition"/>
+	        </list>
+	    </property>
+	    <!-- 冻结数量和现存数量更改为原先数量 -->
+	    <property name="behaviourList">
+		    <list>
+		    	<ref bean="updateToBeforeAmountBehaviour"/>
+		    </list>
+	    </property>
+	    <property name="beanName">
+	    	<value>overrule</value>
+	    </property>
+	    <!-- 是否需要写入日志 -->
+	    <property name="writeNote">
+	    	<value>true</value>
+	    </property>
+	</bean>
+	
+	<!-- 仓库审核Handle -->
+	<bean id="storageOutApproveHandle" class="gnnt.MEBS.delivery.workflow.common.HandleImpl">
+		<property name="finalStatus">  
+	            <value>3</value>    
+	    </property>
+	    <!-- 状态判断 -->
+	    <property name="conditionList">
+	        <list>
+	            <ref bean="condition"/>
+	        </list>
+	    </property>
+	    <!-- 冻结数量改为0、现存重量减去出库重量 -->
+	    <property name="behaviourList">
+		    <list>
+		    	<ref bean="updateFrozenAmountBehaviour"/>
+		    </list>
+	    </property>
+	    <property name="beanName">  
+	          <value>approve</value>  
+	    </property>
+	    <!-- 是否需要写入日志 -->
+	    <property name="writeNote">  
+	          <value>false</value>  
+	    </property>
+	</bean>
+	
+	<!-- 仓库驳回Handle -->
+	<bean id="storageOutOverruleHandle" class="gnnt.MEBS.delivery.workflow.common.HandleImpl">
+		<property name="finalStatus">  
+	    	<value>-3</value>
+	    </property>
+	    <!-- 状态判断 -->
+	    <property name="conditionList">
+	        <list>
+	            <ref bean="condition"/>
+	        </list>
+	    </property>
+	    <!-- 冻结数量更改为原先数量 -->
+	    <property name="behaviourList">  
+	          <ref bean="updateToBeforeAmountBehaviour"/>    
+	    </property>
+	    <property name="beanName">  
+	          <value>overrule</value>  
+	    </property>
+	    <!-- 是否需要写入日志 -->
+	    <property name="writeNote">  
+	          <value>true</value>  
+	    </property>
+	</bean>
+	
+	<bean id="defaultOutWareHandle" class="gnnt.MEBS.delivery.workflow.common.HandleImpl">
+		<property name="filteringList">
+			<list>
+				<ref bean="outWareInvalidFiltering" />
+	        </list>
+	    </property>
+    </bean>
+	
+	 <!-- 出库第一步（填写出库仓单表） -->
+	 <bean id="outWareStepOne" class="gnnt.MEBS.delivery.workflow.common.StepImpl">
+	    <property name="currentStatus">  
+	    	<value>0</value>
+	    </property>
+	    <property name="authorityList">  
+	    	<list>
+     			<value>0</value>
+     			<value>1</value>
+     			<value>9</value>     			
+     		</list>    
+	    </property>
+	    <!-- 默认Handle为执行完成break -->
+	    <property name="defaultHandle">
+	          <ref bean="defaultOutWareHandle"/> 
+	    </property>
+	    <!-- Handle列表中有添加出库仓单表 -->
+	    <property name="handleList">
+	          <list>
+	             <ref bean="addOutWareHandle" />
+	          </list>    
+	    </property>
+	    <!-- 更改状态 -->
+	    <property name="statusOperate">
+	           <ref bean="outWareStatusOperate"/> 
+	    </property>
+	    <!-- 设置是否需要日志信息 -->
+	    <property name="existNote">
+	           <value>false</value>
+	    </property>
+	 </bean>
+	 
+	 <!-- 出库第二步（市场审核） -->
+	 <bean id="outWareStepTwo" class="gnnt.MEBS.delivery.workflow.common.StepImpl">
+	    <property name="currentStatus">  
+	            <value>1</value>
+	    </property>
+	    <property name="authorityList">
+	        <list>
+     			<value>0</value>
+     		</list>
+	    </property>
+	    <!-- 默认Handle为执行完成break -->
+	    <property name="defaultHandle">
+	          <ref bean="defaultOutWareHandle"/> 
+	    </property>
+	    <!-- Handle列表中有市场审核和驳回 -->
+	    <property name="handleList"> 
+	          <list>
+	          	<ref bean="marketOutApproveHandle" />
+	            <ref bean="marketOutOverruleHandle" />
+	          </list>    
+	    </property>
+	    <!-- 更改状态 -->
+	    <property name="statusOperate">
+	           <ref bean="outWareStatusOperate"/> 
+	    </property>
+	    <!-- 为对象加锁 -->
+	    <property name="preconditionList">
+            <list>
+             <ref bean="outWarePrecondition" />
+            </list> 
+	    </property>
+	    <!-- 设置是否需要日志信息 -->
+	    <property name="existNote">
+	           <value>true</value>
+	    </property>
+	 </bean>
+	 
+	 <!-- 出库第三步（仓库审核） -->
+	 <bean id="outWareStepThree" class="gnnt.MEBS.delivery.workflow.common.StepImpl">
+	    <property name="currentStatus">  
+	            <value>2</value>
+	    </property>
+	    <property name="authorityList">  
+	        <list>
+     			<value>1</value>
+     		</list>
+	    </property>
+	    <!-- 默认Handle为执行完成break -->
+	    <property name="defaultHandle">
+	          <ref bean="defaultOutWareHandle"/> 
+	    </property>
+	    <!-- Handle列表中有仓库审核和驳回 -->
+	    <property name="handleList">  
+	          <list>
+	        	 <ref bean="storageOutApproveHandle"/>
+	             <ref bean="storageOutOverruleHandle" />
+	          </list>
+	    </property>
+	    <!-- 更改状态 -->
+	    <property name="statusOperate">
+	           <ref bean="outWareStatusOperate"/>
+	    </property>
+	    <!-- 为对象加锁 -->
+	    <property name="preconditionList">
+            <list>
+             <ref bean="outWarePrecondition" />
+            </list> 
+	    </property>
+	    <!-- 设置是否需要日志信息 -->
+	    <property name="existNote">
+	           <value>true</value>
+	    </property>
+	 </bean>
+	 
+	 <!-- 出库第四步（交易商撤消） -->
+	 <bean id="outWareStepFour" class="gnnt.MEBS.delivery.workflow.common.StepImpl">
+	    <property name="currentStatus">  
+	            <value>1</value>    
+	    </property>
+	    <property name="authorityList">  
+	        <list>
+     			<value>9</value>
+     		</list>
+	    </property>
+	    <!-- 默认Handle为执行完成break -->
+	    <property name="defaultHandle">
+	          <ref bean="defaultOutWareHandle"/> 
+	    </property>
+	    <!-- Handle列表中有交易商撤消 -->
+	    <property name="handleList">  
+	          <list>
+	        	 <ref bean="firmOverruleHandle" />
+	          </list>    
+	    </property>
+	    <!-- 更改状态 -->
+	    <property name="statusOperate">
+	           <ref bean="outWareStatusOperate"/> 
+	    </property>
+	    <!-- 为对象加锁 -->
+	    <property name="preconditionList">
+            <list>
+             <ref bean="outWarePrecondition" />
+            </list> 
+	    </property>
+	    <!-- 设置是否需要日志信息 -->
+	    <property name="existNote">
+	           <value>false</value>
+	    </property>
+	 </bean>
+	 
+	<!-- 出库ProcessContext -->
+	<bean id="outWareProcessContext" class="gnnt.MEBS.delivery.workflow.common.ProcessContextImpl">
+		<property name="steps">
+			<!-- list中的bean必需按步骤的顺序排列 -->
+			<list> 
+				<ref bean="outWareStepOne" />
+				<ref bean="outWareStepTwo" />
+				<ref bean="outWareStepThree" />
+				<ref bean="outWareStepFour" />
+			</list>
+		</property>
+		<property name="finalStatus">
+			<list>
+				<value>3</value>
+			</list>
+		</property>
+	</bean> 
+</beans>

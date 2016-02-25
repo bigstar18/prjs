@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+  
+
+	<!-- ******************************** settleBehavior start ********************************* -->
+    
+	
+	
+	
+	<!-- 履约修改状态 handle -->
+	<bean id="w_complianceChangeStatusHandle" class="gnnt.MEBS.delivery.command.settleBehavior.BaseHandle">
+	   <property name="conditionList">  
+			<list>
+				<ref bean="w_moduleCondition"/>
+				<ref bean="w_complianceCondition"/>
+			</list>
+	    </property>
+	    <property name="filteringList">  
+            <list>
+    			<ref bean="w_changeRegStockFiltering"/>
+    		</list>
+	    </property>
+	    <property name="behaviourList">  
+            <list>
+    			<ref bean="w_frozenNewRegStockBehavior"/>
+    			<ref bean="w_releaseOldRegStockBehavior"/>
+    			<ref bean="w_updateRegStockForSettleMatchBehavior"/>
+    			<ref bean="w_updateResultForSettleMatchBehavior"/>
+    		</list>
+	    </property>
+	</bean>
+	
+	<!-- 违约修改状态 handle -->
+	<bean id="w_defaultChangeStatusHandle" class="gnnt.MEBS.delivery.command.settleBehavior.BaseHandle">
+	   <property name="conditionList">  
+			<list>
+				<ref bean="w_moduleCondition"/>
+				<ref bean="w_defaultCondition"/>
+			</list>
+	    </property>
+	    <property name="filteringList">  
+            <list>
+    			<ref bean="w_checkDefaultRegStockFiltering"/>
+    		</list>
+	    </property>
+	    <property name="behaviourList">  
+            <list>
+    			<ref bean="w_releaseOldRegStockBehavior"/>
+    			<ref bean="w_updateRegStockForSettleMatchBehavior"/>
+    			<ref bean="w_updateResultForSettleMatchBehavior"/>
+    		</list>
+	    </property>
+	</bean>
+	
+	 
+	
+	<!-- 修改状态 Receive -->
+	<bean id="w_changeStatusReceive" class="gnnt.MEBS.delivery.command.settleBehavior.BaseReceive">
+	  <property name="handleList">  
+    		<list>
+    			<ref bean="w_complianceChangeStatusHandle"/>
+    			<ref bean="w_defaultChangeStatusHandle"/>
+    		</list>
+	    </property>
+	     <property name="settleBalanceCheck">
+			<ref bean="w_settleBalanceCheckDefault"/>
+		</property>
+		<property name="settleLegalExamine">
+	    	<ref bean="w_settleLegalExamineNotCheckRegStockForAllType"/>
+	    </property>
+	</bean>
+	
+</beans>

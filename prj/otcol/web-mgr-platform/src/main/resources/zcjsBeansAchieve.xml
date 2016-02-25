@@ -1,0 +1,153 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+      
+	 <context:annotation-config />
+    
+    <context:component-scan base-package="gnnt.MEBS.zcjs.services"/>
+    
+    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+	
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<tx:advice id="z_txAdvice" transaction-manager="transactionManager">  
+		<tx:attributes>  
+		    <tx:method name="get*" read-only="true"/>  
+		    <tx:method name="find*" read-only="true"/>  
+		    <tx:method name="*" rollback-for="Exception,DataAccessException"/>  
+		</tx:attributes>  
+	</tx:advice>
+	
+	
+	<!-- 一下两个key表达意思一样，为了方便前后台使用 -->
+	<bean id="z_config" class="java.util.Properties">
+		<constructor-arg type="java.util.Properties">
+			<props>
+				<prop key="quantityDecimals">4</prop>	
+				<prop key="quantityDecimalsString">0.0000</prop>
+			</props>
+		</constructor-arg>
+	</bean>
+	
+    
+    <!-- =============================================更新blob类型注入================================================== -->
+	 <bean id="lobHandler"
+           class="org.springframework.jdbc.support.lob.DefaultLobHandler"
+           lazy-init="true">
+     </bean>
+     <!-- =============================================================================================== -->
+    	
+	<bean id="z_systemObjectInit" class="gnnt.MEBS.zcjs.auto.SystemObjectInit">
+		<property name="marketStatusService">
+			<ref bean="z_marketStatusService"/>
+		</property>
+		<property name="tradeRestDateService">
+			<ref bean="z_tradeRestDateService"/>
+		</property>
+		<property name="tradeTimeService">
+			<ref bean="z_tradeTimeService"/>
+		</property>
+	</bean>
+	
+	<bean id="z_prosceniumShowInit" class="gnnt.MEBS.zcjs.auto.ProsceniumShowInit">
+		<property name="prosceniumShowService">
+			<ref bean="z_prosceniumShowService"/>
+		</property>
+	</bean>
+	
+	<bean id="z_discussPriceDao" class="gnnt.MEBS.zcjs.dao.DiscussPriceDao" autowire="byName"></bean>
+	
+	<bean id="z_goodsOrderDao" class="gnnt.MEBS.zcjs.dao.GoodsOrderDao" autowire="byName"></bean>
+	
+	<bean id="z_tradeCommodityMsgDao" class="gnnt.MEBS.zcjs.dao.TradeCommodityMsgDao" autowire="byName"></bean>
+	
+	<bean id="z_commodityRuleDao" class="gnnt.MEBS.zcjs.dao.CommodityRuleDao" autowire="byName"></bean>
+	
+	<bean id="z_moneyDoDao" class="gnnt.MEBS.zcjs.dao.MoneyDoDao" autowire="byName"></bean>
+	
+	<bean id="z_dailySubmitDao" class="gnnt.MEBS.zcjs.dao.DailySubmitDao" autowire="byName"></bean>
+	
+	<bean id="z_tradeRestDateDao" class="gnnt.MEBS.zcjs.dao.TradeRestDateDao" autowire="byName"></bean>
+	
+	<bean id="z_marketConfigDao" class="gnnt.MEBS.zcjs.dao.MarketConfigDao" autowire="byName"></bean>
+	
+	<bean id="z_marketStatusDao" class="gnnt.MEBS.zcjs.dao.MarketStatusDao" autowire="byName"></bean>
+
+	<bean id="z_tradeTimeDao" class="gnnt.MEBS.zcjs.dao.TradeTimeDao" autowire="byName"></bean>
+
+	<bean id="z_broadcastDao" class="gnnt.MEBS.zcjs.dao.BroadcastDao" autowire="byName"></bean>
+	
+	<bean id="z_breedDao" class="gnnt.MEBS.zcjs.dao.BreedDao" autowire="byName"></bean>
+	
+	<bean id="z_commodityDao" class="gnnt.MEBS.zcjs.dao.warehouse.CommodityDao" autowire="byName"></bean>
+	
+	<bean id="z_commodityExpansionDao" class="gnnt.MEBS.zcjs.dao.warehouse.CommodityExpansionDao" autowire="byName"></bean>
+	
+	<bean id="z_commodityPropertyDao" class="gnnt.MEBS.zcjs.dao.CommodityPropertyDao" autowire="byName"></bean>
+	
+	<bean id="z_commodityParameterDao" class="gnnt.MEBS.zcjs.dao.CommodityParameterDao" autowire="byName"></bean>
+	
+	<bean id="z_qualityDao" class="gnnt.MEBS.zcjs.dao.QualityDao" autowire="byName"></bean>
+
+	<bean id="z_tradeInfoDao" class="gnnt.MEBS.zcjs.dao.TradeInfoDao" autowire="byName"></bean>
+	
+    <bean id="z_hisSubmitDao" class="gnnt.MEBS.zcjs.dao.HisSubmitDao" autowire="byName"></bean>
+
+    <bean id="z_hisCommodityRuleDao" class="gnnt.MEBS.zcjs.dao.HisCommodityRuleDao" autowire="byName"></bean>
+    
+    <bean id="z_hisTradeDao" class="gnnt.MEBS.zcjs.dao.HisTradeDao" autowire="byName"></bean>
+    
+    <bean id="z_tradedao" class="gnnt.MEBS.zcjs.dao.TradeDao" autowire="byName"></bean>
+
+	<bean id="z_regStockDao" class="gnnt.MEBS.zcjs.dao.RegStockDao" autowire="byName"></bean>
+
+	<bean id="z_firmPermissionDao" class="gnnt.MEBS.zcjs.dao.FirmPermissionDao" autowire="byName"></bean>
+
+	<bean id="z_hisDicussPriceDao" class="gnnt.MEBS.zcjs.dao.HisDicussPriceDao" autowire="byName"></bean>
+	
+	<bean id="z_hisTradeCommodityMsgDao" class="gnnt.MEBS.zcjs.dao.HisTradeCommodityMsgDao" autowire="byName"></bean>
+	
+	<bean id="z_hisGoodsOrderDao" class="gnnt.MEBS.zcjs.dao.HisGoodsOrderDao" autowire="byName"></bean>
+	
+	<bean id="z_prosceniumShowDao" class="gnnt.MEBS.zcjs.dao.ProsceniumShowDao" autowire="byName"></bean>
+	
+	<bean id="z_validRegstockDao" class="gnnt.MEBS.zcjs.dao.RegStockDao" autowire="byName"></bean>
+		
+	<bean id="z_deliveryDao" class="gnnt.MEBS.zcjs.dao.DeliveryDao" autowire="byName"></bean>
+	
+	<bean id="z_getMessageDao" class="gnnt.MEBS.zcjs.dao.GetMessageDao" autowire="byName"></bean>
+	
+	<bean id="z_tradeMsgFeedbackDao" class="gnnt.MEBS.zcjs.dao.TradeMsgFeedbackDao" autowire="byName"></bean>
+	
+	<bean id="z_warehouseRegStockDao" class="gnnt.MEBS.zcjs.dao.warehouse.WarehouseRegStockDao" autowire="byName"></bean>
+
+	<bean id="z_currentFundDao" class="gnnt.MEBS.zcjs.dao.CurrentFundDao" autowire="byName"></bean>
+	
+	<bean id="z_sortDao" class="gnnt.MEBS.zcjs.dao.SortDao" autowire="byName"></bean>
+	
+	<bean id="z_fundFlowDao" class="gnnt.MEBS.zcjs.dao.FundFlowDao" autowire="byName"></bean>
+	
+	<bean id="z_tradeModuleDao" class="gnnt.MEBS.zcjs.dao.TradeModuleDao" autowire="byName"></bean>
+	
+	<bean id="z_entityBreedDao" class="gnnt.MEBS.zcjs.dao.EntityBreedDao" autowire="byName"></bean>
+	
+	<bean id="z_hisValidRegstockDao" class="gnnt.MEBS.zcjs.dao.HisValidRegstockDao" autowire="byName"></bean>
+	
+	<bean id="daoHelper" class="gnnt.MEBS.base.dao.DaoHelper" autowire="byName"></bean>
+	
+	
+	
+</beans>

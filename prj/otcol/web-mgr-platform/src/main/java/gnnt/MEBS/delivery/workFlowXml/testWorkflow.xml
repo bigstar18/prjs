@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:tx="http://www.springframework.org/schema/tx"
+xmlns:aop="http://www.springframework.org/schema/aop"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/tx
+http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+http://www.springframework.org/schema/aop
+http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+      
+	 <bean id="testConditionCommon" class="gnnt.MEBS.delivery.workflow.common.ConditionImpl"></bean>
+	 
+	 <bean id="addTestBehaviour" class="gnnt.MEBS.delivery.workflow.example.handle.behaviour.AddBehaviour"></bean>
+	 
+     <bean id="testStatusOperate" class="gnnt.MEBS.delivery.workflow.example.handle.StatusOperateImpl"></bean>
+     
+     <bean id="testFiltering" class="gnnt.MEBS.delivery.workflow.example.handle.filter.FilteringImpl"></bean>
+     
+     <bean id="testInvalidFiltering" class="gnnt.MEBS.delivery.workflow.common.InvalidFilterIngImpl"></bean>
+     
+     <bean id="testPrecondition" class="gnnt.MEBS.delivery.workflow.example.PreconditionImpl"></bean>
+     
+     <bean id="addTestHandle" class="gnnt.MEBS.delivery.workflow.common.HandleImpl">
+        <property name="finalStatus">  
+	            <value>1</value>    
+	    </property>
+	    <property name="behaviourList">
+	        <list>
+	            <ref bean="addTestBehaviour"/>
+	        </list>      
+	    </property>
+	    <property name="conditionList">
+	        <list>
+	            <ref bean="testConditionCommon"/>
+	        </list>      
+	    </property>
+	    <property name="filteringList">
+	          <list>
+	             <ref bean="testFiltering" />
+	            </list>
+	    </property>
+	    <property name="beanName">  
+	          <value>addTest</value>  
+	    </property>
+    </bean>
+    
+     <bean id="defaultTestHandle" class="gnnt.MEBS.delivery.workflow.common.HandleImpl">
+	    <property name="filteringList">
+	          <list>
+	             <ref bean="testInvalidFiltering" />
+	            </list>
+	    </property>
+    </bean>
+    
+    <bean id="testStepOne" class="gnnt.MEBS.delivery.workflow.common.StepImpl">
+	    <property name="currentStatus">  
+	            <value>0</value>    
+	    </property>
+	    <property name="authorityList"> 
+	         <list> 
+	            <value>9</value>
+	         </list>    
+	    </property>
+	    <property name="handleList">
+	        <list>
+	            <ref bean="addTestHandle" />
+	        </list>
+	    </property>
+	    <property name="defaultHandle">  
+	          <ref bean="defaultTestHandle"/>    
+	    </property>
+	    <property name="statusOperate">
+	           <ref bean="testStatusOperate"/> 
+	    </property>
+	    <property name="preconditionList">
+	            <list>
+	             <ref bean="testPrecondition" />
+	            </list> 
+	    </property>
+	</bean>
+	
+	
+	
+	<bean id="testProcessContext" class="gnnt.MEBS.delivery.workflow.common.ProcessContextImpl">
+	   <property name="steps">
+		   <!-- list中的bean必需按步骤的顺序排列 -->
+           <list> 
+             <ref bean="testStepOne" />
+           </list>
+         </property>
+         <property name="finalStatus">
+         	<list>
+         		<value>3</value>
+         	</list>
+         </property>
+	</bean> 
+	 
+
+</beans>

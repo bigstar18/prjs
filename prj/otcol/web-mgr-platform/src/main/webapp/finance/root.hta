@@ -1,0 +1,26 @@
+<html>
+<head>
+	<HTA:APPLICATION ID="oFinance" 
+		APPLICATIONNAME="Finance" 
+		SCROLL="no" 
+		NAVIGABLE="yes" 
+		BORDER="thin" 
+		SYSMENU="yes"
+		INNERBORDER="none" 
+		SINGLEINSTANCE="no" 
+		ICON="http://172.16.1.88:8090/mgr_FaM/finance/skin/default/ico/browser.ico" WINDOWSTATE="maximize"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+	<title>账务管理系统 Ver.1.0</title>
+</head>
+
+<script language="JavaScript">
+    var URL = "http://172.16.1.88:8090/mgr_FaM/finance/index.jsp";
+    function load(){
+	document.getElementById ( "span_Start" ).style.display = "none";
+	window.location.replace ( URL );
+    }
+</script>
+<body onload="load();">
+<span id="span_Start" style="height:300px;width:400px;"></span>
+</body>
+</html>

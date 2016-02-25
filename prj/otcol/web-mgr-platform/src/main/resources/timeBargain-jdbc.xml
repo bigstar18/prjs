@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+	
+    <!-- <bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager" /> -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	  <property name="dataSource" ref="dataSource"/>
+	</bean> 
+
+    <bean id="dao" class="gnnt.MEBS.timebargain.manage.dao.jdbc.BaseDAOJdbc">
+      <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="lookupDAO" class="gnnt.MEBS.timebargain.manage.dao.jdbc.LookupDAOJdbc">
+      <property name="dataSource" ref="dataSource"/>
+    </bean> 
+     <bean id="lookupUseBackDsDAO" class="gnnt.MEBS.timebargain.manage.dao.jdbc.LookupUseBackDsDAOJdbc">
+      <property name="dataSource" ref="dataSourceBack"/>
+    </bean>       
+
+    <bean id="customerDAO" class="gnnt.MEBS.timebargain.manage.dao.jdbc.CustomerDAOJdbc">
+      <property name="dataSource" ref="dataSource"/>
+    </bean>        
+    <bean id="ordersDAO" class="gnnt.MEBS.timebargain.manage.dao.jdbc.OrdersDAOJdbc">
+      <property name="dataSource" ref="dataSource"/>
+    </bean>    
+    <bean id="tradePropsDAO" class="gnnt.MEBS.timebargain.manage.dao.jdbc.TradePropsDAOJdbc">
+      <property name="dataSource" ref="dataSource"/>
+    </bean>  
+    <bean id="marketDAO" class="gnnt.MEBS.timebargain.manage.dao.jdbc.MarketDAOJdbc">
+      <property name="dataSource" ref="dataSource"/>
+    </bean>    
+    <bean id="tradeRuleDAO" class="gnnt.MEBS.timebargain.manage.dao.jdbc.TradeRuleDAOJdbc">
+      <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="tradeBreedRuleDAO" class="gnnt.MEBS.timebargain.manage.dao.jdbc.TradeBreedRuleDAOJdbc"> 
+      <property name="dataSource" ref="dataSource"/>
+    </bean>   
+    <bean id="commodityDAO" class="gnnt.MEBS.timebargain.manage.dao.jdbc.CommodityDAOJdbc">
+      <property name="dataSource" ref="dataSource"/>
+    </bean>   
+    <bean id="tradeCtlDAO" class="gnnt.MEBS.timebargain.manage.dao.jdbc.TradeCtlDAOJdbc">
+      <property name="dataSource" ref="dataSource"/>
+    </bean>    
+    <bean id="statQueryDAO" class="gnnt.MEBS.timebargain.manage.dao.jdbc.StatQueryDAOJdbc">
+      <property name="dataSource" ref="dataSourceBack"/>
+    </bean>  
+     <bean id="statQueryUseMainDSDao" class="gnnt.MEBS.timebargain.manage.dao.jdbc.StatQueryUseMainDSDaoJdbc">
+      <property name="dataSource" ref="dataSource"/>
+    </bean>  
+    <bean id="reportDAO" class="gnnt.MEBS.timebargain.manage.dao.jdbc.ReportDAOJdbc">
+      <property name="dataSource" ref="dataSource"/>
+    </bean> 
+    <bean id="breedDAO" class="gnnt.MEBS.timebargain.manage.dao.jdbc.BreedDAOJdbc">
+      <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="tariffDAO" class="gnnt.MEBS.timebargain.manage.dao.jdbc.TariffDAOJdbc">
+      <property name="dataSource" ref="dataSource"/>
+    </bean> 
+    <bean id="traderDAO" class="gnnt.MEBS.timebargain.manage.dao.jdbc.TraderDAOJdbc">
+      <property name="dataSource" ref="dataSource"/>
+    </bean>    
+    <bean id="cmdtySortDAO" class="gnnt.MEBS.timebargain.manage.dao.jdbc.CmdtySortDAOJdbc">
+      <property name="dataSource" ref="dataSource"/>
+    </bean> 
+	<bean id="broadcastDAO" class="gnnt.MEBS.timebargain.manage.dao.jdbc.BroadcastDAOJdbc">
+      <property name="dataSource" ref="dataSource"/>
+    </bean>   
+    <bean id="deductDAO" class="gnnt.MEBS.timebargain.manage.dao.jdbc.DeductDAOJdbc">
+      <property name="dataSource" ref="dataSource"/>
+    </bean> 
+    <bean id="userDAO" class="gnnt.MEBS.timebargain.manage.dao.jdbc.xtgl.UserDAOJdbc">
+      <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <bean id="tradeMonitorDAO" class="gnnt.MEBS.timebargain.manage.dao.jdbc.TradeMonitorDAOJdbc">
+      <property name="dataSource" ref="dataSourceBack"/>
+    </bean>
+    
+    <bean id="delayDAO" class="gnnt.MEBS.timebargain.manage.dao.jdbc.DelayDAOJdbc">
+      <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+	<!-- 仓单抵顶 -->
+	<bean id="gageWarehouseDAO" class="gnnt.MEBS.timebargain.manage.dao.jdbc.GageWarehouseDAOJdbc">
+      <property name="dataSource" ref="dataSource"/>
+    </bean>
+	
+	<!-- 抵顶转让仓单 -->
+	<bean id="applyGageDAO" class="gnnt.MEBS.timebargain.manage.dao.jdbc.ApplyGageDAOJdbc">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	<!-- 提前交收 -->
+	<bean id="aheadSettleDAO" class="gnnt.MEBS.timebargain.manage.dao.jdbc.AheadSettleDAOJdbc">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	
+	<!-- 注入StatuQueryAndUpdateDAO -->
+	<bean id="statuQueryAndUpdateDAO"
+		class="gnnt.MEBS.timebargain.manage.dao.jdbc.StatuQueryAndUpdateDAOJdbc">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+		<!-- 注入directFirmBreedDAO 主持交易商品种 -->
+	<bean id="directFirmBreedDAO"
+		class="gnnt.MEBS.timebargain.manage.dao.jdbc.DirectFirmBreedDAOJdbc">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+		<!-- 注入directFirmBreedHisDAO 主持交易商品种历史 -->
+	<bean id="directFirmBreedHisDAO"
+		class="gnnt.MEBS.timebargain.manage.dao.jdbc.DirectFirmBreedHisDAOJdbc">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+    
+    <bean id="commoditySettlePropDAO" class="gnnt.MEBS.timebargain.manage.dao.jdbc.CommoditySettlePropDAOJdbc">
+      <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <bean id="settleprivilegeDAO" class="gnnt.MEBS.timebargain.manage.dao.jdbc.SettleprivilegeDAOJdbc">
+      <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <bean id="conditionOrderDao" class="gnnt.MEBS.timebargain.manage.dao.jdbc.ConditionOrderDaoJdbc">
+      <property name="dataSource" ref="dataSource"/>
+    </bean>  
+</beans>
+
+
+
+
+
+
+
+
+
+
+

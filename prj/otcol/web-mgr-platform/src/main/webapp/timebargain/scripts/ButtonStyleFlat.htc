@@ -1,0 +1,72 @@
+<PUBLIC:COMPONENT>
+<PUBLIC:ATTACH EVENT="ondocumentready" ONEVENT="DoInit()" />
+<PUBLIC:ATTACH EVENT="onmouseover" ONEVENT="DoMouseOver()" />
+<PUBLIC:ATTACH EVENT="onmouseout" ONEVENT="DoMouseOut()" />
+<PUBLIC:ATTACH EVENT="onmousedown" ONEVENT="DoMouseDown()" />
+<PUBLIC:ATTACH EVENT="onmouseup" ONEVENT="DoMouseUp()" />
+<PUBLIC:ATTACH EVENT="onclick" ONEVENT="DoClick()" />
+
+<PUBLIC:PROPERTY NAME="ColorOver" />
+<PUBLIC:PROPERTY NAME="ColorOut" />
+<PUBLIC:PROPERTY NAME="ColorDown" />
+<PUBLIC:PROPERTY NAME="ColorUp" />
+<PUBLIC:PROPERTY NAME="Scheme" />
+
+<PUBLIC:EVENT NAME="onPush" ID="push"  />
+
+<PUBLIC:METHOD NAME="showMessage"  />
+
+<script>
+function DoInit(){
+	return;
+    switch(Scheme){
+        case "Normal":
+            if(ColorOver==null) ColorOver='Orange';
+            if(ColorOut==null) ColorOut='RoyalBlue';
+            if(ColorDown==null) ColorDown='Black';
+            if(ColorUp==null) ColorUp='YellowGreen';
+        break;
+        default:
+            if(ColorOver==null) ColorOver='Orange';
+            if(ColorOut==null) ColorOut='RoyalBlue';
+            if(ColorDown==null) ColorDown='Black';
+            if(ColorUp==null) ColorUp='YellowGreen';
+    }
+    
+        runtimeStyle.borderWidth='0px';
+        runtimeStyle.textAlign='center';
+        runtimeStyle.padding='3';
+        runtimeStyle.verticalAlign='bottom';
+        runtimeStyle.color='white';
+        runtimeStyle.cursor='hand';
+        runtimeStyle.background=ColorOut;
+        runtimeStyle.unselectable='on';
+}
+
+function DoMouseOver(){
+	runtimeStyle.border = "1px solid #e89f2e";
+    //runtimeStyle.background=ColorOver;
+}
+
+function DoMouseOut(){
+	runtimeStyle.border = "1px solid #7b9ebd";
+    //runtimeStyle.background=ColorOut;
+}
+
+function DoMouseDown(){
+    //runtimeStyle.background=ColorDown;
+}
+
+function DoMouseUp(){
+    //runtimeStyle.background=ColorUp;
+}
+
+function DoClick(){
+    //push.fire();
+}
+
+function showMessage(){
+    //alert("showMessage run.");
+}
+</script>
+</PUBLIC:COMPONENT>

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+<bean id="financeConfig" class="java.util.Properties">
+	<constructor-arg type="java.util.Properties">
+      <props>
+        <!-- awmts ; paimai; agency;trade;null 未用-->
+        <prop key="systemType"></prop>
+        <prop key="firmId">交易商代码</prop>
+	    <prop key="firmName">姓名</prop>
+	    <prop key="b_date">日期</prop>
+	    <prop key="lastBalance">期初余额</prop>
+	    <prop key="other">+其他交易系统</prop>
+	    <prop key="todayBalance">期末余额</prop>
+	    <prop key="lastWarranty">期初担保金</prop>
+	    <prop key="todayWarranty">期末担保金</prop>
+	    <prop key="brokerName">加盟商</prop>
+	    <prop key="brokerAccount">加盟商帐号</prop>
+      </props>
+    </constructor-arg>
+</bean>
+  
+  <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"> 
+        <property name="dataSource"> 
+            <ref bean="dataSourceJNDI"/> 
+        </property>    
+   </bean> 
+
+    
+<!-- DAO -->
+<bean id="daoHelper" class="gnnt.MEBS.finance.base.dao.oracle.DaoHelperImpl">
+	<property name="dataSource">
+	<ref local="dataSourceJNDI" />
+	</property>
+</bean>
+
+<bean id="accountDao" class="gnnt.MEBS.finance.dao.oracle.AccountDaoImpl">
+	<property name="dataSource">
+	<ref local="dataSourceJNDI" />
+	</property>
+	<property name="transactionManager"> 
+    <ref bean="transactionManager"/> 
+    </property>
+</bean>
+
+<bean id="voucherDao" class="gnnt.MEBS.finance.dao.oracle.VoucherDaoImpl">
+	<property name="dataSource">
+	<ref local="dataSourceJNDI" />
+	</property>
+	<property name="transactionManager"> 
+    <ref bean="transactionManager"/> 
+    </property> 
+</bean>
+
+<bean id="userDao" class="gnnt.MEBS.finance.dao.oracle.UserDaoImpl">
+	<property name="dataSource">
+	<ref local="dataSourceJNDI" />
+	</property>
+</bean>
+
+<bean id="tradeuserDao" class="gnnt.MEBS.finance.dao.oracle.TradeuserDaoImpl">
+	<property name="dataSource">
+	<ref local="dataSourceJNDI" />
+	</property>
+	<property name="transactionManager"> 
+    <ref bean="transactionManager"/> 
+    </property> 
+</bean>
+
+
+ <bean id="nativeJdbcExtractor"   
+    class="org.springframework.jdbc.support.nativejdbc.CommonsDbcpNativeJdbcExtractor"   
+     lazy-init="true" />    
+  <bean id="oracleLobHandler"   
+    class="org.springframework.jdbc.support.lob.OracleLobHandler"   
+     lazy-init="true">    
+     <property name="nativeJdbcExtractor" ref="nativeJdbcExtractor" />    
+    </bean>
+    
+   <bean id="applyDAO" class="gnnt.MEBS.common.manage.dao.jdbc.ApplyDAOJdbc"> 
+      <property name="dataSource" ref="dataSourceJNDI"/> 
+      <property name="lobHandler" ref="oracleLobHandler" />  
+    </bean>
+    <bean id="virtualFundDAO" class="gnnt.MEBS.common.manage.dao.jdbc.VirtualFundDAOJdbc"> 
+      <property name="dataSource" ref="dataSourceJNDI"/> 
+    </bean> 
+    <bean id="pledgeDAO" class="gnnt.MEBS.common.manage.dao.jdbc.PledgeDAOJdbc"> 
+      <property name="dataSource" ref="dataSourceJNDI"/> 
+    </bean>
+    
+    <bean id="commodityDAO" class="gnnt.MEBS.common.manage.dao.jdbc.CommodityDAOJdbc"> 
+      <property name="dataSource" ref="dataSourceJNDI"/> 
+    </bean>
+    
+
+ <bean id="txProxyTemplate" abstract="true"
+        class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+        <property name="transactionManager"><ref bean="transactionManager"/></property> 
+        <property name="transactionAttributes">
+            <props>
+                <prop key="insert*">PROPAGATION_REQUIRED</prop>
+                <prop key="update*">PROPAGATION_REQUIRED</prop>
+                <prop key="delete*">PROPAGATION_REQUIRED</prop>
+                <prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+            </props>
+        </property>
+    </bean>
+    
+    <bean id="applyManager" parent="txProxyTemplate">
+        <property name="target">
+            <bean class="gnnt.MEBS.common.manage.service.impl.ApplyManageImpl" autowire="byName"/>
+        </property>
+    </bean>
+    <bean id="virtualFundManager" parent="txProxyTemplate">
+        <property name="target">
+            <bean class="gnnt.MEBS.common.manage.service.impl.VirtualFundManageImpl" autowire="byName"/>
+        </property>
+    </bean>
+    <bean id="pledgeManager" parent="txProxyTemplate">
+        <property name="target">
+            <bean class="gnnt.MEBS.common.manage.service.impl.PledgeManageImpl" autowire="byName"/>
+        </property>
+    </bean>  
+    
+    <bean id="commodityManager" parent="txProxyTemplate">
+        <property name="target">
+            <bean class="gnnt.MEBS.common.manage.service.impl.CommodityManageImpl" autowire="byName"/>
+        </property>
+    </bean>
+    <!-- 短信息Manager begin -->
+    <bean id="templateManager" parent="txProxyTemplate">
+    	<property name="target">
+    		<bean class="gnnt.MEBS.member.message.service.impl.TemplateServiceImpl"/>
+    	</property>
+    </bean>
+    <!-- 短信息Manager end -->
+
+<bean id="dataSourceJNDI" class="org.springframework.jndi.JndiObjectFactoryBean">
+       <property name="jndiName"><value>java:comp/env/mgr</value></property>
+</bean>
+ 
+</beans>

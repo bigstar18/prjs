@@ -1,0 +1,66 @@
+table.printTemp
+{
+	border: 1px solid #000000;
+}
+td.td_printMd
+{
+	text-align: center;
+	border-bottom: 1px solid #000000;
+    border-right: 1px solid #000000;
+    font-size:14px;
+    font-family:Verdana;
+}
+td.td_printRd
+{
+	text-align: center;
+	border-bottom: 1px solid #000000;
+    font-size:14px;
+    font-family:Verdana;
+}
+td.td_printBd
+{
+	text-align: center;
+	border-right: 1px solid #000000;
+    font-size:14px;
+    font-family:Verdana;
+}
+td.fontSize
+{
+  font-size:16px;
+  letter-spacing:2px;
+  font-family:SimSun;
+  line-height:27px;
+}
+td.fontRemark
+{
+  font-size:14px;
+  letter-spacing:1px;
+  font-family:SimSun;
+  line-height:26px;
+}
+
+td.td_PaymentMd
+{
+	text-align: center;
+	border-bottom: 1px solid #000000;
+    border-right: 1px solid #000000;
+    font-size:14px;
+    font-family:Verdana;
+	height:30px;
+}
+td.td_PaymentRd
+{
+	text-align: center;
+	border-bottom: 1px solid #000000;
+    font-size:14px;
+    font-family:Verdana;
+	height:30px;
+}
+td.td_PaymentBd
+{
+	text-align: center;
+	border-right: 1px solid #000000;
+    font-size:14px;
+    font-family:Verdana;
+	height:30px;
+}

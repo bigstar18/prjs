@@ -1,0 +1,754 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+  <display-name>Manager Struts Configuration File</display-name>
+  <description>后台管理模块</description>
+  <form-beans>
+    <form-bean name="agencyForm" type="gnnt.MEBS.timebargain.manage.webapp.form.AgencyForm" />    
+    <form-bean name="customerForm" type="gnnt.MEBS.timebargain.manage.webapp.form.CustomerForm" />    
+    <form-bean name="tradePropsForm" type="gnnt.MEBS.timebargain.manage.webapp.form.TradePropsForm" />  
+    <form-bean name="marketForm" type="gnnt.MEBS.timebargain.manage.webapp.form.MarketForm" />      
+    <form-bean name="tradeRuleForm" type="gnnt.MEBS.timebargain.manage.webapp.form.TradeRuleGCForm" />
+    <form-bean name="tradeBreedRuleForm" type="gnnt.MEBS.timebargain.manage.webapp.form.TradeBreedRuleGCForm" />    
+    <form-bean name="breedForm" type="gnnt.MEBS.timebargain.manage.webapp.form.BreedForm" />    
+    <form-bean name="commodityForm" type="gnnt.MEBS.timebargain.manage.webapp.form.CommodityForm" /> 
+    <form-bean name="broadcastForm" type="gnnt.MEBS.timebargain.manage.webapp.form.BroadcastForm" />   
+    <form-bean name="statQueryForm" type="gnnt.MEBS.timebargain.manage.webapp.form.StatQueryForm" />   
+    <form-bean name="reportForm" type="gnnt.MEBS.timebargain.manage.webapp.form.ReportForm" />   
+    <form-bean name="ordersForm" type="gnnt.MEBS.timebargain.manage.webapp.form.OrdersForm" />   
+    <form-bean name="traderForm" type="gnnt.MEBS.timebargain.manage.webapp.form.TraderForm" />
+    <form-bean name="tradeTimeForm" type="gnnt.MEBS.timebargain.manage.webapp.form.TradeTimeForm" />  
+    <form-bean name="tradeCtlForm" type="gnnt.MEBS.timebargain.manage.webapp.form.TradeCtlForm" /> 
+    <form-bean name="cmdtySortForm" type="gnnt.MEBS.timebargain.manage.webapp.form.CmdtySortForm" /> 
+    <form-bean name="consignerForm" type="gnnt.MEBS.timebargain.manage.webapp.form.ConsignerForm"></form-bean>  
+    <form-bean name="applyForm" type="gnnt.MEBS.timebargain.manage.webapp.form.ApplyForm"></form-bean>
+    <form-bean name="deductForm" type="gnnt.MEBS.timebargain.manage.webapp.form.DeductForm"></form-bean>
+    <form-bean name="monitorSetForm" type="gnnt.MEBS.timebargain.manage.webapp.form.MonitorSetForm"></form-bean>
+    <form-bean name="virtualFundForm" type="gnnt.MEBS.common.manage.webapp.form.VirtualFundForm"></form-bean>
+    <form-bean name="pledgeForm" type="gnnt.MEBS.common.manage.webapp.form.PledgeForm"></form-bean>
+    <form-bean name="delayForm" type="gnnt.MEBS.timebargain.manage.webapp.form.DelayForm"></form-bean>
+    <form-bean name="applyGageForm" type="gnnt.MEBS.timebargain.manage.webapp.form.ApplyGageForm"></form-bean>
+    <form-bean name="aheadSettleForm" type="gnnt.MEBS.timebargain.manage.webapp.form.AheadSettleForm"></form-bean>
+    <form-bean name="directFirmBreedForm" type="gnnt.MEBS.timebargain.manage.webapp.form.DirectFirmBreedForm"></form-bean>
+  </form-beans>
+  
+  <global-forwards>
+  	<!-- 提前交收公用：已审核查询 -->
+  	<forward name="aheadSettleAlreadyList" path="/timebargain/aheadSettle/aheadSettleAlready_list.jsp"></forward>
+  </global-forwards>
+  <action-mappings>  
+    <!-- 下单服务器管理 -->
+    <action path="/timebargain/menu/dlfwqgl" forward="/timebargain/xtgl/agency.jsp"/>
+    <action path="/timebargain/menu/dlfwqgll" forward="/timebargain/xtgl/agency_set.jsp"/>
+    <action path="/timebargain/menu/dlyccl" forward="/timebargain/xtgl/agency_exc.jsp"/>
+    <action path="/timebargain/menu/tradeMarketStatus" forward="/timebargain/xtgl/agency_market.jsp"/>
+    <action path="/timebargain/xtgl/agency"  name="agencyForm" parameter="funcflg" scope="request" type="gnnt.MEBS.timebargain.manage.webapp.action.AgencyAction" unknown="false" validate="false">
+      <forward name="edit" path="/timebargain/xtgl/agencyForm.jsp" />
+      <forward name="edit1" path="/timebargain/xtgl/agency_status.jsp" />
+      <forward name="edit2" path="/timebargain/xtgl/agency_excption.jsp" />
+      <forward name="edit3" path="/timebargain/xtgl/agency_marketStatus.jsp"></forward>
+      <forward name="operate" path="/timebargain/xtgl/agencyForm_operate.jsp" />
+      <forward name="editMargin" path="/timebargain/xtgl/agency_Excption_form.jsp"></forward>
+      <forward name="saveMargin" path="/timebargain/xtgl/agency_Excption_form_save.jsp"></forward>
+      
+      <forward name="saveSpacMargin" path="/timebargain/xtgl/agency_Excption_form_save.jsp"></forward>
+      
+      <forward name="operate2" path="/timebargain/xtgl/agencyForm_operate2.jsp"></forward>
+      
+      <forward name="saveOpeningPrice" path="/timebargain/xtgl/agency_openingPrice_form_save.jsp"></forward>
+      
+    </action>  	
+   
+    <!-- 交易商、交易客户、交易员权限查询 -->
+    <action path="/timebargain/menu/TypePrivilege" forward="/timebargain/baseinfo/typePrivilege.jsp"></action>
+    <!-- 设置交易商基本信息表 -->
+    <action path="/timebargain/menu/Firm" forward="/timebargain/baseinfo/customerMgr.jsp"/> 
+    <action path="/timebargain/baseinfo/firm" name="customerForm" type="gnnt.MEBS.timebargain.manage.webapp.action.CustomerAction" parameter="funcflg"  scope="request" validate="false">
+      <forward name="top" path="/timebargain/baseinfo/customer_top.jsp"/>
+      <forward name="list" path="/timebargain/baseinfo/customer_list.jsp"/>
+      <forward name="listKH" path="/timebargain/baseinfo/KH_customer_list.jsp"/>
+      <forward name="edit" path="/timebargain/baseinfo/customer_form1.jsp"/>
+      <forward name="save" path="/timebargain/baseinfo/customer_form_save.jsp"/>
+      <forward name="listMarketSuffix" path="/timebargain/baseinfo/customerMapMgr_list.jsp"/>      
+      <forward name="chgGroup" path="/timebargain/baseinfo/customer_form_chgGroup.jsp"/>
+      <forward name="searchGroupCustomer" path="/timebargain/baseinfo/customer_searchGroupCustomer.jsp"/>
+      
+      <forward name="back" path="/timebargain/baseinfo/customer_back_save.jsp"></forward>
+      <forward name="goback" path="/timebargain/baseinfo/customer.jsp"></forward>
+      <forward name="firmPrivilegeList" path="/timebargain/baseinfo/customerPrivilege_list.jsp"></forward>
+      <forward name="updateFirmPrivilege" path="/timebargain/baseinfo/customerPrivilege_form.jsp"></forward>
+      <forward name="saveFirmPrivilege" path="/timebargain/baseinfo/customerPrivilege_save.jsp"></forward>
+       <!-- add by lichunsheng  批量操作中的forward-->
+      <forward name="batchSstSaveFirmPrivilege" path="/timebargain/baseinfo/batchSstSaveFirmPrivilege_save.jsp"></forward>
+      <forward name="failOperate" path="/timebargain/baseinfo/customerPrivilege_failSave.jsp"></forward>
+      <forward name="typePrivilegeList" path="/timebargain/baseinfo/typePrivilege_list.jsp"></forward>
+    </action>
+    <!-- 设置交易客户基本信息表-->
+    <action path="/timebargain/menu/Customer" forward="/timebargain/baseinfo/KH_first_customer.jsp"/>
+    <action path="/timebargain/baseinfo/customer" name="customerForm" type="gnnt.MEBS.timebargain.manage.webapp.action.KH_CustomerAction" parameter="funcflg"  scope="request" validate="false">
+    	<forward name="top" path="/timebargain/baseinfo/KH_customer_top.jsp"/>
+    	<forward name="firstTop" path="/timebargain/baseinfo/KH_customer_top1.jsp"/>
+    	<forward name="list" path="/timebargain/baseinfo/KH_customer_list.jsp"/>
+    	<forward name="update" path="/timebargain/baseinfo/customerMgr.jsp"/>
+    	<forward name="firstList" path="/timebargain/baseinfo/KH_first_customer_list.jsp"/>
+    	<forward name="edit" path="/timebargain/baseinfo/KH_customer_form1.jsp"/>
+    	<forward name="save" path="/timebargain/baseinfo/customer_form_save.jsp"/>
+    	<forward name="chgGroup" path="/timebargain/baseinfo/customer_form_chgGroup.jsp"/>
+    	<forward name="searchGroupCustomer" path="/timebargain/baseinfo/KH_customer_searchGroupCustomer.jsp"/>
+    	<forward name="searchGroupFirm" path="/timebargain/baseinfo/customer_searchGroup_firm.jsp"></forward>
+    	<forward name="customerPrivilege" path="/timebargain/baseinfo/KH_customerPrivilege_list.jsp"></forward>
+    	<forward name="updateCustomerPrivilege" path="/timebargain/baseinfo/KH_customerPrivilege_form.jsp"></forward>
+    	<forward name="saveCustomerPrivilege" path="/timebargain/baseinfo/KH_customerPrivilege_save.jsp"></forward>
+    	<forward name="failOperate" path="/timebargain/baseinfo/customerPrivilege_failSave.jsp"></forward>
+    	
+    </action>
+   
+    <!-- 通用客户查询 -->
+    <action path="/timebargain/common/customerQuery/customerQuery" name="customerForm" type="gnnt.MEBS.timebargain.manage.webapp.action.CustomerAction" parameter="funcflg"  scope="request" validate="false">
+      <forward name="list" path="/timebargain/common/customerQuery/customerQuery_list.jsp"/>
+      <forward name="tradeProps" path="/timebargain/riskcontrol/tradeProps_customerID_change.jsp"/>
+      <forward name="tradeRule" path="/timebargain/baseinfo/tradeRule_customerID_change.jsp"/>
+      <forward name="customerMap" path="/timebargain/baseinfo/CM_CustomerMap_customerID_change.jsp"/>
+      <forward name="broadcast" path="/timebargain/tradecontrol/broadcast_customerID_change.jsp"/>
+    </action>    
+    <!-- 风险控制 -->
+    <action path="/timebargain/menu/FXKZ_addFund" forward="/timebargain/riskcontrol/tradeProps.jsp?moduleName=1"/> 
+    <action path="/timebargain/menu/FXKZ_addVirtualFund" forward="/timebargain/riskcontrol/tradeProps.jsp?moduleName=2"/> 
+    <action path="/timebargain/menu/FXKZ_chgMaxOverdraft" forward="/timebargain/riskcontrol/tradeProps.jsp?moduleName=3"/> 
+    <action path="/timebargain/menu/FXKZ_chgMinClearDeposit" forward="/timebargain/riskcontrol/tradeProps.jsp?moduleName=4"/> 
+    <action path="/timebargain/menu/FXKZ_chgMaxHold" forward="/timebargain/riskcontrol/tradeProps.jsp?moduleName=5"/>
+    <action path="/timebargain/menu/FXKZ_qryInfo" forward="/timebargain/riskcontrol/tradeProps.do?method=qryInfo"/>  
+    
+    <action path="/timebargain/riskcontrol/tradeProps" name="tradePropsForm" type="gnnt.MEBS.timebargain.manage.webapp.action.TradePropsAction" parameter="funcflg"  scope="request" validate="false">
+      <forward name="list" path="/timebargain/riskcontrol/tradeProps_list.jsp"/>
+    </action>        
+    <!-- 设置交易市场表 -->
+    <action path="/timebargain/menu/Market" forward="/timebargain/baseinfo/market.jsp"/> 
+    <action path="/timebargain/baseinfo/market" name="marketForm" type="gnnt.MEBS.timebargain.manage.webapp.action.MarketAction" parameter="funcflg"  scope="request" validate="false">
+      <forward name="list" path="/timebargain/baseinfo/market_list1.jsp"/>
+      <forward name="edit" path="/timebargain/baseinfo/market_form1.jsp"/>
+      
+      <forward name="modifyConsigner" path="/timebargain/common/consigner_modify_save.jsp"></forward>
+      <forward name="modifyConsigner2" path="/timebargain/common/consigner_modify_save2.jsp"></forward>
+    </action>  
+    <action path="/timebargain/baseinfo/market1" name="marketForm1" type="gnnt.MEBS.timebargain.manage.webapp.action.MarketAction1" parameter="funcflg"  scope="request" validate="false">
+      <forward name="list" path="/timebargain/baseinfo/market_list1.jsp"/>
+      <forward name="edit" path="/timebargain/baseinfo/market_form.jsp"/>
+    </action>  
+    
+    <!-- 设置非交易日表 -->
+    <action path="/timebargain/menu/NotTradeDay" forward="/timebargain/baseinfo/notTradeDay.jsp"></action>
+    
+    <!-- 设置交易员表 -->
+    <action path="/timebargain/menu/Trader" forward="/timebargain/baseinfo/trader.jsp"/> 
+    <action path="/timebargain/baseinfo/trader" name="traderForm" type="gnnt.MEBS.timebargain.manage.webapp.action.TraderAction" parameter="funcflg"  scope="request" validate="false">
+      <forward name="top" path="/timebargain/baseinfo/trader_top.jsp"/>
+      <forward name="list" path="/timebargain/baseinfo/trader_list.jsp"/>
+      <forward name="update" path="/timebargain/baseinfo/trader_form_save.jsp"/>
+      <forward name="edit" path="/timebargain/baseinfo/trader_form.jsp"/>
+      <forward name="editCode" path="/timebargain/baseinfo/trader_code_form.jsp"/>
+      <forward name="savecode" path="/timebargain/baseinfo/customer.jsp"/> 
+      <forward name="saveToFirm" path="/timebargain/baseinfo/trader_form_save.jsp"/>
+      <forward name="tradePrivilege" path="/timebargain/baseinfo/traderPrivilege_list.jsp"></forward>
+      <forward name="updateTraderPrivilege" path="/timebargain/baseinfo/traderPrivilege_new_form.jsp"></forward>
+      <forward name="saveNewTraderPrivilege" path="/timebargain/baseinfo/traderPrivilege_new_save.jsp"></forward>
+            
+    </action> 
+    
+    <!-- 设置代为委托员表 -->
+    <action path="/timebargain/menu/Consigner" forward="/timebargain/baseinfo/consigner.jsp" />
+    <action path="/timebargain/baseinfo/consigner" name="consignerForm" type="gnnt.MEBS.timebargain.manage.webapp.action.TraderAction" parameter="funcflg" scope="request" validate="false">	
+    	<forward name="listConsigner" path="/timebargain/baseinfo/consiger_list.jsp"/>
+    	<forward name="editConsigner" path="/timebargain/baseinfo/consiger_form.jsp"/>
+    	<forward name="editConsignerCode" path="/timebargain/baseinfo/consigner_code_form.jsp"/>
+    	
+    </action>
+    
+    <!-- 设置交易时间表 -->
+    <action path="/timebargain/menu/TradeTime" forward="/timebargain/baseinfo/tradeTime.jsp"/>
+    <action path="/timebargain/baseinfo/tradeTime" name="tradeTimeForm" type="gnnt.MEBS.timebargain.manage.webapp.action.TradeTimeAction" parameter="funcflg" scope="request" validate="false">
+    	<forward name="list" path="/timebargain/baseinfo/tradeTime_list.jsp"/>
+    	<forward name="edit" path="/timebargain/baseinfo/tradeTime_form.jsp"/>
+    	<forward name="editNotTradeDay" path="/timebargain/baseinfo/notTradeDay_form.jsp"></forward>
+    	<forward name="editDaySection" path="/timebargain/baseinfo/daySection_form.jsp"></forward>
+    	
+    	<forward name="operate" path="/timebargain/xtgl/agencyForm_operate.jsp" />
+    </action>
+        
+    <!-- 设置客户缺省交易属性 -->   
+    
+    <!-- 设置交易客户组交易属性 -->   
+    <action path="/timebargain/menu/GroupTradeProps" forward="/timebargain/baseinfo/groupTradeProps.jsp"/> 
+    <!-- 设置交易客户交易属性 -->   
+    <action path="/timebargain/menu/CustomerTradeProps" forward="/timebargain/baseinfo/customerTradeProps.jsp"/>     
+    <!-- 查询交易属性 -->   
+    <action path="/timebargain/menu/QueryTradeProps" forward="/timebargain/baseinfo/queryTradeProps.jsp"/>     
+    <action path="/timebargain/baseinfo/tradeProps" name="tradePropsForm" type="gnnt.MEBS.timebargain.manage.webapp.action.TradePropsAction" parameter="funcflg"  scope="request" validate="false">
+      <forward name="editDef" path="/timebargain/baseinfo/customerDefProps_form.jsp"/>
+      <forward name="editGroup" path="/timebargain/baseinfo/groupTradeProps_form.jsp"/>
+      <forward name="listGroup" path="/timebargain/baseinfo/groupTradeProps_list.jsp"/>
+      <forward name="topCustomer" path="/timebargain/baseinfo/customerTradeProps_top.jsp"/>
+      <forward name="editCustomer" path="/timebargain/baseinfo/customerTradeProps_form.jsp"/>
+      <forward name="listCustomer" path="/timebargain/baseinfo/customerTradeProps_list.jsp"/>
+      <forward name="listTradeProps" path="/timebargain/baseinfo/queryTradeProps_list.jsp"/>
+    </action> 
+    <!-- 特殊设置 -->
+    <action path="/timebargain/menu/GM_TradeRule" forward="/timebargain/baseinfo/firmSpecial.jsp"></action>
+    <!-- 设置特殊保证金 -->
+    <action path="/timebargain/menu/firmMargin" forward="/timebargain/baseinfo/firmMargin.jsp"/> 
+    <!-- 设置特殊手续费 -->    
+    <action path="/timebargain/menu/firmFee" forward="/timebargain/baseinfo/firmFee.jsp"></action>
+    <!-- 设置特殊订货量 -->
+    <action path="/timebargain/menu/firmMaxHoldQty" forward="/timebargain/baseinfo/firmMaxHoldQty.jsp"></action>
+    
+    <action path="/timebargain/baseinfo/tradeRule" name="tradeRuleForm" type="gnnt.MEBS.timebargain.manage.webapp.action.TradeRuleAction" parameter="funcflg"  scope="request" validate="false">
+      <forward name="searchFirmMargin" path="/timebargain/baseinfo/firmMargin_list.jsp"></forward>
+      <forward name="editFirmMargin" path="/timebargain/baseinfo/firmMargin_form.jsp"></forward>
+      <forward name="searchFirmFee" path="/timebargain/baseinfo/firmFee_list.jsp"></forward>
+      <forward name="editFirmFee" path="/timebargain/baseinfo/firmFee_form.jsp"></forward>
+      <forward name="searchFirmMaxHoldQty" path="/timebargain/baseinfo/firmMaxHoldQty_list.jsp"></forward>
+      <forward name="searchFirmMaxHoldQtyByFirmId" path="/timebargain/baseinfo/firmMaxHoldQty_list_firmId.jsp"></forward>
+      <forward name="editFirmMaxHoldQty" path="/timebargain/baseinfo/firmMaxHoldQty_form.jsp"></forward>
+      <forward name="editFirmMaxHoleQtyById" path="/timebargain/baseinfo/firmMaxHoldQty_form_firmId.jsp"></forward>
+    </action>
+    
+    <!-- 品种特殊设置 -->
+    <action path="/timebargain/menu/GM_TradeBreedRule" forward="/timebargain/baseinfo/firmBreedSpecial.jsp"></action>
+    <!-- 设置品种特殊保证金 -->
+    <action path="/timebargain/menu/firmBreedMargin" forward="/timebargain/baseinfo/firmBreedMargin.jsp"/> 
+    <!-- 设置品种特殊手续费 -->    
+    <action path="/timebargain/menu/firmBreedFee" forward="/timebargain/baseinfo/firmBreedFee.jsp"></action>
+    <!-- 设置品种特殊订货量 -->
+    <action path="/timebargain/menu/firmBreedMaxHoldQty" forward="/timebargain/baseinfo/firmBreedMaxHoldQty.jsp"></action>
+    
+    <action path="/timebargain/baseinfo/tradeBreedRule" name="tradeBreedRuleForm" type="gnnt.MEBS.timebargain.manage.webapp.action.TradeBreedRuleAction" parameter="funcflg"  scope="request" validate="false">
+      <forward name="searchFirmBreedMargin" path="/timebargain/baseinfo/firmBreedMargin_list.jsp"></forward>
+      <forward name="editFirmBreedMargin" path="/timebargain/baseinfo/firmBreedMargin_form.jsp"></forward>
+      <forward name="searchFirmBreedFee" path="/timebargain/baseinfo/firmBreedFee_list.jsp"></forward>
+      <forward name="editFirmBreedFee" path="/timebargain/baseinfo/firmBreedFee_form.jsp"></forward>
+      <forward name="searchFirmBreedMaxHoldQty" path="/timebargain/baseinfo/firmBreedMaxHoldQty_list.jsp"></forward>
+      <forward name="editFirmBreedMaxHoldQty" path="/timebargain/baseinfo/firmBreedMaxHoldQty_form.jsp"></forward>
+    </action>
+            
+     <!-- 手续费套餐 -->
+    <action path="/timebargain/baseinfo/tariff" name="tariffForm" type="gnnt.MEBS.timebargain.manage.webapp.action.TariffAction" parameter="funcflg"  scope="request" validate="false">
+      <forward name="tariffList" path="/timebargain/baseinfo/tariff_list.jsp"></forward>
+      <forward name="commodityTariffList" path="/timebargain/baseinfo/commodityTariff.jsp"></forward>
+      <forward name="tariff_view" path="/timebargain/baseinfo/tariff_view.jsp"></forward>
+      
+    </action>
+       
+
+    <!-- 设置申请虚拟资金 -->
+    <action path="/timebargain/menu/appVirtualFund" forward="/timebargain/baseinfo/virtualFundApp.jsp"></action>
+    <!-- 设置审核虚拟资金 -->
+    <action path="/timebargain/menu/cheVirtualFund" forward="/timebargain/baseinfo/virtualFundChe.jsp"></action>
+    <!-- 设置客户虚拟资金 -->
+    <action path="/timebargain/menu/VirtualFund" forward="/timebargain/baseinfo/virtualFund.jsp"/>     
+    <action path="/timebargain/baseinfo/virtualFund" name="customerForm" type="gnnt.MEBS.timebargain.manage.webapp.action.CustomerAction" parameter="funcflg"  scope="request" validate="false">
+      <forward name="listVirtualFund" path="/timebargain/baseinfo/virtualFund_list.jsp"/>
+      <forward name="saveVirtualFund" path="/timebargain/baseinfo/virtualFund_form_save.jsp"/>
+      <forward name="virtualFundAppWaitList" path="/timebargain/baseinfo/virtualFundAppWait_list.jsp"></forward>
+      <forward name="virtualFundAppAlreadyList" path="/timebargain/baseinfo/virtualFundAppAlready_list.jsp"></forward>
+      <forward name="saveNewApp" path="/timebargain/baseinfo/saveNewApp_save.jsp"></forward>
+      <forward name="virtualFundApplyWaitCheList" path="/timebargain/baseinfo/virtualFundCheWait_list.jsp"></forward>
+      <forward name="virtualFundApplyCheAlreadyList" path="/timebargain/baseinfo/virtualFundCheAlready_list.jsp"></forward>
+      <forward name="waitSuccessCheck" path="/timebargain/baseinfo/saveNewApp_save.jsp"></forward>
+    </action>     
+    <!-- 设置品种表 -->
+    <action path="/timebargain/menu/Breed" forward="/timebargain/baseinfo/breed.jsp"/> 
+    <action path="/timebargain/baseinfo/breed" name="breedForm" type="gnnt.MEBS.timebargain.manage.webapp.action.BreedAction" parameter="funcflg"  scope="request" validate="false">
+      <forward name="topBreed" path="/timebargain/baseinfo/breed_top.jsp"/>
+      <forward name="list" path="/timebargain/baseinfo/breed_list1.jsp"/>
+      <forward name="edit" path="/timebargain/baseinfo/breed_form1.jsp"/>
+      <forward name="save" path="/timebargain/baseinfo/breed_form_save.jsp"/>
+      <forward name="sort" path="/timebargain/baseinfo/breed_list.jsp"/>
+    </action>  
+    <!-- 设置商品分类持仓信息 -->
+    <action path="/timebargain/menu/CmdtySort" forward="/timebargain/baseinfo/cmdtySort.jsp"/> 
+    <action path="/timebargain/menu/GroupSortHold" forward="/timebargain/baseinfo/groupCmdtySort.jsp"/> 
+    <action path="/timebargain/menu/CustomerSortHold" forward="/timebargain/baseinfo/customerCmdtySort.jsp"/> 
+    <action path="/timebargain/baseinfo/cmdtySort" name="cmdtySortForm" type="gnnt.MEBS.timebargain.manage.webapp.action.CmdtySortAction" parameter="funcflg"  scope="request" validate="false">
+      <forward name="list" path="/timebargain/baseinfo/cmdtySort_list.jsp"/>
+      <forward name="edit" path="/timebargain/baseinfo/cmdtySort_form.jsp"/>
+      <forward name="listGroup" path="/timebargain/baseinfo/groupCmdtySort_list.jsp"/>
+      <forward name="editGroup" path="/timebargain/baseinfo/groupCmdtySort_form.jsp"/>
+      <forward name="listCustomer" path="/timebargain/baseinfo/customerCmdtySort_list.jsp"/>
+      <forward name="editCustomer" path="/timebargain/baseinfo/customerCmdtySort_form.jsp"/>
+    </action>      
+    <!-- 设置商品表 -->
+    <action path="/timebargain/menu/Commodity" forward="/timebargain/baseinfo/commodity.jsp"/>     
+    <action path="/timebargain/baseinfo/commodity" name="commodityForm" type="gnnt.MEBS.timebargain.manage.webapp.action.CommodityAction" parameter="funcflg"  scope="request" validate="false">
+      <forward name="list" path="/timebargain/baseinfo/commodity_list1.jsp"/>
+      <forward name="edit" path="/timebargain/baseinfo/commodity_form1.jsp"/>
+      <forward name="update" path="/timebargain/baseinfo/breed.jsp"/>
+      <forward name="save" path="/timebargain/baseinfo/commodity_save.jsp"/>
+      <forward name="marketChg" path="/timebargain/baseinfo/commodity_marketChg.jsp"/>
+      <forward name="deleteCommodity" path="/timebargain/baseinfo/deleteCommodity_save.jsp"></forward>
+    </action>  
+    <!-- 交易监控 -->
+    <action path="/timebargain/menu/JYJK_hold" forward="/timebargain/tradecontrol/hold.jsp"/>    
+    <action path="/timebargain/menu/JYJK_trade" forward="/timebargain/tradecontrol/trade.jsp"/>  
+    <action path="/timebargain/menu/JYJK_order" forward="/timebargain/tradecontrol/order.jsp"/> 
+    <action path="/timebargain/menu/JYJK_specFrozenHold" forward="/timebargain/tradecontrol/specFrozenHold.jsp"/>  
+    <action path="/timebargain/menu/JYJK_action" forward="/timebargain/tradecontrol/action.jsp"/>      
+    <action path="/timebargain/menu/JYJK_broad" forward="/timebargain/tradecontrol/broadcast.jsp"/>  
+    <action path="/timebargain/menu/JYJK_fund" forward="/timebargain/tradecontrol/fund.jsp"/>  
+    <action path="/timebargain/menu/JYJK_lastFund" forward="/timebargain/tradecontrol/fund.jsp?ClearDate=1"/>  
+    <action path="/timebargain/menu/JYJK_calError" forward="/timebargain/tradecontrol/calError.jsp"/>  
+    <action path="/timebargain/menu/JYJK_tradeError" forward="/timebargain/tradecontrol/tradeError.jsp"/>   
+    
+    <action path="/timebargain/tradecontrol/tradeCtl" name="tradeCtlForm" type="gnnt.MEBS.timebargain.manage.webapp.action.TradeCtlAction" parameter="funcflg"  scope="request" validate="false">
+      <forward name="listHold" path="/timebargain/tradecontrol/hold_list.jsp"/>
+      <forward name="listTrade" path="/timebargain/tradecontrol/trade_list.jsp"/>
+      <forward name="listOrder" path="/timebargain/tradecontrol/order_list.jsp"/>
+      <forward name="listAction" path="/timebargain/tradecontrol/action_list.jsp"/>
+      <forward name="listFund" path="/timebargain/tradecontrol/fund_list.jsp"/>
+      <forward name="listTradeError" path="/timebargain/tradecontrol/tradeError_list.jsp"/>
+      <forward name="listSpecFrozenHold" path="/timebargain/tradecontrol/specFrozenHold_list.jsp"/>
+      <forward name="listForceClose" path="/timebargain/tradecontrol/forceClose_list.jsp"/>
+      <forward name="topHoldPosition" path="/timebargain/tradecontrol/hold_top.jsp"/>
+      <forward name="listDetailForceClose" path="/timebargain/tradecontrol/detailForceClose_list.jsp"/>
+    </action>  
+    <!-- 强平委托 -->   
+    <action path="/timebargain/tradecontrol/forceClose" name="ordersForm" type="gnnt.MEBS.timebargain.manage.webapp.action.OrdersAction" parameter="funcflg"  scope="request" validate="false">
+      <forward name="login" path="/timebargain/common/traderCheck/traderCheck_hidd.jsp"/>
+      <forward name="order" path="/timebargain/tradecontrol/forceClose_list_qp_form_save.jsp"/>
+      <forward name="forceClose" path="/timebargain/tradecontrol/forceClose_list_qp_form_save.jsp"></forward>
+    </action>       
+    <!-- 历史广播消息 -->
+    <action path="/timebargain/menu/hisBroadcast" forward="/timebargain/tradecontrol/hisBroadcast.jsp"></action>
+    <!-- 广播消息 -->  
+    <action path="/timebargain/tradecontrol/broadcast" name="broadcastForm" type="gnnt.MEBS.timebargain.manage.webapp.action.BroadcastAction" parameter="funcflg"  scope="request" validate="false">
+      <forward name="editWait" path="/timebargain/tradecontrol/broadcast_form.jsp"/>
+      <forward name="list" path="/timebargain/tradecontrol/broadcast_list.jsp"/>
+      <forward name="searchHis" path="/timebargain/tradecontrol/hisBroadcast_list.jsp"></forward>
+      <forward name="waitSend" path="/timebargain/tradecontrol/broadcastWait_list.jsp"></forward>
+      <forward name="alreadySend" path="/timebargain/tradecontrol/broadcastAready_list.jsp"></forward>
+      <forward name="editAready" path="/timebargain/tradecontrol/broadcastAready_form.jsp"></forward>
+      <forward name="getHisBroadcastByKye" path="/timebargain/tradecontrol/hisBroadcast_content_form.jsp"></forward>
+    </action>  
+    
+    <!-- 抵顶管理 -->
+    <action path="/timebargain/menu/gage" forward="/timebargain/statquery/holdPositionDD.jsp"/> 
+    <!-- 交收管理 -->
+    <action path="/timebargain/menu/settle" forward="/timebargain/statquery/settle.jsp"/>
+    <!-- 仓单申请 -->
+    <action path="/timebargain/menu/applyBill" forward="/timebargain/apply/applyBill.jsp"></action>
+    <!-- 仓单审核 -->
+    <action path="/timebargain/menu/checkApplyBill" forward="/timebargain/apply/applyCheck.jsp"></action>
+    <!-- 有效仓单信息 -->
+    <action path="/timebargain/menu/liveInfo" forward="/timebargain/apply/applyLiveInfo.jsp"></action>
+    <action path="/timebargain/apply/apply" name="applyForm" type="gnnt.MEBS.timebargain.manage.webapp.action.ApplyAction" parameter="funcflg"  scope="request" validate="false">
+    	<forward name="applyWaitList" path="/timebargain/apply/applyWait_list.jsp"></forward>
+    	<forward name="applyNewForm" path="/timebargain/apply/applyNew_Topform.jsp"></forward>
+    	<forward name="applyNewForm3" path="/timebargain/apply/applyNew_Topform3.jsp"></forward>
+    	<forward name="applyNewForm2" path="/timebargain/apply/applyNew_Topform2.jsp"></forward>
+    	<forward name="applyNewRelForm1" path="/timebargain/apply/applyNewRelForm1.jsp"></forward>
+    	<forward name="applyNewRelForm2" path="/timebargain/apply/applyNewRelForm2.jsp"></forward>
+    	<forward name="applyWaitListCheck" path="/timebargain/apply/applyWaitCheck_list.jsp"></forward>
+    	<forward name="applyAlreadyList" path="/timebargain/apply/applyAlready_list.jsp"></forward>
+    	<forward name="applyAlreadyListCheck" path="/timebargain/apply/applyAlreadyCheck_list.jsp"></forward>
+    	<forward name="applySave" path="/timebargain/apply/applySave_save.jsp"></forward>
+    	<forward name="applyNewForm7" path="/timebargain/apply/applyNewForm7.jsp"></forward>
+    	<forward name="applyNewRelForm7" path="/timebargain/apply/applyNewRelForm7.jsp"></forward>
+    	<forward name="applyLiveInfoList" path="/timebargain/apply/applyLiveInfo_list.jsp"></forward>
+    	<forward name="liveInfoDD" path="/timebargain/apply/applyLiveInfoToGiveupDD.jsp"></forward>
+    	<forward name="liveInfoWaitSettle" path="/timebargain/apply/applyNewRelForm7.jsp"></forward>
+    	<forward name="liveInfoBefore" path="/timebargain/apply/applyLiveInfoToSettle.jsp"></forward>
+    	<forward name="applyWaitListSuccessCheck" path="/timebargain/apply/applyWaitListSuccessCheck_save.jsp"></forward>
+    	<forward name="applyWaitListCheckFail" path="/timebargain/apply/applyWaitListCheckFail_save.jsp"></forward>
+    	<forward name="applySaveLiveInfo" path="/timebargain/apply/applyLiveInfoToGiveup_save.jsp"></forward>
+    	
+    	<forward name="applyNewFormDelay" path="/timebargain/apply/applyDelay_form.jsp"></forward>
+    	<forward name="applyNewFormGiveUpDelay" path="/timebargain/apply/applyGiveUpDelay.jsp"></forward>
+    	<forward name="applyGiveUpDelayQuery" path="/timebargain/apply/applyGiveUpDelay_form.jsp"></forward>
+    	<forward name="applySaveGiveUp" path="/timebargain/apply/applySave_saveGiveUp.jsp"></forward>
+    	<forward name="liveInfoDelaySettle" path="/timebargain/apply/applyLiveInfoToGiveUpDelay.jsp"></forward>
+    </action>
+    
+    
+    <!-- 提前交收 -->
+    <action path="/timebargain/menu/aheadSettle" forward="/timebargain/statquery/aheadSettle.jsp"/>
+      
+    <!--统计查询 -->  
+    <action path="/timebargain/menu/TJCX_order" forward="/timebargain/statquery/order.jsp"/> 
+    <action path="/timebargain/menu/TJCX_hold" forward="/timebargain/statquery/holdPosition.jsp"/> 
+   <action path="/timebargain/menu/TJCX_Firmhold" forward="/timebargain/statquery/firmholdPosition.jsp"/> 
+      <action path="/timebargain/menu/TJCX_Brokerhold" forward="/timebargain/statquery/brokerHold.jsp"/> 
+   <action path="/timebargain/menu/TJCX_BrokerFund" forward="/timebargain/statquery/brokerFund.jsp"/>
+   <action path="/timebargain/menu/TJCX_BrokerTrade" forward="/timebargain/statquery/brokerTrade.jsp"/>
+   <action path="/timebargain/menu/TJCX_CommHoldSum" forward="/timebargain/statquery/commHoldSum.jsp"/>
+   <action path="/timebargain/menu/TJCX_FirmTradeSum" forward="/timebargain/statquery/firmTradeSum.jsp"/>
+   <action path="/timebargain/menu/TJCX_CommOrderSum" forward="/timebargain/statquery/commOrderSum.jsp"/>
+   
+    <action path="/timebargain/menu/TJCX_trade" forward="/timebargain/statquery/trade.jsp"/> 
+    <action path="/timebargain/menu/TJCX_fund" forward="/timebargain/statquery/customerFunds.jsp"/> 
+    <action path="/timebargain/menu/TJCX_dailyMoney" forward="/timebargain/statquery/dailyMoney.jsp"/> 
+    <action path="/timebargain/menu/TJCX_quotation" forward="/timebargain/statquery/quotation.jsp"/> 
+     <action path="/timebargain/menu/TJCX_fundTransfer" forward="/timebargain/statquery/fundTransfer.jsp"/> 
+    <action path="/timebargain/statquery/statQuery" name="statQueryForm" type="gnnt.MEBS.timebargain.manage.webapp.action.StatQueryAction" parameter="funcflg"  scope="request" validate="false">      
+      <forward name="topBrokerHold" path="/timebargain/statquery/brokerHold_top.jsp"/>
+      <forward name="listBrokerHold" path="/timebargain/statquery/brokerHold_list.jsp"/>
+      
+	  <forward name="topBrokerFund" path="/timebargain/statquery/brokerFund_top.jsp"/>
+      <forward name="listBrokerFund" path="/timebargain/statquery/brokerFund_list.jsp"/>
+      
+      <forward name="topBrokerTrade" path="/timebargain/statquery/brokerTrade_top.jsp"/>
+      <forward name="listBrokerTrade" path="/timebargain/statquery/brokerTrade_list.jsp"/>
+      
+      <forward name="topfirmHoldPosition" path="/timebargain/statquery/firmholdPosition_top.jsp"/>
+ 	  <forward name="listfirmHoldPosition" path="/timebargain/statquery/firmholdPosition_list.jsp"/>
+      <forward name="topOrder" path="/timebargain/statquery/order_top.jsp"/>
+      <forward name="listOrder" path="/timebargain/statquery/order_list.jsp"/>
+      <forward name="topHoldPosition" path="/timebargain/statquery/holdPosition_top.jsp"/>
+      <forward name="topHoldPositionDD" path="/timebargain/statquery/holdPosition_topDD.jsp"/>
+      <forward name="listHoldPosition" path="/timebargain/statquery/holdPosition_list.jsp"/>
+      <forward name="listHoldPositionDD" path="/timebargain/statquery/holdPosition_listDD.jsp"/>
+      <forward name="returntop" path="/timebargain/statquery/hold_over.jsp"/>
+      <forward name="topHand" path="/timebargain/statquery/settle_topHand.jsp"/>
+      <forward name="topSettle" path="/timebargain/statquery/settle_topSettle.jsp"/>
+      <forward name="listHand" path="/timebargain/statquery/settle_listHand.jsp"/>
+      <forward name="listWaitHand" path="/timebargain/statquery/settle_listWaitHand.jsp"></forward>
+      <forward name="listSettle" path="/timebargain/statquery/settle_listSettle.jsp"/>
+      <forward name="listTogether" path="/timebargain/statquery/settle_listTogether.jsp"></forward>
+      <forward name="settleProcessHand" path="/timebargain/statquery/settleProcessHand_over.jsp"/>
+      <forward name="saveSettle" path="/timebargain/statquery/saveSettle_over.jsp"/>
+      <forward name="listSum" path="/timebargain/statquery/settleListSum.jsp"/>
+      <forward name="topTrade" path="/timebargain/statquery/trade_top.jsp"/>
+      <forward name="listTrade" path="/timebargain/statquery/trade_list.jsp"/>
+      <forward name="topCustomerFunds1" path="/timebargain/statquery/customerFunds_top.jsp"/>
+      <forward name="listCustomerFunds" path="/timebargain/statquery/customerFunds_list.jsp"/>
+      <forward name="editCustomerFund" path="/timebargain/statquery/customerFunds_form.jsp"/>
+      <forward name="topDailyMoney" path="/timebargain/statquery/dailyMoney_top.jsp"/>
+      <forward name="listDailyMoney" path="/timebargain/statquery/dailyMoney_list.jsp"/>
+      <forward name="topQuotation" path="/timebargain/statquery/quotation_top.jsp"/>
+      <forward name="listQuotation" path="/timebargain/statquery/quotation_list.jsp"/>
+      <forward name="topFundTransfer" path="/timebargain/statquery/fundTransfer_top.jsp"/>
+      <forward name="listFundTransfer" path="/timebargain/statquery/fundTransfer_list.jsp"/>
+      <forward name="form" path="/timebargain/statquery/conferClose_form.jsp"></forward>
+      <forward name="aheadSettleForm" path="/timebargain/statquery/aheadSettle_form.jsp"></forward>
+      <forward name="saveConferClose" path="/timebargain/statquery/conferClose_form_save.jsp"></forward>
+      <forward name="saveAheadSettle" path="/timebargain/statquery/aheadSettle_form_save.jsp"></forward>
+      <forward name="queryAheadSettle" path="/timebargain/statquery/aheadSettleLog.jsp"></forward>
+      <forward name="queryConferClose" path="/timebargain/statquery/conferCloseLog.jsp"></forward>
+      <forward name="listPair" path="/timebargain/statquery/settlePair_list.jsp"></forward>
+      <forward name="editCustomerFundsTable" path="/timebargain/printreport/customerFunds_table.jsp"></forward>
+      
+      <forward name="listPledge" path="/timebargain/statquery/pledge/pledge_list.jsp"></forward>
+  	  <forward name="editPledge" path="/timebargain/statquery/pledge/pledge_form.jsp"></forward>
+  	  <forward name="savePledge" path="/timebargain/statquery/pledge/pledge_form_save.jsp"></forward>
+  	  
+  	  <forward name="listHandCheck" path="/timebargain/statquery/settle_listHandCheck.jsp"></forward>
+    </action>  
+    
+    <!--当日报表 -->  
+    <action path="/timebargain/menu/DRBB_calList" forward="/timebargain/report/week.jsp?mkName=day"/>
+    <action path="/timebargain/menu/DRBB_holdDetail" forward="/timebargain/report/holdDetail.jsp"/> 
+    <action path="/timebargain/menu/DRBB_alarm" forward="/timebargain/report/alarm.jsp"/>  
+    <!--历史报表 -->  
+    <action path="/timebargain/menu/LSBB_calList" forward="/timebargain/report/week.jsp?mkName=hisDay"/>
+    <action path="/timebargain/menu/LSBB_holdDetail" forward="/timebargain/report/holdDetail.jsp?mkName=ls"/>  
+    <action path="/timebargain/menu/LSBB_hisOrders" forward="/timebargain/report/hisOrders.jsp"/> 
+    <!--统计报表 -->  
+    <action path="/timebargain/menu/TJBB_account" forward="/timebargain/report/account1.jsp"/> 
+    <action path="/timebargain/menu/TJBB_breed" forward="/timebargain/report/breed.jsp"/> 
+    <action path="/timebargain/menu/TJBB_feeMonth" forward="/timebargain/report/feeMonth.jsp"/>
+    <action path="/timebargain/menu/TJBB_holdDetail" forward="/timebargain/report/cmdtyHold.jsp"/>
+    <action path="/timebargain/menu/TJBB_week" forward="/timebargain/report/week.jsp?mkName=week"/>
+    <action path="/timebargain/menu/TJBB_month" forward="/timebargain/report/week.jsp?mkName=month"/>
+    <action path="/timebargain/menu/ALL_calList" forward="/timebargain/report/week1.jsp"/>
+    <action path="/timebargain/report/report" name="reportForm" type="gnnt.MEBS.timebargain.manage.webapp.action.ReportAction" parameter="funcflg"  scope="request" validate="false">      
+      <forward name="editAccount" path="/timebargain/report/account_form.jsp"/>
+      <forward name="topAccount" path="/timebargain/report/account_top.jsp"/>
+      <forward name="listAccount" path="/timebargain/report/account_list.jsp"/>   
+      <forward name="editWeek" path="/timebargain/report/week_form.jsp"/>      
+      <forward name="topHoldDetail" path="/timebargain/report/holdDetail_top.jsp"/>
+      <forward name="listHoldDetail" path="/timebargain/report/holdDetail_list.jsp"/>
+      <forward name="topAlarm" path="/timebargain/report/alarm_top.jsp"/>
+      <forward name="listAlarm" path="/timebargain/report/alarm_list.jsp"/>
+      <forward name="topHisOrders" path="/timebargain/report/hisOrders_top.jsp"/>
+      <forward name="listHisOrders" path="/timebargain/report/hisOrders_list.jsp"/>
+      <forward name="topBreed" path="/timebargain/report/breed_top.jsp"/>
+      <forward name="listBreed" path="/timebargain/report/breed_list.jsp"/>
+      <forward name="topFeeMonth" path="/timebargain/report/feeMonth_top1.jsp"/>
+      <forward name="listFeeMonth" path="/timebargain/report/feeMonth_list.jsp"/>
+      <forward name="topCmdtyHold" path="/timebargain/report/cmdtyHold_top.jsp"/>
+      <forward name="listCmdtyHold" path="/timebargain/report/cmdtyHold_list.jsp"/>
+      <forward name="topWeekDetail" path="/timebargain/report/week1_top.jsp"/>
+      <forward name="listWeek1Detail" path="/timebargain/report/week1_list.jsp"/>
+      
+      
+      <forward name="printAccount1" path="/timebargain/report/accountImp.jsp"/>
+      <forward name="printHoldDetailOther" path="/timebargain/report/holdDetailOther.jsp"/>
+      <forward name="printBreed" path="/timebargain/report/printBreed.jsp"/>
+      <forward name="printFeeMonth1" path="/timebargain/report/printFeeMonth1.jsp"/>
+      <forward name="printCmdtyHold" path="/timebargain/report/printCmdtyHold.jsp"/>
+      <forward name="printHisOrders" path="/timebargain/report/printHisOrders.jsp"/>
+    </action> 
+    <!-- 在线浏览 -->
+    <action path="/timebargain/menu/ZXLL_sysLog" forward="/timebargain/onlinebrowse/sysLog.jsp"/>     <!-- 系统日志 -->
+    <action path="/timebargain/menu/ZXLL_marketStatus" forward="/timebargain/onlinebrowse/marketStatus.jsp"/>   <!-- 市场状态 -->
+    <action path="/timebargain/menu/ZXLL_onlineUser" forward="/timebargain/onlinebrowse/user.jsp"/>     <!-- 在线管理用户 -->
+    <action path="/timebargain/menu/ZXLL_onlineCustomer" forward="/timebargain/onlinebrowse/customer.jsp"/>     <!-- 在线交易用户 -->
+    <action path="/timebargain/menu/ZXLL_orderMonitor" forward="/timebargain/onlinebrowse/orderMonitor.jsp"/>     <!-- 委托监控 -->
+    <action path="/timebargain/menu/ZXLL_failRespond" forward="/timebargain/onlinebrowse/failRespond.jsp"/>     <!-- 查失败成交 -->
+    <action path="/timebargain/menu/ZXLL_receiveMonitor" forward="/timebargain/onlinebrowse/receiveMonitor.jsp"/>     <!-- 接收回报监控 -->
+    <action path="/timebargain/menu/ZXLL_queueMonitor" forward="/timebargain/onlinebrowse/queueMonitor.jsp"/>     <!-- 队列监控 -->
+    <action path="/timebargain/menu/ZXLL_queryWithdrawReason" forward="/timebargain/onlinebrowse/queryWithdrawReason.jsp"/>     <!-- 查询撤单原因 -->
+    <action path="/timebargain/menu/ZXLL_holdMonitor" forward="/timebargain/onlinebrowse/holdMonitor.jsp"/>     <!-- 持仓监控 -->
+    <action path="/timebargain/menu/ZXLL_fundMonitor" forward="/timebargain/onlinebrowse/fundMonitor.jsp"/>     <!-- 资金监控 -->
+    <action path="/timebargain/menu/ZXLL_performMonitor" forward="/timebargain/onlinebrowse/performMonitor.jsp"/>     <!-- 性能监控 -->
+    <action path="/timebargain/menu/ZXLL_procLog" forward="/timebargain/onlinebrowse/procLog.jsp"/>     <!-- 存储日志 -->
+    
+    <action path="/timebargain/menu/backupdb" forward="/timebargain/onlinebrowse/backupdb.jsp"/>     <!-- 存储日志 -->
+    
+    <action path="/timebargain/onlinebrowse/onlinebrowse" name="agencyForm" type="gnnt.MEBS.timebargain.manage.webapp.action.AgencyAction" parameter="funcflg"  scope="request" validate="false">
+      <forward name="marketStatus" path="/timebargain/onlinebrowse/marketStatus_list.jsp"/>
+      <forward name="customer" path="/timebargain/onlinebrowse/customer_list.jsp"/>
+      <forward name="user" path="/timebargain/onlinebrowse/user_list.jsp"/>
+      <forward name="getNotMarketCodeOrders" path="/timebargain/onlinebrowse/orderMonitor_list.jsp"/>
+      <forward name="receiveMonitor" path="/timebargain/onlinebrowse/receiveMonitor_list.jsp"/>
+      <forward name="queryMarketOrder" path="/timebargain/onlinebrowse/orderMonitor_bottom.jsp"/>
+      <forward name="getOrderQueue" path="/timebargain/onlinebrowse/queueMonitor_list.jsp"/>
+      <forward name="getWithdrawQueue" path="/timebargain/onlinebrowse/queueMonitor_bottom.jsp"/>
+      <forward name="queryWithdrawReason" path="/timebargain/onlinebrowse/queryWithdrawReason_list.jsp"/>
+      <forward name="holdMonitor_list" path="/timebargain/onlinebrowse/holdMonitor_list.jsp"/>
+      <forward name="fundMonitor_list" path="/timebargain/onlinebrowse/fundMonitor_list.jsp"/>
+      <forward name="performMonitor_list" path="/timebargain/onlinebrowse/performMonitor_list.jsp"/>
+      <forward name="procLog_top" path="/timebargain/onlinebrowse/procLog_top.jsp"/>
+      <forward name="procLog_list" path="/timebargain/onlinebrowse/procLog_list.jsp"/>
+      <forward name="sysLog_top" path="/timebargain/onlinebrowse/sysLog_top.jsp"/>
+      <forward name="sysLog_list" path="/timebargain/onlinebrowse/sysLog_list.jsp"/>      
+      <forward name="listTradeRespond" path="/timebargain/onlinebrowse/failRespond_list.jsp"/>   
+      <forward name="listBackupdb" path="/timebargain/onlinebrowse/backupdb_list.jsp"/>  
+      <forward name="marketStatus1" path="/timebargain/bottom1.jsp"/>
+      
+      <forward name="traderLog_list" path="/timebargain/onlinebrowse/traderLog_list.jsp"></forward>
+    </action>  
+    
+    <!-- 结算管理 -->   
+    <action path="/timebargain/menu/JSGL_balance" forward="/timebargain/balance/balance.jsp"/>     <!-- 闭市结算 -->
+    <action path="/timebargain/balance/balance" name="ordersForm" type="gnnt.MEBS.timebargain.manage.webapp.action.OrdersAction" parameter="funcflg"  scope="request" validate="false">
+      <forward name="balanceChk" path="/timebargain/balance/balanceForm_chk.jsp"/>
+      <forward name="balance" path="/timebargain/balance/balanceForm_balance.jsp"/>
+      <forward name="balanceChkMarketHold" path="/timebargain/balance/balanceForm_chkMarketHold.jsp"/>
+      <forward name="balanceChkHold" path="/timebargain/balance/balanceForm_chkHold.jsp"/>
+      <forward name="balanceChkFroenFund" path="/timebargain/balance/balanceForm_chkFroenFund.jsp"/>
+      <forward name="balanceChkFroenFundEXC" path="/timebargain/balance/balanceForm_chkFroenFundEXC.jsp"></forward>
+      <forward name="balanceCloseMarket" path="/timebargain/balance/balanceForm_balanceCloseMarket.jsp"/>
+      <forward name="balanceCloseMarketEXC" path="/timebargain/balance/balanceForm_balanceCloseMarketEXC.jsp"></forward>
+      <forward name="balanceChkHoldList" path="/timebargain/balance/hold_list.jsp"/>
+      <forward name="balanceChkStatus" path="/timebargain/balance/balanceForm1.jsp"/>
+      <forward name="balanceUpload" path="/timebargain/balance/balanceUpload.jsp"/>
+      <forward name="tradeRespondList" path="/timebargain/balance/tradeRespondList.jsp"/>
+      <forward name="tradeRespondResult" path="/timebargain/balance/tradeRespondResult.jsp"/>
+      <forward name="firmForm" path="/timebargain/balance/firm_form.jsp"/>
+    </action>   
+    
+    
+    <action path="/timebargain/menu/YYGL_firm" forward="/timebargain/balance/firm.jsp"/>     <!-- 交易商信息 -->
+        
+    <!-- 代理委托 -->   
+    <action path="/timebargain/menu/DLWT_login" forward="/timebargain/order/traderLogin.jsp"/>     <!-- 登录下单服务器 -->
+    <action path="/timebargain/menu/DLWT_order" forward="/timebargain/order/orders.jsp"/>     <!-- 代理下单 -->
+    <action path="/timebargain/menu/DLWT_withdraw" forward="/timebargain/order/noTrade.jsp"/>     <!-- 代理撤单 -->
+    <action path="/timebargain/menu/DLWT_forceClose" forward="/timebargain/tradecontrol/forceClose.jsp"/>  <!-- 强平 -->
+    <action path="/timebargain/menu/DLWT_password" forward="/timebargain/order/password.jsp"></action>  
+    <action path="/timebargain/menu/conferClose" forward="/timebargain/order/conferClose.jsp"></action>  <!-- 协议平仓 -->
+    <action path="/timebargain/menu/DLWT_traderOnline" forward="/timebargain/order/trader.jsp"/>     <!-- 在线交易员 -->
+    <action path="/timebargain/menu/DLWT_detailForceClose" forward="/timebargain/tradecontrol/detailForceClose.jsp"/>  <!-- 强平 -->
+    
+    <action path="/timebargain/order/orders" name="ordersForm" type="gnnt.MEBS.timebargain.manage.webapp.action.OrdersAction" parameter="funcflg"  scope="request" validate="false">
+      <forward name="login" path="/timebargain/order/traderLogin_form_hidd.jsp"/>
+      <forward name="edit" path="/timebargain/order/orders_form.jsp"/>
+      <forward name="marketChg" path="/timebargain/order/orders_form_marketChg.jsp"/>
+      <forward name="order" path="/timebargain/order/orders_form_save.jsp"/>
+      <forward name="noTradeList" path="/timebargain/order/noTrade_list.jsp"/>
+      <forward name="traderList" path="/timebargain/order/trader_list.jsp"/>
+      <forward name="chkLogin" path="/timebargain/order/traderLogin_chk.jsp"/>
+      <forward name="updatePassword" path="/timebargain/common/modifyPwd2.jsp"></forward>
+      <forward name="editConferClose" path="/timebargain/statquery/conferClose.jsp"></forward>
+      <forward name="msg" path="/timebargain/order/msg_logoff.jsp"></forward>
+    </action>  
+              
+    <!-- 交易客户注册 -->
+    <action path="/timebargain/register/customer" name="customerForm" type="gnnt.MEBS.timebargain.manage.webapp.action.CustomerAction" parameter="funcflg"  scope="request" validate="false">
+      <forward name="edit" path="/timebargain/register/customer_form.jsp"/>
+      <forward name="save" path="/timebargain/register/customer_form_save.jsp"/>
+      <forward name="sortFund" path="/timebargain/register/customerSortFund_form.jsp"/>
+    </action>
+    <!-- 强减向导 -->
+    <action path="/timebargain/menu/deductGuide" forward="/timebargain/deduct/deductGuide.jsp"></action>
+    <!-- 强减操作 -->
+    <action path="/timebargain/menu/deductPosition" forward="/timebargain/deduct/deductPositionQuery.jsp"></action>
+    <!-- 强减明细查询 -->
+    <action path="/timebargain/menu/deductDetail" forward="/timebargain/deduct/deductDetailQuery.jsp"></action>
+    <!-- 强减保留交易商 -->
+    <action path="/timebargain/menu/deductKeepFirm" forward="/deduct/deductKeepFirmQuery.jsp"></action>
+    <!-- 强减委托录入 -->
+    <action path="/timebargain/menu/deductWrite" forward="/timebargain/deduct/deductWrite_form.jsp"></action>
+    <action path="/timebargain/deduct/deduct" name="deductForm" type="gnnt.MEBS.timebargain.manage.webapp.action.DeductAction" parameter="funcflg" scope="request" validate="false">
+    	<forward name="deductPositionList" path="/timebargain/deduct/deductPosition_list.jsp"></forward>
+    	<forward name="editUpdate" path="/timebargain/deduct/deductPosition_form.jsp"></forward>
+    	<forward name="deductDetailList" path="/timebargain/deduct/deductDetail_list.jsp"></forward>
+    	<forward name="deductKeepFirmList" path="/timebargain/deduct/deductKeepFirm_list.jsp"></forward>
+    	<forward name="editDeductKeepFirm" path="/timebargain/deduct/deductKeepFirm_form.jsp"/>
+    	<forward name="savePosition" path="/timebargain/deduct/deductPosition_save.jsp"></forward>
+    	<forward name="nextDeductDetailQuery" path="/timebargain/deduct/deductDetailQty_save.jsp"></forward>
+    	<forward name="nextDeductDetail" path="/timebargain/deduct/deductDetail_list.jsp"></forward>
+    	<forward name="deductPositionListQuery" path="/timebargain/deduct/deductPosition_listQuery.jsp"></forward>
+    	<forward name="deductKeepFirmListQuery" path="/timebargain/deduct/deductKeepFirm_listQuery.jsp"></forward>
+    	<forward name="nextDeductDetailQueryMenu" path="/timebargain/deduct/deductDetail_listQuery.jsp"></forward>
+    	<forward name="deductPositionInfo" path="/timebargain/deduct/deductPositionInfo.jsp"></forward>
+    	<forward name="deductGo" path="/timebargain/deduct/deductGo_save.jsp"></forward>
+    	<forward name="deductWrite" path="/timebargain/deduct/deductWrite_save.jsp"></forward>
+    </action>
+    
+    <!-- 行情信息-->
+    <action path="/timebargain/menu/QuotationInfo" forward="/timebargain/tradeMonitor/quotationInfo.jsp"/>
+     <!-- 委托监控-->
+    <action path="/timebargain/menu/OrderMonitor" forward="/timebargain/tradeMonitor/orderMonitor.jsp"/> 
+     <!-- 未成交委托队列-->
+    <action path="/timebargain/menu/UnTradeInfo" forward="/timebargain/tradeMonitor/unTradeInfo.jsp"/> 
+     <!-- 成交明细-->
+    <action path="/timebargain/menu/TradeList" forward="/timebargain/tradeMonitor/tradeList.jsp"/>
+     <!-- 成交综合统计-->
+    <action path="/timebargain/menu/TradeStatistic" forward="/timebargain/tradeMonitor/tradeStatistic.jsp"/>
+      <!-- 商品持仓监控-->
+    <action path="/timebargain/menu/CommodityMonitor" forward="/timebargain/tradeMonitor/commodityMonitor.jsp"/>
+      <!-- 交易商持仓监控-->
+    <action path="/timebargain/menu/FirmMonitor" forward="/timebargain/tradeMonitor/firmMonitor.jsp"/>
+      <!-- 资金预警分析-->
+    <action path="/timebargain/menu/FundsAnalysis" forward="/timebargain/tradeMonitor/fundsAnalysis.jsp"/>
+     <!-- 排行分析-->
+    <action path="/timebargain/menu/AnalyseInfo" forward="/timebargain/tradeMonitor/analyseInfo.jsp"/>
+    <!-- 风险监控设置-->
+    <action path="/timebargain/menu/MonitorSet" forward="/timebargain/tradeMonitor/monitorSet.jsp"/>
+    <action path="/timebargain/tradeMonitor/monitorSet" name="monitorSetForm" type="gnnt.MEBS.timebargain.manage.webapp.action.MonitorSetAction" parameter="funcflg"  scope="request" validate="false">
+      <forward name="edit" path="/timebargain/tradeMonitor/monitorSet_form1.jsp"/>
+    </action> 
+    
+    <action path="/timebargain/tradeMonitor/tradeMonitor" type="gnnt.MEBS.timebargain.manage.webapp.action.TradeMonitorAction" parameter="funcflg"  scope="request" validate="false">
+    	<forward name="fundsAnalysisInfo" path="/timebargain/tradeMonitor/fundsAnalysis_send.jsp"></forward>
+    </action>
+    
+    <!-- 新风险控制 -->
+    <action path="/timebargain/menu/Props" forward="/timebargain/baseinfo/customerProps_T_Firm.jsp"></action>
+    <action path="/timebargain/baseinfo/tradePropsThree" name="tradePropsForm" type="gnnt.MEBS.timebargain.manage.webapp.action.TradePropsAction" parameter="funcflg"  scope="request" validate="false">
+    	<forward name="listTradePropsTFirm" path="/timebargain/baseinfo/customerProps_T_Firm_list.jsp"></forward>
+    	<forward name="editTFirm" path="/timebargain/baseinfo/customerProps_T_Firm_form.jsp"></forward>
+    	<forward name="saveTFirm" path="/timebargain/baseinfo/customerProps_T_Firm_form_save.jsp"></forward>
+    </action>
+    <!-- 商品查询 -->
+  <action path="/timebargain/menu/queryCommodity" forward="/timebargain/baseinfo/queryCommodity.jsp"></action>
+  <action path="/timebargain/baseinfo/queryCommodity" name="commodityForm" type="gnnt.MEBS.timebargain.manage.webapp.action.CommodityAction" parameter="funcflg"  scope="request" validate="false">
+  	<forward name="queryCommodity" path="/timebargain/baseinfo/queryCommodity_list.jsp"></forward>
+  </action>
+  
+  <!-- 质押资金 -->
+  <action path="/timebargain/menu/Pledge" forward="/timebargain/statquery/pledge/before_pledge.jsp"></action>
+  
+  <!-- 虚拟资金录入 -->
+  <action path="/timebargain/menu/VirtualFundApp" forward="/common/timebargain/virtualfund/app/virtualFundApp.jsp"></action>
+  <!-- 虚拟资金审核 -->
+  <action path="/timebargain/menu/VirtualFundChe" forward="/common/timebargain/virtualfund/check/virtualFundChe.jsp"></action>
+  <action path="/timebargain/virtualFund" name="virtualFundForm" type="gnnt.MEBS.common.manage.webapp.action.VirtualFundAction" parameter="funcflg"  scope="request" validate="false">
+  	<forward name="listVirtualFund" path="/common/timebargain/virtualfund/app/virtualFundApp_list.jsp"></forward>
+  	<forward name="editVirtualFund" path="/common/timebargain/virtualfund/app/virtualFundApp_form.jsp"></forward>
+  	<forward name="saveVirtualFund" path="/common/timebargain/virtualfund/app/virtualFundApp_form_save.jsp"></forward>
+  	
+  	<forward name="listVirtualFundChe" path="/common/timebargain/virtualfund/check/virtualFundChe_list.jsp"></forward>
+  	<forward name="CheckVirtualFund" path="/common/timebargain/virtualfund/check/virtualFundChe_form_save.jsp"></forward>
+  </action>
+  
+  <!-- 质押资金录入 -->
+  <action path="/timebargain/menu/PledgeApp" forward="/common/timebargain/pledge/app/pledgeApp.jsp"></action>
+  <!-- 质押资金审核 -->
+  <action path="/timebargain/menu/PledgeChe" forward="/common/timebargain/pledge/check/pledgeChe.jsp"></action>
+  <action path="/timebargain/PledgeAppAndChe" name="pledgeForm" type="gnnt.MEBS.common.manage.webapp.action.PledgeAction" parameter="funcflg"  scope="request" validate="false">
+  	<forward name="listPledgeApp" path="/common/timebargain/pledge/app/pledgeApp_list.jsp"></forward>
+  	<forward name="editPledgeApp" path="/common/timebargain/pledge/app/pledgeApp_form.jsp"></forward>
+  	<forward name="savePledgeApp" path="/common/timebargain/pledge/app/pledgeApp_form_save.jsp"></forward>
+  	
+  	<forward name="listPledgeChe" path="/common/timebargain/pledge/check/pledgeChe_list.jsp"></forward>
+  	<forward name="checkPledge" path="/common/timebargain/pledge/check/pledgeChe_form_save.jsp"></forward>
+  </action>
+  
+  <!-- 延期交易 -->
+  <action path="/timebargain/menu/commoditySettleProp" forward="/timebargain/delay/commoditySettleProp.jsp"></action>
+  <action path="/timebargain/menu/settleprivilege" forward="/timebargain/delay/settleprivilege.jsp"></action>
+  <action path="/timebargain/menu/delay" forward="/timebargain/delay/delayStatus.jsp"></action>
+  <action path="/timebargain/menu/delayOrders" forward="/timebargain/delay/delayOrders.jsp"></action>
+  <action path="/timebargain/menu/delayTrade" forward="/timebargain/delay/delayTrade.jsp"></action>
+  <action path="/timebargain/menu/delayQuotation" forward="/timebargain/delay/delayQuotation.jsp"></action>
+  <action path="/timebargain/delay/delay" name="delayForm" type="gnnt.MEBS.timebargain.manage.webapp.action.DelayAction" parameter="funcflg" scope="request" validate="false">
+  	<forward name="editDelaySection" path="/timebargain/delay/delaySection.jsp"></forward>
+  	<forward name="editDelayStatus" path="/timebargain/delay/delayStatus_form.jsp"></forward>
+  	<forward name="operateDelayStatus" path="/timebargain/delay/delayStatusOperate.jsp"></forward>
+  	<forward name="operateDelayStatusRecoverTime" path="/timebargain/delay/delayStatusOperateTime.jsp"></forward>
+  	<forward name="privilegeAdd" path="/timebargain/delay/privilege_add.jsp"></forward>
+  	<forward name="privilegeUpdate" path="/timebargain/delay/privilege_form.jsp"></forward>
+  	<forward name="commoditySettlePropEdit" path="/timebargain/delay/commoditySettlePropEdit.jsp"></forward>
+  	<!-- 查询 -->
+  	<forward name="listDelayOrders" path="/timebargain/delay/delayOrders_list.jsp"></forward>
+  	<forward name="listDelayTrade" path="/timebargain/delay/delayTrade_list.jsp"></forward>
+  	<forward name="listDelayQuotation" path="/timebargain/delay/delayQuotation_list.jsp"></forward>
+  	<forward name="listSettleprivilege" path="/timebargain/delay/settleprivilege_list.jsp"></forward>
+  	<forward name="alertMsg" path="/timebargain/delay/alert.jsp"></forward>
+  	<forward name="alertUpdateMsg" path="/timebargain/delay/alertUpdate.jsp"></forward>
+  	<forward name="listCommoditySettleProp" path="/timebargain/delay/commoditySettleProp_list.jsp"></forward>
+  </action>
+  
+  <!-- 抵顶申请 -->
+  <action path="/timebargain/menu/gageApply" forward="/timebargain/applyGage/applyGage.jsp"/>
+  <action path="/timebargain/applyGage/applyGage" name="applyGageForm" parameter="funcflg" type="gnnt.MEBS.timebargain.manage.webapp.action.ApplyGageAction" validate="false">
+  	<forward name="applyGageList" path="/timebargain/applyGage/applyGageWait_list.jsp"/>
+  	<forward name="addApplyGage" path="/timebargain/applyGage/addApplyGage.jsp"></forward>
+  </action>
+  <!-- 抵顶审核 -->
+  <action path="/timebargain/menu/gageAudit" forward="/timebargain/gageAudit/gageAudit.jsp"/>
+  <action path="/timebargain/gageAudit/gageAudit" name="applyGageForm" parameter="funcflg" type="gnnt.MEBS.timebargain.manage.webapp.action.ApplyGageAction" validate="false">
+  	<forward name="auditWaitGageList" path="/timebargain/gageAudit/gageAuditWait_list.jsp"/>
+  	<forward name="auditAlreadyGageList" path="/timebargain/gageAudit/gageAuditAlready_list.jsp"/>
+  	<forward name="afterAudit" path="/timebargain/gageAudit/gageMessage.jsp"></forward>
+  </action>
+
+  <!-- 提前交收申请 -->
+  <action path="/timebargain/menu/aheadSettleApply" forward="/timebargain/aheadSettle/aheadSettleApply.jsp"/>
+  <action path="/timebargain/aheadSettle/aheadSettleApply" name="aheadSettleForm" parameter="funcflg" type="gnnt.MEBS.timebargain.manage.webapp.action.AheadSettleAction">
+  	<forward name="afterSave" path="/timebargain/aheadSettle/aheadSettleNewApply.jsp"></forward>
+  	<forward name="appllyAheadSettleWaitList" path="/timebargain/aheadSettle/aheadSettleApplyWait_list.jsp"></forward>
+  </action>
+   <!-- 提前交收审核 -->
+  <action path="/timebargain/menu/aheadSettleAudit" forward="/timebargain/aheadSettle/aheadSettleAudit.jsp"/>
+  <action path="/timebargain/aheadSettle/aheadSettleAudit" name="aheadSettleForm" parameter="funcflg" type="gnnt.MEBS.timebargain.manage.webapp.action.AheadSettleAction">
+  	<forward name="auditAheadSettleWaitList" path="/timebargain/aheadSettle/aheadSettleAuditWait_list.jsp"></forward>
+  	<forward name="afterAudit" path="/timebargain/aheadSettle/aheadSettleMessageAudit.jsp"></forward>
+  </action>
+  
+  <!-- 仓单抵顶 -->
+  <action path="/timebargain/menu/gageWarehouse" parameter="funcflg" type="gnnt.MEBS.timebargain.manage.webapp.action.GageWarehouseAction">
+  	<forward name="gageWarehouseList" path="/timebargain/gageWarehouse/gageWarehouseList.jsp"/>
+  	<forward name="validGageBillList" path="/timebargain/gageWarehouse/validGageBillList.jsp"/>
+  </action>
+  
+  <!-- 设置交易客户端是否可以查询报表 -->
+  <action path="/timebargain/menu/querySetting" type="gnnt.MEBS.timebargain.manage.webapp.action.QuerySettingAction" parameter="funcflg"  scope="request" validate="false">
+  	<forward name="showStatus" path="/timebargain/setStatus/setStatus.jsp"/>
+  </action>
+  
+  <!-- 对主持交易商品种设置 -->
+  <action path="/timebargain/baseinfo/directFirmBreed" name="directFirmBreedForm" type="gnnt.MEBS.timebargain.manage.webapp.action.DirectFirmBreedAction" parameter="funcflg"  scope="request" validate="false">
+ 	<forward name="directFirmBreedList" path="/timebargain/baseinfo/directFirmBreed_list.jsp"/>
+ 	<forward name="directFirmBreedAdd" path="/timebargain/baseinfo/directFirmBreed_add.jsp"/>
+ 	<forward name="directFirmBreed" path="/timebargain/baseinfo/alert.jsp"/>
+ 	<forward name="directFirmBreedMod" path="/timebargain/baseinfo/directFirmBreed_mod.jsp"/>
+ 	<forward name="directFirmBreedHisList" path="/timebargain/baseinfo/directFirmBreedHis_list.jsp"/>
+ 	<forward name="directFirmBreedTop" path="/timebargain/baseinfo/directFirmBreed_top.jsp"/>
+  </action>
+  </action-mappings>
+  
+</struts-config>
+
