@@ -14,7 +14,7 @@ hs_err_pid*
 
 *.class
 *.war
-*.zip
+#*.zip
 *.rar
 
 /indexes/

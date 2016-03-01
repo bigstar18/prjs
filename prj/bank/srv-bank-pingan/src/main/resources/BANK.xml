@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+	<!--注意：VALUE不能为空，不然会报解析不了XML的错误 -->
+	<COMPONENT>
+		<NAME>BANK</NAME>
+		<TYPE>normal</TYPE>
+		<SECTION>
+			<NAME>Adapter</NAME>
+			<PROPERTYS>
+			
+<!-- 适配器配置信息 start -->
+				<!-- 市场银行编号 -->
+				<PROPERTY>
+					<KEY>BankID</KEY>
+					<VALUE>05</VALUE>
+				</PROPERTY>
+				<!-- 适配器实现类 -->
+				<PROPERTY>
+					<KEY>AdapterImpl</KEY>
+					<VALUE>ABCBankImpl</VALUE>
+				</PROPERTY>
+				<!--本地RMI服务器地址-->
+				<PROPERTY>
+					<KEY>rmiAdress</KEY>
+					<VALUE>172.18.100.22</VALUE>
+				</PROPERTY>
+					<!--本地RMI服务器端口-->
+				<PROPERTY>
+					<KEY>rmiPort</KEY>
+					<VALUE>32018</VALUE>
+				</PROPERTY>
+					<!--本地RMI服务器名称 注：无特殊情况无需更改-->
+				<PROPERTY>
+					<KEY>rmiName</KEY>
+					<VALUE>gnntBankImpl</VALUE>
+				</PROPERTY>
+				<!--是否自动签到和签退  true：自动签到  false：手动-->
+				<PROPERTY>
+					<KEY>switchLogin</KEY>
+					<VALUE>false</VALUE>
+				</PROPERTY>
+				<!-- 签到时间 switchLogin为true有效 -->
+				<PROPERTY>
+					<KEY>login</KEY>
+					<VALUE>08:30:00</VALUE>
+				</PROPERTY>
+				<!-- 签退时间 switchLogin为true有效 -->
+				<PROPERTY>
+					<KEY>quit</KEY>
+					<VALUE>17:00:30</VALUE>
+				</PROPERTY>
+				<!-- 取数据时间 -->
+				<PROPERTY>
+					<KEY>GetTradeDataTime</KEY>
+					<VALUE>08:00:00</VALUE>
+				</PROPERTY>
+				<!-- 日终数据存放路径 -->
+				<PROPERTY>
+					<KEY>dataPath</KEY>
+					<VALUE>../dayData/</VALUE>
+				</PROPERTY>
+				<!--默认帐号-->
+				<PROPERTY>
+					<KEY>defaultAccount</KEY>
+					<VALUE>9999999999999999999</VALUE>
+				</PROPERTY>
+				
+<!-- 适配器配置信息 end -->
+
+
+<!-- 处理器配置信息 start -->
+				<!--处理器RMI服务器地址-->
+				<PROPERTY>
+					<KEY>ProcessorIP</KEY>
+					<VALUE>172.18.100.17</VALUE>
+				</PROPERTY>
+				<!--处理器RMI服务器端口-->
+				<PROPERTY>
+					<KEY>ProcessorPort</KEY>
+					<VALUE>2118</VALUE>
+				</PROPERTY>
+				<!--处理器RMI服务器名称-->
+				<PROPERTY>
+					<KEY>ServiceName</KEY>
+					<VALUE>CapitalProcessorRMI</VALUE>
+				</PROPERTY>
+<!-- 处理器配置信息 end -->
+<!--和银行有关配置-->	
+                    <!--市场机构代码 -->
+				<PROPERTY>
+					<KEY>MarketCode</KEY>
+					<VALUE>00000146</VALUE>
+				</PROPERTY>	
+					<!--市场账号-->
+				<PROPERTY>
+					<KEY>MarketAccount</KEY>
+					<VALUE>1234567890987654321</VALUE>
+				</PROPERTY>
+					<!--市场名称-->
+				<PROPERTY>
+					<KEY>MarketName</KEY>
+					<VALUE>长三角交易所</VALUE>
+				</PROPERTY>
+					<!--是否写入通讯日志 1：写入；非1：不写入-->
+				<PROPERTY>
+					<KEY>InterfaceLog</KEY>
+					<VALUE>1</VALUE>
+				</PROPERTY>
+			</PROPERTYS>
+		</SECTION>
+
+	</COMPONENT>
+</CONFIG>

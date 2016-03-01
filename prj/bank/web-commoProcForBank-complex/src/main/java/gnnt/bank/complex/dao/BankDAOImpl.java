@@ -91,8 +91,7 @@ public class BankDAOImpl extends BankDAO {
 			st = conn.prepareStatement(sql);
 			if (setStatementValues(st, params) != 0) {
 				Tool.log("转入参数的类型可能有误");
-				Vector<FirmPlatformMsg> localVector1 = result;
-				return localVector1;
+				return result;
 			}
 			rs = st.executeQuery();
 			while (rs.next()) {

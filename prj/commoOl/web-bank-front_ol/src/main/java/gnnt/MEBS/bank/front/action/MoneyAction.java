@@ -107,11 +107,7 @@ public class MoneyAction extends StandardAction {
 		User user = (User) this.request.getSession().getAttribute("CurrentUser");
 
 		ReturnValue result = new ReturnValue();
-		RequestMsg req = new RequestMsg();
 		RequestMsg req1 = new RequestMsg();
-		req.setBankID("");
-		req.setMethodName("getRelationSystem");
-		req.setParams(new Object[] { user.getBelongtoFirm().getFirmID() });
 		req1.setBankID("");
 		req1.setMethodName("getIsOpenBanks");
 		req1.setParams(new Object[] { user.getBelongtoFirm().getFirmID() });
@@ -128,6 +124,10 @@ public class MoneyAction extends StandardAction {
 			vecBanks = new Vector();
 		}
 		this.request.setAttribute("vecBanks", vecBanks);
+		RequestMsg req = new RequestMsg();
+		req.setBankID("");
+		req.setMethodName("getRelationSystem");
+		req.setParams(new Object[] { user.getBelongtoFirm().getFirmID() });
 		try {
 			result = this.capitalProcessorRMI.doWork(req);
 		} catch (RemoteException e) {

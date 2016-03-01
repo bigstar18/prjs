@@ -14,9 +14,9 @@ hs_err_pid*
 
 *.class
 *.war
-*.zip
+#*.zip
 *.rar
-*.jar
+#*.jar
 
 /indexes/
 /src/main/webapp/WEB-INF/classes/
