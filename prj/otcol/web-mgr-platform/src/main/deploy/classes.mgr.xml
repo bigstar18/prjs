@@ -1,0 +1,25 @@
+<?xml version="1.0"  encoding="GB2312" ?>
+<CONFIG>
+    <COMPONENT>
+        <NAME>MEBS</NAME>
+        <TYPE>normal</TYPE>
+		<SECTION>
+            <NAME>marketInfo</NAME>
+            <PROPERTYS>
+                <PROPERTY>
+                    <KEY>marketName</KEY>
+                    <VALUE>测试</VALUE>
+                </PROPERTY>
+            </PROPERTYS>
+        </SECTION>
+        <SECTION>
+            <NAME>key</NAME>
+            <PROPERTYS>
+                <PROPERTY>
+                    <KEY>marketId</KEY>
+                    <VALUE>6</VALUE>
+                </PROPERTY>
+            </PROPERTYS>
+        </SECTION>   		        
+    </COMPONENT>
+</CONFIG>
