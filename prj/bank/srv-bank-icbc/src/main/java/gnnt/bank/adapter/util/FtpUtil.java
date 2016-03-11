@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,14 +15,14 @@ import sun.net.ftp.FtpClient;
 public class FtpUtil {
 	private FtpClient ftpClient = null;
 
-	public void connectServer(String server, String user, String password, String path) throws Exception {
-		this.ftpClient = FtpClient.create(new InetSocketAddress(server, FtpClient.defaultPort()));
-		this.ftpClient.login(user, null, password);
-
-		if (path.length() != 0)
-			this.ftpClient.changeDirectory(path);
-
-		this.ftpClient.setBinaryType();
+	public void connectServer(String server, String user, String password, String path) throws IOException {
+		this.ftpClient = new FtpClient();
+		this.ftpClient.openServer(server);
+		this.ftpClient.login(user, password);
+		if (path.length() != 0) {
+			this.ftpClient.cd(path);
+		}
+		this.ftpClient.binary();
 	}
 
 	public long upload(String filename, String newname) throws Exception {
@@ -32,23 +31,24 @@ public class FtpUtil {
 		FileInputStream is = null;
 		try {
 			File file_in = new File(filename);
-			if (!file_in.exists())
+			if (!file_in.exists()) {
 				return -1L;
-			os = (TelnetOutputStream) ftpClient.putFileStream(newname, true);
+			}
+			os = this.ftpClient.put(newname);
 			result = file_in.length();
 			is = new FileInputStream(file_in);
 			byte[] bytes = new byte[1024];
 			int c;
 			while ((c = is.read(bytes)) != -1) {
-				// int c;
 				os.write(bytes, 0, c);
 			}
 		} finally {
 			if (is != null) {
 				is.close();
 			}
-			if (os != null)
+			if (os != null) {
 				os.close();
+			}
 		}
 		if (is != null) {
 			is.close();
@@ -56,7 +56,6 @@ public class FtpUtil {
 		if (os != null) {
 			os.close();
 		}
-
 		return result;
 	}
 
@@ -75,13 +74,12 @@ public class FtpUtil {
 		TelnetInputStream is = null;
 		FileOutputStream os = null;
 		try {
-			is = (TelnetInputStream) this.ftpClient.getFileStream(filename);
+			is = this.ftpClient.get(filename);
 			File outfile = new File(newfilename);
 			os = new FileOutputStream(outfile);
 			byte[] bytes = new byte[1024];
 			int c;
 			while ((c = is.read(bytes)) != -1) {
-				// int c;
 				os.write(bytes, 0, c);
 				result += c;
 			}
@@ -115,7 +113,7 @@ public class FtpUtil {
 	public void closeServer() throws IOException {
 		try {
 			if (this.ftpClient != null) {
-				this.ftpClient.close();
+				this.ftpClient.closeServer();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
