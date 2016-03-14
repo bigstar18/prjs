@@ -124,7 +124,7 @@ public class AheadSettleDAOJdbc
     
     public AheadSettleStoredProcedure(DataSource paramDataSource)
     {
-      super("FN_T_AheadSettleQty");
+      super(paramDataSource,"FN_T_AheadSettleQty");
       setFunction(true);
       declareParameter(new SqlOutParameter("BRET", 4));
       declareParameter(new SqlParameter("P_APPLYID", -5));

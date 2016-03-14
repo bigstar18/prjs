@@ -316,7 +316,7 @@ public class BroadcastDAOJdbc
     
     public BroadcastAddStoredProcedure(DataSource paramDataSource)
     {
-      super("BroadcastAdd");
+      super(paramDataSource,"BroadcastAdd");
       setFunction(true);
       declareParameter(new SqlOutParameter("ret", 4));
       declareParameter(new SqlParameter("p_title", 12));

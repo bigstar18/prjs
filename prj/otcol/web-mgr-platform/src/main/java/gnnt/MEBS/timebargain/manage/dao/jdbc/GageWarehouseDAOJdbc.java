@@ -244,7 +244,7 @@ public class GageWarehouseDAOJdbc
     
     public FreezeAndThawProcedure(DataSource paramDataSource)
     {
-      super("FN_S_updateRegstockFrozen");
+      super(paramDataSource,"FN_S_updateRegstockFrozen");
       setFunction(true);
       declareParameter(new SqlOutParameter("ret", 2));
       declareParameter(new SqlParameter("p_regStockID", 12));

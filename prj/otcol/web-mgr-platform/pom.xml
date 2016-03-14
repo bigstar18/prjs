@@ -13,6 +13,13 @@
 	
 	<!-- 依赖项定义 -->
 	<dependencies>
+		<dependency>
+			<groupId>com.yrdce</groupId>
+			<artifactId>timebargainrmi</artifactId>
+			<version>1.0.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/timebargainrmi.jar</systemPath>
+		</dependency>
 
 		<dependency>
 			<groupId>org.javassist</groupId>
@@ -274,6 +281,57 @@
 			<groupId>org.hxx</groupId>
 			<artifactId>web-otcProcForBank-platform</artifactId>
 			<version>1.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>dom4j</groupId>
+			<artifactId>dom4j</artifactId>
+			<version>1.6.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hxx</groupId>
+			<artifactId>util-filters</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>struts</groupId>
+			<artifactId>struts-el</artifactId>
+			<version>1.2.9</version>
+		</dependency>
+		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>3.6.10.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.ecside</groupId>
+			<artifactId>ecside</artifactId>
+			<version>2.0RC1</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.6</version>
+		</dependency>
+		<dependency>
+			<groupId>jdom</groupId>
+			<artifactId>jdom</artifactId>
+			<version>1.0</version>
 		</dependency>
 	</dependencies>
 

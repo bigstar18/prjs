@@ -392,7 +392,7 @@ public class DeductDAOJdbc
     
     public DeductDataStoredProcedure(DataSource paramDataSource)
     {
-      super("FN_T_DeductData");
+      super(paramDataSource,"FN_T_DeductData");
       setFunction(true);
       declareParameter(new SqlOutParameter("ret", 4));
       declareParameter(new SqlParameter("p_deductID", 4));
@@ -412,7 +412,7 @@ public class DeductDAOJdbc
     
     public DeductGoStoredProcedure(DataSource paramDataSource)
     {
-      super("FN_T_DeductGo");
+      super(paramDataSource,"FN_T_DeductGo");
       setFunction(true);
       declareParameter(new SqlOutParameter("ret", 4));
       declareParameter(new SqlParameter("p_deductID", 4));

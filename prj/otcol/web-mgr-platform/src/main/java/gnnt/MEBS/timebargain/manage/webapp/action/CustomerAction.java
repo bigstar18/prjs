@@ -1,1018 +1,988 @@
+// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
+// Jad home page: http://www.kpdus.com/jad.html
+// Decompiler options: packimports(3) fieldsfirst ansi 
+
 package gnnt.MEBS.timebargain.manage.webapp.action;
 
 import gnnt.MEBS.common.security.AclCtrl;
 import gnnt.MEBS.timebargain.manage.model.Customer;
-import gnnt.MEBS.timebargain.manage.service.CustomerManager;
-import gnnt.MEBS.timebargain.manage.service.LookupManager;
-import gnnt.MEBS.timebargain.manage.service.TradePropsManager;
+import gnnt.MEBS.timebargain.manage.service.*;
 import gnnt.MEBS.timebargain.manage.util.StringUtil;
 import gnnt.MEBS.timebargain.manage.webapp.form.CustomerForm;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.logging.Log;
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.*;
 import org.springframework.dao.DataIntegrityViolationException;
 
-public class CustomerAction
-  extends BaseAction
+// Referenced classes of package gnnt.MEBS.timebargain.manage.webapp.action:
+//            BaseAction, CommonDictionary
+
+public class CustomerAction extends BaseAction
 {
-  public ActionForward top(ActionMapping paramActionMapping, ActionForm paramActionForm, HttpServletRequest paramHttpServletRequest, HttpServletResponse paramHttpServletResponse)
-    throws Exception
-  {
-    if (this.log.isDebugEnabled()) {
-      this.log.debug("Entering 'top' method");
-    }
-    getSelectAttribute(paramHttpServletRequest);
-    return paramActionMapping.findForward("top");
-  }
-  
-  public ActionForward edit(ActionMapping paramActionMapping, ActionForm paramActionForm, HttpServletRequest paramHttpServletRequest, HttpServletResponse paramHttpServletResponse)
-    throws Exception
-  {
-    if (this.log.isDebugEnabled()) {
-      this.log.debug("Entering 'edit' method");
-    }
-    CustomerForm localCustomerForm = (CustomerForm)paramActionForm;
-    String str1 = localCustomerForm.getCrud();
-    CustomerManager localCustomerManager = (CustomerManager)getBean("customerManager");
-    Customer localCustomer = null;
-    try
+
+    public CustomerAction()
     {
-      getSelectAttribute(paramHttpServletRequest);
-      if (str1.trim().equals("update"))
-      {
-        localCustomer = localCustomerManager.getCustomerById(localCustomerForm.getCustomerID());
-        this.log.debug("edit Customer.CustomerName:" + localCustomer.getCustomerName());
-      }
-      else if (str1.trim().equals("create"))
-      {
-        localCustomer = new Customer();
-      }
-      String str2 = "";
-      String str3 = "";
-      String str4 = "";
-      if ((localCustomer != null) && (localCustomer.getStatus() != null) && (localCustomer.getStatus().shortValue() == 2))
-      {
-        str2 = "2";
-        str4 = "2";
-        str3 = "ÈÄÄÂ∏Ç";
-        paramHttpServletRequest.setAttribute("type9", str2);
-        paramHttpServletRequest.setAttribute("status", str4);
-        paramHttpServletRequest.setAttribute("name", str3);
-      }
-      else
-      {
-        paramHttpServletRequest.setAttribute("type9", "");
-        paramHttpServletRequest.setAttribute("status", "");
-        paramHttpServletRequest.setAttribute("name", "");
-      }
-      localCustomerForm = (CustomerForm)convert(localCustomer);
-      localCustomerForm.setCrud(str1);
-      this.log.debug("customerForm.selectedOptionsMarket:" + localCustomerForm.getSelectedOptionsMarket());
-      updateFormBean(paramActionMapping, paramHttpServletRequest, localCustomerForm);
     }
-    catch (Exception localException)
+
+    public ActionForward top(ActionMapping actionmapping, ActionForm actionform, HttpServletRequest httpservletrequest, HttpServletResponse httpservletresponse)
+        throws Exception
     {
-      localException.printStackTrace();
-      this.log.error("==err:" + localException);
-      paramHttpServletRequest.setAttribute("prompt", localException.getMessage());
-      return search(paramActionMapping, paramActionForm, paramHttpServletRequest, paramHttpServletResponse);
+        if(log.isDebugEnabled())
+            log.debug("Entering 'top' method");
+        getSelectAttribute(httpservletrequest);
+        return actionmapping.findForward("top");
     }
-    return paramActionMapping.findForward("edit");
-  }
-  
-  public ActionForward save(ActionMapping paramActionMapping, ActionForm paramActionForm, HttpServletRequest paramHttpServletRequest, HttpServletResponse paramHttpServletResponse)
-    throws Exception
-  {
-    if (this.log.isDebugEnabled()) {
-      this.log.debug("Entering 'save' method");
-    }
-    CustomerForm localCustomerForm = (CustomerForm)paramActionForm;
-    String str = localCustomerForm.getCrud();
-    CustomerManager localCustomerManager = (CustomerManager)getBean("customerManager");
-    Customer localCustomer = (Customer)convert(localCustomerForm);
-    try
+
+    public ActionForward edit(ActionMapping actionmapping, ActionForm actionform, HttpServletRequest httpservletrequest, HttpServletResponse httpservletresponse)
+        throws Exception
     {
-      if (str.trim().equals("create"))
-      {
-        localCustomer.setPassword(StringUtil.encodePassword(localCustomerForm.getPassword(), "MD5"));
-        if (paramHttpServletRequest.getParameter("mkName") == null)
-        {
-          localCustomerManager.insertCustomer(localCustomer);
-          addSysLog(paramHttpServletRequest, "Â¢ûÂä†‰∫§ÊòìÂÆ¢Êà∑[" + localCustomer.getCustomerID() + "]");
-        }
-      }
-      else if (str.trim().equals("update"))
-      {
-        localCustomerManager.updateCustomer(localCustomer);
-        addSysLog(paramHttpServletRequest, "‰øÆÊîπ‰∫§ÊòìÂÆ¢Êà∑[" + localCustomer.getCustomerID() + "]");
-      }
-    }
-    catch (Exception localException)
-    {
-      this.log.error("===>save errÔºö" + localException);
-      paramHttpServletRequest.setAttribute("prompt", localException.getMessage());
-    }
-    return paramActionMapping.findForward("save");
-  }
-  
-  public ActionForward delete(ActionMapping paramActionMapping, ActionForm paramActionForm, HttpServletRequest paramHttpServletRequest, HttpServletResponse paramHttpServletResponse)
-    throws Exception
-  {
-    if (this.log.isDebugEnabled()) {
-      this.log.debug("Entering 'delete' method");
-    }
-    CustomerManager localCustomerManager = (CustomerManager)getBean("customerManager");
-    String[] arrayOfString = paramHttpServletRequest.getParameterValues("itemlist");
-    int i = 0;
-    if (arrayOfString != null)
-    {
-      this.log.debug("==ids.length:" + arrayOfString.length);
-      String str2 = "";
-      for (int j = 0; j < arrayOfString.length; j++)
-      {
-        String str1 = arrayOfString[j];
+        if(log.isDebugEnabled())
+            log.debug("Entering 'edit' method");
+        CustomerForm customerform = (CustomerForm)actionform;
+        String s = customerform.getCrud();
+        CustomerManager customermanager = (CustomerManager)getBean("customerManager");
+        Customer customer = null;
         try
         {
-          localCustomerManager.deleteCustomerById(str1);
-          addSysLog(paramHttpServletRequest, "Âà†Èô§‰∫§ÊòìÂÆ¢Êà∑[" + str1 + "]");
-          i++;
+            getSelectAttribute(httpservletrequest);
+            if(s.trim().equals("update"))
+            {
+                customer = customermanager.getCustomerById(customerform.getCustomerID());
+                log.debug((new StringBuilder()).append("edit Customer.CustomerName:").append(customer.getCustomerName()).toString());
+            } else
+            if(s.trim().equals("create"))
+                customer = new Customer();
+            String s1 = "";
+            String s3 = "";
+            String s5 = "";
+            if(customer != null && customer.getStatus() != null && customer.getStatus().shortValue() == 2)
+            {
+                String s2 = "2";
+                String s6 = "2";
+                String s4 = "ÕÀ –";
+                httpservletrequest.setAttribute("type9", s2);
+                httpservletrequest.setAttribute("status", s6);
+                httpservletrequest.setAttribute("name", s4);
+            } else
+            {
+                httpservletrequest.setAttribute("type9", "");
+                httpservletrequest.setAttribute("status", "");
+                httpservletrequest.setAttribute("name", "");
+            }
+            customerform = (CustomerForm)convert(customer);
+            customerform.setCrud(s);
+            log.debug((new StringBuilder()).append("customerForm.selectedOptionsMarket:").append(customerform.getSelectedOptionsMarket()).toString());
+            updateFormBean(actionmapping, httpservletrequest, customerform);
         }
-        catch (DataIntegrityViolationException localDataIntegrityViolationException)
+        catch(Exception exception)
         {
-          localDataIntegrityViolationException.printStackTrace();
-          str2 = str2 + str1 + ",";
+            exception.printStackTrace();
+            log.error((new StringBuilder()).append("==err:").append(exception).toString());
+            httpservletrequest.setAttribute("prompt", exception.getMessage());
+            return search(actionmapping, actionform, httpservletrequest, httpservletresponse);
         }
-        catch (RuntimeException localRuntimeException)
-        {
-          localRuntimeException.printStackTrace();
-          str2 = str2 + str1 + ",";
-        }
-      }
-      if (!str2.equals(""))
-      {
-        str2 = str2.substring(0, str2.length() - 1);
-        str2 = str2 + "‰∫§ÊòìÂÆ¢Êà∑Êú™ÈÄÄÂ∏ÇÊàñ‰∏éÂÖ∂‰ªñÊï∞ÊçÆÂÖ≥ËÅîÔºå‰∏çËÉΩÂà†Èô§ÔºÅ";
-      }
-      str2 = str2 + "ÊàêÂäüÂà†Èô§" + i + "Êù°Á∫™ÂΩïÔºÅ";
-      paramHttpServletRequest.setAttribute("prompt", str2);
+        return actionmapping.findForward("edit");
     }
-    return paramActionMapping.findForward("chgGroup");
-  }
-  
-  public ActionForward updateStatusF(ActionMapping paramActionMapping, ActionForm paramActionForm, HttpServletRequest paramHttpServletRequest, HttpServletResponse paramHttpServletResponse)
-    throws Exception
-  {
-    CustomerManager localCustomerManager = (CustomerManager)getBean("customerManager");
-    String str1 = paramHttpServletRequest.getParameter("crud");
-    String[] arrayOfString = paramHttpServletRequest.getParameterValues("itemlist");
-    if (arrayOfString != null)
+
+    public ActionForward save(ActionMapping actionmapping, ActionForm actionform, HttpServletRequest httpservletrequest, HttpServletResponse httpservletresponse)
+        throws Exception
     {
-      this.log.debug("==ids.length:" + arrayOfString.length);
-      Customer localCustomer = new Customer();
-      int i = 0;
-      String str3 = "";
-      for (int j = 0; j < arrayOfString.length; j++)
-      {
-        String str2 = arrayOfString[j];
+        if(log.isDebugEnabled())
+            log.debug("Entering 'save' method");
+        CustomerForm customerform = (CustomerForm)actionform;
+        String s = customerform.getCrud();
+        CustomerManager customermanager = (CustomerManager)getBean("customerManager");
+        Customer customer = (Customer)convert(customerform);
         try
         {
-          localCustomer.setFirmID(str2);
-          if ("correct".equals(str1)) {
-            localCustomer.setStatus(Short.valueOf(Short.parseShort("0")));
-          } else if ("incorrect".equals(str1)) {
-            localCustomer.setStatus(Short.valueOf(Short.parseShort("1")));
-          } else if ("out".equals(str1)) {
-            localCustomer.setStatus(Short.valueOf(Short.parseShort("2")));
-          }
-          localCustomerManager.updateStatusFirm(localCustomer);
-          paramHttpServletRequest.setAttribute("ifSave", "save");
-          addSysLog(paramHttpServletRequest, "‰øÆÊîπÁä∂ÊÄÅ[" + str2 + "]");
-          i++;
+            if(s.trim().equals("create"))
+            {
+                customer.setPassword(StringUtil.encodePassword(customerform.getPassword(), "MD5"));
+                if(httpservletrequest.getParameter("mkName") == null)
+                {
+                    customermanager.insertCustomer(customer);
+                    addSysLog(httpservletrequest, (new StringBuilder()).append("‘ˆº”Ωª“◊øÕªß[").append(customer.getCustomerID()).append("]").toString());
+                }
+            } else
+            if(s.trim().equals("update"))
+            {
+                customermanager.updateCustomer(customer);
+                addSysLog(httpservletrequest, (new StringBuilder()).append("–ﬁ∏ƒΩª“◊øÕªß[").append(customer.getCustomerID()).append("]").toString());
+            }
         }
-        catch (DataIntegrityViolationException localDataIntegrityViolationException)
+        catch(Exception exception)
         {
-          str3 = str3 + str2 + ",";
-          paramHttpServletRequest.setAttribute("prompt", "[" + str2 + "]‰øÆÊîπÂ§±Ë¥•ÔºÅ");
+            log.error((new StringBuilder()).append("===>save err£∫").append(exception).toString());
+            httpservletrequest.setAttribute("prompt", exception.getMessage());
         }
-        catch (Exception localException)
-        {
-          this.log.debug("error message: " + localException.getMessage());
-          paramHttpServletRequest.setAttribute("prompt", localException.getMessage());
-        }
-      }
-      if (!str3.equals(""))
-      {
-        str3 = str3.substring(0, str3.length() - 1);
-        str3 = str3 + "‰øÆÊîπÂ§±Ë¥•ÔºÅ";
-      }
-      else
-      {
-        str3 = str3 + "ÊàêÂäü‰øÆÊîπ" + i + "Êù°Á∫™ÂΩïÔºÅ";
-      }
-      paramHttpServletRequest.setAttribute("prompt", str3);
+        return actionmapping.findForward("save");
     }
-    return search(paramActionMapping, paramActionForm, paramHttpServletRequest, paramHttpServletResponse);
-  }
-  
-  public ActionForward chgGroup(ActionMapping paramActionMapping, ActionForm paramActionForm, HttpServletRequest paramHttpServletRequest, HttpServletResponse paramHttpServletResponse)
-    throws Exception
-  {
-    if (this.log.isDebugEnabled()) {
-      this.log.debug("Entering 'chgGroup' method");
-    }
-    CustomerManager localCustomerManager = (CustomerManager)getBean("customerManager");
-    String[] arrayOfString = paramHttpServletRequest.getParameterValues("itemlist");
-    String str1 = paramHttpServletRequest.getParameter("groupID");
-    int i = 0;
-    if (arrayOfString != null)
+
+    public ActionForward delete(ActionMapping actionmapping, ActionForm actionform, HttpServletRequest httpservletrequest, HttpServletResponse httpservletresponse)
+        throws Exception
     {
-      this.log.debug("==ids.length:" + arrayOfString.length);
-      String str3 = "";
-      for (int j = 0; j < arrayOfString.length; j++)
-      {
-        String str2 = arrayOfString[j];
+        if(log.isDebugEnabled())
+            log.debug("Entering 'delete' method");
+        CustomerManager customermanager = (CustomerManager)getBean("customerManager");
+        String as[] = httpservletrequest.getParameterValues("itemlist");
+        int i = 0;
+        if(as != null)
+        {
+            log.debug((new StringBuilder()).append("==ids.length:").append(as.length).toString());
+            String s1 = "";
+            for(int j = 0; j < as.length; j++)
+            {
+                String s = as[j];
+                try
+                {
+                    customermanager.deleteCustomerById(s);
+                    addSysLog(httpservletrequest, (new StringBuilder()).append("…æ≥˝Ωª“◊øÕªß[").append(s).append("]").toString());
+                    i++;
+                    continue;
+                }
+                catch(DataIntegrityViolationException dataintegrityviolationexception)
+                {
+                    dataintegrityviolationexception.printStackTrace();
+                    s1 = (new StringBuilder()).append(s1).append(s).append(",").toString();
+                    continue;
+                }
+                catch(RuntimeException runtimeexception)
+                {
+                    runtimeexception.printStackTrace();
+                }
+                s1 = (new StringBuilder()).append(s1).append(s).append(",").toString();
+            }
+
+            if(!s1.equals(""))
+            {
+                s1 = s1.substring(0, s1.length() - 1);
+                s1 = (new StringBuilder()).append(s1).append("Ωª“◊øÕªßŒ¥ÕÀ –ªÚ”Î∆‰À˚ ˝æ›πÿ¡™£¨≤ªƒ‹…æ≥˝£°").toString();
+            }
+            s1 = (new StringBuilder()).append(s1).append("≥…π¶…æ≥˝").append(i).append("ÃıºÕ¬º£°").toString();
+            httpservletrequest.setAttribute("prompt", s1);
+        }
+        return actionmapping.findForward("chgGroup");
+    }
+
+    public ActionForward updateStatusF(ActionMapping actionmapping, ActionForm actionform, HttpServletRequest httpservletrequest, HttpServletResponse httpservletresponse)
+        throws Exception
+    {
+        CustomerManager customermanager = (CustomerManager)getBean("customerManager");
+        String s = httpservletrequest.getParameter("crud");
+        String as[] = httpservletrequest.getParameterValues("itemlist");
+        if(as != null)
+        {
+            log.debug((new StringBuilder()).append("==ids.length:").append(as.length).toString());
+            Customer customer = new Customer();
+            int i = 0;
+            String s2 = "";
+            for(int j = 0; j < as.length;)
+            {
+                String s1 = as[j];
+                try
+                {
+                    customer.setFirmID(s1);
+                    if("correct".equals(s))
+                        customer.setStatus(Short.valueOf(Short.parseShort("0")));
+                    else
+                    if("incorrect".equals(s))
+                        customer.setStatus(Short.valueOf(Short.parseShort("1")));
+                    else
+                    if("out".equals(s))
+                        customer.setStatus(Short.valueOf(Short.parseShort("2")));
+                    customermanager.updateStatusFirm(customer);
+                    httpservletrequest.setAttribute("ifSave", "save");
+                    addSysLog(httpservletrequest, (new StringBuilder()).append("–ﬁ∏ƒ◊¥Ã¨[").append(s1).append("]").toString());
+                    i++;
+                    continue;
+                }
+                catch(DataIntegrityViolationException dataintegrityviolationexception)
+                {
+                    s2 = (new StringBuilder()).append(s2).append(s1).append(",").toString();
+                    httpservletrequest.setAttribute("prompt", (new StringBuilder()).append("[").append(s1).append("]–ﬁ∏ƒ ß∞‹£°").toString());
+                    continue;
+                }
+                catch(Exception exception)
+                {
+                    log.debug((new StringBuilder()).append("error message: ").append(exception.getMessage()).toString());
+                    httpservletrequest.setAttribute("prompt", exception.getMessage());
+                    j++;
+                }
+            }
+
+            if(!s2.equals(""))
+            {
+                s2 = s2.substring(0, s2.length() - 1);
+                s2 = (new StringBuilder()).append(s2).append("–ﬁ∏ƒ ß∞‹£°").toString();
+            } else
+            {
+                s2 = (new StringBuilder()).append(s2).append("≥…π¶–ﬁ∏ƒ").append(i).append("ÃıºÕ¬º£°").toString();
+            }
+            httpservletrequest.setAttribute("prompt", s2);
+        }
+        return search(actionmapping, actionform, httpservletrequest, httpservletresponse);
+    }
+
+    public ActionForward chgGroup(ActionMapping actionmapping, ActionForm actionform, HttpServletRequest httpservletrequest, HttpServletResponse httpservletresponse)
+        throws Exception
+    {
+        if(log.isDebugEnabled())
+            log.debug("Entering 'chgGroup' method");
+        CustomerManager customermanager = (CustomerManager)getBean("customerManager");
+        String as[] = httpservletrequest.getParameterValues("itemlist");
+        String s = httpservletrequest.getParameter("groupID");
+        int i = 0;
+        if(as != null)
+        {
+            log.debug((new StringBuilder()).append("==ids.length:").append(as.length).toString());
+            String s2 = "";
+            for(int j = 0; j < as.length; j++)
+            {
+                String s1 = as[j];
+                try
+                {
+                    customermanager.chgGroupById(new Long(s), s1);
+                    addSysLog(httpservletrequest, (new StringBuilder()).append("µ˜’˚Ωª“◊øÕªß[").append(s1).append("]÷¡◊È[").append(s).append("]").toString());
+                    i++;
+                }
+                catch(RuntimeException runtimeexception)
+                {
+                    s2 = (new StringBuilder()).append(s2).append(s1).append(",").toString();
+                }
+            }
+
+            if(!s2.equals(""))
+            {
+                s2 = s2.substring(0, s2.length() - 1);
+                s2 = (new StringBuilder()).append(s2).append("µ˜’˚ ß∞‹£°").toString();
+            }
+            s2 = (new StringBuilder()).append(s2).append("≥…π¶µ˜’˚").append(i).append("ÃıºÕ¬º£°").toString();
+            httpservletrequest.setAttribute("prompt", s2);
+        }
+        return actionmapping.findForward("chgGroup");
+    }
+
+    public ActionForward search(ActionMapping actionmapping, ActionForm actionform, HttpServletRequest httpservletrequest, HttpServletResponse httpservletresponse)
+        throws Exception
+    {
+        if(log.isDebugEnabled())
+            log.debug("Entering 'search' method");
+        CustomerManager customermanager = (CustomerManager)getBean("customerManager");
         try
         {
-          localCustomerManager.chgGroupById(new Long(str1), str2);
-          addSysLog(paramHttpServletRequest, "Ë∞ÉÊï¥‰∫§ÊòìÂÆ¢Êà∑[" + str2 + "]Ëá≥ÁªÑ[" + str1 + "]");
-          i++;
+            Customer customer = new Customer();
+            customer.setCustomerID(httpservletrequest.getParameter("firmID"));
+            customer.setCustomerName(httpservletrequest.getParameter("firmName"));
+            List list = customermanager.getCustomers(customer);
+            httpservletrequest.setAttribute("customerList", list);
+            httpservletrequest.setAttribute("CUSTOMER_STATUS", CommonDictionary.CUSTOMER_STATUS);
+            getSelectAttribute(httpservletrequest);
         }
-        catch (RuntimeException localRuntimeException)
+        catch(Exception exception)
         {
-          str3 = str3 + str2 + ",";
+            log.error((new StringBuilder()).append("≤È—ØCustomer±Ì≥ˆ¥Ì£∫").append(exception.getMessage()).toString());
+            httpservletrequest.setAttribute("prompt", exception.getMessage());
         }
-      }
-      if (!str3.equals(""))
-      {
-        str3 = str3.substring(0, str3.length() - 1);
-        str3 = str3 + "Ë∞ÉÊï¥Â§±Ë¥•ÔºÅ";
-      }
-      str3 = str3 + "ÊàêÂäüË∞ÉÊï¥" + i + "Êù°Á∫™ÂΩïÔºÅ";
-      paramHttpServletRequest.setAttribute("prompt", str3);
+        return actionmapping.findForward("list");
     }
-    return paramActionMapping.findForward("chgGroup");
-  }
-  
-  public ActionForward search(ActionMapping paramActionMapping, ActionForm paramActionForm, HttpServletRequest paramHttpServletRequest, HttpServletResponse paramHttpServletResponse)
-    throws Exception
-  {
-    if (this.log.isDebugEnabled()) {
-      this.log.debug("Entering 'search' method");
-    }
-    CustomerManager localCustomerManager = (CustomerManager)getBean("customerManager");
-    try
+
+    public ActionForward searchGroupCustomer(ActionMapping actionmapping, ActionForm actionform, HttpServletRequest httpservletrequest, HttpServletResponse httpservletresponse)
+        throws Exception
     {
-      Customer localCustomer = new Customer();
-      localCustomer.setCustomerID(paramHttpServletRequest.getParameter("firmID"));
-      localCustomer.setCustomerName(paramHttpServletRequest.getParameter("firmName"));
-      List localList = localCustomerManager.getCustomers(localCustomer);
-      paramHttpServletRequest.setAttribute("customerList", localList);
-      paramHttpServletRequest.setAttribute("CUSTOMER_STATUS", CommonDictionary.CUSTOMER_STATUS);
-      getSelectAttribute(paramHttpServletRequest);
-    }
-    catch (Exception localException)
-    {
-      this.log.error("Êü•ËØ¢CustomerË°®Âá∫ÈîôÔºö" + localException.getMessage());
-      paramHttpServletRequest.setAttribute("prompt", localException.getMessage());
-    }
-    return paramActionMapping.findForward("list");
-  }
-  
-  public ActionForward searchGroupCustomer(ActionMapping paramActionMapping, ActionForm paramActionForm, HttpServletRequest paramHttpServletRequest, HttpServletResponse paramHttpServletResponse)
-    throws Exception
-  {
-    if (this.log.isDebugEnabled()) {
-      this.log.debug("Entering 'searchGroupCustomer' method");
-    }
-    CustomerManager localCustomerManager = (CustomerManager)getBean("customerManager");
-    Customer localCustomer = new Customer();
-    String str = paramHttpServletRequest.getParameter("groupID");
-    Long localLong = (str == null) || (str.equals("")) ? null : Long.valueOf(str);
-    localCustomer.setGroupID(localLong);
-    try
-    {
-      List localList = localCustomerManager.getCustomers(localCustomer);
-      paramHttpServletRequest.setAttribute("customerList", localList);
-      paramHttpServletRequest.setAttribute("CUSTOMER_STATUS", CommonDictionary.CUSTOMER_STATUS);
-    }
-    catch (Exception localException)
-    {
-      this.log.error("Êü•ËØ¢CustomerË°®Âá∫ÈîôÔºö" + localException.getMessage());
-      paramHttpServletRequest.setAttribute("prompt", localException.getMessage());
-    }
-    return paramActionMapping.findForward("searchGroupCustomer");
-  }
-  
-  public ActionForward back(ActionMapping paramActionMapping, ActionForm paramActionForm, HttpServletRequest paramHttpServletRequest, HttpServletResponse paramHttpServletResponse)
-    throws Exception
-  {
-    if (this.log.isDebugEnabled()) {
-      this.log.debug("Entering 'back' method");
-    }
-    CustomerManager localCustomerManager = (CustomerManager)getBean("customerManager");
-    Customer localCustomer = new Customer();
-    String str = paramHttpServletRequest.getParameter("customerID");
-    localCustomer.setCustomerID(str);
-    localCustomer.setStatus(Short.valueOf(Short.parseShort("2")));
-    try
-    {
-      localCustomerManager.updateBack(localCustomer);
-    }
-    catch (Exception localException)
-    {
-      this.log.error("Êü•ËØ¢Âá∫ÈîôÔºö" + localException.getMessage());
-      paramHttpServletRequest.setAttribute("prompt", localException.getMessage());
-    }
-    return paramActionMapping.findForward("back");
-  }
-  
-  public ActionForward goback(ActionMapping paramActionMapping, ActionForm paramActionForm, HttpServletRequest paramHttpServletRequest, HttpServletResponse paramHttpServletResponse)
-    throws Exception
-  {
-    if (this.log.isDebugEnabled()) {
-      this.log.debug("Entering 'goback' method");
-    }
-    CustomerManager localCustomerManager = (CustomerManager)getBean("customerManager");
-    Customer localCustomer = new Customer();
-    String str = paramHttpServletRequest.getParameter("customerID");
-    localCustomer.setCustomerID(str);
-    localCustomer.setStatus(Short.valueOf(Short.parseShort("0")));
-    try
-    {
-      localCustomerManager.updateGoBack(localCustomer);
-    }
-    catch (Exception localException)
-    {
-      this.log.error("Êü•ËØ¢CustomerË°®Âá∫ÈîôÔºö" + localException.getMessage());
-      paramHttpServletRequest.setAttribute("prompt", localException.getMessage());
-    }
-    return paramActionMapping.findForward("goback");
-  }
-  
-  public ActionForward unspecified(ActionMapping paramActionMapping, ActionForm paramActionForm, HttpServletRequest paramHttpServletRequest, HttpServletResponse paramHttpServletResponse)
-    throws Exception
-  {
-    return search(paramActionMapping, paramActionForm, paramHttpServletRequest, paramHttpServletResponse);
-  }
-  
-  public ActionForward searchKH(ActionMapping paramActionMapping, ActionForm paramActionForm, HttpServletRequest paramHttpServletRequest, HttpServletResponse paramHttpServletResponse)
-    throws Exception
-  {
-    if (this.log.isDebugEnabled()) {
-      this.log.debug("Entering 'searchKH' method");
-    }
-    CustomerManager localCustomerManager = (CustomerManager)getBean("customerManager");
-    String str = paramHttpServletRequest.getParameter("isQry") == null ? "1" : paramHttpServletRequest.getParameter("isQry");
-    try
-    {
-      if (str.equals("1"))
-      {
-        Customer localCustomer = new Customer();
-        localCustomer.setCustomerID(paramHttpServletRequest.getParameter("firmID"));
-        List localList = localCustomerManager.getKHCustomers(localCustomer);
-        paramHttpServletRequest.setAttribute("customerList", localList);
-      }
-      paramHttpServletRequest.setAttribute("CUSTOMER_STATUS", CommonDictionary.CUSTOMER_STATUS);
-      getSelectAttribute(paramHttpServletRequest);
-    }
-    catch (Exception localException)
-    {
-      this.log.error("Êü•ËØ¢CustomerË°®Âá∫ÈîôÔºö" + localException.getMessage());
-      paramHttpServletRequest.setAttribute("prompt", localException.getMessage());
-    }
-    return paramActionMapping.findForward("listKH");
-  }
-  
-  public ActionForward customerQuery(ActionMapping paramActionMapping, ActionForm paramActionForm, HttpServletRequest paramHttpServletRequest, HttpServletResponse paramHttpServletResponse)
-    throws Exception
-  {
-    if (this.log.isDebugEnabled()) {
-      this.log.debug("Entering 'customerQuery' method");
-    }
-    CustomerForm localCustomerForm = (CustomerForm)paramActionForm;
-    CustomerManager localCustomerManager = (CustomerManager)getBean("customerManager");
-    Customer localCustomer = new Customer();
-    try
-    {
-      localCustomer.setCustomerID(localCustomerForm.getCustomerID());
-      localCustomer.setCustomerName(localCustomerForm.getCustomerName());
-      List localList = localCustomerManager.customerQuery(localCustomer);
-      paramHttpServletRequest.setAttribute("customerList", localList);
-    }
-    catch (Exception localException)
-    {
-      this.log.error("Êü•ËØ¢CustomerË°®Âá∫ÈîôÔºö" + localException.getMessage());
-      paramHttpServletRequest.setAttribute("prompt", localException.getMessage());
-    }
-    return paramActionMapping.findForward("list");
-  }
-  
-  public ActionForward customerChg(ActionMapping paramActionMapping, ActionForm paramActionForm, HttpServletRequest paramHttpServletRequest, HttpServletResponse paramHttpServletResponse)
-    throws Exception
-  {
-    if (this.log.isDebugEnabled()) {
-      this.log.debug("Entering 'customerChg' method");
-    }
-    CustomerManager localCustomerManager = (CustomerManager)getBean("customerManager");
-    TradePropsManager localTradePropsManager = (TradePropsManager)getBean("tradePropsManager");
-    String str1 = "";
-    String str2 = paramHttpServletRequest.getParameter("forwardName") == null ? "" : paramHttpServletRequest.getParameter("forwardName").trim();
-    String str3 = paramHttpServletRequest.getParameter("customerID") == null ? "" : paramHttpServletRequest.getParameter("customerID").trim();
-    try
-    {
-      if (str3.contains(","))
-      {
-        ArrayList localArrayList1 = new ArrayList();
-        ArrayList localArrayList2 = new ArrayList();
-        paramHttpServletRequest.setAttribute("customerID", str3);
-        for (String str4 : str3.split(","))
-        {
-          Customer localCustomer = localCustomerManager.getCustomerById(str4);
-          if ((localCustomer == null) || (localCustomer.getCustomerID() == null) || ("".equals(localCustomer.getCustomerID())))
-          {
-            paramHttpServletRequest.setAttribute("prompt", "‰∫§ÊòìÂïÜ‰ª£Á†Å" + str4 + "‰∏çÂ≠òÂú®ÔºÅ");
-            paramHttpServletRequest.setAttribute("customerID", str1);
-            break;
-          }
-          localArrayList1.add(localCustomer);
-          localArrayList2.add(localCustomerManager.getCustomerFundsById(str4));
-          str1 = str1 + str4 + ",";
-        }
-        paramHttpServletRequest.setAttribute("customerList", localArrayList1);
-        paramHttpServletRequest.setAttribute("customerFundsList", localArrayList2);
-      }
-      else
-      {
-        paramHttpServletRequest.setAttribute("customer", localCustomerManager.getCustomerById(str3));
-        if (paramHttpServletRequest.getAttribute("customer") != null)
-        {
-          ??? = (Customer)paramHttpServletRequest.getAttribute("customer");
-          if ((??? == null) || (((Customer)???).getCustomerID() == null) || ("".equals(((Customer)???).getCustomerID()))) {
-            paramHttpServletRequest.setAttribute("prompt", "‰∫§ÊòìÂïÜ‰ª£Á†Å‰∏çÂ≠òÂú®ÔºÅ");
-          }
-        }
-        paramHttpServletRequest.setAttribute("customerFunds", localCustomerManager.getCustomerFundsById(str3));
-      }
-    }
-    catch (Exception localException)
-    {
-      localException.printStackTrace();
-      this.log.error("Êü•ËØ¢CustomerÊàñCustomerFundsË°®Âá∫ÈîôÔºö" + localException.getMessage());
-      paramHttpServletRequest.setAttribute("prompt", localException.getMessage());
-      return paramActionMapping.findForward(str2);
-    }
-    return paramActionMapping.findForward(str2);
-  }
-  
-  public ActionForward saveVirtualFund(ActionMapping paramActionMapping, ActionForm paramActionForm, HttpServletRequest paramHttpServletRequest, HttpServletResponse paramHttpServletResponse)
-    throws Exception
-  {
-    if (this.log.isDebugEnabled()) {
-      this.log.debug("Entering 'saveVirtualFund' method");
-    }
-    CustomerManager localCustomerManager = (CustomerManager)getBean("customerManager");
-    String str1 = paramHttpServletRequest.getParameter("customerID");
-    String str2 = paramHttpServletRequest.getParameter("addVirtualFunds");
-    if ((str2 == null) || (str2.trim().equals(""))) {
-      str2 = "0";
-    }
-    try
-    {
-      localCustomerManager.addCustomerVirtualFunds(str1, Double.valueOf(str2));
-      addSysLog(paramHttpServletRequest, "02", "‰∏∫ÂÆ¢Êà∑‰ª£Á†Å" + str1 + "ÂÖ•ËôöÊãüËµÑÈáë" + str2);
-    }
-    catch (Exception localException)
-    {
-      this.log.error("===>save errÔºö" + localException);
-      paramHttpServletRequest.setAttribute("prompt", localException.getMessage());
-    }
-    return paramActionMapping.findForward("saveVirtualFund");
-  }
-  
-  public ActionForward searchVirtualFund(ActionMapping paramActionMapping, ActionForm paramActionForm, HttpServletRequest paramHttpServletRequest, HttpServletResponse paramHttpServletResponse)
-    throws Exception
-  {
-    if (this.log.isDebugEnabled()) {
-      this.log.debug("Entering 'searchVirtualFund' method");
-    }
-    CustomerManager localCustomerManager = (CustomerManager)getBean("customerManager");
-    try
-    {
-      List localList = localCustomerManager.customerQuery(null);
-      paramHttpServletRequest.setAttribute("virtualFundList", localList);
-    }
-    catch (Exception localException)
-    {
-      this.log.error("Êü•ËØ¢CustomerFundsË°®Âá∫ÈîôÔºö" + localException.getMessage());
-      paramHttpServletRequest.setAttribute("prompt", localException.getMessage());
-    }
-    return paramActionMapping.findForward("listVirtualFund");
-  }
-  
-  public ActionForward applyWaitList(ActionMapping paramActionMapping, ActionForm paramActionForm, HttpServletRequest paramHttpServletRequest, HttpServletResponse paramHttpServletResponse)
-    throws Exception
-  {
-    if (this.log.isDebugEnabled()) {
-      this.log.debug("Entering 'applyWaitList' method");
-    }
-    CustomerManager localCustomerManager = (CustomerManager)getBean("customerManager");
-    Customer localCustomer = new Customer();
-    try
-    {
-      String str1 = paramHttpServletRequest.getParameter("firmID");
-      String str2 = paramHttpServletRequest.getParameter("applyID");
-      String str3 = "";
-      localCustomer.setFirmID(str1);
-      if ((str2 != null) && (!"".equals(str2))) {
-        localCustomer.setApplyID(Long.valueOf(Long.parseLong(str2)));
-      }
-      List localList = localCustomerManager.getApplyWaitList(localCustomer);
-      paramHttpServletRequest.setAttribute("applyWaitList", localList);
-      paramHttpServletRequest.setAttribute("PRESENTSTATUS", CommonDictionary.PRESENTSTATUS);
-    }
-    catch (Exception localException)
-    {
-      this.log.error("Êü•ËØ¢CustomerFundsË°®Âá∫ÈîôÔºö" + localException.getMessage());
-      paramHttpServletRequest.setAttribute("prompt", localException.getMessage());
-    }
-    return paramActionMapping.findForward("virtualFundAppWaitList");
-  }
-  
-  public ActionForward applyAlreadyList(ActionMapping paramActionMapping, ActionForm paramActionForm, HttpServletRequest paramHttpServletRequest, HttpServletResponse paramHttpServletResponse)
-    throws Exception
-  {
-    if (this.log.isDebugEnabled()) {
-      this.log.debug("Entering 'applyAlreadyList' method");
-    }
-    CustomerManager localCustomerManager = (CustomerManager)getBean("customerManager");
-    Customer localCustomer = new Customer();
-    try
-    {
-      String str1 = paramHttpServletRequest.getParameter("firmID");
-      String str2 = paramHttpServletRequest.getParameter("applyID");
-      String str3 = "";
-      localCustomer.setFirmID(str1);
-      if ((str2 != null) && (!"".equals(str2))) {
-        localCustomer.setApplyID(Long.valueOf(Long.parseLong(str2)));
-      }
-      List localList = localCustomerManager.getApplyAlreadyList(localCustomer);
-      paramHttpServletRequest.setAttribute("applyAlreadyList", localList);
-      paramHttpServletRequest.setAttribute("PRESENTSTATUS", CommonDictionary.PRESENTSTATUS);
-    }
-    catch (Exception localException)
-    {
-      this.log.error("Êü•ËØ¢CustomerFundsË°®Âá∫ÈîôÔºö" + localException.getMessage());
-      paramHttpServletRequest.setAttribute("prompt", localException.getMessage());
-    }
-    return paramActionMapping.findForward("virtualFundAppAlreadyList");
-  }
-  
-  public ActionForward saveNewApp(ActionMapping paramActionMapping, ActionForm paramActionForm, HttpServletRequest paramHttpServletRequest, HttpServletResponse paramHttpServletResponse)
-    throws Exception
-  {
-    if (this.log.isDebugEnabled()) {
-      this.log.debug("Entering 'saveNewApp' method");
-    }
-    CustomerForm localCustomerForm = (CustomerForm)paramActionForm;
-    CustomerManager localCustomerManager = (CustomerManager)getBean("customerManager");
-    Customer localCustomer = new Customer();
-    BeanUtils.copyProperties(localCustomer, localCustomerForm);
-    try
-    {
-      String str = AclCtrl.getLogonID(paramHttpServletRequest);
-      if ((str != null) && (!"".equals(str))) {
-        localCustomer.setCreator(str);
-      }
-      localCustomerManager.insertNewApp(localCustomer);
-      addSysLog(paramHttpServletRequest, "Â¢ûÂä†ËôöÊãüËµÑÈáëÁî≥ËØ∑ÔºÅ");
-    }
-    catch (Exception localException)
-    {
-      this.log.error("Êü•ËØ¢virtualfundsapplyË°®Âá∫ÈîôÔºö" + localException.getMessage());
-      paramHttpServletRequest.setAttribute("prompt", localException.getMessage());
-    }
-    return paramActionMapping.findForward("saveNewApp");
-  }
-  
-  public ActionForward applyWaitCheList(ActionMapping paramActionMapping, ActionForm paramActionForm, HttpServletRequest paramHttpServletRequest, HttpServletResponse paramHttpServletResponse)
-    throws Exception
-  {
-    if (this.log.isDebugEnabled()) {
-      this.log.debug("Entering 'applyWaitCheList' method");
-    }
-    CustomerManager localCustomerManager = (CustomerManager)getBean("customerManager");
-    Customer localCustomer = new Customer();
-    String str1 = (String)paramHttpServletRequest.getAttribute("save");
-    try
-    {
-      Object localObject;
-      if ("save".equals(str1))
-      {
-        localObject = localCustomerManager.getApplyWaitList(localCustomer);
-        paramHttpServletRequest.setAttribute("applyWaitCheList", localObject);
-        paramHttpServletRequest.setAttribute("PRESENTSTATUS", CommonDictionary.PRESENTSTATUS);
-      }
-      else
-      {
-        localObject = paramHttpServletRequest.getParameter("firmID");
-        String str2 = paramHttpServletRequest.getParameter("applyID");
-        localCustomer.setFirmID((String)localObject);
-        if ((str2 != null) && (!"".equals(str2))) {
-          localCustomer.setApplyID(Long.valueOf(Long.parseLong(str2)));
-        }
-        List localList = localCustomerManager.getApplyWaitList(localCustomer);
-        paramHttpServletRequest.setAttribute("applyWaitCheList", localList);
-        paramHttpServletRequest.setAttribute("PRESENTSTATUS", CommonDictionary.PRESENTSTATUS);
-      }
-    }
-    catch (Exception localException)
-    {
-      this.log.error("Êü•ËØ¢CustomerFundsË°®Âá∫ÈîôÔºö" + localException.getMessage());
-      paramHttpServletRequest.setAttribute("prompt", localException.getMessage());
-    }
-    return paramActionMapping.findForward("virtualFundApplyWaitCheList");
-  }
-  
-  public ActionForward applyCheAlreadyList(ActionMapping paramActionMapping, ActionForm paramActionForm, HttpServletRequest paramHttpServletRequest, HttpServletResponse paramHttpServletResponse)
-    throws Exception
-  {
-    if (this.log.isDebugEnabled()) {
-      this.log.debug("Entering 'applyCheAlreadyList' method");
-    }
-    CustomerManager localCustomerManager = (CustomerManager)getBean("customerManager");
-    Customer localCustomer = new Customer();
-    try
-    {
-      String str1 = paramHttpServletRequest.getParameter("firmID");
-      String str2 = paramHttpServletRequest.getParameter("applyID");
-      localCustomer.setFirmID(str1);
-      if ((str2 != null) && (!"".equals(str2))) {
-        localCustomer.setApplyID(Long.valueOf(Long.parseLong(str2)));
-      }
-      List localList = localCustomerManager.getApplyAlreadyList(localCustomer);
-      paramHttpServletRequest.setAttribute("applyCheAlreadyList", localList);
-      paramHttpServletRequest.setAttribute("PRESENTSTATUS", CommonDictionary.PRESENTSTATUS);
-    }
-    catch (Exception localException)
-    {
-      this.log.error("Êü•ËØ¢CustomerFundsË°®Âá∫ÈîôÔºö" + localException.getMessage());
-      paramHttpServletRequest.setAttribute("prompt", localException.getMessage());
-    }
-    return paramActionMapping.findForward("virtualFundApplyCheAlreadyList");
-  }
-  
-  public ActionForward waitSuccessCheck(ActionMapping paramActionMapping, ActionForm paramActionForm, HttpServletRequest paramHttpServletRequest, HttpServletResponse paramHttpServletResponse)
-    throws Exception
-  {
-    if (this.log.isDebugEnabled()) {
-      this.log.debug("Entering 'waitSuccessCheck' method");
-    }
-    CustomerManager localCustomerManager = (CustomerManager)getBean("customerManager");
-    Customer localCustomer = new Customer();
-    try
-    {
-      String str1 = paramHttpServletRequest.getParameter("type");
-      if ("1".equals(str1)) {
-        localCustomer.setStatus(Short.valueOf(Short.parseShort("2")));
-      } else if ("2".equals(str1)) {
-        localCustomer.setStatus(Short.valueOf(Short.parseShort("3")));
-      }
-      String str2 = paramHttpServletRequest.getParameter("remark2");
-      String str3 = paramHttpServletRequest.getParameter("applyID");
-      if ((str3 != null) && (!"".equals(str3))) {
-        localCustomer.setApplyID(Long.valueOf(Long.parseLong(str3)));
-      }
-      localCustomer.setRemark2(str2);
-      String str4 = AclCtrl.getLogonID(paramHttpServletRequest);
-      localCustomer.setCreator(str4);
-      String str5 = paramHttpServletRequest.getParameter("virtualFunds");
-      String str6 = paramHttpServletRequest.getParameter("firmID");
-      Double localDouble = null;
-      if ((str5 != null) && (!"".equals(str5))) {
-        localDouble = Double.valueOf(Double.parseDouble(str5));
-      } else {
-        localDouble = Double.valueOf(Double.parseDouble("0"));
-      }
-      if ("1".equals(str1)) {
+        if(log.isDebugEnabled())
+            log.debug("Entering 'searchGroupCustomer' method");
+        CustomerManager customermanager = (CustomerManager)getBean("customerManager");
+        Customer customer = new Customer();
+        String s = httpservletrequest.getParameter("groupID");
+        Long long1 = s != null && !s.equals("") ? Long.valueOf(s) : null;
+        customer.setGroupID(long1);
         try
         {
-          localCustomerManager.addCustomerVirtualFunds(str6, localDouble);
-          paramHttpServletRequest.setAttribute("prompt", "ËøΩÂä†ËôöÊãüËµÑÈáëÊàêÂäüÔºÅ");
-          paramHttpServletRequest.setAttribute("save", "save");
+            List list = customermanager.getCustomers(customer);
+            httpservletrequest.setAttribute("customerList", list);
+            httpservletrequest.setAttribute("CUSTOMER_STATUS", CommonDictionary.CUSTOMER_STATUS);
         }
-        catch (Exception localException2)
+        catch(Exception exception)
         {
-          throw new RuntimeException("ËøΩÂä†ËôöÊãüËµÑÈáëÂ§±Ë¥•ÔºÅ");
+            log.error((new StringBuilder()).append("≤È—ØCustomer±Ì≥ˆ¥Ì£∫").append(exception.getMessage()).toString());
+            httpservletrequest.setAttribute("prompt", exception.getMessage());
         }
-      }
-      try
-      {
-        localCustomerManager.CheckVirtual(localCustomer);
-        paramHttpServletRequest.setAttribute("prompt", "ÂÆ°Ê†∏ÊàêÂäüÔºÅ");
-        paramHttpServletRequest.setAttribute("save", "save");
-      }
-      catch (Exception localException3)
-      {
-        throw new RuntimeException("ÂÆ°Ê†∏Â§±Ë¥•ÔºÅ");
-      }
+        return actionmapping.findForward("searchGroupCustomer");
     }
-    catch (Exception localException1)
+
+    public ActionForward back(ActionMapping actionmapping, ActionForm actionform, HttpServletRequest httpservletrequest, HttpServletResponse httpservletresponse)
+        throws Exception
     {
-      localException1.printStackTrace();
-      this.log.error("Êü•ËØ¢CustomerFundsË°®Âá∫ÈîôÔºö" + localException1.getMessage());
-      paramHttpServletRequest.setAttribute("prompt", localException1.getMessage());
-    }
-    return applyWaitCheList(paramActionMapping, paramActionForm, paramHttpServletRequest, paramHttpServletResponse);
-  }
-  
-  public ActionForward firmPrivilege(ActionMapping paramActionMapping, ActionForm paramActionForm, HttpServletRequest paramHttpServletRequest, HttpServletResponse paramHttpServletResponse)
-    throws Exception
-  {
-    if (this.log.isDebugEnabled()) {
-      this.log.debug("Entering 'firmPrivilege' method");
-    }
-    CustomerManager localCustomerManager = (CustomerManager)getBean("customerManager");
-    Customer localCustomer = new Customer();
-    try
-    {
-      String str1 = (String)paramHttpServletRequest.getAttribute("save");
-      String str2;
-      List localList;
-      if ("save".equals(str1))
-      {
-        str2 = (String)paramHttpServletRequest.getAttribute("firmID");
-        if ((str2 != null) && (!"".equals(str2))) {
-          localCustomer.setFirmID(str2);
-        }
-        localList = localCustomerManager.getFirmPrivilege(localCustomer);
-        paramHttpServletRequest.setAttribute("privilegeList", localList);
-        paramHttpServletRequest.setAttribute("firmID", str2);
-      }
-      else
-      {
-        str2 = paramHttpServletRequest.getParameter("firmID");
-        if ((str2 != null) && (!"".equals(str2))) {
-          localCustomer.setFirmID(str2);
-        }
-        localList = localCustomerManager.getFirmPrivilege(localCustomer);
-        paramHttpServletRequest.setAttribute("privilegeList", localList);
-        paramHttpServletRequest.setAttribute("firmID", str2);
-      }
-      paramHttpServletRequest.setAttribute("FIRMPRIVILEGE_B", CommonDictionary.FIRMPRIVILEGE_B);
-      paramHttpServletRequest.setAttribute("FIRMPRIVILEGE_S", CommonDictionary.FIRMPRIVILEGE_S);
-    }
-    catch (Exception localException)
-    {
-      this.log.error("Êü•ËØ¢TradePrivilegeË°®Âá∫ÈîôÔºö" + localException.getMessage());
-      paramHttpServletRequest.setAttribute("prompt", localException.getMessage());
-    }
-    return paramActionMapping.findForward("firmPrivilegeList");
-  }
-  
-  public ActionForward updateFirmPrivilege(ActionMapping paramActionMapping, ActionForm paramActionForm, HttpServletRequest paramHttpServletRequest, HttpServletResponse paramHttpServletResponse)
-    throws Exception
-  {
-    if (this.log.isDebugEnabled()) {
-      this.log.debug("Entering 'updateFirmPrivilege' method");
-    }
-    CustomerForm localCustomerForm = (CustomerForm)paramActionForm;
-    String str1 = paramHttpServletRequest.getParameter("id");
-    String str2 = paramHttpServletRequest.getParameter("crud");
-    CustomerManager localCustomerManager = (CustomerManager)getBean("customerManager");
-    Customer localCustomer = null;
-    if ("update".equals(str2))
-    {
-      localObject = new Customer();
-      if ((str1 != null) && (!"".equals(str1))) {
-        ((Customer)localObject).setId(Short.valueOf(Short.parseShort(str1)));
-      }
-      localCustomer = localCustomerManager.getFirmPrivilegeById((Customer)localObject);
-    }
-    else if ("create".equals(str2))
-    {
-      localCustomer = new Customer();
-      localObject = paramHttpServletRequest.getParameter("firmID");
-      localCustomer.setTypeID((String)localObject);
-    }
-    BeanUtils.copyProperties(localCustomerForm, localCustomer);
-    Object localObject = "";
-    if (localCustomer.getKind() != null)
-    {
-      if ("1".equals(localCustomer.getKind().toString()))
-      {
-        localObject = "1";
-        localCustomerForm.setKindID(localCustomer.getKindID());
-      }
-      if ("2".equals(localCustomer.getKind().toString()))
-      {
-        localObject = "2";
-        localCustomerForm.setCommodityID(localCustomer.getKindID());
-      }
-      localCustomerForm.setKind(localCustomer.getKind().toString());
-      if ("".equals(localCustomer.getKind().toString())) {
-        localObject = " ";
-      }
-    }
-    paramHttpServletRequest.setAttribute("type", localObject);
-    localCustomerForm.setCrud(str2);
-    updateFormBean(paramActionMapping, paramHttpServletRequest, localCustomerForm);
-    return paramActionMapping.findForward("updateFirmPrivilege");
-  }
-  
-  public ActionForward saveFirmPrivilege(ActionMapping paramActionMapping, ActionForm paramActionForm, HttpServletRequest paramHttpServletRequest, HttpServletResponse paramHttpServletResponse)
-    throws Exception
-  {
-    if (this.log.isDebugEnabled()) {
-      this.log.debug("Entering 'saveFirmPrivilege' method");
-    }
-    CustomerForm localCustomerForm = (CustomerForm)paramActionForm;
-    String str = localCustomerForm.getCrud();
-    CustomerManager localCustomerManager = (CustomerManager)getBean("customerManager");
-    Customer localCustomer = (Customer)convert(localCustomerForm);
-    if ((localCustomerForm.getKind() != null) && (!"".equals(localCustomerForm.getKind())))
-    {
-      if ("1".equals(localCustomerForm.getKind())) {
-        localCustomer.setKindID(localCustomerForm.getKindID());
-      }
-      if ("2".equals(localCustomerForm.getKind())) {
-        localCustomer.setKindID(localCustomerForm.getCommodityID());
-      }
-    }
-    try
-    {
-      if (str.trim().equals("create"))
-      {
-        localCustomerManager.insertFirmPrivilege(localCustomer);
-        paramHttpServletRequest.setAttribute("prompt", "Êìç‰ΩúÊàêÂäü");
-        addSysLog(paramHttpServletRequest, "Â¢ûÂä†‰∫§ÊòìÂïÜÊùÉÈôê[" + localCustomer.getTypeID() + "]");
-      }
-      else if (str.trim().equals("update"))
-      {
-        localCustomerManager.updateFirmPrivilege(localCustomer);
-        paramHttpServletRequest.setAttribute("prompt", "Êìç‰ΩúÊàêÂäü");
-        addSysLog(paramHttpServletRequest, "‰øÆÊîπ‰∫§ÊòìÂïÜÊùÉÈôê[" + localCustomer.getTypeID() + "]");
-      }
-      paramHttpServletRequest.setAttribute("save", "save");
-      paramHttpServletRequest.setAttribute("firmID", localCustomer.getTypeID());
-    }
-    catch (Exception localException)
-    {
-      localException.printStackTrace();
-      this.log.error("===>save errÔºö" + localException);
-      paramHttpServletRequest.setAttribute("prompt", localException.getMessage());
-    }
-    return paramActionMapping.findForward("saveFirmPrivilege");
-  }
-  
-  public ActionForward batchSetSaveFirmPrivilege(ActionMapping paramActionMapping, ActionForm paramActionForm, HttpServletRequest paramHttpServletRequest, HttpServletResponse paramHttpServletResponse)
-    throws Exception
-  {
-    if (this.log.isDebugEnabled()) {
-      this.log.debug("Entering 'batchSstSaveFirmPrivilege' method");
-    }
-    String str1 = paramHttpServletRequest.getParameter("Code") == null ? "" : paramHttpServletRequest.getParameter("Code").trim();
-    String str2 = paramHttpServletRequest.getParameter("codes") == null ? "" : paramHttpServletRequest.getParameter("codes").trim();
-    String str3 = paramHttpServletRequest.getParameter("goods") == null ? "" : paramHttpServletRequest.getParameter("goods").trim();
-    String[] arrayOfString1 = null;
-    String[] arrayOfString2 = null;
-    String str4 = "";
-    if ("1".equals(str3))
-    {
-      arrayOfString1 = (String[])(paramHttpServletRequest.getParameterValues("breed").length == 0 ? "" : paramHttpServletRequest.getParameterValues("breed"));
-      for (i = 0; i < arrayOfString1.length; i++) {
-        if (i == arrayOfString1.length) {
-          str4 = str4 + arrayOfString1[i];
-        } else {
-          str4 = str4 + arrayOfString1[i] + ",";
-        }
-      }
-    }
-    else
-    {
-      arrayOfString2 = (String[])(paramHttpServletRequest.getParameterValues("commodity").length == 0 ? "" : paramHttpServletRequest.getParameterValues("commodity"));
-      for (i = 0; i < arrayOfString2.length; i++) {
-        if (i == arrayOfString2.length) {
-          str4 = str4 + arrayOfString2[i];
-        } else {
-          str4 = str4 + arrayOfString2[i] + ",";
-        }
-      }
-    }
-    int i = Integer.parseInt(str1);
-    int j = Integer.parseInt(str3);
-    CustomerForm localCustomerForm = (CustomerForm)paramActionForm;
-    String str5 = localCustomerForm.getCrud();
-    CustomerManager localCustomerManager = (CustomerManager)getBean("customerManager");
-    if (str5.trim().equals("save"))
-    {
-      int k = Integer.parseInt(localCustomerForm.getPrivilegeCode_B());
-      int m = Integer.parseInt(localCustomerForm.getPrivilegeCode_S());
-      localCustomerManager.batchEmptyDeleteFirmPrivilege(i, str2, j, str4);
-      localCustomerManager.batchSetInsertFirmPrivilege(i, str2, j, str4, k, m);
-    }
-    else if (str5.trim().equals("empty"))
-    {
-      localCustomerManager.batchEmptyDeleteFirmPrivilege(i, str2, j, str4);
-    }
-    paramHttpServletRequest.setAttribute("prompt", "Êìç‰ΩúÊàêÂäü");
-    addSysLog(paramHttpServletRequest, "ÊâπÈáè" + str5 + "‰∫§ÊòìÂïÜÊùÉÈôê[" + "typeIdString" + "]");
-    return paramActionMapping.findForward("batchSstSaveFirmPrivilege");
-  }
-  
-  public ActionForward deleteFirmPrivilege(ActionMapping paramActionMapping, ActionForm paramActionForm, HttpServletRequest paramHttpServletRequest, HttpServletResponse paramHttpServletResponse)
-    throws Exception
-  {
-    if (this.log.isDebugEnabled()) {
-      this.log.debug("Entering 'deleteFirmPrivilege' method");
-    }
-    CustomerManager localCustomerManager = (CustomerManager)getBean("customerManager");
-    String[] arrayOfString = paramHttpServletRequest.getParameterValues("itemlist");
-    int i = 0;
-    if (arrayOfString != null)
-    {
-      this.log.debug("==ids.length:" + arrayOfString.length);
-      String str2 = "";
-      for (int j = 0; j < arrayOfString.length; j++)
-      {
-        String str1 = arrayOfString[j];
+        if(log.isDebugEnabled())
+            log.debug("Entering 'back' method");
+        CustomerManager customermanager = (CustomerManager)getBean("customerManager");
+        Customer customer = new Customer();
+        String s = httpservletrequest.getParameter("customerID");
+        customer.setCustomerID(s);
+        customer.setStatus(Short.valueOf(Short.parseShort("2")));
         try
         {
-          localCustomerManager.deleteFirmPrivilegeById(str1);
-          addSysLog(paramHttpServletRequest, "Âà†Èô§‰∫§ÊòìÂïÜÊùÉÈôê[" + str1 + "]");
-          i++;
+            customermanager.updateBack(customer);
         }
-        catch (DataIntegrityViolationException localDataIntegrityViolationException)
+        catch(Exception exception)
         {
-          localDataIntegrityViolationException.printStackTrace();
-          str2 = str2 + str1 + ",";
+            log.error((new StringBuilder()).append("≤È—Ø≥ˆ¥Ì£∫").append(exception.getMessage()).toString());
+            httpservletrequest.setAttribute("prompt", exception.getMessage());
         }
-        catch (RuntimeException localRuntimeException)
+        return actionmapping.findForward("back");
+    }
+
+    public ActionForward goback(ActionMapping actionmapping, ActionForm actionform, HttpServletRequest httpservletrequest, HttpServletResponse httpservletresponse)
+        throws Exception
+    {
+        if(log.isDebugEnabled())
+            log.debug("Entering 'goback' method");
+        CustomerManager customermanager = (CustomerManager)getBean("customerManager");
+        Customer customer = new Customer();
+        String s = httpservletrequest.getParameter("customerID");
+        customer.setCustomerID(s);
+        customer.setStatus(Short.valueOf(Short.parseShort("0")));
+        try
         {
-          localRuntimeException.printStackTrace();
-          str2 = str2 + str1 + ",";
+            customermanager.updateGoBack(customer);
         }
-      }
-      str2 = str2 + "ÊàêÂäüÂà†Èô§" + i + "Êù°Á∫™ÂΩïÔºÅ";
-      paramHttpServletRequest.setAttribute("prompt", str2);
-      String str3 = paramHttpServletRequest.getParameter("firmID");
-      paramHttpServletRequest.setAttribute("save", "save");
-      paramHttpServletRequest.setAttribute("firmID", str3);
+        catch(Exception exception)
+        {
+            log.error((new StringBuilder()).append("≤È—ØCustomer±Ì≥ˆ¥Ì£∫").append(exception.getMessage()).toString());
+            httpservletrequest.setAttribute("prompt", exception.getMessage());
+        }
+        return actionmapping.findForward("goback");
     }
-    return firmPrivilege(paramActionMapping, paramActionForm, paramHttpServletRequest, paramHttpServletResponse);
-  }
-  
-  public ActionForward typePrivilegeList(ActionMapping paramActionMapping, ActionForm paramActionForm, HttpServletRequest paramHttpServletRequest, HttpServletResponse paramHttpServletResponse)
-    throws Exception
-  {
-    if (this.log.isDebugEnabled()) {
-      this.log.debug("Entering 'typePrivilegeList' method");
-    }
-    CustomerManager localCustomerManager = (CustomerManager)getBean("customerManager");
-    Customer localCustomer = new Customer();
-    try
+
+    public ActionForward unspecified(ActionMapping actionmapping, ActionForm actionform, HttpServletRequest httpservletrequest, HttpServletResponse httpservletresponse)
+        throws Exception
     {
-      String str1 = paramHttpServletRequest.getParameter("kindID");
-      String str2 = paramHttpServletRequest.getParameter("typeID");
-      localCustomer.setKindID(str1);
-      localCustomer.setTypeID(str2);
-      List localList = localCustomerManager.getTypePrivilege(localCustomer);
-      paramHttpServletRequest.setAttribute("typePrivilegeList", localList);
-      paramHttpServletRequest.setAttribute("FIRMPRIVILEGE_B", CommonDictionary.FIRMPRIVILEGE_B);
-      paramHttpServletRequest.setAttribute("FIRMPRIVILEGE_S", CommonDictionary.FIRMPRIVILEGE_S);
-      paramHttpServletRequest.setAttribute("KIND", CommonDictionary.KIND);
-      paramHttpServletRequest.setAttribute("TYPE", CommonDictionary.TYPE);
+        return search(actionmapping, actionform, httpservletrequest, httpservletresponse);
     }
-    catch (Exception localException)
+
+    public ActionForward searchKH(ActionMapping actionmapping, ActionForm actionform, HttpServletRequest httpservletrequest, HttpServletResponse httpservletresponse)
+        throws Exception
     {
-      this.log.error("Êü•ËØ¢TradePrivilegeË°®Âá∫ÈîôÔºö" + localException.getMessage());
-      paramHttpServletRequest.setAttribute("prompt", localException.getMessage());
+        if(log.isDebugEnabled())
+            log.debug("Entering 'searchKH' method");
+        CustomerManager customermanager = (CustomerManager)getBean("customerManager");
+        String s = httpservletrequest.getParameter("isQry") != null ? httpservletrequest.getParameter("isQry") : "1";
+        try
+        {
+            if(s.equals("1"))
+            {
+                Customer customer = new Customer();
+                customer.setCustomerID(httpservletrequest.getParameter("firmID"));
+                List list = customermanager.getKHCustomers(customer);
+                httpservletrequest.setAttribute("customerList", list);
+            }
+            httpservletrequest.setAttribute("CUSTOMER_STATUS", CommonDictionary.CUSTOMER_STATUS);
+            getSelectAttribute(httpservletrequest);
+        }
+        catch(Exception exception)
+        {
+            log.error((new StringBuilder()).append("≤È—ØCustomer±Ì≥ˆ¥Ì£∫").append(exception.getMessage()).toString());
+            httpservletrequest.setAttribute("prompt", exception.getMessage());
+        }
+        return actionmapping.findForward("listKH");
     }
-    return paramActionMapping.findForward("typePrivilegeList");
-  }
-  
-  private void getSelectAttribute(HttpServletRequest paramHttpServletRequest)
-    throws Exception
-  {
-    LookupManager localLookupManager = (LookupManager)getBean("lookupManager");
-    paramHttpServletRequest.setAttribute("commoditySelect", localLookupManager.getSelectLabelValueByTable("T_commodity", "commodityID", "commodityID", " order by commodityID "));
-  }
-  
-  private void getSelectAttributeBreed(HttpServletRequest paramHttpServletRequest)
-    throws Exception
-  {
-    LookupManager localLookupManager = (LookupManager)getBean("lookupManager");
-  }
-  
-  private void getMarketSelectAttribute(HttpServletRequest paramHttpServletRequest)
-    throws Exception
-  {
-    LookupManager localLookupManager = (LookupManager)getBean("lookupManager");
-    paramHttpServletRequest.setAttribute("marketSelect", localLookupManager.getSelectLabelValueByTable("Market", "MarketName", "MarketCode", " where Status=1 order by MarketCode"));
-  }
+
+    public ActionForward customerQuery(ActionMapping actionmapping, ActionForm actionform, HttpServletRequest httpservletrequest, HttpServletResponse httpservletresponse)
+        throws Exception
+    {
+        if(log.isDebugEnabled())
+            log.debug("Entering 'customerQuery' method");
+        CustomerForm customerform = (CustomerForm)actionform;
+        CustomerManager customermanager = (CustomerManager)getBean("customerManager");
+        Customer customer = new Customer();
+        try
+        {
+            customer.setCustomerID(customerform.getCustomerID());
+            customer.setCustomerName(customerform.getCustomerName());
+            List list = customermanager.customerQuery(customer);
+            httpservletrequest.setAttribute("customerList", list);
+        }
+        catch(Exception exception)
+        {
+            log.error((new StringBuilder()).append("≤È—ØCustomer±Ì≥ˆ¥Ì£∫").append(exception.getMessage()).toString());
+            httpservletrequest.setAttribute("prompt", exception.getMessage());
+        }
+        return actionmapping.findForward("list");
+    }
+
+    public ActionForward customerChg(ActionMapping actionmapping, ActionForm actionform, HttpServletRequest httpservletrequest, HttpServletResponse httpservletresponse)
+        throws Exception
+    {
+        if(log.isDebugEnabled())
+            log.debug("Entering 'customerChg' method");
+        CustomerManager customermanager = (CustomerManager)getBean("customerManager");
+        TradePropsManager tradepropsmanager = (TradePropsManager)getBean("tradePropsManager");
+        String s = "";
+        String s1 = httpservletrequest.getParameter("forwardName") != null ? httpservletrequest.getParameter("forwardName").trim() : "";
+        String s2 = httpservletrequest.getParameter("customerID") != null ? httpservletrequest.getParameter("customerID").trim() : "";
+        try
+        {
+            if(s2.contains(","))
+            {
+                ArrayList arraylist = new ArrayList();
+                ArrayList arraylist1 = new ArrayList();
+                httpservletrequest.setAttribute("customerID", s2);
+                String as[] = s2.split(",");
+                int i = as.length;
+                int j = 0;
+                do
+                {
+                    if(j >= i)
+                        break;
+                    String s3 = as[j];
+                    Customer customer1 = customermanager.getCustomerById(s3);
+                    if(customer1 == null || customer1.getCustomerID() == null || "".equals(customer1.getCustomerID()))
+                    {
+                        httpservletrequest.setAttribute("prompt", (new StringBuilder()).append("Ωª“◊…Ã¥˙¬Î").append(s3).append("≤ª¥Ê‘⁄£°").toString());
+                        httpservletrequest.setAttribute("customerID", s);
+                        break;
+                    }
+                    arraylist.add(customer1);
+                    arraylist1.add(customermanager.getCustomerFundsById(s3));
+                    s = (new StringBuilder()).append(s).append(s3).append(",").toString();
+                    j++;
+                } while(true);
+                httpservletrequest.setAttribute("customerList", arraylist);
+                httpservletrequest.setAttribute("customerFundsList", arraylist1);
+            } else
+            {
+                httpservletrequest.setAttribute("customer", customermanager.getCustomerById(s2));
+                if(httpservletrequest.getAttribute("customer") != null)
+                {
+                    Customer customer = (Customer)httpservletrequest.getAttribute("customer");
+                    if(customer == null || customer.getCustomerID() == null || "".equals(customer.getCustomerID()))
+                        httpservletrequest.setAttribute("prompt", "Ωª“◊…Ã¥˙¬Î≤ª¥Ê‘⁄£°");
+                }
+                httpservletrequest.setAttribute("customerFunds", customermanager.getCustomerFundsById(s2));
+            }
+        }
+        catch(Exception exception)
+        {
+            exception.printStackTrace();
+            log.error((new StringBuilder()).append("≤È—ØCustomerªÚCustomerFunds±Ì≥ˆ¥Ì£∫").append(exception.getMessage()).toString());
+            httpservletrequest.setAttribute("prompt", exception.getMessage());
+            return actionmapping.findForward(s1);
+        }
+        return actionmapping.findForward(s1);
+    }
+
+    public ActionForward saveVirtualFund(ActionMapping actionmapping, ActionForm actionform, HttpServletRequest httpservletrequest, HttpServletResponse httpservletresponse)
+        throws Exception
+    {
+        if(log.isDebugEnabled())
+            log.debug("Entering 'saveVirtualFund' method");
+        CustomerManager customermanager = (CustomerManager)getBean("customerManager");
+        String s = httpservletrequest.getParameter("customerID");
+        String s1 = httpservletrequest.getParameter("addVirtualFunds");
+        if(s1 == null || s1.trim().equals(""))
+            s1 = "0";
+        try
+        {
+            customermanager.addCustomerVirtualFunds(s, Double.valueOf(s1));
+            addSysLog(httpservletrequest, "02", (new StringBuilder()).append("Œ™øÕªß¥˙¬Î").append(s).append("»Î–Èƒ‚◊ Ω").append(s1).toString());
+        }
+        catch(Exception exception)
+        {
+            log.error((new StringBuilder()).append("===>save err£∫").append(exception).toString());
+            httpservletrequest.setAttribute("prompt", exception.getMessage());
+        }
+        return actionmapping.findForward("saveVirtualFund");
+    }
+
+    public ActionForward searchVirtualFund(ActionMapping actionmapping, ActionForm actionform, HttpServletRequest httpservletrequest, HttpServletResponse httpservletresponse)
+        throws Exception
+    {
+        if(log.isDebugEnabled())
+            log.debug("Entering 'searchVirtualFund' method");
+        CustomerManager customermanager = (CustomerManager)getBean("customerManager");
+        try
+        {
+            List list = customermanager.customerQuery(null);
+            httpservletrequest.setAttribute("virtualFundList", list);
+        }
+        catch(Exception exception)
+        {
+            log.error((new StringBuilder()).append("≤È—ØCustomerFunds±Ì≥ˆ¥Ì£∫").append(exception.getMessage()).toString());
+            httpservletrequest.setAttribute("prompt", exception.getMessage());
+        }
+        return actionmapping.findForward("listVirtualFund");
+    }
+
+    public ActionForward applyWaitList(ActionMapping actionmapping, ActionForm actionform, HttpServletRequest httpservletrequest, HttpServletResponse httpservletresponse)
+        throws Exception
+    {
+        if(log.isDebugEnabled())
+            log.debug("Entering 'applyWaitList' method");
+        CustomerManager customermanager = (CustomerManager)getBean("customerManager");
+        Customer customer = new Customer();
+        try
+        {
+            String s = httpservletrequest.getParameter("firmID");
+            String s1 = httpservletrequest.getParameter("applyID");
+            String s2 = "";
+            customer.setFirmID(s);
+            if(s1 != null && !"".equals(s1))
+                customer.setApplyID(Long.valueOf(Long.parseLong(s1)));
+            List list = customermanager.getApplyWaitList(customer);
+            httpservletrequest.setAttribute("applyWaitList", list);
+            httpservletrequest.setAttribute("PRESENTSTATUS", CommonDictionary.PRESENTSTATUS);
+        }
+        catch(Exception exception)
+        {
+            log.error((new StringBuilder()).append("≤È—ØCustomerFunds±Ì≥ˆ¥Ì£∫").append(exception.getMessage()).toString());
+            httpservletrequest.setAttribute("prompt", exception.getMessage());
+        }
+        return actionmapping.findForward("virtualFundAppWaitList");
+    }
+
+    public ActionForward applyAlreadyList(ActionMapping actionmapping, ActionForm actionform, HttpServletRequest httpservletrequest, HttpServletResponse httpservletresponse)
+        throws Exception
+    {
+        if(log.isDebugEnabled())
+            log.debug("Entering 'applyAlreadyList' method");
+        CustomerManager customermanager = (CustomerManager)getBean("customerManager");
+        Customer customer = new Customer();
+        try
+        {
+            String s = httpservletrequest.getParameter("firmID");
+            String s1 = httpservletrequest.getParameter("applyID");
+            String s2 = "";
+            customer.setFirmID(s);
+            if(s1 != null && !"".equals(s1))
+                customer.setApplyID(Long.valueOf(Long.parseLong(s1)));
+            List list = customermanager.getApplyAlreadyList(customer);
+            httpservletrequest.setAttribute("applyAlreadyList", list);
+            httpservletrequest.setAttribute("PRESENTSTATUS", CommonDictionary.PRESENTSTATUS);
+        }
+        catch(Exception exception)
+        {
+            log.error((new StringBuilder()).append("≤È—ØCustomerFunds±Ì≥ˆ¥Ì£∫").append(exception.getMessage()).toString());
+            httpservletrequest.setAttribute("prompt", exception.getMessage());
+        }
+        return actionmapping.findForward("virtualFundAppAlreadyList");
+    }
+
+    public ActionForward saveNewApp(ActionMapping actionmapping, ActionForm actionform, HttpServletRequest httpservletrequest, HttpServletResponse httpservletresponse)
+        throws Exception
+    {
+        if(log.isDebugEnabled())
+            log.debug("Entering 'saveNewApp' method");
+        CustomerForm customerform = (CustomerForm)actionform;
+        CustomerManager customermanager = (CustomerManager)getBean("customerManager");
+        Customer customer = new Customer();
+        BeanUtils.copyProperties(customer, customerform);
+        try
+        {
+            String s = AclCtrl.getLogonID(httpservletrequest);
+            if(s != null && !"".equals(s))
+                customer.setCreator(s);
+            customermanager.insertNewApp(customer);
+            addSysLog(httpservletrequest, "‘ˆº”–Èƒ‚◊ Ω…Í«Î£°");
+        }
+        catch(Exception exception)
+        {
+            log.error((new StringBuilder()).append("≤È—Øvirtualfundsapply±Ì≥ˆ¥Ì£∫").append(exception.getMessage()).toString());
+            httpservletrequest.setAttribute("prompt", exception.getMessage());
+        }
+        return actionmapping.findForward("saveNewApp");
+    }
+
+    public ActionForward applyWaitCheList(ActionMapping actionmapping, ActionForm actionform, HttpServletRequest httpservletrequest, HttpServletResponse httpservletresponse)
+        throws Exception
+    {
+        if(log.isDebugEnabled())
+            log.debug("Entering 'applyWaitCheList' method");
+        CustomerManager customermanager = (CustomerManager)getBean("customerManager");
+        Customer customer = new Customer();
+        String s = (String)httpservletrequest.getAttribute("save");
+        try
+        {
+            if("save".equals(s))
+            {
+                List list = customermanager.getApplyWaitList(customer);
+                httpservletrequest.setAttribute("applyWaitCheList", list);
+                httpservletrequest.setAttribute("PRESENTSTATUS", CommonDictionary.PRESENTSTATUS);
+            } else
+            {
+                String s1 = httpservletrequest.getParameter("firmID");
+                String s2 = httpservletrequest.getParameter("applyID");
+                customer.setFirmID(s1);
+                if(s2 != null && !"".equals(s2))
+                    customer.setApplyID(Long.valueOf(Long.parseLong(s2)));
+                List list1 = customermanager.getApplyWaitList(customer);
+                httpservletrequest.setAttribute("applyWaitCheList", list1);
+                httpservletrequest.setAttribute("PRESENTSTATUS", CommonDictionary.PRESENTSTATUS);
+            }
+        }
+        catch(Exception exception)
+        {
+            log.error((new StringBuilder()).append("≤È—ØCustomerFunds±Ì≥ˆ¥Ì£∫").append(exception.getMessage()).toString());
+            httpservletrequest.setAttribute("prompt", exception.getMessage());
+        }
+        return actionmapping.findForward("virtualFundApplyWaitCheList");
+    }
+
+    public ActionForward applyCheAlreadyList(ActionMapping actionmapping, ActionForm actionform, HttpServletRequest httpservletrequest, HttpServletResponse httpservletresponse)
+        throws Exception
+    {
+        if(log.isDebugEnabled())
+            log.debug("Entering 'applyCheAlreadyList' method");
+        CustomerManager customermanager = (CustomerManager)getBean("customerManager");
+        Customer customer = new Customer();
+        try
+        {
+            String s = httpservletrequest.getParameter("firmID");
+            String s1 = httpservletrequest.getParameter("applyID");
+            customer.setFirmID(s);
+            if(s1 != null && !"".equals(s1))
+                customer.setApplyID(Long.valueOf(Long.parseLong(s1)));
+            List list = customermanager.getApplyAlreadyList(customer);
+            httpservletrequest.setAttribute("applyCheAlreadyList", list);
+            httpservletrequest.setAttribute("PRESENTSTATUS", CommonDictionary.PRESENTSTATUS);
+        }
+        catch(Exception exception)
+        {
+            log.error((new StringBuilder()).append("≤È—ØCustomerFunds±Ì≥ˆ¥Ì£∫").append(exception.getMessage()).toString());
+            httpservletrequest.setAttribute("prompt", exception.getMessage());
+        }
+        return actionmapping.findForward("virtualFundApplyCheAlreadyList");
+    }
+
+    public ActionForward waitSuccessCheck(ActionMapping actionmapping, ActionForm actionform, HttpServletRequest httpservletrequest, HttpServletResponse httpservletresponse)
+        throws Exception
+    {
+        if(log.isDebugEnabled())
+            log.debug("Entering 'waitSuccessCheck' method");
+        CustomerManager customermanager = (CustomerManager)getBean("customerManager");
+        Customer customer = new Customer();
+        try
+        {
+            String s = httpservletrequest.getParameter("type");
+            if("1".equals(s))
+                customer.setStatus(Short.valueOf(Short.parseShort("2")));
+            else
+            if("2".equals(s))
+                customer.setStatus(Short.valueOf(Short.parseShort("3")));
+            String s1 = httpservletrequest.getParameter("remark2");
+            String s2 = httpservletrequest.getParameter("applyID");
+            if(s2 != null && !"".equals(s2))
+                customer.setApplyID(Long.valueOf(Long.parseLong(s2)));
+            customer.setRemark2(s1);
+            String s3 = AclCtrl.getLogonID(httpservletrequest);
+            customer.setCreator(s3);
+            String s4 = httpservletrequest.getParameter("virtualFunds");
+            String s5 = httpservletrequest.getParameter("firmID");
+            Double double1 = null;
+            if(s4 != null && !"".equals(s4))
+                double1 = Double.valueOf(Double.parseDouble(s4));
+            else
+                double1 = Double.valueOf(Double.parseDouble("0"));
+            if("1".equals(s))
+                try
+                {
+                    customermanager.addCustomerVirtualFunds(s5, double1);
+                    httpservletrequest.setAttribute("prompt", "◊∑º”–Èƒ‚◊ Ω≥…π¶£°");
+                    httpservletrequest.setAttribute("save", "save");
+                }
+                catch(Exception exception1)
+                {
+                    throw new RuntimeException("◊∑º”–Èƒ‚◊ Ω ß∞‹£°");
+                }
+            try
+            {
+                customermanager.CheckVirtual(customer);
+                httpservletrequest.setAttribute("prompt", "…Û∫À≥…π¶£°");
+                httpservletrequest.setAttribute("save", "save");
+            }
+            catch(Exception exception2)
+            {
+                throw new RuntimeException("…Û∫À ß∞‹£°");
+            }
+        }
+        catch(Exception exception)
+        {
+            exception.printStackTrace();
+            log.error((new StringBuilder()).append("≤È—ØCustomerFunds±Ì≥ˆ¥Ì£∫").append(exception.getMessage()).toString());
+            httpservletrequest.setAttribute("prompt", exception.getMessage());
+        }
+        return applyWaitCheList(actionmapping, actionform, httpservletrequest, httpservletresponse);
+    }
+
+    public ActionForward firmPrivilege(ActionMapping actionmapping, ActionForm actionform, HttpServletRequest httpservletrequest, HttpServletResponse httpservletresponse)
+        throws Exception
+    {
+        if(log.isDebugEnabled())
+            log.debug("Entering 'firmPrivilege' method");
+        CustomerManager customermanager = (CustomerManager)getBean("customerManager");
+        Customer customer = new Customer();
+        try
+        {
+            String s = (String)httpservletrequest.getAttribute("save");
+            if("save".equals(s))
+            {
+                String s1 = (String)httpservletrequest.getAttribute("firmID");
+                if(s1 != null && !"".equals(s1))
+                    customer.setFirmID(s1);
+                List list = customermanager.getFirmPrivilege(customer);
+                httpservletrequest.setAttribute("privilegeList", list);
+                httpservletrequest.setAttribute("firmID", s1);
+            } else
+            {
+                String s2 = httpservletrequest.getParameter("firmID");
+                if(s2 != null && !"".equals(s2))
+                    customer.setFirmID(s2);
+                List list1 = customermanager.getFirmPrivilege(customer);
+                httpservletrequest.setAttribute("privilegeList", list1);
+                httpservletrequest.setAttribute("firmID", s2);
+            }
+            httpservletrequest.setAttribute("FIRMPRIVILEGE_B", CommonDictionary.FIRMPRIVILEGE_B);
+            httpservletrequest.setAttribute("FIRMPRIVILEGE_S", CommonDictionary.FIRMPRIVILEGE_S);
+        }
+        catch(Exception exception)
+        {
+            log.error((new StringBuilder()).append("≤È—ØTradePrivilege±Ì≥ˆ¥Ì£∫").append(exception.getMessage()).toString());
+            httpservletrequest.setAttribute("prompt", exception.getMessage());
+        }
+        return actionmapping.findForward("firmPrivilegeList");
+    }
+
+    public ActionForward updateFirmPrivilege(ActionMapping actionmapping, ActionForm actionform, HttpServletRequest httpservletrequest, HttpServletResponse httpservletresponse)
+        throws Exception
+    {
+        if(log.isDebugEnabled())
+            log.debug("Entering 'updateFirmPrivilege' method");
+        CustomerForm customerform = (CustomerForm)actionform;
+        String s = httpservletrequest.getParameter("id");
+        String s1 = httpservletrequest.getParameter("crud");
+        CustomerManager customermanager = (CustomerManager)getBean("customerManager");
+        Customer customer = null;
+        if("update".equals(s1))
+        {
+            Customer customer1 = new Customer();
+            if(s != null && !"".equals(s))
+                customer1.setId(Short.valueOf(Short.parseShort(s)));
+            customer = customermanager.getFirmPrivilegeById(customer1);
+        } else
+        if("create".equals(s1))
+        {
+            customer = new Customer();
+            String s2 = httpservletrequest.getParameter("firmID");
+            customer.setTypeID(s2);
+        }
+        BeanUtils.copyProperties(customerform, customer);
+        String s3 = "";
+        if(customer.getKind() != null)
+        {
+            if("1".equals(customer.getKind().toString()))
+            {
+                s3 = "1";
+                customerform.setKindID(customer.getKindID());
+            }
+            if("2".equals(customer.getKind().toString()))
+            {
+                s3 = "2";
+                customerform.setCommodityID(customer.getKindID());
+            }
+            customerform.setKind(customer.getKind().toString());
+            if("".equals(customer.getKind().toString()))
+                s3 = " ";
+        }
+        httpservletrequest.setAttribute("type", s3);
+        customerform.setCrud(s1);
+        updateFormBean(actionmapping, httpservletrequest, customerform);
+        return actionmapping.findForward("updateFirmPrivilege");
+    }
+
+    public ActionForward saveFirmPrivilege(ActionMapping actionmapping, ActionForm actionform, HttpServletRequest httpservletrequest, HttpServletResponse httpservletresponse)
+        throws Exception
+    {
+        if(log.isDebugEnabled())
+            log.debug("Entering 'saveFirmPrivilege' method");
+        CustomerForm customerform = (CustomerForm)actionform;
+        String s = customerform.getCrud();
+        CustomerManager customermanager = (CustomerManager)getBean("customerManager");
+        Customer customer = (Customer)convert(customerform);
+        if(customerform.getKind() != null && !"".equals(customerform.getKind()))
+        {
+            if("1".equals(customerform.getKind()))
+                customer.setKindID(customerform.getKindID());
+            if("2".equals(customerform.getKind()))
+                customer.setKindID(customerform.getCommodityID());
+        }
+        try
+        {
+            if(s.trim().equals("create"))
+            {
+                customermanager.insertFirmPrivilege(customer);
+                httpservletrequest.setAttribute("prompt", "≤Ÿ◊˜≥…π¶");
+                addSysLog(httpservletrequest, (new StringBuilder()).append("‘ˆº”Ωª“◊…Ã»®œﬁ[").append(customer.getTypeID()).append("]").toString());
+            } else
+            if(s.trim().equals("update"))
+            {
+                customermanager.updateFirmPrivilege(customer);
+                httpservletrequest.setAttribute("prompt", "≤Ÿ◊˜≥…π¶");
+                addSysLog(httpservletrequest, (new StringBuilder()).append("–ﬁ∏ƒΩª“◊…Ã»®œﬁ[").append(customer.getTypeID()).append("]").toString());
+            }
+            httpservletrequest.setAttribute("save", "save");
+            httpservletrequest.setAttribute("firmID", customer.getTypeID());
+        }
+        catch(Exception exception)
+        {
+            exception.printStackTrace();
+            log.error((new StringBuilder()).append("===>save err£∫").append(exception).toString());
+            httpservletrequest.setAttribute("prompt", exception.getMessage());
+        }
+        return actionmapping.findForward("saveFirmPrivilege");
+    }
+
+    public ActionForward batchSetSaveFirmPrivilege(ActionMapping actionmapping, ActionForm actionform, HttpServletRequest httpservletrequest, HttpServletResponse httpservletresponse)
+        throws Exception
+    {
+        if(log.isDebugEnabled())
+            log.debug("Entering 'batchSstSaveFirmPrivilege' method");
+        String s = httpservletrequest.getParameter("Code") != null ? httpservletrequest.getParameter("Code").trim() : "";
+        String s1 = httpservletrequest.getParameter("codes") != null ? httpservletrequest.getParameter("codes").trim() : "";
+        String s2 = httpservletrequest.getParameter("goods") != null ? httpservletrequest.getParameter("goods").trim() : "";
+        Object obj = null;
+        Object obj1 = null;
+        String s3 = "";
+        if("1".equals(s2))
+        {
+            String as[] = (String[])(httpservletrequest.getParameterValues("breed").length != 0 ? httpservletrequest.getParameterValues("breed") : "");
+            for(int i = 0; i < as.length; i++)
+                if(i == as.length)
+                    s3 = (new StringBuilder()).append(s3).append(as[i]).toString();
+                else
+                    s3 = (new StringBuilder()).append(s3).append(as[i]).append(",").toString();
+
+        } else
+        {
+            String as1[] = (String[])(httpservletrequest.getParameterValues("commodity").length != 0 ? httpservletrequest.getParameterValues("commodity") : "");
+            for(int j = 0; j < as1.length; j++)
+                if(j == as1.length)
+                    s3 = (new StringBuilder()).append(s3).append(as1[j]).toString();
+                else
+                    s3 = (new StringBuilder()).append(s3).append(as1[j]).append(",").toString();
+
+        }
+        int k = Integer.parseInt(s);
+        int l = Integer.parseInt(s2);
+        CustomerForm customerform = (CustomerForm)actionform;
+        String s4 = customerform.getCrud();
+        CustomerManager customermanager = (CustomerManager)getBean("customerManager");
+        if(s4.trim().equals("save"))
+        {
+            int i1 = Integer.parseInt(customerform.getPrivilegeCode_B());
+            int j1 = Integer.parseInt(customerform.getPrivilegeCode_S());
+            customermanager.batchEmptyDeleteFirmPrivilege(k, s1, l, s3);
+            customermanager.batchSetInsertFirmPrivilege(k, s1, l, s3, i1, j1);
+        } else
+        if(s4.trim().equals("empty"))
+            customermanager.batchEmptyDeleteFirmPrivilege(k, s1, l, s3);
+        httpservletrequest.setAttribute("prompt", "≤Ÿ◊˜≥…π¶");
+        addSysLog(httpservletrequest, (new StringBuilder()).append("≈˙¡ø").append(s4).append("Ωª“◊…Ã»®œﬁ[").append("typeIdString").append("]").toString());
+        return actionmapping.findForward("batchSstSaveFirmPrivilege");
+    }
+
+    public ActionForward deleteFirmPrivilege(ActionMapping actionmapping, ActionForm actionform, HttpServletRequest httpservletrequest, HttpServletResponse httpservletresponse)
+        throws Exception
+    {
+        if(log.isDebugEnabled())
+            log.debug("Entering 'deleteFirmPrivilege' method");
+        CustomerManager customermanager = (CustomerManager)getBean("customerManager");
+        String as[] = httpservletrequest.getParameterValues("itemlist");
+        int i = 0;
+        if(as != null)
+        {
+            log.debug((new StringBuilder()).append("==ids.length:").append(as.length).toString());
+            String s1 = "";
+            for(int j = 0; j < as.length; j++)
+            {
+                String s = as[j];
+                try
+                {
+                    customermanager.deleteFirmPrivilegeById(s);
+                    addSysLog(httpservletrequest, (new StringBuilder()).append("…æ≥˝Ωª“◊…Ã»®œﬁ[").append(s).append("]").toString());
+                    i++;
+                    continue;
+                }
+                catch(DataIntegrityViolationException dataintegrityviolationexception)
+                {
+                    dataintegrityviolationexception.printStackTrace();
+                    s1 = (new StringBuilder()).append(s1).append(s).append(",").toString();
+                    continue;
+                }
+                catch(RuntimeException runtimeexception)
+                {
+                    runtimeexception.printStackTrace();
+                }
+                s1 = (new StringBuilder()).append(s1).append(s).append(",").toString();
+            }
+
+            s1 = (new StringBuilder()).append(s1).append("≥…π¶…æ≥˝").append(i).append("ÃıºÕ¬º£°").toString();
+            httpservletrequest.setAttribute("prompt", s1);
+            String s2 = httpservletrequest.getParameter("firmID");
+            httpservletrequest.setAttribute("save", "save");
+            httpservletrequest.setAttribute("firmID", s2);
+        }
+        return firmPrivilege(actionmapping, actionform, httpservletrequest, httpservletresponse);
+    }
+
+    public ActionForward typePrivilegeList(ActionMapping actionmapping, ActionForm actionform, HttpServletRequest httpservletrequest, HttpServletResponse httpservletresponse)
+        throws Exception
+    {
+        if(log.isDebugEnabled())
+            log.debug("Entering 'typePrivilegeList' method");
+        CustomerManager customermanager = (CustomerManager)getBean("customerManager");
+        Customer customer = new Customer();
+        try
+        {
+            String s = httpservletrequest.getParameter("kindID");
+            String s1 = httpservletrequest.getParameter("typeID");
+            customer.setKindID(s);
+            customer.setTypeID(s1);
+            List list = customermanager.getTypePrivilege(customer);
+            httpservletrequest.setAttribute("typePrivilegeList", list);
+            httpservletrequest.setAttribute("FIRMPRIVILEGE_B", CommonDictionary.FIRMPRIVILEGE_B);
+            httpservletrequest.setAttribute("FIRMPRIVILEGE_S", CommonDictionary.FIRMPRIVILEGE_S);
+            httpservletrequest.setAttribute("KIND", CommonDictionary.KIND);
+            httpservletrequest.setAttribute("TYPE", CommonDictionary.TYPE);
+        }
+        catch(Exception exception)
+        {
+            log.error((new StringBuilder()).append("≤È—ØTradePrivilege±Ì≥ˆ¥Ì£∫").append(exception.getMessage()).toString());
+            httpservletrequest.setAttribute("prompt", exception.getMessage());
+        }
+        return actionmapping.findForward("typePrivilegeList");
+    }
+
+    private void getSelectAttribute(HttpServletRequest httpservletrequest)
+        throws Exception
+    {
+        LookupManager lookupmanager = (LookupManager)getBean("lookupManager");
+        httpservletrequest.setAttribute("commoditySelect", lookupmanager.getSelectLabelValueByTable("T_commodity", "commodityID", "commodityID", " order by commodityID "));
+    }
+
+    private void getSelectAttributeBreed(HttpServletRequest httpservletrequest)
+        throws Exception
+    {
+        LookupManager lookupmanager = (LookupManager)getBean("lookupManager");
+    }
+
+    private void getMarketSelectAttribute(HttpServletRequest httpservletrequest)
+        throws Exception
+    {
+        LookupManager lookupmanager = (LookupManager)getBean("lookupManager");
+        httpservletrequest.setAttribute("marketSelect", lookupmanager.getSelectLabelValueByTable("Market", "MarketName", "MarketCode", " where Status=1 order by MarketCode"));
+    }
 }

@@ -131,7 +131,7 @@ public class ApplyGageDAOJdbc
     
     public CancleGageStoredProcedure(DataSource paramDataSource)
     {
-      super("FN_T_GageQtyCancel");
+      super(paramDataSource,"FN_T_GageQtyCancel");
       setFunction(true);
       declareParameter(new SqlOutParameter("ret", 4));
       declareParameter(new SqlParameter("P_CUSTOMERID", 12));
@@ -154,7 +154,7 @@ public class ApplyGageDAOJdbc
     
     public ApplyGageStoredProcedure(DataSource paramDataSource)
     {
-      super("FN_T_GageQty");
+      super(paramDataSource,"FN_T_GageQty");
       setFunction(true);
       declareParameter(new SqlOutParameter("ret", 4));
       declareParameter(new SqlParameter("P_COMMODITYID", 12));
