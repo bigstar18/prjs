@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+ <class
+  name="cn.com.agree.eteller.usermanager.persistence.DepartmentRole" table="eteller_department_role">
+  <composite-id mapped="false" unsaved-value="undefined">
+   <key-property column="department_id" name="departmentId"/>
+   <key-property column="role_id" name="roleId"/>
+  </composite-id>
+ </class>
+</hibernate-mapping>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<!-- Created by the Middlegen Hibernate plugin http://boss.bekk.no/boss/middlegen/ 
+		http://hibernate.sourceforge.net/ -->
+
+	<class name="cn.com.agree.eteller.usermanager.persistence.Appinfo"
+		table="eteller_appinfo">
+
+		<id name="appid" type="java.lang.String" column="appid">
+			<generator class="assigned" />
+		</id>
+
+		<property name="appname" type="java.lang.String" column="appname"
+			length="64" />
+		<property name="appadress" type="java.lang.String" column="appadress"
+			length="30" />
+		<property name="starttime" type="java.lang.String" column="starttime"
+			length="8" />
+		<property name="stoptime" type="java.lang.String" column="stoptime"
+			length="8" />
+		<property name="depdate" type="java.lang.String" column="depdate"
+			length="10" />
+		<property name="version" type="java.lang.String" column="version"
+			length="16" />
+		<property name="finalupdate" type="java.lang.String" column="finalupdate"
+			length="10" />
+
+		<!-- associations -->
+	</class>
+</hibernate-mapping>

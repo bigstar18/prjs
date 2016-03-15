@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <!--Manager interface-->
+     <bean id="userManagerTarget"
+           class="cn.com.agree.eteller.usermanager.spring.implement.UserManagerImpl">
+           <property name="userManagerDao"><ref bean="userManagerDao"/></property>
+           <property name="userDao"><ref bean="userDao"/></property>
+           <property name="appinfoDao"><ref bean="appinfoDao"/></property>
+           <property name="funcListDao"><ref bean="funcListDao"/></property>
+           <property name="rolelistDao"><ref bean="rolelistDao"/></property>
+           <property name="departmentDao"><ref bean="departmentDao"/></property>
+           <property name="subAppinfoDao"><ref bean="subAppinfoDao"/></property>
+           <!-- 2 -->
+     </bean>
+     
+     <!--  Dao -->
+     <bean id="userManagerDao"
+           class="cn.com.agree.eteller.usermanager.dao.hibernate.UserManagerDao">
+           <property name="sessionFactory"><ref bean="sessionFactory"/></property>
+     </bean>
+     <bean id="userDao"
+           class="cn.com.agree.eteller.usermanager.dao.hibernate.UserDao">
+           <property name="sessionFactory"><ref bean="sessionFactory"/></property>
+     </bean>
+     <bean id="appinfoDao"
+           class="cn.com.agree.eteller.usermanager.dao.hibernate.AppinfoDao">
+           <property name="sessionFactory"><ref bean="sessionFactory"/></property>
+     </bean>
+     <bean id="funcListDao"
+           class="cn.com.agree.eteller.usermanager.dao.hibernate.FuncListDao">
+           <property name="sessionFactory"><ref bean="sessionFactory"/></property>
+     </bean>
+     <bean id="rolelistDao"
+           class="cn.com.agree.eteller.usermanager.dao.hibernate.RolelistDao">
+           <property name="sessionFactory"><ref bean="sessionFactory"/></property>
+     </bean>
+	 <bean id="departmentDao"
+           class="cn.com.agree.eteller.usermanager.dao.hibernate.DepartmentDao">
+           <property name="sessionFactory"><ref bean="sessionFactory"/></property>
+     </bean>
+     <bean id="subAppinfoDao"
+           class="cn.com.agree.eteller.usermanager.dao.hibernate.SubAppinfoDao">
+           <property name="sessionFactory"><ref bean="sessionFactory"/></property>
+     </bean>
+     
+     
+     <!-- 3 -->
+</beans>

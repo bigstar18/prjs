@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="GBK"?>
+
+<root> 
+  <notify>true</notify>  
+  <useFtp>true</useFtp>  
+  <services desc="服务端口等配置"> 
+    <service id="corpIn" desc="企业接入"> 
+      <protocol>TCP</protocol>  
+      <port>7072</port>  
+      <soTimeout>60000</soTimeout>  
+      <maximumPoolSize>20</maximumPoolSize>  
+      <ssl> 
+        <algorithm>SSL</algorithm>  
+        <storePath>cert/155_1_8.pfx</storePath>  
+        <storeType>PKCS12</storeType>  
+        <storePwd>txHVlRzyBBmbdtlOFw0t0Q==</storePwd>  
+        <clientAuth>false</clientAuth>  
+        <same>false</same>  
+        <trustPath>cert/SDBTESTCA.store</trustPath>  
+        <trustType/>  
+        <trustPwd>qMFK5ATGK4s=</trustPwd> 
+      </ssl>  
+      <ipTable/> 
+    </service> 
+  </services>  
+  <servers desc="接出端通讯配置"> 
+    <server id="corpOut" desc="企业接出端"> 
+      <protocol>TCP</protocol>  
+      <ips>10.14.137.11</ips>  
+      <ports>39999</ports>  
+      <timeout>60000</timeout>  
+      <http> 
+        <url>/bankreq</url>  
+        <statusOk>200;201;203</statusOk>  
+        <params> 
+          <param name="Content-Type">text/xml; charset=UTF-8</param>  
+          <param name="SOAPACTION"/> 
+        </params> 
+      </http>  
+      <ssl> 
+        <algorithm>SSL</algorithm>  
+        <storePath>cert/SDBTESTCA.store</storePath>  
+        <storeType>JKS</storeType>  
+        <storePwd>qMFK5ATGK4s=</storePwd>  
+        <same>true</same> 
+      </ssl> 
+    </server> 
+  </servers>  
+  <ftpServers> 
+    <server id="corpFtp"> 
+      <protocol>FTP</protocol>  
+      <hostname>10.2.35.32</hostname>  
+      <port>21</port>  
+      <ftpname>printSYS</ftpname>  
+      <!--ftppwd>print123</ftppwd-->  
+      <ftppwd>rjKGkKQ3Du6bdtlOFw0t0Q==</ftppwd>  
+      <defaultDir>d:\\b2bic_file</defaultDir>  
+      <soTimeout>60000</soTimeout> 
+    </server> 
+  </ftpServers>  
+  <useftp>false</useftp>  
+  <downMode>0</downMode>  
+  <normalFormat>false</normalFormat>  
+  <dataVersion>A00207</dataVersion>  
+  <corpCode>00101079900009999000</corpCode>  
+  <tranCode>000000</tranCode> 
+</root>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<!-- Created by the Middlegen Hibernate plugin http://boss.bekk.no/boss/middlegen/ 
+		http://hibernate.sourceforge.net/ -->
+	<class name="cn.com.agree.eteller.usermanager.persistence.Userlist"
+		table="eteller_userlist">
+		<id column="user_id" name="userId" type="java.lang.String">
+			<generator class="assigned" />
+		</id>
+		<property column="teller_name" generated="never" lazy="false"
+			length="20" name="tellerName" not-null="true" type="java.lang.String" />
+		<property column="teller_stat" generated="never" lazy="false"
+			length="1" name="tellerState" not-null="true" type="java.lang.String" />
+		<property column="teller_passwd" generated="never" lazy="false"
+			length="32" name="tellerPasswd" not-null="true" type="java.lang.String" />
+		<property column="error" generated="never" lazy="false"
+			length="2" name="error" not-null="true" type="java.lang.String" />
+		<property column="remark" generated="never" lazy="false"
+			length="20" name="remark" type="java.lang.String" />
+		<property column="department_id" generated="never" lazy="false"
+			length="6" name="departmentId" not-null="true" type="java.lang.String" />
+		<property column="role_id" generated="never" lazy="false"
+			name="roleId" type="java.lang.Long" />
+		<!-- <property name="pwdModDate" type="java.lang.String" column="PWDMODDATE" 
+			not-null="false" /> <property name="enterTime" type="java.lang.String" column="enter_time" 
+			not-null="false" length="30" /> <property name="ipAddress" type="java.lang.String" 
+			column="ip_address" not-null="false" length="30" /> <property name="exitTime" 
+			type="java.lang.String" column="exit_time" not-null="false" length="30" /> 
+			<property name="pwdInit" type="java.lang.String" column="PWD_INIT" not-null="false" 
+			length="6" /> <property name="loginStatus" type="java.lang.String" column="LOGIN_STATUS" 
+			not-null="false" length="6" /> <property name="encryptMethod" type="java.lang.String" 
+			column="ENCRYPT_METHOD" not-null="false" length="6" /> <property name="resetLogin" 
+			type="java.lang.String" column="RESET_LOGIN" not-null="false" length="6" 
+			/> associations set name="roles" table="eteller_user_role" lazy="true"> <key 
+			column="user_id"/> <many-to-many class="cn.com.agree.eteller.usermanager.persistence.Rolelist" 
+			column="role_id"/> </set -->
+			
+	</class>
+</hibernate-mapping>

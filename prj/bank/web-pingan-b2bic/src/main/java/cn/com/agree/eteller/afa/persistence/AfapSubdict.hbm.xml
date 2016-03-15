@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+ <!-- 
+    Created by the Middlegen Hibernate plugin
+
+    http://boss.bekk.no/boss/middlegen/
+    http://hibernate.sourceforge.net/
+-->
+ <class name="cn.com.agree.eteller.afa.persistence.AfapSubdict" table="AFA_SUBDICT">
+  <composite-id
+   class="cn.com.agree.eteller.afa.persistence.AfapSubdictPK"
+   mapped="false" name="comp_id" unsaved-value="undefined">
+   <key-property column="ITEM" length="5" name="item" type="java.lang.String"/>
+   <key-property column="CODE" length="10" name="code" type="java.lang.String"/>
+  </composite-id>
+  <property column="CODENAME" generated="never" lazy="false" length="50"
+   name="codename" not-null="true" type="java.lang.String"/>
+  <!-- associations -->
+ </class>
+</hibernate-mapping>

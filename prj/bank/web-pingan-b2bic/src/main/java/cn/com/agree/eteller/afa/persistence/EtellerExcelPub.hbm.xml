@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+ <!-- 
+    Created by the Middlegen Hibernate plugin
+
+    http://boss.bekk.no/boss/middlegen/
+    http://hibernate.sourceforge.net/
+-->
+ <class name="cn.com.agree.eteller.afa.persistence.EtellerExcelPub" table="ETELLER_EXCEL_PUB">
+  <id column="EXCELNAME" name="excelname" type="java.lang.String">
+   <generator class="assigned"/>
+  </id>
+  <property column="REPORTCODE" generated="never" lazy="false"
+   length="50" name="reportcode" not-null="true" type="java.lang.String"/>
+  <property column="OPTDATE" generated="never" lazy="false" length="8"
+   name="optdate" not-null="true" type="java.lang.String"/>
+  <property column="INFO" generated="never" lazy="false" length="255"
+   name="info" type="java.lang.String"/>
+  <property column="NOTE1" generated="never" lazy="false" length="60"
+   name="note1" type="java.lang.String"/>
+  <property column="NOTE2" generated="never" lazy="false" length="100"
+   name="note2" type="java.lang.String"/>
+  <property column="TRADETYPE" generated="never" lazy="false"
+   length="50" name="tradetype" not-null="true" type="java.lang.String"/>
+  <!-- associations -->
+ </class>
+</hibernate-mapping>

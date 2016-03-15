@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="GBK"?>
+
+<root> 
+  <services desc="服务端口等配置"> 
+    <service id="bankIn" desc="银行接入"> 
+      <protocol>https</protocol>  
+      <port>32003</port>  
+      <soTimeout>6000</soTimeout>  
+      <maximumPoolSize>20</maximumPoolSize>  
+      <ssl> 
+        <algorithm>SSL</algorithm>  
+        <storePath>cert/155_1_8.pfx</storePath>  
+        <storeType>PKCS12</storeType>  
+        <storePwd>12345678</storePwd>  
+        <same>false</same>  
+        <trustPath>cert/SDBTESTCA.store</trustPath>  
+        <trustType/>  
+        <trustPwd>123456</trustPwd> 
+      </ssl> 
+    </service> 
+  </services>  
+  <servers desc="接出端通讯配置"> 
+    <server id="bankOut" desc="银行接出端"> 
+      <protocol>https</protocol>  
+      <ips>localhost3</ips>  
+      <ports>320033</ports>  
+      <timeout>0</timeout>  
+      <http> 
+        <url>/bankreq2222</url>  
+        <statusOk>200;201;203</statusOk>  
+        <params> 
+          <param name="Content-Type">text/xml; charset=UTF-8</param>  
+          <param name="SOAPACTION"/> 
+        </params> 
+      </http>  
+      <ssl> 
+        <algorithm>SSL</algorithm>  
+        <storePath>cert/155_1_8.pfx</storePath>  
+        <storeType>PKCS12</storeType>  
+        <storePwd>12345678</storePwd>  
+        <same>true</same>  
+        <trustPath/>  
+        <trustType/>  
+        <trustPwd/> 
+      </ssl> 
+    </server> 
+  </servers>  
+  <ftpServers> 
+    <server id="bankFtp"> 
+      <protocol>SFTP</protocol>  
+      <hostname>10.2.35.144</hostname>  
+      <port>22</port>  
+      <ftpname>gateway</ftpname>  
+      <ftppwd>gateway</ftppwd>  
+      <defaultDir>tmp</defaultDir>  
+      <soTimeout>60000</soTimeout> 
+    </server> 
+  </ftpServers> 
+</root>

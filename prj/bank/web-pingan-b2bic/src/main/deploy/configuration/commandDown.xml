@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="GBk"?>
+<root>
+	<clzPre>cn.com.pingan.b2bic.command</clzPre>
+	<isCheck>true</isCheck>
+	<commands>
+		<command tradeCode="NOFIND" class="DownOnlineSignCmd"  desc="签名实时交易" />
+		<command tradeCode="FIND" class="DownOnlineNoSignCmd" desc="不签名实时交易" />		
+	</commands>
+</root>

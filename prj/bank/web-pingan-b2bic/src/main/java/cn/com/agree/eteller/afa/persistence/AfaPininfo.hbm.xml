@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+ <!-- 
+    Created by the Middlegen Hibernate plugin
+
+    http://boss.bekk.no/boss/middlegen/
+    http://hibernate.sourceforge.net/
+-->
+ <class name="cn.com.agree.eteller.afa.persistence.AfaPininfo" table="AFA_PININFO">
+  <composite-id mapped="false" unsaved-value="undefined">
+   <key-property column="SYSID" length="6" name="sysid" type="java.lang.String"/>
+   <key-property column="CHANNEL" length="3" name="channel" type="java.lang.String"/>
+   <key-property column="ZMKNAME" length="30" name="zmkname" type="java.lang.String"/>
+   <key-property column="PVKNAME" length="30" name="pvkname" type="java.lang.String"/>
+   <key-property column="ZPKNAME" length="30" name="zpkname" type="java.lang.String"/>
+   <key-property column="CRTDATE" length="8" name="crtdate" type="java.lang.String"/>
+   <key-property column="UPTDATE" length="8" name="uptdate" type="java.lang.String"/>
+   <key-property column="UPTCYCLE" length="3" name="uptcycle" type="java.lang.String"/>
+   <key-property column="RESERV1" length="30" name="reserv1" type="java.lang.String"/>
+   <key-property column="RESERV2" length="30" name="reserv2" type="java.lang.String"/>
+   <key-property column="RESERV3" length="60" name="reserv3" type="java.lang.String"/>
+  </composite-id>
+  <!-- associations -->
+ </class>
+</hibernate-mapping>

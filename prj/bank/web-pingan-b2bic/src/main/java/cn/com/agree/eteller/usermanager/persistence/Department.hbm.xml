@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="cn.com.agree.eteller.usermanager.persistence.Department"
+		table="eteller_department">
+
+		<id name="id" type="java.lang.String" column="depno" length="6">
+			<generator class="assigned" />
+		</id>
+
+		<property name="depnotype" type="java.lang.String" column="depnotype"
+			not-null="true" length="1" />
+
+		<property name="name" type="java.lang.String" column="depname"
+			not-null="true" length="50" />
+		<property name="superiorDepartmentId" type="java.lang.String"
+			column="superiordepno" not-null="false" length="6" />
+
+		<property name="newSystemNo" type="java.lang.String" column="newSysDepNo"
+			not-null="false" length="6" />
+
+		<property name="finalFlag" type="char" column="final"
+			not-null="true" length="1" />
+		<!-- associations -->
+		<set name="roles" table="eteller_department_role" lazy="true">
+			<key column="department_id" />
+			<many-to-many class="cn.com.agree.eteller.usermanager.persistence.Rolelist"
+				column="role_id" />
+		</set>
+
+	</class>
+</hibernate-mapping>

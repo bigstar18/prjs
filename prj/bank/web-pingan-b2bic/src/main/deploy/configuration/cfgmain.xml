@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="GBK"?>
+<root>
+  <systemName>B2BIC</systemName>
+  <derbyServerPort>1528</derbyServerPort> 
+  <fieldEncry>true</fieldEncry> 
+  <tasks>
+    <clear id="file">
+    	<reserveTime>7</reserveTime>
+    </clear>
+    <clear id="db">
+    	<reserveTime>30</reserveTime>
+    </clear>
+  </tasks> 
+</root>

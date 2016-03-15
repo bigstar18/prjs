@@ -1,0 +1,24 @@
+########################################################
+# A00101报文头	                                       #
+########################################################
+#名称           长度    类型    描述
+#version   6     X   #报文类别编号
+head_encoding  2     X   #报文编码
+head_protocol  2     X   #通讯协议
+head_corpCode  20    X   #企业银企直连标准代码
+head_dataBodyLen 10  N   #接收报文长度
+head_tradeCode 6     X   #交易码
+head_operator  5     X   #操做员代码
+head_mode      2     X   #服务类型
+head_tradeDate 8     X   #交易日期
+head_tradeTime 6     X   #交易时间
+head_reqSn     20    X   #请求方系统流水号
+head_errCode   6     X   #返回码
+head_errMsg    100   X   #返回描述 
+head_toContinue  1   X   #后续包标志
+head_packetNo  3     X   #请求次数 
+head_signTag   1     X   #签名标识:0-不签名, 1-签名 
+head_signFormat  1   X   #签名数据包格式
+head_signAlgorithm 12  X #签名算法 
+head_signDataLen 10  N   #签名数据长度
+head_attachNum 1     N   #附件数目 

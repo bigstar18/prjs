@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<!-- 平安通讯前置系统  配置业务类 -->
+	<bean id="configManager" class="cn.com.pingan.b2bic.web.impl.ConfigManager">
+		<property name="basePath">
+			<value>${configBasePath}</value>
+		</property>
+		<property name="pwdReader" ref="desReader"></property>
+	</bean>
+	
+	<!-- 无加密读写器 -->
+	<bean id="noCryptReader" class="cn.com.agree.server.component.config.impl.NoCryptReader"></bean>
+
+	<!-- 密码Des加密读写器 -->
+	<bean id="desReader" class="cn.com.pingan.b2bic.config.DesReader"></bean>
+
+	<!-- SignFactory 
+	<bean id="signFactory" class="cn.com.agree.sign.impl.SignFactoryImpl"></bean>
+	-->
+
+	<!-- SignCheck 
+	<bean id="signCheck" class="cn.com.pingan.b2bic.web.SignCheck">
+		<property name="factory">
+			<bean class="cn.com.agree.sign.impl.SignFactoryImpl"></bean>
+		</property>
+	</bean>
+	-->
+</beans>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+ <!-- 
+    Created by the Middlegen Hibernate plugin
+
+    http://boss.bekk.no/boss/middlegen/
+    http://hibernate.sourceforge.net/
+-->
+ <class name="cn.com.agree.eteller.afa.persistence.AfapMaindict" table="AFA_MAINDICT">
+  <id column="ITEM" name="item" type="java.lang.String">
+   <generator class="assigned"/>
+  </id>
+  <property column="ITEMENAME" generated="never" lazy="false"
+   length="20" name="itemename" not-null="true" type="java.lang.String"/>
+  <property column="ITEMCNAME" generated="never" lazy="false"
+   length="50" name="itemcname" not-null="true" type="java.lang.String"/>
+  <!-- associations -->
+ </class>
+</hibernate-mapping>

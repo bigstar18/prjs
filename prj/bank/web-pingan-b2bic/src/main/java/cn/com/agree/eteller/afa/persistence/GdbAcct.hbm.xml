@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+ <!-- 
+    Created by the Middlegen Hibernate plugin
+
+    http://boss.bekk.no/boss/middlegen/
+    http://hibernate.sourceforge.net/
+-->
+ <class name="cn.com.agree.eteller.afa.persistence.GdbAcct" table="GDB_ACCT">
+  <id column="ACCTYPE" name="acctype" type="java.lang.String">
+   <generator class="assigned"/>
+  </id>
+  <property column="MAPNAME" generated="never" lazy="false" length="20"
+   name="mapname" not-null="true" type="java.lang.String"/>
+  <property column="HOSTTYPE" generated="never" lazy="false" length="2"
+   name="hosttype" not-null="true" type="java.lang.String"/>
+  <property column="AFSTART" generated="never" lazy="false" length="22"
+   name="afstart" type="java.math.BigDecimal"/>
+  <property column="FFHSTART" generated="never" lazy="false" length="22"
+   name="ffhstart" type="java.math.BigDecimal"/>
+  <property column="LEN" generated="never" lazy="false" length="22"
+   name="len" type="java.math.BigDecimal"/>
+  <property column="FHHFLAG" generated="never" lazy="false" length="1"
+   name="fhhflag" not-null="true" type="java.lang.String"/>
+  <property column="NOTE1" generated="never" lazy="false" length="40"
+   name="note1" type="java.lang.String"/>
+  <property column="NOTE2" generated="never" lazy="false" length="40"
+   name="note2" type="java.lang.String"/>
+  <!-- associations -->
+ </class>
+</hibernate-mapping>

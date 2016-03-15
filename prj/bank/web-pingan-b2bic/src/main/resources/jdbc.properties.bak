@@ -1,0 +1,27 @@
+#h2 connect mode : tcp, file, ssl, mem, zip
+h2.mode=file
+#if mode is tcp or ssl, serverUrl is required!
+h2.serverUrl=
+ 
+#jdbc
+jdbc.driverClassName=org.h2.Driver
+jdbc.url=../eteller3_pingan/WebRoot/WEB-INF/db/pingan_db
+jdbc.username=pingan
+jdbc.password=cGE4ODg4ODg\=
+
+#dbcp connection pool
+jdbc.initialSize=5
+jdbc.maxActive=15
+jdbc.maxIdle=10
+jdbc.minIdle=5
+jdbc.maxWait=60000
+jdbc.removeAbandoned=true
+jdbc.removeAbandonedTimeout=180
+jdbc.minEvictableIdleTimeMillis=3600000
+jdbc.timeBetweenEvictionRunsMillis=900000
+
+#c3p0 connection pool
+#jdbc.maxPoolSize=25
+#jdbc.minPoolSize=1
+#jdbc.checkoutTimeout=60000
+#jdbc.initialPoolSize=2

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM ".\log4j.dtd">
+<log4j:configuration>
+	<appender name="sys" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="log/server.log"/>
+		<param name="maxFileSize" value="10240KB"/>
+		<param name="maxBackupIndex" value="10"/>
+		<param name="BufferedIO" value="false"/>
+		<param name="BufferSize" value="2048"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-6p &lt;!--- %m ---&gt;%n"/>
+		</layout>
+	</appender>
+	
+	<appender name="stdout" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-6p &lt;!--- %m ---&gt;%n"/>
+		</layout>
+	</appender>
+	<logger name="cn.com.agree.eteller">
+		<level value="debug"/>
+		<appender-ref ref="sys"/>
+	</logger>
+	<root>
+		<priority class="org.apache.log4j.Level" value="info"/>
+		<appender-ref ref="stdout"/>
+	</root>
+</log4j:configuration>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="GBk"?>
+<root>
+	<clzPre>cn.com.pingan.b2bic.command</clzPre>
+	<isCheck>true</isCheck>
+	<commands>
+		<!--command tradeCode="B2BIC1" class="ServerShutdownCommand" desc="关闭进程" /-->
+		<command tradeCode="FIND" class="UpOnlineSignCmd" desc="签名实时交易" />		
+		<command tradeCode="NOFIND" class="UpOnlineNoSignCmd"  desc="不签名实时交易" />
+		<command tradeCode="FILE01" class="FileTransUpCmd"  desc="文件上传请求" />	
+		<command tradeCode="FILE02" class="FileStatusQryCmd"  desc="文件状态查询请求" />
+		<command tradeCode="FILE03" class="FileTransDownCmd"  desc="文件下载请求" />
+	</commands>
+</root>

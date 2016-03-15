@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+ <!-- 
+    Created by the Middlegen Hibernate plugin
+
+    http://boss.bekk.no/boss/middlegen/
+    http://hibernate.sourceforge.net/
+-->
+ <class name="cn.com.agree.eteller.afa.persistence.AfaHostfuncmap" table="AFA_HOSTFUNCMAP">
+  <composite-id mapped="false" unsaved-value="undefined">
+   <key-property column="HOSTTYPE" length="1" name="hosttype" type="java.lang.String"/>
+   <key-property column="AGENTFLAG" length="2" name="agentflag" type="java.lang.String"/>
+   <key-property column="CHANNELCODE" length="3" name="channelcode" type="java.lang.String"/>
+   <key-property column="REVTRANF" length="1" name="revtranf" type="java.lang.String"/>
+   <key-property column="ACCTYPE" length="3" name="acctype" type="java.lang.String"/>
+   <key-property column="TRADEFUNC" length="255" name="tradefunc" type="java.lang.String"/>
+   <key-property column="COMMENT" length="255" name="comment" type="java.lang.String"/>
+   <key-property column="NOTE1" length="255" name="note1" type="java.lang.String"/>
+   <key-property column="NOTE2" length="255" name="note2" type="java.lang.String"/>
+  </composite-id>
+  <!-- associations -->
+ </class>
+</hibernate-mapping>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+    "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+    
+<struts>	
+	<package name="eteller-default" extends="json-default" namespace="/">
+	
+		<!-- 通用拦截器 -->
+		<interceptors>
+			<interceptor name="loginInterceptor" class="cn.com.agree.eteller.generic.interceptor.LoginInterceptor"></interceptor>
+			<interceptor name="loggerInterceptor" class="cn.com.agree.eteller.generic.interceptor.LoggerInterceptor"></interceptor>
+			<interceptor name="paginationInterceptor" class="cn.com.agree.eteller.generic.interceptor.PaginationInterceptor"></interceptor>
+			
+			<interceptor-stack name="etellerStack">
+				<interceptor-ref name="loginInterceptor"></interceptor-ref>
+				<interceptor-ref name="paginationInterceptor"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="loggerInterceptor"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		
+		<!-- 设置默认拦截器栈 -->
+		<default-interceptor-ref name="etellerStack"></default-interceptor-ref>
+		
+		<default-action-ref name="defaultPage"></default-action-ref>
+		
+		<global-results>
+			<result name="login">index</result>
+			<!-- dwz 通用跳转跳转 -->
+			<result name="dwz" type="json">
+				<param name="root">dwzResp</param>
+				<param name="contentType">text/plain</param>
+			</result>
+			<!-- dwz 表单验证跳转 -->
+			<result name="input" type="json">
+				<param name="root">dwzResp</param>
+				<param name="contentType">text/plain</param>
+			</result>
+		</global-results>
+		
+		<!-- 全局异常跳转路径 
+		<global-exception-mappings>
+			<exception-mapping result="errMsg" exception="java.lang.Exception"></exception-mapping>
+		</global-exception-mappings>
+		-->
+		
+		<!-- 系统首页 
+		<action name="index" class="indexAction">
+			<result>/WEB-INF/index.jsp</result>
+			<result name="input">/WEB-INF/main/error.jsp</result>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+		</action>
+		-->
+		
+		<!-- 
+		<action name="login" class="loginAction" method="login">
+			<result type="redirect">/app</result>
+			<result name="input">/WEB-INF/index.jsp</result>
+			<result name="error">/WEB-INF/index.jsp</result>
+			
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+		</action>
+		
+		<action name="heartBeat" class="loginAction" method="heartBeat">
+			<result type="json">
+				<param name="root">logout</param>
+			</result>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+		</action>
+		
+		<action name="app" class="appAction">
+			<result>/WEB-INF/main/app.jsp</result>
+			<exception-mapping result="login" exception="java.lang.Exception"></exception-mapping>
+		</action>
+		
+		<action name="logout" class="loginAction" method="logout">
+			<result type="redirect">/index</result>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+		</action>
+		
+		<action name="logoutWithNoReturn" class="loginAction" method="logoutWithNoReturn">
+			<interceptor-ref name="loginInterceptor"></interceptor-ref>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+		</action>
+		
+		<action name="linkPage" class="linkPageAction">
+			<result>/WEB-INF/main/${pagePath}</result>
+		</action>
+		
+		<action name="resultState" class="resultStateAction">
+			<result type="json">
+				<param name="root">resultState</param>
+			</result>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+		</action>
+		-->
+		
+	</package>
+</struts>

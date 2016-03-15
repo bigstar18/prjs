@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="GBK"?>
+
+<root> 
+  <!-- 签名选项 -->  
+  <signopt> 
+    <!--signMode>JD_NoDrv</signMode-->  
+    <signMode>USB_Comm</signMode>  
+    <!--signMode>soft</signMode-->  
+    <!--certDn>CN=SDB@70805@0805@YQ000155, OU=Enterprises, OU=SDB, O=SDBCA, C=CN</certDn-->  
+    <certDn>CN=SDB@70805@0805@YQ000155, OU=Enterprises, OU=SDB, O=SDBCA, C=CN</certDn>  
+    <caCertPath>cert/ebankprd.p7b</caCertPath>  
+    <crlPath/>  
+    <checkBankSign>true</checkBankSign>  
+    <bankCertDN>CN=SDB@919218537_9-800-011@2000000009@02109161,OU=Enterprises,OU=SDB,O=SDBCA,C=CN</bankCertDN> 
+  </signopt>  
+  <!-- 签名交易代码 -->  
+  <signTradeCodes> 
+    <up>AQ01;S001;SC00;SC01;4004;400401;4014;4018;4048;4034;4041; 1330;C001;C002;S002;C003;C004;C006;4027;4047;AM02;AM03; 000000;CAS001;CAS002;VAF006;4059;BA06;AQ05;400101;AM04;BA03;FBS001; FBS002;YNTC01;WTD001;WTD002;WTD003;WTD009;BA02;CP02;SCFP01;</up>  
+    <down>SC10U1</down> 
+  </signTradeCodes> 
+</root>

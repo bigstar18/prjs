@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+ <!-- 
+    Created by the Middlegen Hibernate plugin
+
+    http://boss.bekk.no/boss/middlegen/
+    http://hibernate.sourceforge.net/
+-->
+ <class name="cn.com.agree.eteller.afa.persistence.AfaSubunitadm" table="AFA_SUBUNITADM">
+  <composite-id
+   class="cn.com.agree.eteller.afa.persistence.AfaSubunitadmPK"
+   mapped="false" name="comp_id" unsaved-value="undefined">
+   <key-property column="SYSID" length="6" name="sysid" type="java.lang.String"/>
+   <key-property column="UNITNO" length="8" name="unitno" type="java.lang.String"/>
+   <key-property column="SUBUNITNO" length="8" name="subunitno" type="java.lang.String"/>
+  </composite-id>
+  <property column="SUBUNITNAME" generated="never" lazy="false"
+   length="100" name="subunitname" type="java.lang.String"/>
+  <property column="SUBUNITSNAME" generated="never" lazy="false"
+   length="20" name="subunitsname" type="java.lang.String"/>
+  <property column="STATUS" generated="never" lazy="false" length="1"
+   name="status" not-null="true" type="java.lang.String"/>
+  <property column="WORKDATE" generated="never" lazy="false" length="8"
+   name="workdate" type="java.lang.String"/>
+  <property column="PREWORKDATE" generated="never" lazy="false"
+   length="8" name="preworkdate" type="java.lang.String"/>
+  <property column="STARTTIME" generated="never" lazy="false" length="6"
+   name="starttime" type="java.lang.String"/>
+  <property column="STOPTIME" generated="never" lazy="false" length="6"
+   name="stoptime" type="java.lang.String"/>
+  <property column="FEEFLAG" generated="never" lazy="false" length="1"
+   name="feeflag" type="java.lang.String"/>
+  <property column="BANKCODE" generated="never" lazy="false" length="20"
+   name="bankcode" type="java.lang.String"/>
+  <property column="ZONENO" generated="never" lazy="false" length="6"
+   name="zoneno" type="java.lang.String"/>
+  <property column="BRNO" generated="never" lazy="false" length="6"
+   name="brno" type="java.lang.String"/>
+  <property column="BUSIMODE" generated="never" lazy="false" length="1"
+   name="busimode" not-null="true" type="java.lang.String"/>
+  <property column="ACCMODE" generated="never" lazy="false" length="1"
+   name="accmode" not-null="true" type="java.lang.String"/>
+  <property column="BANKUNITNO" generated="never" lazy="false"
+   length="4" name="bankunitno" not-null="true" type="java.lang.String"/>
+  <property column="ACCNO1" generated="never" lazy="false" length="32"
+   name="accno1" type="java.lang.String"/>
+  <property column="ACCNO2" generated="never" lazy="false" length="32"
+   name="accno2" type="java.lang.String"/>
+  <property column="ACCNO3" generated="never" lazy="false" length="32"
+   name="accno3" type="java.lang.String"/>
+  <property column="ACCNO4" generated="never" lazy="false" length="32"
+   name="accno4" type="java.lang.String"/>
+  <property column="ACCNO5" generated="never" lazy="false" length="32"
+   name="accno5" type="java.lang.String"/>
+  <property column="ACCNO6" generated="never" lazy="false" length="32"
+   name="accno6" type="java.lang.String"/>
+  <property column="NAME" generated="never" lazy="false" length="60"
+   name="name" type="java.lang.String"/>
+  <property column="TELPHONE" generated="never" lazy="false" length="20"
+   name="telphone" type="java.lang.String"/>
+  <property column="ADDRESS" generated="never" lazy="false" length="60"
+   name="address" type="java.lang.String"/>
+  <property column="AGENTEIGEN" generated="never" lazy="false"
+   length="16" name="agenteigen" type="java.lang.String"/>
+  <property column="LOGINSTATUS" generated="never" lazy="false"
+   length="1" name="loginstatus" type="java.lang.String"/>
+  <property column="DAYENDSTATUS" generated="never" lazy="false"
+   length="1" name="dayendstatus" type="java.lang.String"/>
+  <property column="DAYENDTIME" generated="never" lazy="false"
+   length="6" name="dayendtime" type="java.lang.String"/>
+  <property column="TRXCHKSTATUS" generated="never" lazy="false"
+   length="1" name="trxchkstatus" type="java.lang.String"/>
+  <property column="TRXCHKTIME" generated="never" lazy="false"
+   length="6" name="trxchktime" type="java.lang.String"/>
+  <property column="NOTE1" generated="never" lazy="false" length="20"
+   name="note1" type="java.lang.String"/>
+  <property column="NOTE2" generated="never" lazy="false" length="60"
+   name="note2" type="java.lang.String"/>
+  <!-- associations -->
+ </class>
+</hibernate-mapping>

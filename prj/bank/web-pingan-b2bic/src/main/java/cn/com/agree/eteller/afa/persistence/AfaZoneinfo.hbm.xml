@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+ <!-- 
+    Created by the Middlegen Hibernate plugin
+
+    http://boss.bekk.no/boss/middlegen/
+    http://hibernate.sourceforge.net/
+-->
+ <class name="cn.com.agree.eteller.afa.persistence.AfaZoneinfo" table="AFA_ZONEINFO">
+  <id column="ZONENO" name="zoneno" type="java.lang.String">
+   <generator class="assigned"/>
+  </id>
+  <property column="ZONESNAME" generated="never" lazy="false"
+   length="12" name="zonesname" type="java.lang.String"/>
+  <property column="ZONENAME" generated="never" lazy="false"
+   length="100" name="zonename" type="java.lang.String"/>
+  <property column="NOTE1" generated="never" lazy="false" length="10"
+   name="note1" type="java.lang.String"/>
+  <property column="NOTE2" generated="never" lazy="false" length="10"
+   name="note2" type="java.lang.String"/>
+  <!-- associations -->
+ </class>
+</hibernate-mapping>

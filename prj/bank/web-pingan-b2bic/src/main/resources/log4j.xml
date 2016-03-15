@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM ".\log4j.dtd">
+<log4j:configuration>
+	<appender name="sys" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="log/server.log"/>
+		<param name="maxFileSize" value="10240KB"/>
+		<param name="maxBackupIndex" value="10"/>
+		<param name="BufferedIO" value="false"/>
+		<param name="BufferSize" value="1024"/>
+		<!--  
+		<param name="Encoding" value="GBK"/>
+		-->
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%p %d %t %c - %m%n"/>
+		</layout>
+	</appender>
+	
+	<appender name="stdout" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%p %d %t %c - %m%n"/>
+		</layout>
+	</appender>
+	
+	<!-- eteller 
+	<logger name="cn.com.agree.eteller">
+		<level value="debug"/>
+		<appender-ref ref="stdout"/>
+	</logger>
+	-->
+	
+	<!-- struts2 -->
+	<logger name="org.apache.struts2">
+		<level value="info"/>
+	</logger>
+	<logger name="com.opensymphony.xwork2">
+		<level value="info"/>
+	</logger>
+	
+	<!-- spring -->
+	<logger name="org.springframework">
+		<level value="info"/>
+	</logger>
+	
+	<!-- hibernate -->
+	<logger name="org.hibernate">
+		<level value="off"/>
+	</logger>
+	<!--  
+	<logger name="org.hibernate.SQL">
+		<level value="debug"/>
+		<appender-ref ref="stdout"/>
+	</logger>
+	<logger name="org.hibernate.type.descriptor.sql.BasicBinder">
+		<level value="trace"/>
+		<appender-ref ref="stdout"/>
+	</logger>
+	<logger name="org.hibernate.engine.QueryParameters">
+		<level value="trace"/>
+		<appender-ref ref="stdout"/>
+	</logger>
+	-->
+	
+	<!-- other -->
+	<logger name="freemarker">
+		<level value="off"/>
+	</logger>
+	
+	<!-- root -->
+	<root>
+		<priority class="org.apache.log4j.Level" value="debug"/>
+		<appender-ref ref="stdout"/>
+	</root>
+	
+</log4j:configuration>

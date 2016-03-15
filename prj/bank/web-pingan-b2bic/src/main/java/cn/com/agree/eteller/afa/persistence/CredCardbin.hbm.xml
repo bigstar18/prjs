@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+ <!-- 
+    Created by the Middlegen Hibernate plugin
+
+    http://boss.bekk.no/boss/middlegen/
+    http://hibernate.sourceforge.net/
+-->
+ <class name="cn.com.agree.eteller.afa.persistence.CredCardbin" table="CRED_CARDBIN">
+  <composite-id
+   class="cn.com.agree.eteller.afa.persistence.CredCardbinPK"
+   mapped="false" name="comp_id" unsaved-value="undefined">
+   <key-property column="SYSID" length="6" name="sysid" type="java.lang.String"/>
+   <key-property column="UNITNO" length="8" name="unitno" type="java.lang.String"/>
+   <key-property column="SUBUNITNO" length="8" name="subunitno" type="java.lang.String"/>
+   <key-property column="CARDBIN" length="8" name="cardbin" type="java.lang.String"/>
+  </composite-id>
+  <property column="DESC" generated="never" lazy="false" length="100"
+   name="desc" not-null="true" type="java.lang.String"/>
+  <property column="NOTE1" generated="never" lazy="false" length="20"
+   name="note1" type="java.lang.String"/>
+  <property column="NOTE2" generated="never" lazy="false" length="20"
+   name="note2" type="java.lang.String"/>
+  <property column="NOTE3" generated="never" lazy="false" length="100"
+   name="note3" type="java.lang.String"/>
+  <!-- associations -->
+ </class>
+</hibernate-mapping>

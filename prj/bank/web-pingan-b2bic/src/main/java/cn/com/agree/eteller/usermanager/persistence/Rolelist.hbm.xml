@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+ <!-- 
+    Created by the Middlegen Hibernate plugin
+
+    http://boss.bekk.no/boss/middlegen/
+    http://hibernate.sourceforge.net/
+-->
+ <class name="cn.com.agree.eteller.usermanager.persistence.Rolelist" table="eteller_rolelist">
+  <id column="role_id" name="roleId" type="java.lang.Long">
+   <generator class="increment"/>
+  </id>
+  <property column="role_name" generated="never" lazy="false"
+   length="20" name="roleName" not-null="true" type="java.lang.String"/>
+  <property column="superior_role_id" generated="never" lazy="false"
+   name="superiorRoleId" type="java.lang.Long"/>
+  <property column="final" generated="never" lazy="false"
+   name="finalFlag" not-null="true" type="char"/>
+  <!-- associations -->
+  <set lazy="true" name="functions" order-by="func_id" sort="unsorted" table="eteller_role_func">
+   <key column="role_id"/>
+   <many-to-many
+    class="cn.com.agree.eteller.usermanager.persistence.Funclist"
+    column="func_id" unique="false"/>
+  </set>
+  <set lazy="true" name="departments" sort="unsorted" table="eteller_department_role">
+   <key column="role_id"/>
+   <many-to-many
+    class="cn.com.agree.eteller.usermanager.persistence.Department"
+    column="department_id" unique="false"/>
+  </set>
+ </class>
+</hibernate-mapping>

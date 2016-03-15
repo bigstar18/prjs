@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+ <!-- 
+    Created by the Middlegen Hibernate plugin
+
+    http://boss.bekk.no/boss/middlegen/
+    http://hibernate.sourceforge.net/
+-->
+ <class name="cn.com.agree.eteller.afa.persistence.AfaZhinfo" table="AFA_ZHINFO">
+  <id column="ZHNO" name="zhno" type="java.lang.String">
+   <generator class="assigned"/>
+  </id>
+  <property column="SNAME" generated="never" lazy="false" length="12"
+   name="sname" type="java.lang.String"/>
+  <property column="NAME" generated="never" lazy="false" length="100"
+   name="name" type="java.lang.String"/>
+  <property column="UPZONENO" generated="never" lazy="false" length="6"
+   name="upzoneno" type="java.lang.String"/>
+  <property column="BRZHID" generated="never" lazy="false" length="6"
+   name="brzhid" type="java.lang.String"/>
+  <property column="BRDATE" generated="never" lazy="false" length="8"
+   name="brdate" type="java.lang.String"/>
+  <property column="NOTE1" generated="never" lazy="false" length="10"
+   name="note1" type="java.lang.String"/>
+  <property column="NOTE2" generated="never" lazy="false" length="10"
+   name="note2" type="java.lang.String"/>
+  <!-- associations -->
+ </class>
+</hibernate-mapping>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+ <!-- 
+    Created by the Middlegen Hibernate plugin
+
+    http://boss.bekk.no/boss/middlegen/
+    http://hibernate.sourceforge.net/
+-->
+ <class name="cn.com.agree.eteller.afa.persistence.CisCommdata" table="CIS_COMMDATA">
+  <id column="DATACODE" name="datacode" type="java.lang.String">
+   <generator class="assigned"/>
+  </id>
+  <property column="DATANAME" generated="never" lazy="false" length="40"
+   name="dataname" not-null="true" type="java.lang.String"/>
+  <property column="DATAVALUE" generated="never" lazy="false"
+   length="250" name="datavalue" not-null="true" type="java.lang.String"/>
+  <property column="UPDATEDATAVALUE" generated="never" lazy="false"
+   length="250" name="updatedatavalue" type="java.lang.String"/>
+  <property column="EFFICIENTTYPE" generated="never" lazy="false"
+   length="1" name="efficienttype" type="java.lang.String"/>
+  <property column="LATELYOPERTYPE" generated="never" lazy="false"
+   length="1" name="latelyopertype" type="java.lang.String"/>
+  <property column="EFFICIENTDATE" generated="never" lazy="false"
+   length="8" name="efficientdate" type="java.lang.String"/>
+  <property column="CISUPDATEDATE" generated="never" lazy="false"
+   length="8" name="cisupdatedate" not-null="true" type="java.lang.String"/>
+  <property column="UPDATETIME" generated="never" lazy="false"
+   length="26" name="updatetime" not-null="true" type="java.lang.String"/>
+  <property column="POSTSCRIPT" generated="never" lazy="false"
+   length="60" name="postscript" type="java.lang.String"/>
+  <property column="LEAVEDATE" generated="never" lazy="false" length="8"
+   name="leavedate" type="java.lang.String"/>
+  <property column="STATUS" generated="never" lazy="false" length="1"
+   name="status" type="java.lang.String"/>
+  <property column="REMARK1" generated="never" lazy="false" length="60"
+   name="remark1" type="java.lang.String"/>
+  <property column="REMARK2" generated="never" lazy="false" length="60"
+   name="remark2" type="java.lang.String"/>
+  <!-- associations -->
+ </class>
+</hibernate-mapping>

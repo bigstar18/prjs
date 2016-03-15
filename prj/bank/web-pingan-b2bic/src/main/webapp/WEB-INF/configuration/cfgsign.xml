@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="GBK"?>
+
+<root> 
+  <!-- 签名选项 -->  
+  <signopt> 
+    <signMode>JD_NoDrv</signMode>  
+    <!--signMode>soft</signMode-->  
+    <pfxPath>sssssss</pfxPath>  
+    <pfxPwd>ssssssssss</pfxPwd>  
+    <caCertPath>E:/进行中/平安企业前置/证书/sdbtestca_20130927.p7b</caCertPath>  
+    <crlPath></crlPath> 
+  </signopt>  
+  <!-- 签名交易代码 -->  
+  <signTradeCodes> 
+    <up>SC00U1;SC00U2;</up> 
+  </signTradeCodes> 
+</root>

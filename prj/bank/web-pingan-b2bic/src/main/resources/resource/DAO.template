@@ -1,0 +1,15 @@
+package ${daoPackage};
+
+import cn.com.agree.eteller.generic.dao.GenericDAO;
+import ${entityPackage}.${entityName};
+
+/**
+ * ${entityName} data access object interface
+ * 
+ * @author luyihe
+ * @company agree
+ * @version 1.0 
+ */
+public interface ${entityName}DAO extends GenericDAO<${entityName}> {
+
+}

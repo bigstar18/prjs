@@ -1,0 +1,15 @@
+package ${servicePackage};
+
+import cn.com.agree.eteller.generic.spring.BaseManager;
+import ${entityPackage}.${entityName};
+
+/**
+ * ${entityName} service operation interface
+ * 
+ * @author luyihe
+ * @company agree
+ * @version 1.0
+ */
+public interface ${entityName}Manager extends BaseManager<${entityName}> {
+
+}

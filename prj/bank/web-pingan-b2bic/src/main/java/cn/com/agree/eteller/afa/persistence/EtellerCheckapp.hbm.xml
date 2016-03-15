@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+ <!-- 
+    Created by the Middlegen Hibernate plugin
+
+    http://boss.bekk.no/boss/middlegen/
+    http://hibernate.sourceforge.net/
+-->
+ <class name="cn.com.agree.eteller.afa.persistence.EtellerCheckapp" table="eteller_checkapp">
+  <id column="serinalno" name="serinalno" type="java.lang.String">
+   <generator class="assigned"/>
+  </id>
+  <property column="usrid" generated="never" lazy="false" length="15"
+   name="usrid" type="java.lang.String"/>
+  <property column="checkusrid" generated="never" lazy="false"
+   length="15" name="checkusrid" type="java.lang.String"/>
+  <property column="changdate" generated="never" lazy="false" length="8"
+   name="changdate" type="java.lang.String"/>
+  <property column="tablename" generated="never" lazy="false"
+   length="20" name="tablename" type="java.lang.String"/>
+  <property column="changfield" generated="never" lazy="false"
+   length="1024" name="changfield" type="java.lang.String"/>
+  <property column="changsql" generated="never" lazy="false"
+   length="1024" name="changsql" type="java.lang.String"/>
+  <property column="checkflag" generated="never" lazy="false" length="1"
+   name="checkflag" type="java.lang.String"/>
+  <property column="optflag" generated="never" lazy="false" length="1"
+   name="optflag" type="java.lang.String"/>
+  <property column="note" generated="never" lazy="false" length="1024"
+   name="note" type="java.lang.String"/>
+  <!-- associations -->
+ </class>
+</hibernate-mapping>

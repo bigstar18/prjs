@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+ <!-- 
+    Created by the Middlegen Hibernate plugin
+
+    http://boss.bekk.no/boss/middlegen/
+    http://hibernate.sourceforge.net/
+-->
+ <class name="cn.com.agree.eteller.afa.persistence.AfaSystem" table="AFA_SYSTEM">
+  <id column="SYSID" name="sysid" type="java.lang.String">
+   <generator class="assigned"/>
+  </id>
+  <property column="SYSENAME" generated="never" lazy="false" length="10"
+   name="sysename" type="java.lang.String"/>
+  <property column="SYSCNAME" generated="never" lazy="false"
+   length="100" name="syscname" type="java.lang.String"/>
+  <property column="WORKDATE" generated="never" lazy="false" length="8"
+   name="workdate" type="java.lang.String"/>
+  <property column="PREWORKDATE" generated="never" lazy="false"
+   length="8" name="preworkdate" type="java.lang.String"/>
+  <property column="STATUS" generated="never" lazy="false" length="1"
+   name="status" not-null="true" type="java.lang.String"/>
+  <property column="TYPE" generated="never" lazy="false" length="1"
+   name="type" not-null="true" type="java.lang.String"/>
+  <property column="MAXAMOUNT" generated="never" lazy="false"
+   length="15" name="maxamount" not-null="true" type="java.lang.String"/>
+  <property column="TOTALAMOUNT" generated="never" lazy="false"
+   length="15" name="totalamount" not-null="true" type="java.lang.String"/>
+  <property column="CHANNELMODE" generated="never" lazy="false"
+   length="1" name="channelmode" not-null="true" type="java.lang.String"/>
+  <property column="ACTNOMODE" generated="never" lazy="false" length="1"
+   name="actnomode" not-null="true" type="java.lang.String"/>
+  <property column="NOTE1" generated="never" lazy="false" length="20"
+   name="note1" type="java.lang.String"/>
+  <property column="NOTE2" generated="never" lazy="false" length="60"
+   name="note2" type="java.lang.String"/>
+  <property column="NOTE3" generated="never" lazy="false" length="20"
+   name="note3" type="java.lang.String"/>
+  <!-- associations -->
+ </class>
+</hibernate-mapping>

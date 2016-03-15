@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+ <!-- 
+    Created by the Middlegen Hibernate plugin
+
+    http://boss.bekk.no/boss/middlegen/
+    http://hibernate.sourceforge.net/
+-->
+ <class name="cn.com.agree.eteller.afa.persistence.GdbSys" table="GDB_SYS">
+  <composite-id class="cn.com.agree.eteller.afa.persistence.GdbSysPK"
+   mapped="false" name="comp_id" unsaved-value="undefined">
+   <key-property column="BANKUNITNO" length="4" name="bankunitno" type="java.lang.String"/>
+   <key-property column="ONLINEFLAG" length="1" name="onlineflag" type="java.lang.String"/>
+  </composite-id>
+  <property column="DATAQUEUE" generated="never" lazy="false"
+   length="20" name="dataqueue" not-null="true" type="java.lang.String"/>
+  <property column="NOTE1" generated="never" lazy="false" length="20"
+   name="note1" type="java.lang.String"/>
+  <property column="NOTE2" generated="never" lazy="false" length="20"
+   name="note2" type="java.lang.String"/>
+  <property column="NOTE3" generated="never" lazy="false" length="20"
+   name="note3" type="java.lang.String"/>
+  <!-- associations -->
+ </class>
+</hibernate-mapping>

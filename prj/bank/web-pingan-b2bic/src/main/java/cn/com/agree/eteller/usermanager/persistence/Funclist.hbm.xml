@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+ <!-- 
+    Created by the Middlegen Hibernate plugin
+
+    http://boss.bekk.no/boss/middlegen/
+    http://hibernate.sourceforge.net/
+-->
+ <class name="cn.com.agree.eteller.usermanager.persistence.Funclist" table="eteller_funclist">
+  <id column="func_id" name="funcId" type="long">
+   <generator class="assigned"/>
+  </id>
+  <property column="func_name" generated="never" lazy="false"
+   length="20" name="funcName" not-null="true" type="java.lang.String"/>
+  <property column="func_address" generated="never" lazy="false"
+   length="63" name="funcAddress" not-null="true" type="java.lang.String"/>
+  <property column="appid" generated="never" lazy="false" length="10"
+   name="appid" not-null="true" type="java.lang.String"/>
+  <property column="func_desc" generated="never" lazy="false"
+   length="255" name="funcDesc" type="java.lang.String"/>
+  <property column="runflg" generated="never" lazy="false" length="1"
+   name="runflg" not-null="true" type="java.lang.String"/>
+  <property column="subappid" generated="never" lazy="false" length="10"
+   name="subappid" type="java.lang.String"/>
+  <!-- associations -->
+  <set inverse="true" lazy="true" name="roles" sort="unsorted" table="eteller_role_func">
+   <key column="func_id"/>
+   <many-to-many
+    class="cn.com.agree.eteller.usermanager.persistence.Rolelist"
+    column="role_id" unique="false"/>
+  </set>
+ </class>
+</hibernate-mapping>

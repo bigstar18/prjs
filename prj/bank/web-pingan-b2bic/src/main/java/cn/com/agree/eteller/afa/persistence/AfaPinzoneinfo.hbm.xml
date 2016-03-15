@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+ <!-- 
+    Created by the Middlegen Hibernate plugin
+
+    http://boss.bekk.no/boss/middlegen/
+    http://hibernate.sourceforge.net/
+-->
+ <class name="cn.com.agree.eteller.afa.persistence.AfaPinzoneinfo" table="AFA_PINZONEINFO">
+  <composite-id
+   class="cn.com.agree.eteller.afa.persistence.AfaPinzoneinfoPK"
+   mapped="false" name="comp_id" unsaved-value="undefined">
+   <key-property column="SYSID" length="6" name="sysid" type="java.lang.String"/>
+   <key-property column="ZONENO" length="6" name="zoneno" type="java.lang.String"/>
+   <key-property column="TREMID" length="2" name="tremid" type="java.lang.String"/>
+  </composite-id>
+  <property column="ZMKNAME" generated="never" lazy="false" length="30"
+   name="zmkname" not-null="true" type="java.lang.String"/>
+  <property column="PVKNAME" generated="never" lazy="false" length="30"
+   name="pvkname" not-null="true" type="java.lang.String"/>
+  <property column="ZPKNAME" generated="never" lazy="false" length="30"
+   name="zpkname" not-null="true" type="java.lang.String"/>
+  <property column="CRTDATE" generated="never" lazy="false" length="8"
+   name="crtdate" not-null="true" type="java.lang.String"/>
+  <property column="UPTDATE" generated="never" lazy="false" length="8"
+   name="uptdate" type="java.lang.String"/>
+  <property column="UPTCYCLE" generated="never" lazy="false" length="3"
+   name="uptcycle" not-null="true" type="java.lang.String"/>
+  <property column="RESERV1" generated="never" lazy="false" length="30"
+   name="reserv1" type="java.lang.String"/>
+  <property column="RESERV2" generated="never" lazy="false" length="30"
+   name="reserv2" type="java.lang.String"/>
+  <property column="RESERV3" generated="never" lazy="false" length="60"
+   name="reserv3" type="java.lang.String"/>
+  <!-- associations -->
+ </class>
+</hibernate-mapping>

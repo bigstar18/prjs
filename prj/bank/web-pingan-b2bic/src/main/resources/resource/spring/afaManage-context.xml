@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <!--Manager interface-->
+     <bean id="afaManagerTarget"
+           class="cn.com.agree.eteller.afa.spring.implement.AfaManager">
+           
+           <property name="maindictDao"><ref bean="maindictDao"/></property>
+           <property name="subdictDao"><ref bean="subdictDao"/></property>
+           <property name="systemDao"><ref bean="systemDao"/></property>
+           <property name="unitadmDao"><ref bean="unitadmDao"/></property>
+           <property name="subunitadmDao"><ref bean="subunitadmDao"/></property>
+           <property name="agentadmDao"><ref bean="agentadmDao"/></property>
+           <property name="tradeadmDao"><ref bean="tradeadmDao"/></property>
+           <property name="zoneinfoDao"><ref bean="zoneinfoDao"/></property>
+           <property name="zhinfoDao"><ref bean="zhinfoDao"/></property>
+           <property name="zhbrnoinfoDao"><ref bean="zhbrnoinfoDao"/></property>
+           <property name="gdbsysDao"><ref bean="gdbsysDao"/></property>
+           <property name="hostinfoDao"><ref bean="hostinfoDao"/></property>
+           <property name="gdbacctDao"><ref bean="acctDao"/></property>           
+           <property name="brachDao"><ref bean="brachDao"/></property>
+           <property name="unitebrachDao"><ref bean="unitebrachDao"/></property>                      
+           <property name="afaChanneladmDao"><ref bean="afaChanneladmDao"/></property>
+           <property name="afaActnoadmDao"><ref bean="afaActnoadmDao"/></property>           
+           <property name="branchcodeDao"><ref bean="branchcodeDao"/></property>
+           <property name="afaCheckappDao"><ref bean="afaCheckappDao"/></property>           
+           <property name="afaHolidayadmDao"><ref bean="afaHolidayadmDao"/></property>
+           <property name="afapinzoneinfoDao"><ref bean="afapinzoneinfoDao"/></property>          
+           <property name="cisCommdataDao"><ref bean="cisCommdataDao"/></property>
+           <property name="afaPininfoDao"><ref bean="afaPininfoDao"/></property>
+           <property name="etellerExcelPubDao"><ref bean="etellerExcelPubDao"/></property>
+           <property name="afaFeeinfoDao"><ref bean="afaFeeinfoDao"/></property>
+           <property name="afaHostfuncmapDao"><ref bean="afaHostfuncmapDao"/></property>
+           <property name="credCardbinDao"><ref bean="credCardbinDao"/></property>
+           <property name="credRecktradecodeDao"><ref bean="credRecktradecodeDao"/></property>
+           <property name="credSubbusisysinfoDao"><ref bean="credSubbusisysinfoDao"/></property>
+           
+           
+           <!-- 2 -->
+     </bean>
+     
+     <!--  Dao -->
+     <bean id="maindictDao"
+           class="cn.com.agree.eteller.afa.dao.hibernate.AfapMaindictDao">
+           <property name="sessionFactory"><ref bean="sessionFactory"/></property>
+     </bean>
+     <bean id="subdictDao"
+           class="cn.com.agree.eteller.afa.dao.hibernate.AfapSubdictDao">
+           <property name="sessionFactory"><ref bean="sessionFactory"/></property>
+     </bean>
+     <bean id="systemDao"
+           class="cn.com.agree.eteller.afa.dao.hibernate.AfaSystemDao">
+           <property name="sessionFactory"><ref bean="sessionFactory"/></property>
+     </bean>
+     <bean id="unitadmDao"
+           class="cn.com.agree.eteller.afa.dao.hibernate.AfaUnitadmDao">
+           <property name="sessionFactory"><ref bean="sessionFactory"/></property>
+     </bean>
+     <bean id="subunitadmDao"
+           class="cn.com.agree.eteller.afa.dao.hibernate.AfaSubunitadmDao">
+           <property name="sessionFactory"><ref bean="sessionFactory"/></property>
+     </bean>
+     <bean id="agentadmDao"
+           class="cn.com.agree.eteller.afa.dao.hibernate.AfaAgentadmDao">
+           <property name="sessionFactory"><ref bean="sessionFactory"/></property>
+     </bean>
+     <bean id="tradeadmDao"
+           class="cn.com.agree.eteller.afa.dao.hibernate.AfaTradeadmDao">
+           <property name="sessionFactory"><ref bean="sessionFactory"/></property>
+     </bean>
+     <bean id="zoneinfoDao"
+           class="cn.com.agree.eteller.afa.dao.hibernate.AfaZoneinfoDao">
+           <property name="sessionFactory"><ref bean="sessionFactory"/></property>
+     </bean>
+     <bean id="zhinfoDao"
+           class="cn.com.agree.eteller.afa.dao.hibernate.AfaZhinfoDao">
+           <property name="sessionFactory"><ref bean="sessionFactory"/></property>
+     </bean>
+     <bean id="zhbrnoinfoDao"
+           class="cn.com.agree.eteller.afa.dao.hibernate.AfaZhbrnoinfoDao">
+           <property name="sessionFactory"><ref bean="sessionFactory"/></property>
+     </bean>
+     <bean id="gdbsysDao"
+           class="cn.com.agree.eteller.afa.dao.hibernate.GdbSysDao">
+           <property name="sessionFactory"><ref bean="sessionFactory"/></property>
+     </bean>
+     <bean id="hostinfoDao"
+           class="cn.com.agree.eteller.afa.dao.hibernate.GdbHostabsinfoDao">
+           <property name="sessionFactory"><ref bean="sessionFactory"/></property>
+     </bean>
+     <bean id="acctDao"
+           class="cn.com.agree.eteller.afa.dao.hibernate.GdbAcctDao">
+           <property name="sessionFactory"><ref bean="sessionFactory"/></property>
+     </bean>
+     <bean id="brachDao"
+           class="cn.com.agree.eteller.afa.dao.hibernate.AfaBrachDao">
+           <property name="sessionFactory"><ref bean="sessionFactory"/></property>
+     </bean>
+     <bean id="unitebrachDao"
+           class="cn.com.agree.eteller.afa.dao.hibernate.AfaUniteBrachDao">
+           <property name="sessionFactory"><ref bean="sessionFactory"/></property>
+     </bean>
+     <bean id="afaChanneladmDao"
+           class="cn.com.agree.eteller.afa.dao.hibernate.AfaChanneladmDao">
+           <property name="sessionFactory"><ref bean="sessionFactory"/></property>
+     </bean>
+     <bean id="afaActnoadmDao"
+           class="cn.com.agree.eteller.afa.dao.hibernate.AfaActnoadmDao">
+           <property name="sessionFactory"><ref bean="sessionFactory"/></property>
+     </bean>
+     <bean id="branchcodeDao"
+           class="cn.com.agree.eteller.afa.dao.hibernate.AfaBranchcodeDao">
+           <property name="sessionFactory"><ref bean="sessionFactory"/></property>
+     </bean>
+     <bean id="afaCheckappDao"
+           class="cn.com.agree.eteller.afa.dao.hibernate.AfaCheckappDao">
+           <property name="sessionFactory"><ref bean="sessionFactory"/></property>
+     </bean>
+     <bean id="afaHolidayadmDao"
+           class="cn.com.agree.eteller.afa.dao.hibernate.AfaHolidayadmDao">
+           <property name="sessionFactory"><ref bean="sessionFactory"/></property>
+     </bean>
+     <bean id="afapinzoneinfoDao"
+           class="cn.com.agree.eteller.afa.dao.hibernate.AfaPinzoneinfoDao">
+           <property name="sessionFactory"><ref bean="sessionFactory"/></property>
+     </bean>
+     <bean id="cisCommdataDao"
+           class="cn.com.agree.eteller.afa.dao.hibernate.CisCommdataDao">
+           <property name="sessionFactory"><ref bean="sessionFactory"/></property>
+     </bean>
+      <bean id="afaPininfoDao"
+           class="cn.com.agree.eteller.afa.dao.hibernate.AfaPininfoDao">
+           <property name="sessionFactory"><ref bean="sessionFactory"/></property>
+     </bean>
+      <bean id="etellerExcelPubDao"
+           class="cn.com.agree.eteller.afa.dao.hibernate.EtellerExcelPubDao">
+           <property name="sessionFactory"><ref bean="sessionFactory"/></property>
+     </bean>
+     <bean id="afaFeeinfoDao"
+           class="cn.com.agree.eteller.afa.dao.hibernate.AfaFeeinfoDao">
+           <property name="sessionFactory"><ref bean="sessionFactory"/></property>
+     </bean>
+     <bean id="afaHostfuncmapDao"
+           class="cn.com.agree.eteller.afa.dao.hibernate.AfaHostfuncmapDao">
+           <property name="sessionFactory"><ref bean="sessionFactory"/></property>
+     </bean>
+     <bean id="credCardbinDao"
+           class="cn.com.agree.eteller.afa.dao.hibernate.CredCardbinDao">
+           <property name="sessionFactory"><ref bean="sessionFactory"/></property>
+     </bean>     
+     <bean id="credRecktradecodeDao"
+           class="cn.com.agree.eteller.afa.dao.hibernate.CredRecktradecodeDao">
+           <property name="sessionFactory"><ref bean="sessionFactory"/></property>
+     </bean>     
+     <bean id="credSubbusisysinfoDao"
+           class="cn.com.agree.eteller.afa.dao.hibernate.CredSubbusisysinfoDao">
+           <property name="sessionFactory"><ref bean="sessionFactory"/></property>
+     </bean>
+     
+     
+     <!-- 3 -->
+  </beans>

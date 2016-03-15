@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM ".\log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/" threshold="null" debug="null" reset="false">
+  <appender name="sys" class="org.apache.log4j.RollingFileAppender">
+    <param name="File" value="log/trade.log"/>
+    <param name="maxFileSize" value="10MB"/>
+    <param name="maxBackupIndex" value="10"/>
+    <param name="BufferedIO" value="false"/>
+    <param name="BufferSize" value="1024"/>
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="%d{ISO8601} %-6p %-6x [%-20c{1}] %m%n"/>
+    </layout>
+  </appender>
+  <appender name="stdout" class="org.apache.log4j.ConsoleAppender">
+    <param name="Threshold" value="info"/>
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="%d{ISO8601} %-6p %-6x [%-20c{1}] %m%n"/>
+    </layout>
+  </appender>
+  <logger name="cn.com.agree" additivity="true">
+    <level value="info"/>
+  </logger>
+  <logger name="cn.com.pingan" additivity="true">
+    <level value="info"/>
+  </logger>
+  <logger name="cn.com.agree.eteller" additivity="true">
+    <level value="info"/>
+  </logger>
+  <logger name="org.apache.struts2" additivity="true">
+    <level value="warn"/>
+  </logger>
+  <logger name="com.opensymphony.xwork2" additivity="true">
+    <level value="warn"/>
+  </logger>
+  <logger name="org.springframework" additivity="true">
+    <level value="warn"/>
+  </logger>
+  <logger name="cn.com.agree.eteller" additivity="true">
+    <level value="warn"/>
+  </logger>
+  <root>
+    <level value="info"/>
+    <appender-ref ref="sys"/>
+    <appender-ref ref="stdout"/>
+  </root>
+</log4j:configuration>

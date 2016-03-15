@@ -1,0 +1,20 @@
+package ${servicePackage}.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import cn.com.agree.eteller.generic.spring.implement.BaseManagerImpl;
+import ${daoPackage}.${entityName}DAO;
+import ${servicePackage}.${entityName}Manager;
+import ${entityPackage}.${entityName};
+
+@Service("${defaultEntityName}ManagerTarget")
+public class ${entityName}ManagerImpl extends BaseManagerImpl<${entityName}> implements ${entityName}Manager {
+
+	private static final long serialVersionUID = 1L;
+	
+	@Autowired
+	public ${entityName}ManagerImpl(${entityName}DAO ${defaultEntityName}DAO) {
+		super(${defaultEntityName}DAO);
+	}
+}
