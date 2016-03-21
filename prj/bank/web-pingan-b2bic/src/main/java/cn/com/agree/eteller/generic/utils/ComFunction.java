@@ -20,10 +20,6 @@ import jxl.Workbook;
 public class ComFunction {
 	private static final Logger logger = Logger.getLogger(ComFunction.class);
 
-	public static String getCurrentTime() {
-		return (new Date().getHours() + new Date().getMinutes() + new Date().getSeconds()) + "";
-	}
-
 	public static String getCurrentTime2() {
 		SimpleDateFormat sf = new SimpleDateFormat("HHmmss");
 		return sf.format(new Date());

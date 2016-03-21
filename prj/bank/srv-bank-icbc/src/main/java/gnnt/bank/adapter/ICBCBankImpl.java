@@ -10,7 +10,6 @@ import java.net.MalformedURLException;
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.sql.Timestamp;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -20,8 +19,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
-
-import org.quartz.SchedulerException;
 
 import gnnt.bank.adapter.bankBusiness.BankBusiness;
 import gnnt.bank.adapter.bankBusiness.cpnt.FileInfo;
@@ -126,16 +123,7 @@ public class ICBCBankImpl extends BankAdapter {
 		SocketServer socketServer = null;
 		try {
 			socketServer = Factory.getInstance().getSocketServer();
-		} catch (NumberFormatException e) {
-			log(Common.getExceptionTrace(e));
-			this.initFlag = false;
-		} catch (IOException e) {
-			log(Common.getExceptionTrace(e));
-			this.initFlag = false;
-		} catch (SchedulerException e) {
-			log(Common.getExceptionTrace(e));
-			this.initFlag = false;
-		} catch (ParseException e) {
+		} catch (Exception e) {
 			log(Common.getExceptionTrace(e));
 			this.initFlag = false;
 		}
