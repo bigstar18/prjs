@@ -239,10 +239,10 @@
           </table>
 		</fieldset>
         </form>
-        <OBJECT classid=clsid:0023145A-18C6-40C7-9C99-1DB6C3288C3A id="ePass" 
+        <!-- <OBJECT classid=clsid:0023145A-18C6-40C7-9C99-1DB6C3288C3A id="ePass" 
          STYLE="LEFT: 0px; TOP: 0px" width=0 height=0
          CODEBASE="GnntKey.cab#Version=1,0,0,5">
-         </OBJECT>
+         </OBJECT> -->
 </body>
 </html>
 <%@ include file="../public/footInc.jsp" %>

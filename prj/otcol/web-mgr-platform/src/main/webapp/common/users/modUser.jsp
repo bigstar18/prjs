@@ -7,10 +7,10 @@
     <script language="JavaScript" src="<c:url value="/common/timebargain/scripts/global.js"/>"></script>
   </head>
   <body>
- <OBJECT classid=clsid:0023145A-18C6-40C7-9C99-1DB6C3288C3A id="ePass" 
+ <!-- <OBJECT classid=clsid:0023145A-18C6-40C7-9C99-1DB6C3288C3A id="ePass" 
          STYLE="LEFT: 0px; TOP: 0px" width=0 height=0
          CODEBASE="GnntKey.cab#Version=1,0,0,5">
-        </OBJECT>
+        </OBJECT> -->
 <form name="frm" id="frm" method="post" targetType="hidden" callback="closeDialog(1);">
 		<fieldset width="100%">
 		<legend>修改系统用户</legend>
