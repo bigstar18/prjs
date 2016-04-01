@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Context docBase="mgr" path="/mgr" privileged="true" reloadable="false" workDir="work/Catalina/localhost/mgr">
+  <!--Valve className="org.apache.catalina.valves.RemoteAddrValve" allow="172.16.1.106" deny=""/-->
+  <Resource name="mgr" type="javax.sql.DataSource"/>
+  <Resource name="mgrBack" type="javax.sql.DataSource"/>
+  <ResourceParams name="mgr">
+    <parameter>
+      <name>maxWait</name>
+      <value>5000</value>
+    </parameter>
+    <parameter>
+      <name>maxActive</name>
+      <value>1500</value>
+    </parameter>
+    <parameter>
+      <name>password</name>
+      <value>df+UOjdztQ8TY+mIlu3Z8g==</value>
+    </parameter>
+    <parameter>
+      <name>url</name>
+      <value>jdbc:oracle:thin:@172.17.14.12:1521:gnnt</value>
+    </parameter>
+    <parameter>
+      <name>driverClassName</name>
+      <value>oracle.jdbc.driver.OracleDriver</value>
+    </parameter>
+    <parameter>
+      <name>maxIdle</name>
+      <value>10</value>
+    </parameter>
+    <parameter>
+      <name>username</name>
+      <value>trade_bank</value>
+    </parameter>	
+  </ResourceParams>  
+  <ResourceParams name="mgrBack">
+    <parameter>
+      <name>maxWait</name>
+      <value>5000</value>
+    </parameter>
+    <parameter>
+      <name>maxActive</name>
+      <value>1500</value>
+    </parameter>
+    <parameter>
+      <name>password</name>
+      <value>df+UOjdztQ8TY+mIlu3Z8g==</value>
+    </parameter>
+    <parameter>
+      <name>url</name>
+      <value>jdbc:oracle:thin:@172.17.14.12:1521:gnnt</value>
+    </parameter>
+    <parameter>
+      <name>driverClassName</name>
+      <value>oracle.jdbc.driver.OracleDriver</value>
+    </parameter>
+    <parameter>
+      <name>maxIdle</name>
+      <value>10</value>
+    </parameter>
+    <parameter>
+      <name>username</name>
+      <value>trade_bank</value>
+    </parameter>	
+  </ResourceParams>
+</Context>
