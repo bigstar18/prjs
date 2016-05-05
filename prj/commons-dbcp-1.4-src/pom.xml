@@ -26,7 +26,7 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>commons-dbcp</groupId>
-  <artifactId>commons-dbcp</artifactId>
+  <artifactId>commons-dbcp-1.4-src</artifactId>
   <version>1.4</version>
   <name>Commons DBCP</name>
 
