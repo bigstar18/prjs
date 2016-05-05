@@ -30,8 +30,8 @@ import javax.sql.ConnectionEventListener;
 import javax.sql.ConnectionPoolDataSource;
 import javax.sql.PooledConnection;
 
-import org.apache.commons.pool.KeyedObjectPool;
-import org.apache.commons.pool.KeyedPoolableObjectFactory;
+import org.apache.tomcat.dbcp.pool.KeyedObjectPool;
+import org.apache.tomcat.dbcp.pool.KeyedPoolableObjectFactory;
 
 /**
  * A {*link PoolableObjectFactory} that creates
@@ -112,7 +112,7 @@ class KeyedCPDSConnectionFactory
      * 
      * @param key {@link UserPassKey} containing user credentials
      * @throws SQLException if the connection could not be created.
-     * @see org.apache.commons.pool.KeyedPoolableObjectFactory#makeObject(java.lang.Object)
+     * @see org.apache.tomcat.dbcp.pool.KeyedPoolableObjectFactory#makeObject(java.lang.Object)
      */
     public synchronized Object makeObject(Object key) throws Exception {
         Object obj = null;

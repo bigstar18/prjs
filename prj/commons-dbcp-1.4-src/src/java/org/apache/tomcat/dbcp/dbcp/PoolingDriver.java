@@ -35,7 +35,7 @@ import java.util.NoSuchElementException;
 import java.util.Properties;
 import java.util.Set;
 
-import org.apache.commons.pool.ObjectPool;
+import org.apache.tomcat.dbcp.pool.ObjectPool;
 import org.apache.tomcat.dbcp.jocl.JOCLContentHandler;
 import org.xml.sax.SAXException;
 

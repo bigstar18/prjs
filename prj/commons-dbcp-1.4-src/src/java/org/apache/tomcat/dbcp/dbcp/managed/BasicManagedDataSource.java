@@ -17,7 +17,7 @@
  */
 package org.apache.tomcat.dbcp.dbcp.managed;
 
-import org.apache.commons.pool.KeyedObjectPoolFactory;
+import org.apache.tomcat.dbcp.pool.KeyedObjectPoolFactory;
 import org.apache.tomcat.dbcp.dbcp.AbandonedConfig;
 import org.apache.tomcat.dbcp.dbcp.BasicDataSource;
 import org.apache.tomcat.dbcp.dbcp.ConnectionFactory;

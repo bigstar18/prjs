@@ -153,12 +153,13 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/encryption-tomcat-dbcp.jar</systemPath>
 		</dependency>
-		
-    <dependency>
-      <groupId>commons-pool</groupId>
-      <artifactId>commons-pool</artifactId>
-      <version>1.5.4</version>
-    </dependency>
+		<dependency>
+			<groupId>com.yrdce</groupId>
+			<artifactId>tomcat-dbcp</artifactId>
+			<version>1.0.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/tomcat-dbcp.jar</systemPath>
+		</dependency>		
 
     <dependency>
       <groupId>junit</groupId>

@@ -31,10 +31,10 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
-import org.apache.commons.pool.KeyedObjectPoolFactory;
-import org.apache.commons.pool.impl.GenericKeyedObjectPool;
-import org.apache.commons.pool.impl.GenericKeyedObjectPoolFactory;
-import org.apache.commons.pool.impl.GenericObjectPool;
+import org.apache.tomcat.dbcp.pool.KeyedObjectPoolFactory;
+import org.apache.tomcat.dbcp.pool.impl.GenericKeyedObjectPool;
+import org.apache.tomcat.dbcp.pool.impl.GenericKeyedObjectPoolFactory;
+import org.apache.tomcat.dbcp.pool.impl.GenericObjectPool;
 
 import gnnt.MEBS.dbcp.des.DES;
 

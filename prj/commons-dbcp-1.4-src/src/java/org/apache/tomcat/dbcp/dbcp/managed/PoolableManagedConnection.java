@@ -20,7 +20,7 @@ package org.apache.tomcat.dbcp.dbcp.managed;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import org.apache.commons.pool.ObjectPool;
+import org.apache.tomcat.dbcp.pool.ObjectPool;
 import org.apache.tomcat.dbcp.dbcp.AbandonedConfig;
 import org.apache.tomcat.dbcp.dbcp.PoolableConnection;
 

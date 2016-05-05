@@ -31,8 +31,8 @@ import javax.naming.Reference;
 import javax.naming.StringRefAddr;
 import javax.sql.ConnectionPoolDataSource;
 
-import org.apache.commons.pool.ObjectPool;
-import org.apache.commons.pool.impl.GenericObjectPool;
+import org.apache.tomcat.dbcp.pool.ObjectPool;
+import org.apache.tomcat.dbcp.pool.impl.GenericObjectPool;
 import org.apache.tomcat.dbcp.dbcp.SQLNestedException;
 
 /**

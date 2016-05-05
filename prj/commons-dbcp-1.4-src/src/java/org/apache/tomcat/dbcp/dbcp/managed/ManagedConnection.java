@@ -17,7 +17,7 @@
  */
 package org.apache.tomcat.dbcp.dbcp.managed;
 
-import org.apache.commons.pool.ObjectPool;
+import org.apache.tomcat.dbcp.pool.ObjectPool;
 import org.apache.tomcat.dbcp.dbcp.DelegatingConnection;
 
 import java.sql.Connection;

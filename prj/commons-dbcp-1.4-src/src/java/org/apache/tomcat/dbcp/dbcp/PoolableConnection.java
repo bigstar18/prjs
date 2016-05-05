@@ -19,7 +19,7 @@ package org.apache.tomcat.dbcp.dbcp;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import org.apache.commons.pool.ObjectPool;
+import org.apache.tomcat.dbcp.pool.ObjectPool;
 
 /**
  * A delegating connection that, rather than closing the underlying

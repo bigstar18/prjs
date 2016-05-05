@@ -30,7 +30,7 @@ import java.util.NoSuchElementException;
 
 import javax.sql.DataSource;
 
-import org.apache.commons.pool.ObjectPool;
+import org.apache.tomcat.dbcp.pool.ObjectPool;
 
 /**
  * A simple {@link DataSource} implementation that obtains

@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.pool.PoolableObjectFactory;
-import org.apache.commons.pool.impl.GenericObjectPool;
+import org.apache.tomcat.dbcp.pool.PoolableObjectFactory;
+import org.apache.tomcat.dbcp.pool.impl.GenericObjectPool;
 
 /**
  * <p>An implementation of a Jakarta-Commons ObjectPool which

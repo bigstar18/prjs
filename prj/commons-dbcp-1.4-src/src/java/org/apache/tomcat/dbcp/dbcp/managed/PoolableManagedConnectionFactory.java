@@ -19,9 +19,9 @@ package org.apache.tomcat.dbcp.dbcp.managed;
 import java.sql.Connection;
 import java.util.Collection;
 
-import org.apache.commons.pool.KeyedObjectPool;
-import org.apache.commons.pool.KeyedObjectPoolFactory;
-import org.apache.commons.pool.ObjectPool;
+import org.apache.tomcat.dbcp.pool.KeyedObjectPool;
+import org.apache.tomcat.dbcp.pool.KeyedObjectPoolFactory;
+import org.apache.tomcat.dbcp.pool.ObjectPool;
 import org.apache.tomcat.dbcp.dbcp.AbandonedConfig;
 import org.apache.tomcat.dbcp.dbcp.PoolableConnectionFactory;
 import org.apache.tomcat.dbcp.dbcp.PoolingConnection;

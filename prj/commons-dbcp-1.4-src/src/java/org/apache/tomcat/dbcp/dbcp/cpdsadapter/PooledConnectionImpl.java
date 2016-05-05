@@ -30,8 +30,8 @@ import javax.sql.PooledConnection;
 import javax.sql.StatementEventListener;
 /* JDBC_4_ANT_KEY_END */
 
-import org.apache.commons.pool.KeyedObjectPool;
-import org.apache.commons.pool.KeyedPoolableObjectFactory;
+import org.apache.tomcat.dbcp.pool.KeyedObjectPool;
+import org.apache.tomcat.dbcp.pool.KeyedPoolableObjectFactory;
 import org.apache.tomcat.dbcp.dbcp.DelegatingConnection;
 import org.apache.tomcat.dbcp.dbcp.DelegatingPreparedStatement;
 import org.apache.tomcat.dbcp.dbcp.SQLNestedException;

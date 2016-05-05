@@ -34,7 +34,7 @@ import javax.sql.ConnectionPoolDataSource;
 import javax.sql.DataSource;
 import javax.sql.PooledConnection;
 
-import org.apache.commons.pool.impl.GenericObjectPool;
+import org.apache.tomcat.dbcp.pool.impl.GenericObjectPool;
 import org.apache.tomcat.dbcp.dbcp.SQLNestedException;
 
 /**
