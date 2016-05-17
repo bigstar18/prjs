@@ -4,8 +4,8 @@ hs_err_pid*
 *.tern-project
 *.idea
 *.iml
-*.classpath
-*.project
+#*.classpath
+#*.project
 
 *.externalToolBuilders
 *.mymetadata
