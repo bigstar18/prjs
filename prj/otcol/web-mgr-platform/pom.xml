@@ -3,14 +3,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.hxx</groupId>
-		<artifactId>prj-parent</artifactId>
+		<artifactId>spot-parent</artifactId>
 		<version>1.0.0</version>
 	</parent>
-	<artifactId>web-mgr-platform</artifactId>
+	<artifactId>web-settleMgr-platform</artifactId>
 	<packaging>war</packaging>
 
-	<inceptionYear>2015-2015</inceptionYear>
-	
 	<!-- 依赖项定义 -->
 	<dependencies>
 		<dependency>
@@ -336,7 +334,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>mgr</finalName>
+		<finalName>settleMgr</finalName>
 		<outputDirectory>${project.basedir}/src/main/webapp/WEB-INF/classes/</outputDirectory>
 		<plugins>
 			<!-- Compiler 插件, 设定JDK版本 -->
