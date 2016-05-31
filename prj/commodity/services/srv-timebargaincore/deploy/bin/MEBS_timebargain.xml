@@ -141,7 +141,7 @@
             <value type="java.lang.Long">7200000</value>
           </entry>
           <entry key="pc" >
-            <value type="java.lang.Long">30000</value>
+            <value type="java.lang.Long">300000</value>
           </entry>
           <entry key="mobile">
             <value type="java.lang.Long">7200000</value>
